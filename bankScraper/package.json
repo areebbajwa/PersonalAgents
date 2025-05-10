@@ -1,0 +1,20 @@
+{
+  "name": "bank-scraper",
+  "version": "1.0.0",
+  "description": "Bank scraping utility",
+  "main": "scraper.js",
+  "scripts": {
+    "start": "node scraper.js"
+  },
+  "keywords": [
+    "scraper",
+    "bank"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "puppeteer-core": "^22.0.0",
+    "yargs": "^17.7.2",
+    "node-fetch": "^2.6.7"
+  }
+} 
