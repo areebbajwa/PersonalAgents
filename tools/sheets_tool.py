@@ -15,7 +15,7 @@ TOKEN_FILE = "token.json"
 
 class SheetsCommitmentTool(BaseTool):
     name: str = "get_halaqa_commitments"
-    description: str = "Return {name: float monthly_commitment} from Google Sheets"
+    description: str = "Return {name: {'commitment': float monthly_commitment, 'phone': str phone_number}} from Google Sheets. Expects Name in Col A, Commitment Amount in Col B, and Phone Number in Col G. Reads range A:G."
 
     def _get_credentials(self):
         creds = None
@@ -60,17 +60,37 @@ class SheetsCommitmentTool(BaseTool):
                 return {}
             else:
                 processed_values = {}
-                for r in values:
-                    if r and len(r) == 2 and r[0] and r[1]:
+                # Skip header row by starting from values[1:]
+                for r in values[1:]: # Assuming first row is header
+                    # Expect Name (col A, index 0), Amount (col B, index 1), Phone (col G, index 6)
+                    # Ensure row has enough columns and the required fields are present
+                    if r and len(r) >= 7 and r[0] and r[1] and r[6]:
                         name = r[0].strip()
-                        amount_str = str(r[1]).strip()
-                        # Remove common currency symbols and whitespace
+                        amount_str = str(r[1]).strip() # Commitment from Column B
+                        phone = str(r[6]).strip()      # Phone from Column G
+                        
+                        # Remove common currency symbols and whitespace from amount
                         for char in ['$', '€', '£', ',']: # Add other symbols if needed
                             amount_str = amount_str.replace(char, '')
                         try:
-                            processed_values[name] = float(amount_str)
+                            amount = float(amount_str)
+                            processed_values[name] = {"commitment": amount, "phone": phone}
                         except ValueError:
                             print(f"Could not convert amount '{r[1]}' to float for {name}. Skipping.")
+                    elif r and len(r) > 0: # If row has some data but not the expected format
+                        name_in_row = r[0].strip() if r[0] else "Unknown"
+                        if len(r) < 7:
+                            print(f"Row for {name_in_row} has fewer than 7 columns. Skipping: {r}")
+                        elif not r[0]:
+                            print(f"Row is missing Name (Column A). Skipping: {r}")
+                        elif not r[1]:
+                             print(f"Row for {name_in_row} is missing Commitment Amount (Column B). Skipping: {r}")
+                        elif not r[6]:
+                             print(f"Row for {name_in_row} is missing Phone Number (Column G). Skipping: {r}")
+                        else:
+                            print(f"Skipping row due to unexpected format: {r}")
+                    elif r: # Row exists but is empty or very short
+                        print(f"Skipping malformed or sparse row: {r}")
                 return processed_values
         except Exception as e:
             print(f"An error occurred: {e}")

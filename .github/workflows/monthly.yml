@@ -20,6 +20,5 @@ jobs:
         GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SA_JSON }}
         SHEET_ID:                    ${{ secrets.SHEET_ID }}
         SHEET_RANGE:                 Commitments!A:B
-        BANK_SCRAPER_PATH:           bankScraper/scraper.js
         WA_GATEWAY_URL:              ${{ secrets.WA_GATEWAY_URL }}
       run: python run_halaqa.py 

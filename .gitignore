@@ -2,3 +2,8 @@
 node_modules/
 token.json
 client_secret.json
+__pycache__/
+.env
+td_user_data/
+.wwebjs_auth/*
+wa_gateway/
