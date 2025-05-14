@@ -7,3 +7,4 @@ __pycache__/
 td_user_data/
 .wwebjs_auth/*
 wa_gateway/
+gmail_token.json
