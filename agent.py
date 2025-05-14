@@ -46,7 +46,13 @@ tools = [
 # Using a more structured prompt template to include memory and system message
 # Based on common patterns for OpenAI Functions Agent
 prompt = ChatPromptTemplate.from_messages([
-    ("system", "You are a helpful and autonomous assistant. You have access to the following tools. Use them when appropriate to answer the user's request."),
+    ("system",
+     "You are a helpful autonomous assistant. "
+     "You have the following tools and MUST use them to satisfy each explicit step "
+     "in the user request. "
+     "**Do NOT stop or say you are finished until EVERY numbered step has been "
+     "completed for EVERY item in any list you create. "
+     "After the final step, output one short summary paragraph and nothing else."),
     MessagesPlaceholder(variable_name="chat_history", optional=True),
     ("human", "{input}"),
     MessagesPlaceholder(variable_name="agent_scratchpad"),
@@ -65,6 +71,8 @@ agent_executor = AgentExecutor(
     verbose=True,                     # For detailed logging of agent steps
     handle_parsing_errors=True,       # Helps in debugging parsing issues with LLM responses
     max_iterations=50,                # Limit the number of steps to prevent infinite loops
+    early_stopping_method="generate",   # Added
+    return_intermediate_steps=True      # Added
 )
 
 def run_agent_task(task: str):
@@ -75,10 +83,18 @@ def run_agent_task(task: str):
         # AgentExecutor should ideally handle this. If it runs in a sync way,
         # and the tool needs an event loop, issues might arise.
         # The BrowserAutomatorTool has a _run method that attempts to handle this.
-        response = agent_executor.invoke({"input": task})
+        result = agent_executor.invoke({"input": task}) # Changed from response to result
         print("\n--- Task Response ---")
-        print(f"Output: {response.get('output')}")
-        # print(f"Chat History: {response.get('chat_history')}") # If you want to see memory
+        
+        # Check for premature AgentFinish
+        if result.get("intermediate_steps") and isinstance(result["intermediate_steps"], list) and len(result["intermediate_steps"]) > 0:
+            last_step_action = result["intermediate_steps"][-1][0]
+            if hasattr(last_step_action, 'log') and "AgentFinish" in last_step_action.log:
+                 print("⚠️ Agent tried to finish early.")
+                 # print(f"Intermediate steps: {result['intermediate_steps']}") # For debugging
+        
+        print(f"Output: {result.get('output')}")
+        # print(f"Chat History: {result.get('chat_history')}") # If you want to see memory
     except Exception as e:
         print(f"Error running agent task: {e}")
         import traceback
@@ -149,5 +165,60 @@ if __name__ == "__main__":
         f"If, after attempting all steps for all relevant transactions, no matches were found for any of them, then (and only then) state that no complete matches could be made. If earlier steps resulted in no transactions to process (as per step 1 or 3), you would have already stated that."
     )
     run_agent_task(refined_task_for_interac_v2)
+
+    print("\nAGENT.PY: End of script.")
+
+    # --- NEW TASK DEFINITION ---
+    commitments_sheet_id = "1JGrI2UhV5n0IiV94NeBvbAHNFMg4bGraZtXjHlJT3s4"
+    commitments_sheet_gid = "103352420" # For the "Commitments" tab
+    transfers_sheet_id = "1JGrI2UhV5n0IiV94NeBvbAHNFMg4bGraZtXjHlJT3s4" # Same sheet, different tab
+    transfers_sheet_gid = "1110009458"  # For the "Transfers" tab
+    gmail_user = "areebb@gmail.com" # Assuming this is still the target Gmail
+
+    refined_task_for_interac_v3 = (
+        f"Your goal is to find Interac e-Transfers in Gmail for '{gmail_user}', "
+        f"match the sender to a name in the 'Commitments' Google Sheet, and if a match is found, "
+        f"add the transaction to a 'Transfers' Google Sheet if it's not already there. "
+        f"Follow all steps meticulously for every email found. Do NOT stop until all steps are complete for all items.\\n"
+        f"**Overall Process:** Email Search -> Commitments Sheet Match -> Transfers Sheet Deduplication & Write.\\n"
+        f"**Commitments Sheet Details:** ID='{commitments_sheet_id}', Tab GID='{commitments_sheet_gid}'. Assume the relevant names are in a clearly identifiable column (e.g., 'Name', 'Full Name', 'Contact').\\n"
+        f"**Transfers (Accounting) Sheet Details:** ID='{transfers_sheet_id}', Tab GID='{transfers_sheet_gid}'. Columns to write: 'Date', 'Name', 'Amount', 'Email Subject', 'Email Sender', 'Status'.\\n"
+
+        f"**Step 1: Get Current Date**\\n"
+        f"   - Use the 'get_current_date' tool to find out today's date. This will be used to calculate the date range for email searches.\\n"
+
+        f"**Step 2: Search Gmail for Interac e-Transfers**\\n"
+        f"   - Construct a Gmail search query for Interac e-Transfers. Common subjects include 'Interac e-Transfer' combined with phrases like 'deposited your money', 'sent you money', or 'received funds'.\\n"
+        f"   - Search for emails received in the last 35-40 days (calculate this range based on the current_date from Step 1). Example Gmail query part for dates: 'after:YYYY/MM/DD before:YYYY/MM/DD'.\\n"
+        f"   - For each email found, carefully parse its content (body and headers) to extract: (a) Sender's Name (do your best to extract a clean name), (b) Full Email Subject, (c) Date Sent, (d) Transfer Amount.\\n"
+        f"   - If no relevant emails are found, state this and stop.\\n"
+
+        f"**Step 3: Match Email Sender with 'Commitments' Sheet**\\n"
+        f"   - For EACH email processed in Step 2:\\n"
+        f"     a. Take the extracted Sender's Name.\\n"
+        f"     b. Read the list of names from the 'Commitments' Google Sheet (ID '{commitments_sheet_id}', range should target the sheet with gid '{commitments_sheet_gid}' and include the name column, e.g., '{commitments_sheet_gid}!A1:A1000' if names are in column A. Be flexible with the range if needed to get all names).\\n"
+        f"     c. Perform a *lenient comparison* between the email Sender's Name and each name in the 'Commitments' list. A lenient match means they are very similar, even if not identical (e.g., 'John Doe' vs 'Doe, John' or 'J. Doe').\\n"
+        f"     d. If a lenient match is found, store the *EXACT name as it appears in the 'Commitments' sheet*, along with the email's Date, Amount, Subject, and original Sender Name.\\n"
+        f"     e. If no lenient match is found for an email sender, note this and move to the next email.\\n"
+
+        f"**Step 4: Add Matched Transfers to 'Transfers' Sheet (Deduplicate First)**\\n"
+        f"   - For EACH transfer that was successfully matched in Step 3:\\n"
+        f"     a. Take the email's Date, the *exact 'Commitments' Name*, and the Amount.\\n"
+        f"     b. Read the existing entries in the 'Transfers' Google Sheet (ID '{transfers_sheet_id}', range should target sheet with gid '{transfers_sheet_gid}', e.g., '{transfers_sheet_gid}!A:F').\\n"
+        f"     c. Check if an identical record (based on Date, Exact 'Commitments' Name, and Amount) already exists in the 'Transfers' sheet.\\n"
+        f"     d. If no duplicate is found, use the 'google_sheets_generic_writer' tool to append a NEW ROW to the 'Transfers' sheet with the following columns and values: \\n"
+        f"        - 'Date': (from email)\\n"
+        f"        - 'Name': (the *exact name from the 'Commitments' sheet*)\\n"
+        f"        - 'Amount': (from email)\\n"
+        f"        - 'Email Subject': (full subject from email)\\n"
+        f"        - 'Email Sender': (original sender name/address from email)\\n"
+        f"        - 'Status': 'Matched from Gmail'\\n"
+        f"     e. If a duplicate IS found, note this and do not add the row.\\n"
+
+        f"**Step 5: Final Summary**\\n"
+        f"   - After processing all emails and attempting all matches and writes, provide a brief summary of actions taken (e.g., 'Searched X emails, found Y matches in Commitments, wrote Z new transfers to the Transfers sheet. N duplicates found. M emails had no match in Commitments.')."
+    )
+
+    run_agent_task(refined_task_for_interac_v3)
 
     print("\nAGENT.PY: End of script.") 

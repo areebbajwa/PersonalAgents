@@ -42,18 +42,24 @@
 
 ## Phase 2: Bank Reconciliation Test Case
 
-* [ ] **Agent-Led Bank Transaction Sheet Access & Filtering:**
-  ➜ *Pass the sheet ID in the initial task prompt. Agent will:
+* [ ] **Agent-Led Email Search & Initial Data Gathering:**
+  ➜ *Agent will:
     1. Call `GetCurrentDateTool` to get the current date. (✓ Working)
-    2. Call `GenericSheetsReaderTool` with filtering for 'E-TRANSFER' (✓ Working, using 'E-TRANSFER' for received).
-    3. Parse transaction dates and filter for those within the last 31 days. (✓ Working)
-    4. Identify ALL transactions containing 'E-TRANSFER' (changed from 'E-TFR') in their description from the date-filtered list. (✓ Agent identifies the list)*
-  * **ISSUE:** Agent currently stops after successfully identifying and filtering transactions, before proceeding to iterate through them for email searches, despite prompt instructions.
-* [ ] **Agent-Led Email Search:**
-  ➜ *For EACH identified E-TRANSFER: LLM forms Gmail query (e.g., general Interac subjects, restricted by date, then parse body for Reference Number ending with partial ID from bank sheet); use the `GmailSearchTool`.*
-  * **CHALLENGE:** Need to ensure the agent reliably iterates through the list of transactions from the previous step and performs the Gmail search and matching logic for each. This might require more advanced prompt engineering or a change in how the agent processes list-based sub-tasks.
-* [ ] **Accounting Sheet Interaction:**
-  ➜ *Writer tool appends rows; instruct agent to read existing rows first to dedupe. (This part is still future work for the agent to fully implement in the reconciliation task).*
+    2. Call `GmailSearchTool` for Interac e-Transfer emails (e.g., subjects "Interac e-Transfer" + "received funds"/"money deposited"/"sent you money") within the last 35-40 days.
+    3. For each email found, extract: Sender Name, Amount, Date, Email Subject. (Agent needs to parse email body/headers for these).*
+* [ ] **Agent-Led "Commitments" Sheet Matching:**
+  ➜ *For EACH email's sender name:
+    1. Call `GenericSheetsReaderTool` to get a list of names from the "Commitments" sheet (ID: `1JGrI2UhV5n0IiV94NeBvbAHNFMg4bGraZtXjHlJT3s4`, gid: `103352420`).
+    2. Perform a lenient comparison between the email sender's name and the names from the "Commitments" sheet.
+    3. If a match is found, use the *exact name from the "Commitments" sheet* for the next step.*
+  * **CHALLENGE:** Ensuring the agent reliably iterates through *all found emails* and then, for each email, performs the "Commitments" sheet lookup and matching. The current prompt guard-rails should help.
+* [ ] **Agent-Led "Transfers" (Accounting) Sheet Writing:**
+  ➜ *For EACH matched transfer (where an email sender was matched to a name in "Commitments"):
+    1. Call `GenericSheetsReaderTool` to read the "Transfers" sheet (ID: `1JGrI2UhV5n0IiV94NeBvbAHNFMg4bGraZtXjHlJT3s4`, gid: `1110009458`) to check for duplicates (e.g., based on Date, Exact Name from Commitments, and Amount).
+    2. If the transfer is not a duplicate, call `GenericSheetsWriterTool` to append a new row with: `Date` (from email), `Name` (exact from Commitments), `Amount` (from email), `Email Subject`, `Email Sender`, `Status` (e.g., "Matched from Gmail").*
+
+*Previous approach details (filtering bank sheet first) have been superseded by the new logic.*
+* **ISSUE (General):** Agent might still try to finish prematurely. The prompt guard-rails and `return_intermediate_steps` are in place to mitigate this.
 
 ---
 
