@@ -1,11 +1,16 @@
 import asyncio
+import os # Ensure os is imported
 from typing import Any, Dict, Optional, Type
 
 from langchain.tools import BaseTool
 from langchain.pydantic_v1 import BaseModel, Field
 from langchain_openai import ChatOpenAI # For the BrowserAutomator
+from dotenv import load_dotenv # Ensure load_dotenv is available
 
 from tools.browser_automator import BrowserAutomator # The class you provided
+
+# Load .env file for os.getenv("OPENAI_API_KEY") to work in default_factory
+load_dotenv()
 
 class BrowserAutomatorInput(BaseModel):
     task_description: str = Field(description="A detailed natural language description of the web automation task to perform, including the objectives and any specific steps or data to look for. If the task involves a specific starting URL, include it clearly in the description.")
@@ -16,17 +21,32 @@ class BrowserAutomatorTool(BaseTool):
 
     name: str = "web_browser_automator"
     description: str = (
-        "Use this tool for complex, multi-step tasks in a web browser, such as navigating websites, filling forms, clicking buttons, or extracting information from pages that require JavaScript. "
-        "Provide a detailed natural language 'task_description' of what needs to be done, including any specific URLs to visit. "
-        "For Google Sheets, prefer using 'google_sheets_generic_reader' or 'google_sheets_generic_writer' tools if possible by extracting the sheet ID from the URL. "
-        "Only use this tool for Google Sheets if direct API access fails, is insufficient (e.g., the sheet is not shared for API access but viewable in a browser), or if the task specifically requires UI manipulation beyond simple data reading/writing. "
-        "The tool will return the final result or observation from the browser automation agent."
+        "Use this tool for any task that requires interacting with a web browser. This includes simple tasks like performing a Google search and extracting results, "
+        "as well as more complex, multi-step operations such as navigating websites, filling forms, clicking buttons, or extracting information from pages that require JavaScript. "
+        "Provide a detailed natural language 'task_description' of what needs to be done, including any specific URLs to visit (like www.google.com for a search). "
+        "For Google Sheets, prefer using specific Google Sheets tools if possible by extracting the sheet ID; however, use this browser tool if direct API access fails or if UI manipulation is needed for Sheets. "
+        "The tool will return the final result or observation from the browser."
     )
     args_schema: Type[BaseModel] = BrowserAutomatorInput
 
-    # TODO: Consider how to best provide the LLM. For now, it instantiates its own.
-    # This could be optimized by sharing the main agent's LLM if possible.
-    llm: ChatOpenAI = Field(default_factory=lambda: ChatOpenAI(model="gpt-4o", temperature=0))
+    llm: Optional[ChatOpenAI] = None # Changed: No default_factory, allow it to be None initially
+
+    def _get_llm_instance(self) -> ChatOpenAI:
+        """Ensures a configured ChatOpenAI instance is available."""
+        if self.llm is None or not isinstance(self.llm, ChatOpenAI):
+            # If no LLM is passed or it's not the correct type, create a new one.
+            api_key = os.getenv("OPENAI_API_KEY")
+            if not api_key:
+                raise ValueError("OPENAI_API_KEY not found. Cannot initialize LLM for BrowserAutomatorTool.")
+            self.llm = ChatOpenAI(model="gpt-4o", temperature=0, openai_api_key=api_key)
+        elif not self.llm.openai_api_key:
+            # If an LLM instance was somehow passed without an API key, try to set it.
+            # This case might be rare if the main agent LLM is configured correctly.
+            api_key = os.getenv("OPENAI_API_KEY")
+            if not api_key:
+                raise ValueError("BrowserAutomatorTool's LLM instance is missing an API key, and OPENAI_API_KEY was not found in env.")
+            self.llm.openai_api_key = api_key # Attempt to set on existing instance
+        return self.llm
 
     def _run(
         self, 
@@ -77,25 +97,15 @@ class BrowserAutomatorTool(BaseTool):
         """Execute the browser automation task asynchronously."""
         print(f"BrowserAutomatorTool: Received task: {task_description}")
         
-        # Ensure OPENAI_API_KEY is available for the ChatOpenAI instance in BrowserAutomator
-        # This assumes it's loaded from .env or set in the environment.
-        # If self.llm was passed in, this would be handled by its instantiation.
-        if not self.llm.openai_api_key:
-            # Attempt to get it from os.environ if not set on the instance.
-            # This is a fallback, ideally it's configured on the llm instance.
-            import os
-            from dotenv import load_dotenv
-            load_dotenv()
-            api_key = os.getenv("OPENAI_API_KEY")
-            if not api_key:
-                return "Error: OPENAI_API_KEY not found for BrowserAutomator's LLM."
-            self.llm.openai_api_key = api_key
-
+        try:
+            current_llm = self._get_llm_instance()
+        except ValueError as e:
+            print(f"LLM configuration error in BrowserAutomatorTool: {e}")
+            return f"Error: LLM configuration issue for browser automation - {e}"
 
         automator = BrowserAutomator(
-            llm=self.llm, # Use the LLM instance from the tool
+            llm=current_llm, 
             task_description=task_description,
-            # controller and enable_memory can be configured if needed, defaults are used for now
         )
         
         try:
