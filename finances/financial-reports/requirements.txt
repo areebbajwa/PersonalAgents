@@ -1,0 +1,9 @@
+# Remove Firebase specific packages
+# firebase_functions~=0.1.0 
+# firebase-admin>=6.0.0 
+gspread
+pandas
+oauth2client
+python-dateutil
+flask
+gunicorn # Add Gunicorn for production deployment
