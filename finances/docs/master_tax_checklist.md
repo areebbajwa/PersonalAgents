@@ -8,6 +8,9 @@
 ⬜ **Finish the 2023 personal (T1) return**
    * What's still missing:
      * Exact dollar total of every cash draw you took from the corporate margin account in 2023
+       * **BLOCKER:** Cannot be determined yet. Two large 'TD VISA PREAUTH PYMT' from Mpyre chequing in Oct 2023 ($8387.77) and Nov 2023 ($6205.23) are untraced.
+       * **DATA GAP:** Significant missing transaction data for 2023 across multiple accounts, especially for `Areeb personal CAD credit card (2482)` (missing Oct/Nov 2023) and Mpyre accounts (chequing, travel VISA, margin accounts).
+       * **ACTION:** Refer to `finances/docs/TODO_missing_financial_data.md` to gather required 2023 statements.
      * How you want to label those draws (loan you'll repay, salary, dividend, or mix)
      * Any personal interest income, capital gains, or deductible carrying-charges that don't appear on Auto-Fill
    * How to fetch it:

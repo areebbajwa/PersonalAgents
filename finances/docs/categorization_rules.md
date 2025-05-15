@@ -21,7 +21,8 @@ This document summarizes the refined logic for assigning a `PrimaryCategory` to 
     *   **(Correction):** The script will apply the category exactly as specified in `spending_overrides.json`. If an override specifies `"category": "Kalaam"`, that category will be assigned by the override. The user needs to update this file manually if those overrides should now point to `"Kalaam Foundation"` or `"MPYRE Software Inc."`.
 
 2.  **Specific Description Keywords (Hardcoded):**
-    *   Description contains `WPS BILLING`: Assign **Metropolis**.
+    *   Description contains `WPS BILLING`: Assign **MPYRE Software Inc.** (Wire transfer fees for Mpyre)
+    *   Description contains `PAYPAL MSP`: Assign **MPYRE Software Inc.**
     *   Description contains `PENNYAPPEAL CANADA`, `ALLSTATE`, `HWY407 ETR BPY`: Assign **Personal**.
 
 3.  **Account Name / Identifier Matching:**
@@ -32,7 +33,7 @@ This document summarizes the refined logic for assigning a `PrimaryCategory` to 
         *   Account Name contains: `Mpyre`, `TD BUSINESS TRAVEL VISA`, `CANADIAN MARGIN`, `US MARGIN`.
         *   *(Account number endings inferred from TD data: `7807`, `1012`, `5082`, `HR0E`, `HR0F`, `6Y7E`, `6Y7F`, `687A`, `687B`)*
     *   **Metropolis:**
-        *   Account Name contains: `Metropolis`, `US DOLLAR CARD`, `TD BUSINESS CASH BACK VISA`.
+        *   Account Name contains: `Metropolis`, `US DOLLAR CARD`, `TD BUSINESS CASH BACK VISA`, `US Dollar Credit Card`.
         *   *(Account number endings inferred from TD data: `7409`, `3361`, `0184`, `2631`, `7237`, `6877`, `4839`)*
     *   **AutoOptimize Inc.:**
         *   Account Name contains: `AutoOptimize`.
@@ -56,6 +57,7 @@ This document summarizes the refined logic for assigning a `PrimaryCategory` to 
 **Inter-Entity Transfers:**
 
 *   Transfers between accounts belonging to different entities (e.g., MPYRE funding Kalaam Foundation) need special attention. They should be recorded appropriately as transfers/donations/loans in each entity's books. The categorization script should ideally identify these based on source/destination accounts if possible, or they may need manual review. 
+*   Payments described as `TD VISA PREAUTH PYMT` originating from an MPYRE Software Inc. account require manual verification to determine if the payment was to a personal VISA card (in which case it's a personal cash draw) or to an MPYRE Software Inc. business VISA card (in which case it's an internal business transaction). The destination VISA card is not always identifiable from the transaction data alone.
 
 **Transaction Filtering:**
 
