@@ -8,3 +8,14 @@ td_user_data/
 .wwebjs_auth/*
 wa_gateway/
 gmail_token.json
+*.pdf
+
+# Credentials & Secrets
+.credentials/
+config/serviceAccountKey.json
+personalagentoauth-*.json
+*.json
+secrets/
+keys/
+*.pem
+*.key
