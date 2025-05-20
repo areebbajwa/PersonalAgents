@@ -1,6 +1,6 @@
 [
   {
     "type": "sqlite",
-    "path": "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/finances/financial-reports/data/categorized_transactions.db"
+    "path": "data/personal.db"
   }
 ]

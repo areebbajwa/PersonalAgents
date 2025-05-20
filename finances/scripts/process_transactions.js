@@ -3,14 +3,14 @@ import {
     getTextFromCache, 
     storeTextInCache, 
     MODEL_GEMINI_FLASH 
-} from '../financial-reports/scripts/ai_cache_utils.js';
+} from './ai_cache_utils.js';
 import 'dotenv/config';
 import sqlite3 from 'sqlite3'; // Added for DB query
 import pLimit from 'p-limit';   // Added for concurrency
 import JSON5 from 'json5'; // Import JSON5
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-const DB_PATH = "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/finances/financial-reports/data/categorized_transactions.db";
+const DB_PATH = "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/data/personal.db";
 const CONCURRENCY_LIMIT = 20; // Max 20 concurrent API calls
 
 const ALLOWED_CATEGORIES = [
