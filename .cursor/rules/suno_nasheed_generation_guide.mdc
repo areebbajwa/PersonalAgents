@@ -1,0 +1,55 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Suno AI Nasheed Generation Guide
+
+This guide outlines the process for generating nasheeds using the Suno AI website (https://suno.com/create). Element references on this site appear to be dynamic, so it's crucial to take a browser snapshot before interacting with elements to get their current references.
+
+## Process:
+
+1.  **Navigate to Suno:**
+    *   Go to `https://suno.com/create`.
+
+2.  **Take Initial Snapshot:**
+    *   Use the browser tool to take a snapshot of the page. This will provide the initial references for the input fields and buttons.
+
+3.  **For Each Nasheed:**
+
+    a.  **Get Current Element References (Crucial):**
+        *   Before each set of interactions for a new song (or if an interaction fails), take a new snapshot to ensure you have the latest element references. The references can change after interactions or page updates.
+
+    b.  **Identify Key Elements from Snapshot:**
+        *   Lyrics Textbox (e.g., look for "Add your own lyrics here")
+        *   Style Description Textbox (e.g., look for "Enter style description")
+        *   Song Title Textbox (e.g., look for "Enter song title")
+        *   Create Button
+        *   Clear All Button (usually appears after some input or creation attempt)
+
+    c.  **Input Lyrics:**
+        *   Use the browser tool to type the nasheed lyrics into the identified **Lyrics Textbox**.
+
+    d.  **Input Style:**
+        *   Use the browser tool to type the style (e.g., "Pop, male vocals only accapella") into the identified **Style Description Textbox**. Remember to exclude music references if only acapella is desired.
+
+    e.  **Input Title:**
+        *   Use the browser tool to type the song title into the identified **Song Title Textbox**.
+
+    f.  **Click Create:**
+        *   Use the browser tool to click the identified **Create Button**.
+
+    g.  **Wait for Generation (Context-Dependent):**
+        *   The site will start generating the song. The user may or may not want to wait for each song to complete before starting the next.
+
+    h.  **Clear Fields for Next Song:**
+        *   Take a snapshot if unsure about the "Clear All" button's reference.
+        *   Use the browser tool to click the identified **Clear All Button** to prepare for the next nasheed.
+
+4.  **Repeat:**
+    *   Repeat step 3 for all nasheeds to be generated.
+
+## Important Notes:
+
+*   **Dynamic Element References:** Element references (`ref` values like `s1e172`, `s23e209`) change frequently. Always use a fresh snapshot to get the correct `ref` before an interaction.
+*   **Error Handling:** If a step fails (e.g., typing into a field), it's often due to a changed element reference. Take a new snapshot, get the correct reference, and retry. Clearing fields and retrying the entire entry for that song can also be a valid strategy.

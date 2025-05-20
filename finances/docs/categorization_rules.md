@@ -25,7 +25,13 @@ This document summarizes the refined logic for assigning a `PrimaryCategory` to 
     *   Description contains `PAYPAL MSP`: Assign **MPYRE Software Inc.**
     *   Description contains `PENNYAPPEAL CANADA`, `ALLSTATE`, `HWY407 ETR BPY`: Assign **Personal**.
 
-3.  **Account Name / Identifier Matching:**
+3.  **General Cloud Service Keyword:**
+    *   Description contains `CLOUD`: Assign **Kalaam Foundation**.
+
+4.  **Description Keywords for Specific Entities:**
+    *   **Kalaam Foundation:** Description contains `KALAAM`, `UPWORK`, `PURRWEB`, `OPENAI`, `ANAS`, `FIREBASE`, `VIMEO`, `JAHANZAIB`, `ISHAAQ`, `FRAMER`, `ANTHROPIC`, `MADINAH GIVE CO MSP`.
+
+5.  **Account Name / Identifier Matching:**
     *   **Kalaam Foundation:**
         *   Account Name contains: `COMMUNITY PLAN`, `BUSINESS INVESTOR ACCOUNT`, `Kalaam Donations`, `TD BASIC BUSINESS PLAN`.
         *   *(Account number endings inferred from TD data: `4162`, `4952`, `3538`, `2695`, `1389`, `2065`)*
@@ -39,10 +45,7 @@ This document summarizes the refined logic for assigning a `PrimaryCategory` to 
         *   Account Name contains: `AutoOptimize`.
         *   *(Account number endings inferred from TD data: `1147`, `6838`, `6040`)*
 
-4.  **Description Keywords for Specific Entities:**
-    *   **Kalaam Foundation:** Description contains `UPWORK`, `PURRWEB`, `OPENAI`, `ANAS`, `FIREBASE`, `VIMEO`, `JAHANZAIB`, `ISHAAQ`, `FRAMER`.
-
-5.  **Default Category:**
+6.  **Default Category:**
     *   If none of the above rules match, assign **Personal**.
 
 **Accounts Requiring Note:**
@@ -67,4 +70,10 @@ This document summarizes the refined logic for assigning a `PrimaryCategory` to 
 **Maintaining Categorization Rules:**
 
 * To add new manual overrides for specific merchants or transaction types, update the `spending_overrides.json` file rather than modifying this document.
-* The `spending_overrides.json` file should be reviewed periodically to ensure it reflects current categorization needs. 
+* The `spending_overrides.json` file should be reviewed periodically to ensure it reflects current categorization needs.
+
+# Recent Findings and Clarifications (May 2025)
+
+## Stripe Payouts
+- Stripe payouts may appear as either `STRIPE MSP` or `STRIPE PAYMENTS MSP` in the Description field.
+- Both refer to Stripe, but `STRIPE MSP` is used for both detailed, date-specific account names (e.g., `Kalaam Donations 2065-6161389 Feb 28-Mar 31 2023`) and the generic account name (`Kalaam Donations (1389)`

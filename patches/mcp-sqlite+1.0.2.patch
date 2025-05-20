@@ -1,0 +1,143 @@
+diff --git a/node_modules/mcp-sqlite/mcp-sqlite-server.js b/node_modules/mcp-sqlite/mcp-sqlite-server.js
+index 10dd1b2..64aa259 100755
+--- a/node_modules/mcp-sqlite/mcp-sqlite-server.js
++++ b/node_modules/mcp-sqlite/mcp-sqlite-server.js
+@@ -7,6 +7,13 @@ const { existsSync, statSync } = require('node:fs');
+ const { z } = require('zod');
+ const path = require('path');
+ 
++const ZodPrimitiveUnion = z.union([
++    z.string(),
++    z.number(),
++    z.boolean(),
++    z.null(),
++]);
++
+ class SQLiteHandler {
+     constructor(dbPath) {
+         this.dbPath = dbPath;
+@@ -117,11 +124,15 @@ async function main() {
+         "query",
+         { 
+             sql: z.string(),
+-            values: z.array(z.any()).optional()
++            values: z.array(z.string()).optional()
+         },
+         async ({ sql, values }) => {
+             try {
+-                const results = await handler.executeQuery(sql, values);
++                // Cast values back to JS primitives if JSON was sent:
++                const cast = (v) => {
++                    try { return JSON.parse(v); } catch { return v; }
++                };
++                const results = await handler.executeQuery(sql, (values ?? []).map(cast));
+                 return {
+                     content: [{ 
+                         type: "text", 
+@@ -140,6 +151,31 @@ async function main() {
+         }
+     );
+ 
++    // ---------- RUN_SQL (write: INSERT/UPDATE/DELETE) ----------
++    server.tool(
++      "run_sql",
++      {
++        sql: z.string(),
++        values: z.array(z.string()).optional()
++      },
++      async ({ sql, values }) => {
++        try {
++          const cast = (v) => { try { return JSON.parse(v); } catch { return v; } };
++          const result = await handler.executeRun(sql, (values ?? []).map(cast));
++          return { content:[{ type:"text",
++                   text: JSON.stringify({ lastID: result.lastID, changes: result.changes }, null, 2) }] };
++        } catch (error) {
++            return {
++                content: [{ 
++                    type: "text", 
++                    text: `Error: ${error.message}` 
++                }],
++                isError: true
++            };
++        }
++      }
++    );
++
+     // List Tables
+     server.tool(
+         "list_tables",
+@@ -206,11 +242,12 @@ async function main() {
+     );
+ 
+     // Create Record
++    /*
+     server.tool(
+         "create_record",
+         { 
+             table: z.string(),
+-            data: z.record(z.any())
++            data: z.record(z.string(), ZodPrimitiveUnion)
+         },
+         async ({ table, data }) => {
+             try {
+@@ -241,13 +278,15 @@ async function main() {
+             }
+         }
+     );
++    */
+ 
+     // Read Records
++    /*
+     server.tool(
+         "read_records",
+         { 
+             table: z.string(),
+-            conditions: z.record(z.any()).optional(),
++            conditions: z.record(z.string(), ZodPrimitiveUnion).optional(),
+             limit: z.number().optional(),
+             offset: z.number().optional()
+         },
+@@ -293,14 +332,16 @@ async function main() {
+             }
+         }
+     );
++    */
+ 
+     // Update Records
++    /*
+     server.tool(
+         "update_records",
+         { 
+             table: z.string(),
+-            data: z.record(z.any()),
+-            conditions: z.record(z.any())
++            data: z.record(z.string(), ZodPrimitiveUnion),
++            conditions: z.record(z.string(), ZodPrimitiveUnion)
+         },
+         async ({ table, data, conditions }) => {
+             try {
+@@ -335,13 +376,15 @@ async function main() {
+             }
+         }
+     );
++    */
+ 
+     // Delete Records
++    /*
+     server.tool(
+         "delete_records",
+         { 
+             table: z.string(),
+-            conditions: z.record(z.any())
++            conditions: z.record(z.string(), ZodPrimitiveUnion)
+         },
+         async ({ table, conditions }) => {
+             try {
+@@ -372,6 +415,7 @@ async function main() {
+             }
+         }
+     );
++    */
+ 
+     const transport = new StdioServerTransport();
+     await server.connect(transport);
