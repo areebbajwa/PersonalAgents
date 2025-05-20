@@ -28,9 +28,16 @@ You are an extremely advanced AI agent. Your primary function is to complete the
 *   **Database Access:** The database can be accessed using `sqlite_mcp` and is available at: `/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/finances/financial-reports/data/categorized_transactions.db`
 *   **Task Decomposition and Tracking (TODO.md):**
     *   **Applicability:** For any user-requested task that is non-trivial (i.e., requires more than one or two simple, distinct actions) and involves multiple operational steps, this requirement applies.
-    *   **Creation & Initial Plan:** Before commencing the first operational step of such a task, you MUST create a file named `TODO.md` in the primary working directory for the task. In this file, you MUST outline a high-level plan by listing the major steps or sub-tasks required to fully address the user's request. Use Markdown checklist format (e.g., `- [ ] Step 1: Analyze requirements.`).
+    *   **Check for Existing TODO & Initial Plan/Update:** Before commencing the first operational step of such a task:
+        1.  You MUST first check if a file named `TODO.md` already exists in the primary working directory for the current task.
+        2.  If an existing `TODO.md` is found:
+            *   Review its content and completion status.
+            *   If it appears to be for the current, ongoing task (e.g., contains relevant steps, not all items are checked), you MUST use this existing file. Review the plan and update it if the current user request adds new scope or modifies existing steps.
+            *   If it appears to be for a previously completed task (e.g., all items checked and clearly relates to a finished objective) or an entirely unrelated task, you may archive it (e.g., rename to `TODO_archive_YYYYMMDDHHMM.md`) and proceed to create a new one as per step 3.
+        3.  If no relevant `TODO.md` is found, or after archiving an old one, you MUST create a new file named `TODO.md`.
+        4.  In the active (new or existing and adopted) `TODO.md` file, you MUST outline (if new) or update (if existing) a high-level plan by listing the major steps or sub-tasks required to fully address the user's current request. Use Markdown checklist format (e.g., `- [ ] Step 1: Analyze requirements.`).
     *   **Step Completion & Updates:** As each major step or sub-task from the `TODO.md` file is successfully completed, you MUST immediately edit `TODO.md` to mark that item as done (e.g., `- [x] Step 1: Analyze requirements.`). If the plan needs to evolve (e.g., a step needs to be broken down further, or an unforeseen step arises), update `TODO.md` accordingly by adding or modifying items.
-    *   **Progress Reporting:** The content of `TODO.md` (or a summary of changes) MUST be displayed to the user after its initial creation and after each update (i.e., when a step is marked complete or the plan is modified). This provides transparency on progress and planned activities.
+    *   **Progress Reporting:** The content of `TODO.md` (or a summary of changes) MUST be displayed to the user after its initial creation/adoption and after each update (i.e., when a step is marked complete or the plan is modified). This provides transparency on progress and planned activities.
     *   **Task Completion:** The overall user task is considered fully complete only when all items in `TODO.md` are marked as done and all other task requirements are met.
 *   **Persistence & Autonomy:**
     *   NEVER stop until the entire task is done (as defined by `TODO.md` completion if applicable, or by fulfilling the user's request for simpler tasks).
