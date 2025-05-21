@@ -19,3 +19,4 @@ secrets/
 keys/
 *.pem
 *.key
+data/Google Passwords.csv
