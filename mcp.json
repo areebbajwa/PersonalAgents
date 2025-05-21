@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "google-workspace": {
+      "command": "node",
+      "args": ["/Users/areebbajwa/PersonalAgents/mcp/google-workspace-mcp-server/build/index.js"],
+      "env": {
+        "GOOGLE_CLIENT_ID": "840653695357-ksfmt3kcoqmis8aiislbp5qkudsvq6nj.apps.googleusercontent.com",
+        "GOOGLE_CLIENT_SECRET": "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",
+        "GOOGLE_REFRESH_TOKEN": "1//05HFYJEdeT7nFCgYIARAAGAUSNwF-L9Ira0kxy4YN0KVA2etIGSt4PxtO2ON5Ht3BFSrMVK_WuW-YMugwMURlj5AlOKFCORIUiQc"
+      }
+    }
+    // You can add other project-specific MCP servers here if needed
+  }
+} 

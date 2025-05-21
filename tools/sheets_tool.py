@@ -8,13 +8,13 @@ from googleapiclient.discovery import build
 from langchain.tools import BaseTool
 from googleapiclient.errors import HttpError
 
-# If modifying these SCOPES, delete the file token.json.
+# If modifying these SCOPES, delete the file config/token.json.
 # Updated to include write access
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 
 # Path to your client secrets and token files
-CLIENT_SECRET_FILE = "client_secret.json"
-TOKEN_FILE = "token.json"
+CLIENT_SECRET_FILE = "config/client_secret.json"
+TOKEN_FILE = "config/token.json"
 
 def get_sheets_credentials():
     """Gets valid user credentials from storage.
@@ -26,7 +26,7 @@ def get_sheets_credentials():
         Credentials, the obtained credential.
     """
     creds = None
-    # The file token.json stores the user's access and refresh tokens, and is
+    # The file config/token.json stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first time.
     if os.path.exists(TOKEN_FILE):
         try:

@@ -10,14 +10,14 @@ A LangGraph-based collection of agents for personal automation tasks, including 
 
 ```
 PersonalAgents/
-├── .env                   # Environment variable configuration
-├── .devdbrc               # Database connection configuration for clients
+├── config/.env            # Environment variable configuration
+├── config/.devdbrc        # Database connection configuration for clients
 ├── README.md              # This README file
 ├── main.py                # Main entry point for agents
 ├── requirements.txt       # Python dependencies
 ├── package.json           # Node.js dependencies (for finance scripts)
-├── client_secret.json     # Google API client secret (ensure gitignored)
-├── token.json             # Google API token (ensure gitignored)
+├── config/client_secret.json     # Google API client secret (ensure gitignored)
+├── config/token.json             # Google API token (ensure gitignored)
 │
 ├── agents/                # Agent implementations
 │   └── halaqa_agent.py    # Halaqa fee and transfers tracking agent
@@ -74,7 +74,7 @@ node finances/scripts/process_transactions.js
 
 ## Environment Variables
 
-Create `.env` in the project root:
+Create `config/.env` in the project root with the following content (replace placeholders):
 
 ```
 # Google Sheets (primarily for Halaqa Agent, some finance scripts might use service account)
@@ -93,7 +93,7 @@ GEMINI_API_KEY=your_gemini_api_key
 ```
 
 You also need:
-*   `client_secret.json` in the project root for user-based Google Sheets/Drive access by some tools.
+*   `config/client_secret.json` in the project root for user-based Google Sheets/Drive access by some tools.
 *   `finances/config/serviceAccountKey.json` for service account-based Google API access used by finance scripts.
 
 ## Database
@@ -134,6 +134,6 @@ The Halaqa agent (if still primary focus, or describe its interaction with new f
 ## Security Considerations
 
 This project handles sensitive financial information. Make sure to:
-- Never commit `.env` files, tokens, `client_secret.json`, or `serviceAccountKey.json` to version control. Add them to `.gitignore`.
+- Never commit `config/.env` files, tokens, `config/client_secret.json`, or `finances/config/serviceAccountKey.json` to version control. Add them to `.gitignore`.
 - Use environment variables for all sensitive information.
 - Consider using a secure credential manager for production use. 

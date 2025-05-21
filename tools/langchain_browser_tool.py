@@ -10,7 +10,7 @@ from dotenv import load_dotenv # Ensure load_dotenv is available
 from tools.browser_automator import BrowserAutomator # The class you provided
 
 # Load .env file for os.getenv("OPENAI_API_KEY") to work in default_factory
-load_dotenv()
+load_dotenv(dotenv_path='../config/.env')
 
 class BrowserAutomatorInput(BaseModel):
     task_description: str = Field(description="A detailed natural language description of the web automation task to perform, including the objectives and any specific steps or data to look for. If the task involves a specific starting URL, include it clearly in the description.")

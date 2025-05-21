@@ -18,7 +18,7 @@ from tools import (
 
 # Load environment variables (especially OPENAI_API_KEY)
 # print("AGENT.PY: Attempting to load .env file...") # Less verbose for library use
-loaded_successfully = load_dotenv()
+loaded_successfully = load_dotenv(dotenv_path="config/.env")
 # print(f"AGENT.PY: load_dotenv() returned: {loaded_successfully}") # Less verbose
 
 def build_agent_executor():

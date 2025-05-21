@@ -15,7 +15,7 @@ import {
     storeInAICache
 } from '../finances/financial-reports/scripts/ai_cache_utils.js'; // Adjusted path
 
-dotenv.config(); // Load environment variables from .env file
+dotenv.config({ path: path.resolve(process.cwd(), 'config/.env') }); // Load environment variables from config/.env
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 let openai;

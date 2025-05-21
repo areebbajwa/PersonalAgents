@@ -1,0 +1,953 @@
+Analyzing transactions from: tagged_transactions_for_analysis_2023.csv
+Total rows processed: 3171, Skipped (non-CAD): 238
+
+--- Tax Summary ---
+Credit: Medical Expenses: 8532.11
+Info: Inter-Account Transfer: 358974.46
+Info: Cash Withdrawal: 5502.99
+Review: Uncategorized (mobile deposit...): 1821.00
+Review: Uncategorized (discoveru milton...): -434.00
+Credit: Donations: 39139.10
+Review: Uncategorized (amazon.ca*hg0wm3r72 amazon.ca...): -20.31
+Review: Uncategorized (ls chaddors milton...): -280.70
+Review: Uncategorized (amazon.ca*h70ew24t1 amazon.ca...): -16.78
+Review: Uncategorized (amzn mktp ca*hy1l46fk2 www.ama...): -25.97
+Review: Uncategorized (yaqeen* one time mississauga...): 1220.24
+Review: Uncategorized (casa variedades cerro pla punt...): -6.89
+Review: Uncategorized (amzn mktp ca*jq1w91s73 www.ama...): -135.58
+Review: Uncategorized (paypal *torontomusl to 4029357...): 15.00
+Review: Uncategorized (amzn mktp ca*w329z03o3 www.ama...): -56.44
+Review: Uncategorized (amzn mktp ca*4b8ea1o93 www.ama...): -65.52
+Review: Uncategorized (zara.com fredericton...): -3.33
+Review: Uncategorized (amazon.ca*6j30u4wl3 amazon.ca...): -12.42
+Review: Uncategorized (amzn mktp ca*f00a05yn3 www.ama...): -39.76
+Review: Uncategorized (sp zelvoria httpszelvori...): -21.00
+Review: Uncategorized (amzn mktp ca*157hx6oi3 www.ama...): -459.90
+Review: Uncategorized (amzn mktp ca*988294vr3 www.ama...): -57.85
+Review: Uncategorized (amazon.ca*bu7dk9ri3 amazon.ca...): -27.08
+Review: Uncategorized (amzn mktp ca*he1x38ax2 www.ama...): -17.99
+Review: Uncategorized (amazon.ca*hs8t23382 amazon.ca...): 107.34
+Review: Uncategorized (amzn mktp ca*hs0tr5hx1 www.ama...): 47.45
+Review: Uncategorized (amzn mktp ca*hj9y394j0 www.ama...): 25.98
+Review: Uncategorized (amazon.ca*hs7tw2wf2 amazon.ca...): 17.64
+Review: Uncategorized (amzn mktp ca*hj81o6ea2 www.ama...): 13.87
+Review: Uncategorized (amzn mktp ca*hv5bs25b2 www.ama...): 28.13
+Review: Uncategorized (amzn mktp ca*hv28m9930 www.ama...): 44.06
+Review: Uncategorized (amzn mktp ca*hv5q469n0 www.ama...): 155.24
+Review: Uncategorized (sq *black diamond bike an gosq...): 0.01
+Review: Uncategorized (apple store #r120 toronto...): 0.00
+Review: Uncategorized (amzn mktp ca*tr7j583b0 www.ama...): 47.44
+Review: Uncategorized (thecorporationofnorfolkco fred...): 4.00
+Review: Uncategorized (amazon.ca*tq8el9op0 amazon.ca...): 115.61
+Review: Uncategorized (amzn mktp ca*tq9gb0l71 www.ama...): 38.94
+Review: Uncategorized (carters #3026 milton...): 44.93
+Review: Uncategorized (amazon.ca*tq9ig59c0 amazon.ca...): 3.97
+Review: Uncategorized (amz*curious buy nature www.ama...): -38.94
+Review: Uncategorized (amz*amazon.ca www.amazon.c...): -225.99
+Review: Uncategorized (amzn mktp ca*t385u6zk0 www.ama...): 25.98
+Review: Uncategorized (amzn mktp ca*t38de8vf1 www.ama...): 17.24
+Review: Uncategorized (amazon.ca*t35x20280 amazon.ca...): 26.35
+Review: Uncategorized (the city of mississauga toront...): 95.00
+Review: Uncategorized (sq *emxayche toronto...): 29.00
+Review: Uncategorized (sarna capital investments banf...): 7.04
+Review: Uncategorized (amazon.ca amazon.ca...): -227.01
+Review: Uncategorized (amzn mktp ca*on4q244s3 www.ama...): -28.24
+Review: Uncategorized (amazon.ca*227b36573 amazon.ca...): -28.34
+Review: Uncategorized (amazon.ca*lm2dv8fn3 amazon.ca...): -33.61
+Review: Uncategorized (kate spade halifax...): -243.94
+Review: Uncategorized (yeh cheez milton...): -50.29
+Review: Uncategorized (amzn mktp ca*yw7mj2p43 www.ama...): -33.59
+Review: Uncategorized (amazon.ca*em2u403w3 amazon.ca...): -31.19
+Review: Uncategorized (1344pepven8003876683 mississau...): -2.00
+Review: Uncategorized (amzn mktp ca*z67hd4ts3 www.ama...): -39.54
+Review: Uncategorized (being me mississauga...): -50.00
+Review: Uncategorized (amzn mktp ca*e92h57ep3 www.ama...): -45.09
+Review: Uncategorized (payment adjustment...): 11404.21
+Income: Other Investment Income: 270.75
+Income: Other Income: 11559.19
+Review: Uncategorized (starting balance...): 12333.76
+Review: Uncategorized (opening balance...): 3073116.03
+Review: Uncategorized (closing balance...): 2082334.40
+Review: Uncategorized (balance forward...): 49729.36
+Review: Uncategorized (rtn nsf...): 12663.69
+Review: Uncategorized (frm:20656161389...): -23.77
+Review: Uncategorized (bayyinah llc...): 15.35
+Review: Uncategorized (husna llc...): 767.43
+Review: Uncategorized (1853-tor relay t1 intl mississ...): 39.54
+Review: Uncategorized (el alaoui essoussi 4 fes...): 24.15
+Review: Uncategorized (ansamble khmisset khemisset...): 8.46
+Review: Uncategorized (abdessalem el msiyah fes...): 272.37
+Review: Uncategorized (mosaique et poterie de f fes...): 30.64
+Review: Uncategorized (sp leenashijabs mississauga...): 55.20
+Review: Uncategorized (amzn mktp ca*jl8ze4r53 amazon....): 33.89
+Income: Employment Income: 5329.57
+Review: Uncategorized (amazon msp...): 807.28
+
+--- Cash Draw Investigation Details ---
+
+Transactions from mapped category: Info: Inter-Account Transfer
+  Date: 2023-02-06, Acc: Areeb personal CAD chequing 311-6451459 Jan 31-Feb, Amt: 10000.0, Desc: LR295 TFR-FR 3216106, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal account transfer']
+  Date: 2023-05-03, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: 15000.0, Desc: HO102 TFR-FR 3216106, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','inter-account']
+  Date: 2023-05-10, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: -2000.0, Desc: HQ503 TFR-TO 6161389, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal','outgoing']
+  Date: 2023-05-10, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: -1000.0, Desc: HQ505 TFR-TO 6161389, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','outgoing']
+  Date: 2023-05-19, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: 10000.0, Desc: JQ105 TFR-FR 3216106, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal']
+  Date: 2023-05-31, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: 10000.0, Desc: HQ545 TFR-FR 3216106, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal']
+  Date: 2023-08-01, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 10000.0, Desc: WR315 TFR-FR 3216106, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal']
+  Date: 2023-08-28, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 15000.0, Desc: UW025 TFR-FR 3216106, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','incoming']
+  Date: 2023-08-28, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: -1000.0, Desc: UW031 TFR-TO 6560022, AI Cat: Transfer (Between Own Accounts), AI Tags: ['internal transfer']
+  Date: 2023-07-12, Acc: Areeb personal CAD chequing 311-6451459 Jun 30-Jul, Amt: -1000.0, Desc: HI454 TFR-TO 6560022, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal transfer']
+  Date: 2023-07-26, Acc: Areeb personal CAD chequing 311-6451459 Jun 30-Jul, Amt: 10000.0, Desc: HO373 TFR-FR 3216106, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal transfer']
+  Date: 2023-07-31, Acc: Areeb personal CAD chequing 311-6451459 Jun 30-Jul, Amt: -1000.0, Desc: RO142 TFR-TO 6560022, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal']
+  Date: 2023-04-04, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: 10000.0, Desc: RC370 TFR-FR 3216106, AI Cat: Transfer (Between Own Accounts), AI Tags: ['internal transfer']
+  Date: 2023-09-01, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -1000.0, Desc: JL421 TFR-TO 6560022, AI Cat: Transfer (Between Own Accounts), AI Tags: ['internal transfer']
+  Date: 2023-09-05, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -1000.0, Desc: WJ515 TFR-TO 6560022, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','outgoing']
+  Date: 2023-09-05, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: 10000.0, Desc: UR204 TFR-FR 3216106, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal']
+  Date: 2023-09-14, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -1000.0, Desc: IY504 TFR-TO 6560022, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal transfer']
+  Date: 2023-09-25, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: 2263.73, Desc: RO531 TFR-FR 3216106, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal']
+  Date: 2023-09-28, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -1000.0, Desc: HB573 TFR-TO 6560022, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','account transfer']
+  Date: 2023-12-04, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: -1000.0, Desc: RL360 TFR-TO 6560022, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','investment','savings']
+  Date: 2023-12-07, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: 8719.75, Desc: IU560 TFR-FR 7148656, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal transfer']
+  Date: 2023-12-19, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: 15000.0, Desc: RP201 TFR-FR 5217807, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal']
+  Date: 2023-12-29, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: 15000.0, Desc: JO220 TFR-FR 5217807, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal transfer']
+  Date: 2023-11-23, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: 10000.0, Desc: IO540 TFR-FR 5217807, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','incoming']
+  Date: 2023-11-29, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: 10000.0, Desc: HJ360 TFR-FR 5217807, AI Cat: Transfer (Between Own Accounts), AI Tags: ['inter-account','internal transfer']
+  Date: 2023-11-29, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -1000.0, Desc: HJ363 TFR-TO 6560022, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal']
+  Date: 2023-06-22, Acc: Areeb personal CAD chequing 311-6451459 May 31-Jun, Amt: 2000.0, Desc: II302 TFR-TO 6560022, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal']
+  Date: 2023-06-27, Acc: Areeb personal CAD chequing 311-6451459 May 31-Jun, Amt: 10000.0, Desc: WW043 TFR-FR 3216106, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal','inflow']
+  Date: 2023-10-03, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: 10000.0, Desc: WR451 TFR-FR 5217807, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal transfer','deposit']
+  Date: 2023-10-03, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: -1000.0, Desc: WR454 TFR-TO 6560022, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal']
+  Date: 2023-10-06, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: 10000.0, Desc: JQ125 TFR-FR 5217807, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal','account transfer']
+  Date: 2023-10-31, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: -1500.0, Desc: WW323 TFR-TO 6560022, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','outgoing']
+  Date: 2023-05-10, Acc: Kalaam Donations 2065-6161389 Apr 28-May 31 2023, Amt: 2000.0, Desc: HQ503 TFR-FR 6451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal','funding']
+  Date: 2023-10-10, Acc: Kalaam Donations 2065-6161389 Sep 29-Oct, Amt: -17242.77, Desc: RR522 TFR-TO 5217807, AI Cat: Transfer (Between Own Accounts), AI Tags: ['internal transfer','foundation funds']
+  Date: 2023-08-01, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: 10000.0, Desc: WR315 TFR-TO 6451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal transfer','line of credit']
+  Date: 2023-08-28, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: 15000.0, Desc: UW025 TFR-TO 6451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal transfer','line of credit']
+  Date: 2023-04-03, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: -5426.58, Desc: PYT FRM: 03116451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['line of credit','transfer','draw']
+  Date: 2023-04-04, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: 10000.0, Desc: RC370 TFR-TO 6451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','line of credit']
+  Date: 2023-04-10, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: 10000.0, Desc: JT005 TFR-TO C/C, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','credit card payment','loc']
+  Date: 2023-04-11, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: 10000.0, Desc: WR342 TFR-TO C/C, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','credit card payment']
+  Date: 2023-02-06, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: -10000.0, Desc: LR295 TFR-TO 6451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','line of credit','HELOC']
+  Date: 2023-02-08, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: 15000.0, Desc: HW274 TFR-TO C/C, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','loc','credit card']
+  Date: 2023-02-17, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: 10000.0, Desc: JQ254 TFR-TO C/C, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','LOC','credit card payment']
+  Date: 2023-03-13, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: 10000.0, Desc: LQ393 TFR-FR 3216106, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal transfer']
+  Date: 2023-03-13, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: 10000.0, Desc: LQ393 TFR-TO 6451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal transfer','LOC draw']
+  Date: 2023-03-13, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: -4806.56, Desc: PYT FRM: 03116451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['line of credit','transfer','draw']
+  Date: 2023-05-03, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: 15000.0, Desc: HO102 TFR-TO 6451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','heloc','line of credit']
+  Date: 2023-05-04, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: -5389.49, Desc: PYT FRM: 03116451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['line of credit','transfer','draw']
+  Date: 2023-05-19, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: 10000.0, Desc: JQ105 TFR-TO 6451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['internal transfer','line of credit']
+  Date: 2023-05-31, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: 10000.0, Desc: HQ545 TFR-TO 6451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','inter-account','line of credit']
+  Date: 2023-07-13, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: -2000.0, Desc: IR351 TFR-TO 6560022, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','line of credit']
+  Date: 2023-07-26, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: -10000.0, Desc: HO373 TFR-TO 6451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal transfer','line of credit']
+  Date: 2023-07-27, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: 5867.46, Desc: PYT FRM: 03116451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['line of credit','transfer','draw']
+  Date: 2023-01-03, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: -4798.15, Desc: PYT FRM: 03116451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['line of credit','transfer','draw']
+  Date: 2023-10-03, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: -6638.93, Desc: PYT FRM: 03116451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['line of credit','transfer','draw']
+  Date: 2023-05-03, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: 15000.0, Desc: HO102 TFR-TO 6451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','HELOC','borrowing']
+  Date: 2023-05-04, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: -5389.49, Desc: PYT FRM: 03116451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['line of credit','transfer','draw']
+  Date: 2023-05-19, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: 10000.0, Desc: JQ105 TFR-TO 6451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','line of credit','home equity']
+  Date: 2023-05-31, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: 10000.0, Desc: HQ545 TFR-TO 6451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal','line of credit','HELOC']
+  Date: 2023-09-25, Acc: Mpyre CAD chequing 311-5217807 Aug 31-Sep, Amt: 10000.0, Desc: RO550 TFR-FR 561HR0F, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal','deposit']
+  Date: 2023-06-01, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: -5717.76, Desc: PYT FRM: 03116451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['line of credit','transfer','draw']
+  Date: 2023-06-07, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: 10000.0, Desc: HY553 TFR-TO C/C, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','loc','credit card']
+  Date: 2023-06-27, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: 10000.0, Desc: WW043 TFR-TO 6451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','line of credit','advance']
+  Date: 2023-11-30, Acc: LINE OF CREDIT - HOME EQUITY 1958-, Amt: -6822.08, Desc: PYT FRM: 03116451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['line of credit','transfer','draw']
+  Date: 2023-09-01, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: -6710.76, Desc: PYT FRM: 03116451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['line of credit','transfer','draw']
+  Date: 2023-09-05, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: 10000.0, Desc: UR204 TFR-TO 6451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['line of credit','transfer out','withdrawal']
+  Date: 2023-09-25, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: 2263.73, Desc: RO531 TFR-TO 6451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal']
+  Date: 2023-12-04, Acc: Kalaam Donations 2065-6161389 Nov 30-Dec 29 2023, Amt: -20000.0, Desc: RZ304 TFR-TO C/C, AI Cat: Transfer (Between Own Accounts), AI Tags: ['internal transfer','foundation']
+  Date: 2023-12-29, Acc: Mpyre CAD chequing (7807), Amt: 20000.0, Desc: JO214 TFR-FR 561HR0F, AI Cat: Transfer (Between Own Accounts), AI Tags: ['internal transfer']
+  Date: 2023-12-29, Acc: Mpyre CAD chequing (7807), Amt: -15000.0, Desc: JO220 TFR-TO 6451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','account transfer','outflow']
+  Date: 2023-12-29, Acc: Areeb personal CAD chequing (1459), Amt: 15000.0, Desc: JO220 TFR-FR 5217807, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal transfer']
+  Date: 2023-12-19, Acc: Mpyre CAD chequing (7807), Amt: -15000.0, Desc: RP201 TFR-TO 6451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','account transfer']
+  Date: 2023-12-19, Acc: Areeb personal CAD chequing (1459), Amt: 15000.0, Desc: RP201 TFR-FR 5217807, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal']
+  Date: 2023-12-15, Acc: Shared Family CAD (0022), Amt: -72.47, Desc: ID101 TFR-TO 6407786, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','outgoing']
+  Date: 2023-12-15, Acc: Shared Family CAD (0022), Amt: -275.6, Desc: JI174 TFR-TO 6407786, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','account transfer']
+  Date: 2023-12-13, Acc: Shared Family CAD (0022), Amt: -100.0, Desc: HQ001 TFR-TO 6407786, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal transfer']
+  Date: 2023-12-12, Acc: Shared Family CAD (0022), Amt: 2500.0, Desc: WW241 TFR-FR 7306877, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal transfer','incoming']
+  Date: 2023-12-08, Acc: Shared Family CAD (0022), Amt: -121.46, Desc: JZ113 TFR-TO 6407786, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal']
+  Date: 2023-12-07, Acc: Mpyre CAD chequing (7807), Amt: 20000.0, Desc: IU371 TFR-FR 561HR0F, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal transfer']
+  Date: 2023-12-07, Acc: Areeb personal CAD chequing (1459), Amt: 8719.75, Desc: IU560 TFR-FR 7148656, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal transfer']
+  Date: 2023-12-05, Acc: Kalaam Donations (1389), Amt: 20000.0, Desc: RZ301 TFR-FR 7112695, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal','foundation']
+  Date: 2023-12-04, Acc: Areeb personal CAD chequing (1459), Amt: -1000.0, Desc: RL360 TFR-TO 6560022, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','investment','savings']
+  Date: 2023-12-04, Acc: Kalaam Donations (1389), Amt: -20000.0, Desc: RZ304 TFR-TO C/C, AI Cat: Transfer (Between Own Accounts), AI Tags: ['internal transfer','foundation']
+  Date: 2023-12-04, Acc: Shared Family CAD (0022), Amt: 1000.0, Desc: RL360 TFR-FR 6451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','inflow','investment']
+  Date: 2023-12-01, Acc: Metropolis CAD Areeb Account (3361), Amt: -750.0, Desc: HA#005 TFR-TO KHA, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','inter-account','HA#005','KHA']
+  Date: 2023-11-30, Acc: Shared Family CAD (0022), Amt: -601.46, Desc: HC041 TFR-TO 6407786, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','outgoing','account transfer']
+  Date: 2023-11-29, Acc: Mpyre CAD chequing (7807), Amt: 10000.0, Desc: HJ354 TFR-FR 561HR0F, AI Cat: Transfer (Between Own Accounts), AI Tags: ['internal transfer']
+  Date: 2023-11-29, Acc: Mpyre CAD chequing (7807), Amt: -10000.0, Desc: HJ360 TFR-TO 6451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer']
+  Date: 2023-11-29, Acc: Areeb personal CAD chequing (1459), Amt: -1000.0, Desc: HJ363 TFR-TO 6560022, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal']
+  Date: 2023-11-29, Acc: Areeb personal CAD chequing (1459), Amt: 10000.0, Desc: HJ360 TFR-FR 5217807, AI Cat: Transfer (Between Own Accounts), AI Tags: ['inter-account','internal transfer']
+  Date: 2023-11-29, Acc: Shared Family CAD (0022), Amt: 1000.0, Desc: HJ363 TFR-FR 6451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['internal transfer']
+  Date: 2023-11-23, Acc: Mpyre CAD chequing (7807), Amt: 10000.0, Desc: IO534 TFR-FR 561HR0F, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal']
+  Date: 2023-11-23, Acc: Mpyre CAD chequing (7807), Amt: -10000.0, Desc: IO540 TFR-TO 6451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer out','internal transfer']
+  Date: 2023-11-23, Acc: Areeb personal CAD chequing (1459), Amt: 10000.0, Desc: IO540 TFR-FR 5217807, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','incoming']
+  Date: 2023-11-14, Acc: Shared Family CAD (0022), Amt: -750.0, Desc: UU425 TFR-TO 6407786, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','outgoing','account transfer']
+  Date: 2023-11-14, Acc: Shared Family CAD (0022), Amt: 31.0, Desc: RH035 TFR-FR 6407786, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','account transfer']
+  Date: 2023-11-06, Acc: Mpyre CAD chequing (7807), Amt: 13485.0, Desc: JY001 TFR-FR 561HR0F, AI Cat: Transfer (Between Own Accounts), AI Tags: ['internal transfer','account transfer']
+  Date: 2023-11-03, Acc: Mpyre CAD chequing (7807), Amt: -10000.0, Desc: JY003 TFR-TO C/C, AI Cat: Transfer (Between Own Accounts), AI Tags: ['credit card payment']
+  Date: 2023-11-01, Acc: Metropolis CAD Areeb Account (3361), Amt: -750.0, Desc: HA#004 TFR-TO KHA, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal transfer','to KHA']
+  Date: 2023-10-31, Acc: Areeb personal CAD chequing (1459), Amt: -1500.0, Desc: WW323 TFR-TO 6560022, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','outgoing']
+  Date: 2023-10-31, Acc: Shared Family CAD (0022), Amt: 1500.0, Desc: WW323 TFR-FR 6451459, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','incoming']
+  Date: 2023-10-30, Acc: Metropolis CAD Mariam Account (0184), Amt: -12.4, Desc: LI314 TFR-TO C/C, AI Cat: Transfer (Between Own Accounts), AI Tags: ['transfer','internal']
+
+Transactions from mapped category: Info: Cash Withdrawal
+  Date: 2023-02-24, Acc: Areeb personal CAD chequing 311-6451459 Jan 31-Feb, Amt: -2500.0, Desc: TD ATM W/D 003277, AI Cat: Cash Withdrawal, AI Tags: ['cash','withdrawal']
+  Date: 2023-02-24, Acc: Areeb personal CAD chequing 311-6451459 Jan 31-Feb, Amt: -1500.0, Desc: TD ATM W/D 003279, AI Cat: Cash Withdrawal, AI Tags: ['cash','withdrawal','atm']
+  Date: 2023-05-08, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: -300.0, Desc: TD ATM W/D 007389, AI Cat: Cash Withdrawal, AI Tags: ['cash','withdrawal','ATM']
+  Date: 2023-05-23, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: -202.99, Desc: NON-TD ATM W/D, AI Cat: Cash Withdrawal, AI Tags: ['cash','withdrawal','ATM']
+  Date: 2023-04-21, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: -200.0, Desc: TD ATM W/D 008135, AI Cat: Cash Withdrawal, AI Tags: ['cash','withdrawal','ATM']
+  Date: 2023-06-07, Acc: Areeb personal CAD chequing 311-6451459 May 31-Jun, Amt: -750.0, Desc: TD ATM W/D 009871, AI Cat: Cash Withdrawal, AI Tags: ['cash','withdrawal','ATM']
+  Date: 2023-06-07, Acc: Areeb personal CAD chequing 311-6451459 May 31-Jun, Amt: -50.0, Desc: TD ATM W/D 009873, AI Cat: Cash Withdrawal, AI Tags: ['cash','withdrawal','ATM']
+
+Inspecting raw transactions for other relevant transfers/withdrawals not in mapped Info categories above:
+  Raw AI Cat Match: Date: 2023-01-03, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 5000.0, Desc: E-TRANSFER ***5Jc, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-01-05, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 100.0, Desc: E-TRANSFER ***vST, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-01-09, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -50.0, Desc: SEND E-TFR ***q9c, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-01-09, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -20.0, Desc: SEND E-TFR ***SWe, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-01-13, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 100.0, Desc: E-TRANSFER ***UP7, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','interac']
+  Raw AI Cat Match: Date: 2023-01-16, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 60.0, Desc: E-TRANSFER ***c7t, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-01-16, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -575.0, Desc: SEND E-TFR ***TUT, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-01-16, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -20.0, Desc: SEND E-TFR ***9Dv, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-01-16, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -60.0, Desc: SEND E-TFR ***qqF, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-01-20, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 583.0, Desc: E-TRANSFER ***HQJ, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-01-20, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -90.0, Desc: SEND E-TFR ***pxQ, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-01-20, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 90.0, Desc: E-TRANSFER ***MtB, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','personal']
+  Raw AI Cat Match: Date: 2023-01-24, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -17.0, Desc: SEND E-TFR ***uJD, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-01-24, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 381.9, Desc: E-TRANSFER ***xeZ, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-01-27, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -90.0, Desc: SEND E-TFR ***TP6, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-01-27, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -180.0, Desc: SEND E-TFR ***p2B, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-01-30, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -249.0, Desc: SEND E-TFR ***Pss, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-01-31, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -172.0, Desc: SEND E-TFR ***543, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-01-31, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 172.0, Desc: E-TRANSFER ***Tjj, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-01-31, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 50.0, Desc: E-TRANSFER ***nSD, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','interac','incoming']
+  Raw AI Cat Match: Date: 2023-02-02, Acc: Areeb personal CAD chequing 311-6451459 Jan 31-Feb, Amt: -14.0, Desc: SEND E-TFR ***AtK, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal transfer']
+  Raw AI Cat Match: Date: 2023-02-03, Acc: Areeb personal CAD chequing 311-6451459 Jan 31-Feb, Amt: -90.0, Desc: SEND E-TFR ***6X6, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-02-06, Acc: Areeb personal CAD chequing 311-6451459 Jan 31-Feb, Amt: -5005.63, Desc: PYT TO: 19583216106, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing payment']
+  Raw AI Cat Match: Date: 2023-02-06, Acc: Areeb personal CAD chequing 311-6451459 Jan 31-Feb, Amt: -157.44, Desc: SEND E-TFR ***UnD, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-02-06, Acc: Areeb personal CAD chequing 311-6451459 Jan 31-Feb, Amt: -180.0, Desc: E-TRANSFER ***Szr, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-02-06, Acc: Areeb personal CAD chequing 311-6451459 Jan 31-Feb, Amt: -5000.0, Desc: E-TRANSFER ***sEP, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer','personal']
+  Raw AI Cat Match: Date: 2023-02-08, Acc: Areeb personal CAD chequing 311-6451459 Jan 31-Feb, Amt: -20.0, Desc: SEND E-TFR ***tCR, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-02-09, Acc: Areeb personal CAD chequing 311-6451459 Jan 31-Feb, Amt: -250.0, Desc: E-TRANSFER ***bh8, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-02-10, Acc: Areeb personal CAD chequing 311-6451459 Jan 31-Feb, Amt: -271.0, Desc: SEND E-TFR ***4BR, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-02-10, Acc: Areeb personal CAD chequing 311-6451459 Jan 31-Feb, Amt: -60.0, Desc: SEND E-TFR ***CpD, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-02-10, Acc: Areeb personal CAD chequing 311-6451459 Jan 31-Feb, Amt: -90.0, Desc: SEND E-TFR ***aFC, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-02-14, Acc: Areeb personal CAD chequing 311-6451459 Jan 31-Feb, Amt: -1000.0, Desc: SEND E-TFR ***hCr, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-02-21, Acc: Areeb personal CAD chequing 311-6451459 Jan 31-Feb, Amt: -82.75, Desc: E-TRANSFER ***3uK, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-02-21, Acc: Areeb personal CAD chequing 311-6451459 Jan 31-Feb, Amt: -583.0, Desc: E-TRANSFER ***AXY, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-02-24, Acc: Areeb personal CAD chequing 311-6451459 Jan 31-Feb, Amt: -90.0, Desc: SEND E-TFR ***ZtB, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-02-27, Acc: Areeb personal CAD chequing 311-6451459 Jan 31-Feb, Amt: 2000.11, Desc: E-TRANSFER ***UV2, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-02-27, Acc: Areeb personal CAD chequing 311-6451459 Jan 31-Feb, Amt: -100.0, Desc: E-TRANSFER ***Qky, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-02-27, Acc: Areeb personal CAD chequing 311-6451459 Jan 31-Feb, Amt: 1000.0, Desc: E-TRANSFER ***dsN, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-02-27, Acc: Areeb personal CAD chequing 311-6451459 Jan 31-Feb, Amt: -50.0, Desc: SEND E-TFR ***bHf, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-02-28, Acc: Areeb personal CAD chequing 311-6451459 Jan 31-Feb, Amt: 155.93, Desc: E-TRANSFER ***dym, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-05-02, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: 100.0, Desc: E-TRANSFER ***dsE, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','personal transfer']
+  Raw AI Cat Match: Date: 2023-05-02, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: 208.66, Desc: E-TRANSFER ***B8z, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','transfer in']
+  Raw AI Cat Match: Date: 2023-05-02, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: 2334.32, Desc: E-TRANSFER ***C6n, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-05-03, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: -40.0, Desc: SEND E-TFR ***Hqq, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-05-04, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: -5389.49, Desc: PYT TO: 19583216106, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing payment']
+  Raw AI Cat Match: Date: 2023-05-04, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: -100.0, Desc: SEND E-TFR ***qRZ, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-05-05, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: -150.0, Desc: E-TRANSFER ***8F9, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-05-08, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: -312.5, Desc: SEND E-TFR ***pQR, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-05-08, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: -13.56, Desc: SEND E-TFR ***fDu, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-05-08, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: -450.0, Desc: SEND E-TFR ***m5m, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-05-10, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: -20.0, Desc: SEND E-TFR ***S3b, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-05-12, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: -90.0, Desc: SEND E-TFR ***utG, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-05-15, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: -50.0, Desc: SEND E-TFR ***d7d, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-05-16, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: -687.5, Desc: SEND E-TFR ***JfY, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-05-18, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: -110.59, Desc: SEND E-TFR ***4Zq, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-05-18, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: 150.0, Desc: E-TRANSFER ***xB9, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming transfer']
+  Raw AI Cat Match: Date: 2023-05-19, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: -90.0, Desc: SEND E-TFR ***tgP, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-05-19, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: -1976.61, Desc: SEND E-TFR ***wTh, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-05-23, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: -1826.38, Desc: SEND E-TFR ***c4D, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-05-24, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: -70.0, Desc: SEND E-TFR ***yMG, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-05-26, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: -86.0, Desc: SEND E-TFR ***ctp, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-05-29, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: -312.5, Desc: SEND E-TFR ***Dty, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-05-29, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: 25.0, Desc: E-TRANSFER ***Gw6, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-05-29, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: 25.0, Desc: E-TRANSFER ***FhH, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-05-29, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: 25.0, Desc: E-TRANSFER ***u6G, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','interac']
+  Raw AI Cat Match: Date: 2023-05-29, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: 25.0, Desc: E-TRANSFER ***YdT, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-05-29, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: 25.0, Desc: E-TRANSFER ***BAm, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','transfer']
+  Raw AI Cat Match: Date: 2023-05-29, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: -14.0, Desc: SEND E-TFR ***4c6, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing transfer']
+  Raw AI Cat Match: Date: 2023-05-30, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: 20.0, Desc: E-TRANSFER ***f42, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-05-31, Acc: Areeb personal CAD chequing 311-6451459 Apr 28-May, Amt: -1075.0, Desc: SEND E-TFR ***sV2, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-08-01, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: -6399.74, Desc: PYT TO: 19583216106, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing payment']
+  Raw AI Cat Match: Date: 2023-08-01, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: -245.0, Desc: SEND E-TFR ***ppk, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-08-01, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: -40.0, Desc: SEND E-TFR ***bAG, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['transfer','e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-08-02, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: -6780.67, Desc: SEND E-TFR ***NX6, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-08-02, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 2950.0, Desc: E-TRANSFER ***Vjh, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-08-04, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: -90.0, Desc: SEND E-TFR ***RDR, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-08-04, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 75.0, Desc: E-TRANSFER ***Zmt, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-08-08, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 40.0, Desc: E-TRANSFER ***w9p, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['transfer','incoming','e-transfer']
+  Raw AI Cat Match: Date: 2023-08-08, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: -40.0, Desc: SEND E-TFR ***DwQ, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-08-08, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 119.0, Desc: E-TRANSFER ***Nwf, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-08-08, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 200.0, Desc: E-TRANSFER ***dxc, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','personal']
+  Raw AI Cat Match: Date: 2023-08-09, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 55.0, Desc: E-TRANSFER ***Vez, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-08-11, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: -100.0, Desc: SEND E-TFR ***B38, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-08-16, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 40.0, Desc: E-TRANSFER ***CYK, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-08-16, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 90.0, Desc: E-TRANSFER ***tSz, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-08-18, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 583.0, Desc: E-TRANSFER ***rZU, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-08-18, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: -90.0, Desc: SEND E-TFR ***YKw, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing transfer']
+  Raw AI Cat Match: Date: 2023-08-18, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 150.0, Desc: E-TRANSFER ***pep, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-08-18, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 183.0, Desc: E-TRANSFER ***7xa, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-08-21, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 50.0, Desc: E-TRANSFER ***MbZ, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-08-25, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: -282.5, Desc: SEND E-TFR ***WWc, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-08-28, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 381.0, Desc: E-TRANSFER ***CpX, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming transfer']
+  Raw AI Cat Match: Date: 2023-08-29, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 100.0, Desc: E-TRANSFER ***SHx, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','personal']
+  Raw AI Cat Match: Date: 2023-08-29, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 20.0, Desc: E-TRANSFER ***xXA, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-08-29, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 50.0, Desc: E-TRANSFER ***4vS, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming funds']
+  Raw AI Cat Match: Date: 2023-08-29, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 20.0, Desc: E-TRANSFER ***Jec, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','personal']
+  Raw AI Cat Match: Date: 2023-08-29, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 100.0, Desc: E-TRANSFER ***nUe, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer']
+  Raw AI Cat Match: Date: 2023-08-29, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 25.0, Desc: E-TRANSFER ***3xY, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-08-29, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 25.0, Desc: E-TRANSFER ***wcX, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-08-29, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 50.0, Desc: E-TRANSFER ***MD2, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-08-29, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 20.0, Desc: E-TRANSFER ***mzX, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-08-29, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 20.0, Desc: E-TRANSFER ***GQh, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-08-29, Acc: Areeb personal CAD chequing 311-6451459 Jul 31-Aug, Amt: 20.0, Desc: E-TRANSFER ***8Ns, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-01-03, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -4798.15, Desc: PYT TO: 19583216106, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing payment']
+  Raw AI Cat Match: Date: 2023-01-03, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 5000.0, Desc: E-TRANSFER ***5Jc, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-01-05, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 100.0, Desc: E-TRANSFER ***vST, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-01-09, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -50.0, Desc: SEND E-TFR ***q9c, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-01-09, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -20.0, Desc: SEND E-TFR ***SWe, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-01-13, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -90.0, Desc: SEND E-TFR ***aFE, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-01-13, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 100.0, Desc: E-TRANSFER ***UP7, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','interac']
+  Raw AI Cat Match: Date: 2023-01-16, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 95.0, Desc: E-TRANSFER ***max, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-01-16, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 60.0, Desc: E-TRANSFER ***c7t, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-01-16, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -575.0, Desc: SEND E-TFR ***TUT, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-01-16, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -20.0, Desc: SEND E-TFR ***9Dv, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-01-16, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -60.0, Desc: SEND E-TFR ***qqF, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-01-16, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 50.0, Desc: E-TRANSFER ***Gxs, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-01-20, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 583.0, Desc: E-TRANSFER ***HQJ, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-01-20, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -90.0, Desc: SEND E-TFR ***pxQ, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-01-20, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 90.0, Desc: E-TRANSFER ***MtB, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','personal']
+  Raw AI Cat Match: Date: 2023-01-24, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -17.0, Desc: SEND E-TFR ***uJD, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-01-24, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 381.9, Desc: E-TRANSFER ***xeZ, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-01-27, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -90.0, Desc: SEND E-TFR ***TP6, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-01-27, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -180.0, Desc: SEND E-TFR ***p2B, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-01-30, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -249.0, Desc: SEND E-TFR ***Pss, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-01-31, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -172.0, Desc: SEND E-TFR ***543, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-01-31, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 172.0, Desc: E-TRANSFER ***Tjj, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-01-31, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 50.0, Desc: E-TRANSFER ***nSD, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','interac','incoming']
+  Raw AI Cat Match: Date: 2023-07-05, Acc: Areeb personal CAD chequing 311-6451459 Jun 30-Jul, Amt: 140.0, Desc: E-TRANSFER ***kPt, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-07-13, Acc: Areeb personal CAD chequing 311-6451459 Jun 30-Jul, Amt: -10.15, Desc: SEND E-TFR ***XMz, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-07-14, Acc: Areeb personal CAD chequing 311-6451459 Jun 30-Jul, Amt: -90.0, Desc: SEND E-TFR ***ruM, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-07-14, Acc: Areeb personal CAD chequing 311-6451459 Jun 30-Jul, Amt: 210.0, Desc: E-TRANSFER ***nUq, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','personal']
+  Raw AI Cat Match: Date: 2023-07-17, Acc: Areeb personal CAD chequing 311-6451459 Jun 30-Jul, Amt: 90.0, Desc: E-TRANSFER ***9B3, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-07-17, Acc: Areeb personal CAD chequing 311-6451459 Jun 30-Jul, Amt: 72.5, Desc: E-TRANSFER ***tth, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-07-20, Acc: Areeb personal CAD chequing 311-6451459 Jun 30-Jul, Amt: 583.0, Desc: E-TRANSFER ***Pp7, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['transfer','e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-07-21, Acc: Areeb personal CAD chequing 311-6451459 Jun 30-Jul, Amt: -90.0, Desc: SEND E-TFR ***bN5, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-07-24, Acc: Areeb personal CAD chequing 311-6451459 Jun 30-Jul, Amt: 75.0, Desc: E-TRANSFER ***hPB, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-07-26, Acc: Areeb personal CAD chequing 311-6451459 Jun 30-Jul, Amt: -2400.0, Desc: SEND E-TFR ***Ntm, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-07-27, Acc: Areeb personal CAD chequing 311-6451459 Jun 30-Jul, Amt: -5867.46, Desc: PYT TO: 19583216106, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing payment']
+  Raw AI Cat Match: Date: 2023-07-28, Acc: Areeb personal CAD chequing 311-6451459 Jun 30-Jul, Amt: -100.0, Desc: SEND E-TFR ***3yY, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['transfer','e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-07-28, Acc: Areeb personal CAD chequing 311-6451459 Jun 30-Jul, Amt: 100.0, Desc: E-TRANSFER ***XVf, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-07-28, Acc: Areeb personal CAD chequing 311-6451459 Jun 30-Jul, Amt: 2660.0, Desc: E-TRANSFER ***Kzu, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-07-31, Acc: Areeb personal CAD chequing 311-6451459 Jun 30-Jul, Amt: -10.0, Desc: SEND E-TFR ***rTR, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-04-03, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: -8.0, Desc: SEND E-TFR ***V3k, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-04-03, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: 102.56, Desc: E-TRANSFER ***F9D, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-04-03, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: -5426.58, Desc: PYT TO: 19583216106, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing payment']
+  Raw AI Cat Match: Date: 2023-04-03, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: -120.0, Desc: SEND E-TFR ***Fsv, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-04-03, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: -24.0, Desc: SEND E-TFR ***M4K, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-04-03, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: 24.0, Desc: E-TRANSFER ***6vY, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-04-06, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: 150.0, Desc: E-TRANSFER ***BPQ, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-04-06, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: -24.0, Desc: SEND E-TFR ***tSX, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-04-10, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: 168.0, Desc: E-TRANSFER ***BSk, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-04-10, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: -876.0, Desc: SEND E-TFR ***jHA, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','sent']
+  Raw AI Cat Match: Date: 2023-04-10, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: -28.0, Desc: SEND E-TFR ***7Qq, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-04-10, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: -90.0, Desc: SEND E-TFR ***MKm, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-04-11, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: -200.0, Desc: SEND E-TFR ***qEH, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-04-11, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: -3200.0, Desc: SEND E-TFR ***RtG, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-04-12, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: 153.75, Desc: E-TRANSFER ***ACq, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-04-13, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: 200.0, Desc: E-TRANSFER ***DdT, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-04-13, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: 150.0, Desc: E-TRANSFER ***KJp, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','deposit']
+  Raw AI Cat Match: Date: 2023-04-14, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: 100.0, Desc: E-TRANSFER ***g9U, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','interac']
+  Raw AI Cat Match: Date: 2023-04-14, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: -90.0, Desc: SEND E-TFR ***wcT, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-04-14, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: -10.0, Desc: SEND E-TFR ***FWz, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer']
+  Raw AI Cat Match: Date: 2023-04-17, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: 90.0, Desc: E-TRANSFER ***QBK, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-04-17, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: -3000.0, Desc: SEND E-TFR ***q5E, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-04-17, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: 70.0, Desc: E-TRANSFER ***Q6U, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','transfer']
+  Raw AI Cat Match: Date: 2023-04-17, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: 100.0, Desc: E-TRANSFER ***Jea, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','interac','incoming','Jea']
+  Raw AI Cat Match: Date: 2023-04-18, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: 100.0, Desc: E-TRANSFER ***48N, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-04-18, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: 100.0, Desc: E-TRANSFER ***NaZ, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-04-19, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: 200.0, Desc: E-TRANSFER ***RyG, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-04-20, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: 583.0, Desc: E-TRANSFER ***tXe, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-04-21, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: 200.0, Desc: E-TRANSFER ***rVC, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-04-21, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: 60.0, Desc: E-TRANSFER ***VMm, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-04-21, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: 100.0, Desc: E-TRANSFER ***hWH, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-04-24, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: -102.0, Desc: SEND E-TFR ***Btq, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-04-24, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: 120.0, Desc: E-TRANSFER ***Vyg, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-04-24, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: 76.27, Desc: E-TRANSFER ***jWg, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-04-24, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: -150.0, Desc: SEND E-TFR ***nB7, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-04-25, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: 133.0, Desc: E-TRANSFER ***ztW, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-04-28, Acc: Areeb personal CAD chequing 311-6451459 Mar 31-Apr, Amt: 250.0, Desc: E-TRANSFER ***4AJ, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-01-03, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -4798.15, Desc: PYT TO: 19583216106, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing payment']
+  Raw AI Cat Match: Date: 2023-01-03, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 5000.0, Desc: E-TRANSFER ***5Jc, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-01-05, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 100.0, Desc: E-TRANSFER ***vST, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-01-09, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -50.0, Desc: SEND E-TFR ***q9c, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-01-09, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -20.0, Desc: SEND E-TFR ***SWe, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-01-13, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -90.0, Desc: SEND E-TFR ***aFE, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-01-13, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 100.0, Desc: E-TRANSFER ***UP7, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','interac']
+  Raw AI Cat Match: Date: 2023-01-16, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 95.0, Desc: E-TRANSFER ***max, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-01-16, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 60.0, Desc: E-TRANSFER ***c7t, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-01-16, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -575.0, Desc: SEND E-TFR ***TUT, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-01-16, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -20.0, Desc: SEND E-TFR ***9Dv, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-01-16, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -60.0, Desc: SEND E-TFR ***qqF, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-01-16, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 50.0, Desc: E-TRANSFER ***Gxs, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-01-20, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 583.0, Desc: E-TRANSFER ***HQJ, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-01-20, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -90.0, Desc: SEND E-TFR ***pxQ, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-01-20, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 90.0, Desc: E-TRANSFER ***MtB, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','personal']
+  Raw AI Cat Match: Date: 2023-01-24, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -17.0, Desc: SEND E-TFR ***uJD, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-01-24, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 381.9, Desc: E-TRANSFER ***xeZ, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-01-27, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -90.0, Desc: SEND E-TFR ***TP6, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-01-27, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -180.0, Desc: SEND E-TFR ***p2B, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-01-30, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -249.0, Desc: SEND E-TFR ***Pss, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-01-31, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -172.0, Desc: SEND E-TFR ***543, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-01-31, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 172.0, Desc: E-TRANSFER ***Tjj, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-01-31, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 50.0, Desc: E-TRANSFER ***nSD, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','interac','incoming']
+  Raw AI Cat Match: Date: 2023-09-01, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -6710.76, Desc: PYT TO: 19583216106, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing payment']
+  Raw AI Cat Match: Date: 2023-09-01, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -20.0, Desc: E-TRANSFER ***Qem, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-09-01, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -100.0, Desc: SEND E-TFR ***uYF, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','transfer out']
+  Raw AI Cat Match: Date: 2023-09-01, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: 103.0, Desc: E-TRANSFER ***YcS, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','deposit']
+  Raw AI Cat Match: Date: 2023-09-01, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -35.0, Desc: E-TRANSFER ***2f5, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-09-05, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -50.0, Desc: E-TRANSFER ***fkB, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer']
+  Raw AI Cat Match: Date: 2023-09-05, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: 200.0, Desc: E-TRANSFER ***6fK, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-09-05, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -25.0, Desc: E-TRANSFER ***Bdf, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-09-05, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: 955.2, Desc: SEND E-TFR ***Jcc, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-09-05, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -30.0, Desc: E-TRANSFER ***eFg, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-09-05, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -40.0, Desc: E-TRANSFER ***UYj, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing transfer','payment']
+  Raw AI Cat Match: Date: 2023-09-05, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -40.0, Desc: E-TRANSFER ***yab, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-09-05, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: 100.0, Desc: E-TRANSFER ***cvD, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-09-05, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -50.0, Desc: E-TRANSFER ***JZN, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-09-05, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -20.0, Desc: E-TRANSFER ***rSC, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-09-05, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: 100.0, Desc: E-TRANSFER ***hDW, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','interac']
+  Raw AI Cat Match: Date: 2023-09-06, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -20.0, Desc: E-TRANSFER ***25C, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['transfer','e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-09-06, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -20.0, Desc: E-TRANSFER ***7Hu, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-09-06, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: 40.0, Desc: E-TRANSFER ***R9K, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-09-07, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: 100.0, Desc: E-TRANSFER ***GPE, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','GPE']
+  Raw AI Cat Match: Date: 2023-09-08, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -50.0, Desc: E-TRANSFER ***Jkk, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-09-08, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -90.0, Desc: SEND E-TFR ***RMv, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-09-08, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -70.0, Desc: E-TRANSFER ***8Hc, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','transfer out']
+  Raw AI Cat Match: Date: 2023-09-08, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -37.0, Desc: SEND E-TFR ***XfX, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-09-08, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -25.0, Desc: E-TRANSFER ***Z9N, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-09-11, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -50.0, Desc: SEND E-TFR ***2hv, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-09-15, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: 60.0, Desc: E-TRANSFER ***wc6, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-09-18, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -90.0, Desc: E-TRANSFER ***br6, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-09-19, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: 150.0, Desc: E-TRANSFER ***jxJ, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-09-20, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: 583.0, Desc: E-TRANSFER ***xYG, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-09-22, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -100.0, Desc: SEND E-TFR ***JaQ, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','JaQ']
+  Raw AI Cat Match: Date: 2023-09-22, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: 118.65, Desc: E-TRANSFER ***MUN, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-09-25, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -40.0, Desc: SEND E-TFR ***t9P, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-09-25, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: 100.0, Desc: E-TRANSFER ***taS, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['E-transfer','incoming transfer']
+  Raw AI Cat Match: Date: 2023-09-25, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -525.94, Desc: SEND E-TFR ***kAF, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-09-29, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -90.0, Desc: SEND E-TFR ***7VX, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-09-29, Acc: Areeb personal CAD chequing 311-6451459 Aug 31-Sep, Amt: -76.67, Desc: E-TRANSFER ***rrC, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','transfer']
+  Raw AI Cat Match: Date: 2023-12-01, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: -90.0, Desc: SEND E-TFR ***kdK, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal transfer']
+  Raw AI Cat Match: Date: 2023-12-01, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: -70.0, Desc: SEND E-TFR ***nEE, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-04, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: -25.0, Desc: E-TRANSFER ***Sz9, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-12-08, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: -100.0, Desc: SEND E-TFR ***adG, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-12-13, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: 583.0, Desc: E-TRANSFER ***E2V, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-12-13, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: -90.4, Desc: E-TRANSFER ***VCR, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-14, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: -90.0, Desc: SEND E-TFR ***VWg, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-15, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: -60.0, Desc: E-TRANSFER ***pNK, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-15, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: -20.0, Desc: E-TRANSFER ***gtx, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-18, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: -20.0, Desc: E-TRANSFER ***TEu, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-18, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: -30.0, Desc: E-TRANSFER ***RTe, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-12-18, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: -90.0, Desc: E-TRANSFER ***zan, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-12-18, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: -50.0, Desc: E-TRANSFER ***YKk, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-12-18, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: -30.0, Desc: E-TRANSFER ***33B, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-18, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: -20.0, Desc: E-TRANSFER ***EMx, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-18, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: -600.0, Desc: SEND E-TFR ***V7h, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-12-18, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: -30.0, Desc: SEND E-TFR ***bTY, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-18, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: -20.0, Desc: E-TRANSFER ***nQr, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-19, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: -400.0, Desc: E-TRANSFER ***JMD, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','JMD']
+  Raw AI Cat Match: Date: 2023-12-19, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: -6696.89, Desc: PYT TO: 19583216106, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing payment']
+  Raw AI Cat Match: Date: 2023-12-20, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: -40.0, Desc: E-TRANSFER ***pAC, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-27, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: -20.0, Desc: E-TRANSFER ***EyY, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-29, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: -110.0, Desc: SEND E-TFR ***CmQ, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-29, Acc: Areeb personal CAD chequing 311-6451459 Nov 30-Dec, Amt: -35.0, Desc: SEND E-TFR ***kRw, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','payment']
+  Raw AI Cat Match: Date: 2023-11-01, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -25.0, Desc: E-TRANSFER ***TmZ, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-01, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -420.0, Desc: E-TRANSFER ***Fk2, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-03, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -90.0, Desc: SEND E-TFR ***TnH, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-11-10, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -105.0, Desc: E-TRANSFER ***aDQ, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-10, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -100.0, Desc: SEND E-TFR ***S3m, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-11-14, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -90.0, Desc: E-TRANSFER ***4kM, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-14, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -120.0, Desc: E-TRANSFER ***URE, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','transfer out']
+  Raw AI Cat Match: Date: 2023-11-16, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -40.0, Desc: E-TRANSFER ***pyN, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','sent']
+  Raw AI Cat Match: Date: 2023-11-16, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -60.0, Desc: E-TRANSFER ***5rc, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer']
+  Raw AI Cat Match: Date: 2023-11-16, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -20.0, Desc: E-TRANSFER ***TDD, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-16, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -30.0, Desc: E-TRANSFER ***cjY, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-11-16, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: 400.0, Desc: SEND E-TFR ***x8C, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-11-16, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -20.0, Desc: E-TRANSFER ***pPC, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-16, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -20.0, Desc: E-TRANSFER ***Gq8, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-11-16, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -20.0, Desc: E-TRANSFER ***Euh, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-17, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -20.0, Desc: E-TRANSFER ***UyZ, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-17, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -50.0, Desc: E-TRANSFER ***2SZ, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['transfer','outgoing','e-transfer']
+  Raw AI Cat Match: Date: 2023-11-17, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -90.0, Desc: SEND E-TFR ***SqU, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-17, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -40.0, Desc: E-TRANSFER ***98X, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-11-17, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -600.0, Desc: SEND E-TFR ***Q4H, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-20, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -583.0, Desc: E-TRANSFER ***uq7, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-11-20, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -140.0, Desc: E-TRANSFER ***wvk, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-21, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -30.0, Desc: E-TRANSFER ***jPD, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-23, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -7600.0, Desc: SEND E-TFR ***sdP, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-24, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -100.0, Desc: SEND E-TFR ***Akr, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-27, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -20.0, Desc: E-TRANSFER ***BxP, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-11-30, Acc: Areeb personal CAD chequing 311-6451459 Oct 31-Nov, Amt: -6822.08, Desc: PYT TO: 19583216106, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing payment']
+  Raw AI Cat Match: Date: 2023-06-01, Acc: Areeb personal CAD chequing 311-6451459 May 31-Jun, Amt: -5717.76, Desc: PYT TO: 19583216106, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing payment']
+  Raw AI Cat Match: Date: 2023-06-02, Acc: Areeb personal CAD chequing 311-6451459 May 31-Jun, Amt: -150.0, Desc: E-TRANSFER ***FRT, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-06-02, Acc: Areeb personal CAD chequing 311-6451459 May 31-Jun, Amt: -90.0, Desc: SEND E-TFR ***7jY, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['E-transfer']
+  Raw AI Cat Match: Date: 2023-06-05, Acc: Areeb personal CAD chequing 311-6451459 May 31-Jun, Amt: 25.0, Desc: E-TRANSFER ***Jj5, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-06-05, Acc: Areeb personal CAD chequing 311-6451459 May 31-Jun, Amt: -25.0, Desc: E-TRANSFER ***FMw, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-06-06, Acc: Areeb personal CAD chequing 311-6451459 May 31-Jun, Amt: -250.0, Desc: SEND E-TFR ***U3U, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-06-07, Acc: Areeb personal CAD chequing 311-6451459 May 31-Jun, Amt: 25.0, Desc: E-TRANSFER ***gjy, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-06-07, Acc: Areeb personal CAD chequing 311-6451459 May 31-Jun, Amt: -25.0, Desc: SEND E-TFR ***6vN, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing transfer','personal']
+  Raw AI Cat Match: Date: 2023-06-09, Acc: Areeb personal CAD chequing 311-6451459 May 31-Jun, Amt: -100.0, Desc: SEND E-TFR ***hwX, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-06-12, Acc: Areeb personal CAD chequing 311-6451459 May 31-Jun, Amt: -15.0, Desc: SEND E-TFR ***vak, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['transfer','e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-06-14, Acc: Areeb personal CAD chequing 311-6451459 May 31-Jun, Amt: 2140.0, Desc: E-TRANSFER ***Z8w, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','deposit']
+  Raw AI Cat Match: Date: 2023-06-15, Acc: Areeb personal CAD chequing 311-6451459 May 31-Jun, Amt: -14.67, Desc: SEND E-TFR ***Zd5, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-06-15, Acc: Areeb personal CAD chequing 311-6451459 May 31-Jun, Amt: -185.5, Desc: SEND E-TFR ***mR4, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing transfer','personal transfer']
+  Raw AI Cat Match: Date: 2023-06-16, Acc: Areeb personal CAD chequing 311-6451459 May 31-Jun, Amt: 2000.0, Desc: E-TRANSFER ***czZ, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-06-16, Acc: Areeb personal CAD chequing 311-6451459 May 31-Jun, Amt: -90.0, Desc: SEND E-TFR ***B3x, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer']
+  Raw AI Cat Match: Date: 2023-06-19, Acc: Areeb personal CAD chequing 311-6451459 May 31-Jun, Amt: 2674.5, Desc: E-TRANSFER ***fPp, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','deposit']
+  Raw AI Cat Match: Date: 2023-06-20, Acc: Areeb personal CAD chequing 311-6451459 May 31-Jun, Amt: -385.0, Desc: SEND E-TFR ***8Ph, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-06-26, Acc: Areeb personal CAD chequing 311-6451459 May 31-Jun, Amt: 604.58, Desc: E-TRANSFER ***dCF, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-06-27, Acc: Areeb personal CAD chequing 311-6451459 May 31-Jun, Amt: 230.0, Desc: E-TRANSFER ***fZf, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','personal']
+  Raw AI Cat Match: Date: 2023-06-28, Acc: Areeb personal CAD chequing 311-6451459 May 31-Jun, Amt: -150.0, Desc: SEND E-TFR ***5mt, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','transfer out']
+  Raw AI Cat Match: Date: 2023-06-30, Acc: Areeb personal CAD chequing 311-6451459 May 31-Jun, Amt: -100.0, Desc: SEND E-TFR ***HMB, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-10-03, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: -6638.93, Desc: PYT TO: 19583216106, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing payment']
+  Raw AI Cat Match: Date: 2023-10-03, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: -50.0, Desc: E-TRANSFER ***KFy, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-10-03, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: -25.0, Desc: E-TRANSFER ***D8W, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-10-03, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: -100.0, Desc: E-TRANSFER ***AMN, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-10-03, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: -50.0, Desc: E-TRANSFER ***rsj, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-10-03, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: -100.0, Desc: E-TRANSFER ***9JW, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','transfer out']
+  Raw AI Cat Match: Date: 2023-10-04, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: -250.0, Desc: E-TRANSFER ***XDK, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-10-04, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: 100.0, Desc: SEND E-TFR ***Szd, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-10-06, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: -100.0, Desc: SEND E-TFR ***G7z, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal transfer']
+  Raw AI Cat Match: Date: 2023-10-06, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: -1976.37, Desc: SEND E-TFR ***BKS, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-10-06, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: 130.0, Desc: E-TRANSFER ***HtP, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-10-06, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: 70.0, Desc: E-TRANSFER ***ykC, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-10-10, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: 1022.8, Desc: E-TRANSFER ***7Rv, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-10-12, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: 750.0, Desc: E-TRANSFER ***PBg, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-10-16, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: -1405.0, Desc: SEND E-TFR ***AuT, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing transfer']
+  Raw AI Cat Match: Date: 2023-10-16, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: -132.0, Desc: SEND E-TFR ***MgR, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-10-17, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: -30.0, Desc: E-TRANSFER ***Su3, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing transfer']
+  Raw AI Cat Match: Date: 2023-10-17, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: -90.0, Desc: E-TRANSFER ***WMW, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-10-18, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: -339.0, Desc: SEND E-TFR ***rsB, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-10-19, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: -400.0, Desc: SEND E-TFR ***jKu, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-10-19, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: -18.36, Desc: SEND E-TFR ***faG, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing transfer']
+  Raw AI Cat Match: Date: 2023-10-20, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: 583.0, Desc: E-TRANSFER ***yK4, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','received']
+  Raw AI Cat Match: Date: 2023-10-20, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: -100.0, Desc: SEND E-TFR ***HaW, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-10-20, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: 20.0, Desc: E-TRANSFER ***a7y, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-10-23, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: 20.0, Desc: E-TRANSFER ***Pgb, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-10-23, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: 20.0, Desc: E-TRANSFER ***bfG, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming transfer']
+  Raw AI Cat Match: Date: 2023-10-23, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: -200.0, Desc: SEND E-TFR ***uPA, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-10-23, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: 40.0, Desc: E-TRANSFER ***hdj, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-10-23, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: 60.0, Desc: E-TRANSFER ***JA4, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming transfer']
+  Raw AI Cat Match: Date: 2023-10-23, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: 40.0, Desc: E-TRANSFER ***pHz, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-10-23, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: 100.0, Desc: E-TRANSFER ***V9q, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','funds transfer']
+  Raw AI Cat Match: Date: 2023-10-23, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: 60.0, Desc: E-TRANSFER ***ftB, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-10-24, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: -120.0, Desc: SEND E-TFR ***9jH, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-10-24, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: 25.0, Desc: E-TRANSFER ***qDS, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-10-25, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: 20.0, Desc: E-TRANSFER ***vJ4, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['transfer','e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-10-25, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: -350.0, Desc: SEND E-TFR ***MBg, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-10-26, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: 40.0, Desc: E-TRANSFER ***RFK, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-10-27, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: -90.0, Desc: SEND E-TFR ***284, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-10-30, Acc: Areeb personal CAD chequing 311-6451459 Sep 29-Oct, Amt: -21.0, Desc: SEND E-TFR ***CVE, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-02-27, Acc: Kalaam Donations 2065-6161389 Feb 21-Feb, Amt: 1000.0, Desc: E-TRANSFER ***f46, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','donation','Kalaam Foundation']
+  Raw AI Cat Match: Date: 2023-02-27, Acc: Kalaam Donations 2065-6161389 Feb 21-Feb, Amt: 500.0, Desc: E-TRANSFER ***3y3, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','donation']
+  Raw AI Cat Match: Date: 2023-02-27, Acc: Kalaam Donations 2065-6161389 Feb 21-Feb, Amt: 100.0, Desc: E-TRANSFER ***uTa, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','donation','Kalaam Foundation']
+  Raw AI Cat Match: Date: 2023-02-27, Acc: Kalaam Donations 2065-6161389 Feb 21-Feb, Amt: 250.0, Desc: E-TRANSFER ***bXu, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','donation','Kalaam Foundation']
+  Raw AI Cat Match: Date: 2023-02-27, Acc: Kalaam Donations 2065-6161389 Feb 21-Feb, Amt: 200.0, Desc: E-TRANSFER ***g68, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','donation']
+  Raw AI Cat Match: Date: 2023-02-27, Acc: Kalaam Donations 2065-6161389 Feb 21-Feb, Amt: 200.0, Desc: E-TRANSFER ***fSB, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['donation','e-transfer','Kalaam Foundation']
+  Raw AI Cat Match: Date: 2023-02-27, Acc: Kalaam Donations 2065-6161389 Feb 21-Feb, Amt: 2000.0, Desc: E-TRANSFER ***ys5, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','donation','income']
+  Raw AI Cat Match: Date: 2023-02-27, Acc: Kalaam Donations 2065-6161389 Feb 21-Feb, Amt: 300.0, Desc: E-TRANSFER ***TKw, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','donation']
+  Raw AI Cat Match: Date: 2023-02-27, Acc: Kalaam Donations 2065-6161389 Feb 21-Feb, Amt: 1000.0, Desc: E-TRANSFER ***7Ax, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['donation','e-transfer','kalaam foundation']
+  Raw AI Cat Match: Date: 2023-02-28, Acc: Kalaam Donations 2065-6161389 Feb 21-Feb, Amt: 1000.0, Desc: E-TRANSFER ***Jny, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','donation']
+  Raw AI Cat Match: Date: 2023-08-28, Acc: Kalaam Donations 2065-6161389 Jul 31-Aug 31 2023, Amt: 500.0, Desc: E-TRANSFER ***5pX, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','donation','Kalaam']
+  Raw AI Cat Match: Date: 2023-04-26, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: 90.0, Desc: SEND E-TFR ***mkz, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-02-06, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: -300.0, Desc: SEND E-TFR ***KWf, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-02-06, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: -326.33, Desc: SEND E-TFR ***KBw, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-03-02, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: -500.0, Desc: SEND E-TFR ***6p6, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-03-02, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: 150.0, Desc: E-TRANSFER ***fTH, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','deposit']
+  Raw AI Cat Match: Date: 2023-03-03, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: 95.0, Desc: E-TRANSFER ***f2Y, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-03-06, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: -125.0, Desc: SEND E-TFR ***uxR, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-03-06, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: -30.0, Desc: SEND E-TFR ***ZWv, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing transfer']
+  Raw AI Cat Match: Date: 2023-03-06, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: -540.04, Desc: SEND E-TFR ***Gfw, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-03-07, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: 146.8, Desc: E-TRANSFER ***hyr, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','deposit']
+  Raw AI Cat Match: Date: 2023-03-10, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: -95.0, Desc: SEND E-TFR ***DyR, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-03-13, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: -4806.56, Desc: PYT TO: 19583216106, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing payment']
+  Raw AI Cat Match: Date: 2023-03-13, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: -320.0, Desc: SEND E-TFR ***Rz2, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-03-13, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: -100.0, Desc: SEND E-TFR ***cvH, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-03-13, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: -15.0, Desc: SEND E-TFR ***3mU, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-03-14, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: -40.0, Desc: SEND E-TFR ***HTz, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-03-17, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: -90.0, Desc: SEND E-TFR ***Psk, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-03-20, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: -50.0, Desc: SEND E-TFR ***Spw, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','Spw']
+  Raw AI Cat Match: Date: 2023-03-20, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: 583.0, Desc: E-TRANSFER ***m8d, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-03-20, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: -15.0, Desc: SEND E-TFR ***SGB, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-03-21, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: 5000.0, Desc: E-TRANSFER ***c3h, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-03-22, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: -1000.0, Desc: SEND E-TFR ***HJY, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer']
+  Raw AI Cat Match: Date: 2023-03-24, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: -100.0, Desc: SEND E-TFR ***25d, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','sent']
+  Raw AI Cat Match: Date: 2023-03-27, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: 18.1, Desc: E-TRANSFER ***fCQ, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-03-27, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: 41.0, Desc: E-TRANSFER ***kKj, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-03-27, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: 15.0, Desc: E-TRANSFER ***6zz, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-03-27, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: 15.0, Desc: E-TRANSFER ***zyK, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-03-27, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: 227.0, Desc: E-TRANSFER ***yXQ, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-03-27, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: 25.0, Desc: E-TRANSFER ***rK6, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-03-27, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: 20.0, Desc: E-TRANSFER ***UGx, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-03-27, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: 20.0, Desc: E-TRANSFER ***SQP, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-03-27, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: 20.0, Desc: E-TRANSFER ***xpz, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-03-27, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: 20.0, Desc: E-TRANSFER ***3N3, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','interac','incoming']
+  Raw AI Cat Match: Date: 2023-03-27, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: 20.0, Desc: E-TRANSFER ***bSj, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-03-28, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: 20.0, Desc: E-TRANSFER ***Y3S, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer','deposit']
+  Raw AI Cat Match: Date: 2023-03-29, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: 20.0, Desc: E-TRANSFER ***KkY, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-03-29, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: 215.0, Desc: E-TRANSFER ***vrm, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['transfer','e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-03-30, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: 24.0, Desc: E-TRANSFER ***yKb, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-03-31, Acc: Areeb personal CAD chequing 311-6451459 Feb 28-Mar, Amt: -90.0, Desc: SEND E-TFR ***CNx, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing transfer']
+  Raw AI Cat Match: Date: 2023-01-13, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: 1467.78, Desc: SEND E-TFR ***2FA, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-01-18, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: 2500.0, Desc: SEND E-TFR ***VQn, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-01-31, Acc: LINE OF CREDIT - HOME EQUITY 1958-3216106, Amt: 1495.85, Desc: SEND E-TFR ***K6D, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing transfer']
+  Raw AI Cat Match: Date: 2023-11-09, Acc: Kalaam Donations 2065-6161389 Oct 31-Nov, Amt: 2000.0, Desc: SEND E-TFR ***rUu, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-29, Acc: Areeb personal CAD chequing (1459), Amt: -110.0, Desc: SEND E-TFR ***CmQ, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-29, Acc: Areeb personal CAD chequing (1459), Amt: -35.0, Desc: SEND E-TFR ***kRw, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','payment']
+  Raw AI Cat Match: Date: 2023-12-27, Acc: Areeb personal CAD chequing (1459), Amt: 20.0, Desc: E-TRANSFER ***EyY, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-20, Acc: Areeb personal CAD chequing (1459), Amt: 40.0, Desc: E-TRANSFER ***pAC, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-20, Acc: Shared Family CAD (0022), Amt: -36.0, Desc: SEND E-TFR ***zdn, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-19, Acc: Areeb personal CAD chequing (1459), Amt: 400.0, Desc: E-TRANSFER ***JMD, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','JMD']
+  Raw AI Cat Match: Date: 2023-12-19, Acc: Areeb personal CAD chequing (1459), Amt: -6696.89, Desc: PYT TO: 19583216106, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing payment']
+  Raw AI Cat Match: Date: 2023-12-18, Acc: Areeb personal CAD chequing (1459), Amt: 20.0, Desc: E-TRANSFER ***nQr, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-18, Acc: Areeb personal CAD chequing (1459), Amt: 20.0, Desc: E-TRANSFER ***TEu, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-18, Acc: Areeb personal CAD chequing (1459), Amt: 30.0, Desc: E-TRANSFER ***RTe, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-12-18, Acc: Areeb personal CAD chequing (1459), Amt: 90.0, Desc: E-TRANSFER ***zan, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-12-18, Acc: Areeb personal CAD chequing (1459), Amt: 30.0, Desc: E-TRANSFER ***33B, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-18, Acc: Areeb personal CAD chequing (1459), Amt: 50.0, Desc: E-TRANSFER ***YKk, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-12-18, Acc: Areeb personal CAD chequing (1459), Amt: -30.0, Desc: SEND E-TFR ***bTY, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-18, Acc: Areeb personal CAD chequing (1459), Amt: 20.0, Desc: E-TRANSFER ***EMx, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-18, Acc: Areeb personal CAD chequing (1459), Amt: -600.0, Desc: SEND E-TFR ***V7h, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-12-15, Acc: Areeb personal CAD chequing (1459), Amt: 60.0, Desc: E-TRANSFER ***pNK, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-15, Acc: Areeb personal CAD chequing (1459), Amt: 20.0, Desc: E-TRANSFER ***gtx, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-14, Acc: Areeb personal CAD chequing (1459), Amt: -90.0, Desc: SEND E-TFR ***VWg, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-13, Acc: Areeb personal CAD chequing (1459), Amt: 583.0, Desc: E-TRANSFER ***E2V, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-12-13, Acc: Areeb personal CAD chequing (1459), Amt: 90.4, Desc: E-TRANSFER ***VCR, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-13, Acc: Shared Family CAD (0022), Amt: -460.0, Desc: SEND E-TFR ***srx, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer']
+  Raw AI Cat Match: Date: 2023-12-13, Acc: Shared Family CAD (0022), Amt: -35.0, Desc: SEND E-TFR ***5ft, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['transfer','e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-13, Acc: Shared Family CAD (0022), Amt: -250.0, Desc: SEND E-TFR ***HYc, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','transfer out']
+  Raw AI Cat Match: Date: 2023-12-12, Acc: Shared Family CAD (0022), Amt: -1354.0, Desc: SEND E-TFR ***j3H, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing transfer']
+  Raw AI Cat Match: Date: 2023-12-08, Acc: Areeb personal CAD chequing (1459), Amt: -100.0, Desc: SEND E-TFR ***adG, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-12-07, Acc: Metropolis CAD Areeb Account (3361), Amt: -3782.68, Desc: SEND E-TFR ***twW, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['transfer','e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-04, Acc: Areeb personal CAD chequing (1459), Amt: 25.0, Desc: E-TRANSFER ***Sz9, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-12-04, Acc: Shared Family CAD (0022), Amt: -50.0, Desc: SEND E-TFR ***HwE, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-12-04, Acc: Shared Family CAD (0022), Amt: -840.0, Desc: SEND E-TFR ***F6t, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','transfer out']
+  Raw AI Cat Match: Date: 2023-12-01, Acc: Areeb personal CAD chequing (1459), Amt: -90.0, Desc: SEND E-TFR ***kdK, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal transfer']
+  Raw AI Cat Match: Date: 2023-12-01, Acc: Areeb personal CAD chequing (1459), Amt: -70.0, Desc: SEND E-TFR ***nEE, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-30, Acc: Areeb personal CAD chequing (1459), Amt: -6822.08, Desc: PYT TO: 19583216106, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing payment']
+  Raw AI Cat Match: Date: 2023-11-30, Acc: Shared Family CAD (0022), Amt: -7.0, Desc: SEND E-TFR ***avA, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-29, Acc: Shared Family CAD (0022), Amt: -180.0, Desc: SEND E-TFR ***34y, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-29, Acc: Shared Family CAD (0022), Amt: -90.0, Desc: SEND E-TFR ***yEC, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-29, Acc: Shared Family CAD (0022), Amt: -15.0, Desc: SEND E-TFR ***qjn, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer']
+  Raw AI Cat Match: Date: 2023-11-27, Acc: Areeb personal CAD chequing (1459), Amt: 20.0, Desc: E-TRANSFER ***BxP, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-11-24, Acc: Areeb personal CAD chequing (1459), Amt: -100.0, Desc: SEND E-TFR ***Akr, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-23, Acc: Areeb personal CAD chequing (1459), Amt: -7600.0, Desc: SEND E-TFR ***sdP, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-21, Acc: Areeb personal CAD chequing (1459), Amt: 30.0, Desc: E-TRANSFER ***jPD, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-20, Acc: Areeb personal CAD chequing (1459), Amt: 583.0, Desc: E-TRANSFER ***uq7, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-11-20, Acc: Areeb personal CAD chequing (1459), Amt: 140.0, Desc: E-TRANSFER ***wvk, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-17, Acc: Areeb personal CAD chequing (1459), Amt: 40.0, Desc: E-TRANSFER ***98X, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-11-17, Acc: Areeb personal CAD chequing (1459), Amt: -90.0, Desc: SEND E-TFR ***SqU, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-17, Acc: Areeb personal CAD chequing (1459), Amt: -600.0, Desc: SEND E-TFR ***Q4H, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-17, Acc: Areeb personal CAD chequing (1459), Amt: 20.0, Desc: E-TRANSFER ***UyZ, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-17, Acc: Areeb personal CAD chequing (1459), Amt: 50.0, Desc: E-TRANSFER ***2SZ, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['transfer','outgoing','e-transfer']
+  Raw AI Cat Match: Date: 2023-11-16, Acc: Areeb personal CAD chequing (1459), Amt: 60.0, Desc: E-TRANSFER ***5rc, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer']
+  Raw AI Cat Match: Date: 2023-11-16, Acc: Areeb personal CAD chequing (1459), Amt: 20.0, Desc: E-TRANSFER ***Gq8, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-11-16, Acc: Areeb personal CAD chequing (1459), Amt: 30.0, Desc: E-TRANSFER ***cjY, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-11-16, Acc: Areeb personal CAD chequing (1459), Amt: 20.0, Desc: E-TRANSFER ***TDD, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-16, Acc: Areeb personal CAD chequing (1459), Amt: -400.0, Desc: SEND E-TFR ***x8C, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-11-16, Acc: Areeb personal CAD chequing (1459), Amt: 40.0, Desc: E-TRANSFER ***pyN, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','sent']
+  Raw AI Cat Match: Date: 2023-11-16, Acc: Areeb personal CAD chequing (1459), Amt: 20.0, Desc: E-TRANSFER ***Euh, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-16, Acc: Areeb personal CAD chequing (1459), Amt: 20.0, Desc: E-TRANSFER ***pPC, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-14, Acc: Areeb personal CAD chequing (1459), Amt: 120.0, Desc: E-TRANSFER ***URE, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','transfer out']
+  Raw AI Cat Match: Date: 2023-11-14, Acc: Areeb personal CAD chequing (1459), Amt: 90.0, Desc: E-TRANSFER ***4kM, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-14, Acc: Shared Family CAD (0022), Amt: -56.71, Desc: SEND E-TFR ***EBY, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-14, Acc: Shared Family CAD (0022), Amt: -35.0, Desc: SEND E-TFR ***8MA, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-10, Acc: Areeb personal CAD chequing (1459), Amt: 105.0, Desc: E-TRANSFER ***aDQ, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-10, Acc: Areeb personal CAD chequing (1459), Amt: -100.0, Desc: SEND E-TFR ***S3m, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-11-09, Acc: Kalaam Donations (1389), Amt: -2000.0, Desc: SEND E-TFR ***rUu, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-09, Acc: Shared Family CAD (0022), Amt: -20.0, Desc: SEND E-TFR ***yMP, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-07, Acc: Shared Family CAD (0022), Amt: -63.96, Desc: SEND E-TFR ***avn, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-03, Acc: Areeb personal CAD chequing (1459), Amt: -90.0, Desc: SEND E-TFR ***TnH, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-11-01, Acc: Areeb personal CAD chequing (1459), Amt: 25.0, Desc: E-TRANSFER ***TmZ, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-11-01, Acc: Areeb personal CAD chequing (1459), Amt: 420.0, Desc: E-TRANSFER ***Fk2, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-10-31, Acc: Shared Family CAD (0022), Amt: -180.0, Desc: SEND E-TFR ***ayK, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing transfer']
+  Raw AI Cat Match: Date: 2023-10-31, Acc: Shared Family CAD (0022), Amt: -80.0, Desc: SEND E-TFR ***zPV, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-10-31, Acc: Shared Family CAD (0022), Amt: -80.0, Desc: SEND E-TFR ***Rf2, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer']
+  Raw AI Cat Match: Date: 2023-10-31, Acc: Shared Family CAD (0022), Amt: -315.0, Desc: SEND E-TFR ***kd9, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-10-30, Acc: Areeb personal CAD chequing (1459), Amt: -21.0, Desc: SEND E-TFR ***CVE, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','personal']
+  Raw AI Cat Match: Date: 2023-10-27, Acc: Areeb personal CAD chequing (1459), Amt: -90.0, Desc: SEND E-TFR ***284, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-10-26, Acc: Areeb personal CAD chequing (1459), Amt: 40.0, Desc: E-TRANSFER ***RFK, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-10-25, Acc: Areeb personal CAD chequing (1459), Amt: -350.0, Desc: SEND E-TFR ***MBg, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-10-25, Acc: Areeb personal CAD chequing (1459), Amt: 20.0, Desc: E-TRANSFER ***vJ4, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['transfer','e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-10-25, Acc: Shared Family CAD (0022), Amt: -15.0, Desc: SEND E-TFR ***D9n, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing','transfer']
+  Raw AI Cat Match: Date: 2023-10-24, Acc: Areeb personal CAD chequing (1459), Amt: 25.0, Desc: E-TRANSFER ***qDS, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','transfer']
+  Raw AI Cat Match: Date: 2023-10-24, Acc: Areeb personal CAD chequing (1459), Amt: -120.0, Desc: SEND E-TFR ***9jH, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-10-23, Acc: Areeb personal CAD chequing (1459), Amt: 60.0, Desc: E-TRANSFER ***JA4, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming transfer']
+  Raw AI Cat Match: Date: 2023-10-23, Acc: Areeb personal CAD chequing (1459), Amt: 100.0, Desc: E-TRANSFER ***V9q, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','funds transfer']
+  Raw AI Cat Match: Date: 2023-10-23, Acc: Areeb personal CAD chequing (1459), Amt: -200.0, Desc: SEND E-TFR ***uPA, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-10-23, Acc: Areeb personal CAD chequing (1459), Amt: 60.0, Desc: E-TRANSFER ***ftB, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-10-23, Acc: Areeb personal CAD chequing (1459), Amt: 20.0, Desc: E-TRANSFER ***bfG, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming transfer']
+  Raw AI Cat Match: Date: 2023-10-23, Acc: Areeb personal CAD chequing (1459), Amt: 40.0, Desc: E-TRANSFER ***pHz, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-10-23, Acc: Areeb personal CAD chequing (1459), Amt: 20.0, Desc: E-TRANSFER ***Pgb, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-10-23, Acc: Areeb personal CAD chequing (1459), Amt: 40.0, Desc: E-TRANSFER ***hdj, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-10-20, Acc: Areeb personal CAD chequing (1459), Amt: 20.0, Desc: E-TRANSFER ***a7y, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming']
+  Raw AI Cat Match: Date: 2023-10-20, Acc: Areeb personal CAD chequing (1459), Amt: -100.0, Desc: SEND E-TFR ***HaW, AI Cat: Transfer (E-transfer Outgoing), AI Tags: ['e-transfer','outgoing']
+  Raw AI Cat Match: Date: 2023-10-20, Acc: Areeb personal CAD chequing (1459), Amt: 583.0, Desc: E-TRANSFER ***yK4, AI Cat: Transfer (E-transfer Incoming), AI Tags: ['e-transfer','incoming','received']
+
+--- Items for Review/Information (from initial mapping) ---
+
+Category: Not Directly Mapped (First 5 transactions)
+  - Desc: E-TRANSFER ***5Jc, Amount: 5000.0, AI Cat: Transfer (E-transfer Incoming)
+  - Desc: E-TRANSFER ***vST, Amount: 100.0, AI Cat: Transfer (E-transfer Incoming)
+  - Desc: OLYMPIA TRUST C FEE, Amount: -169.5, AI Cat: Bank Fees
+  - Desc: SEND E-TFR ***q9c, Amount: -50.0, AI Cat: Transfer (E-transfer Outgoing)
+  - Desc: SEND E-TFR ***SWe, Amount: -20.0, AI Cat: Transfer (E-transfer Outgoing)
+
+Category: Review: Uncategorized (mobile deposit...) (First 5 transactions)
+  - Desc: MOBILE DEPOSIT, Amount: 244.0, AI Cat: Uncategorized/Review Needed
+  - Desc: MOBILE DEPOSIT, Amount: 248.0, AI Cat: Uncategorized/Review Needed
+  - Desc: MOBILE DEPOSIT, Amount: 115.0, AI Cat: Uncategorized/Review Needed
+  - Desc: MOBILE DEPOSIT, Amount: 115.0, AI Cat: Uncategorized/Review Needed
+  - Desc: MOBILE DEPOSIT, Amount: 248.0, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (discoveru milton...) (First 5 transactions)
+  - Desc: DISCOVERU MILTON, Amount: -434.0, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amazon.ca*hg0wm3r72 amazon.ca...) (First 5 transactions)
+  - Desc: Amazon.ca*HG0WM3R72 AMAZON.CA, Amount: -20.31, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (ls chaddors milton...) (First 5 transactions)
+  - Desc: LS CHADDORS MILTON, Amount: -150.24, AI Cat: Uncategorized/Review Needed
+  - Desc: LS CHADDORS MILTON, Amount: -194.29, AI Cat: Uncategorized/Review Needed
+  - Desc: LS CHADDORS MILTON, Amount: -135.57, AI Cat: Uncategorized/Review Needed
+  - Desc: LS CHADDORS MILTON, Amount: -145.71, AI Cat: Uncategorized/Review Needed
+  - Desc: LS CHADDORS MILTON, Amount: 194.82, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amazon.ca*h70ew24t1 amazon.ca...) (First 5 transactions)
+  - Desc: Amazon.ca*H70EW24T1 AMAZON.CA, Amount: -16.78, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amzn mktp ca*hy1l46fk2 www.ama...) (First 5 transactions)
+  - Desc: AMZN Mktp CA*HY1L46FK2 WWW.AMAZON.C, Amount: -25.97, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (yaqeen* one time mississauga...) (First 5 transactions)
+  - Desc: YAQEEN* ONE TIME MISSISSAUGA, Amount: -102.56, AI Cat: Uncategorized/Review Needed
+  - Desc: YAQEEN* ONE TIME MISSISSAUGA, Amount: 300.0, AI Cat: Uncategorized/Review Needed
+  - Desc: YAQEEN* ONE TIME MISSISSAUGA, Amount: 1022.8, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (casa variedades cerro pla punt...) (First 5 transactions)
+  - Desc: CASA VARIEDADES CERRO PLA PUNTARENAS, Amount: -6.89, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amzn mktp ca*jq1w91s73 www.ama...) (First 5 transactions)
+  - Desc: AMZN Mktp CA*JQ1W91S73 WWW.AMAZON.C, Amount: -135.58, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (paypal *torontomusl to 4029357...) (First 5 transactions)
+  - Desc: PAYPAL *TORONTOMUSL TO 4029357733, Amount: -123.0, AI Cat: Uncategorized/Review Needed
+  - Desc: PAYPAL *TORONTOMUSL TO 4029357733, Amount: 60.0, AI Cat: Uncategorized/Review Needed
+  - Desc: PAYPAL *TORONTOMUSL TO 4029357733, Amount: 10.0, AI Cat: Uncategorized/Review Needed
+  - Desc: PAYPAL *TORONTOMUSL TO 4029357733, Amount: 42.0, AI Cat: Uncategorized/Review Needed
+  - Desc: PAYPAL *TORONTOMUSL TO 4029357733, Amount: 31.0, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amzn mktp ca*w329z03o3 www.ama...) (First 5 transactions)
+  - Desc: AMZN Mktp CA*W329Z03O3 WWW.AMAZON.C, Amount: -56.44, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amzn mktp ca*4b8ea1o93 www.ama...) (First 5 transactions)
+  - Desc: AMZN Mktp CA*4B8EA1O93 WWW.AMAZON.C, Amount: -65.52, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (zara.com fredericton...) (First 5 transactions)
+  - Desc: Zara.com Fredericton, Amount: -70.91, AI Cat: Uncategorized/Review Needed
+  - Desc: Zara.com Fredericton, Amount: 67.58, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amazon.ca*6j30u4wl3 amazon.ca...) (First 5 transactions)
+  - Desc: Amazon.ca*6J30U4WL3 AMAZON.CA, Amount: -12.42, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amzn mktp ca*f00a05yn3 www.ama...) (First 5 transactions)
+  - Desc: AMZN Mktp CA*F00A05YN3 WWW.AMAZON.C, Amount: -39.76, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (sp zelvoria httpszelvori...) (First 5 transactions)
+  - Desc: SP ZELVORIA HTTPSZELVORI, Amount: -21.0, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amzn mktp ca*157hx6oi3 www.ama...) (First 5 transactions)
+  - Desc: AMZN Mktp CA*157HX6OI3 WWW.AMAZON.C, Amount: -459.9, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amzn mktp ca*988294vr3 www.ama...) (First 5 transactions)
+  - Desc: AMZN Mktp CA*988294VR3 WWW.AMAZON.C, Amount: -57.85, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amazon.ca*bu7dk9ri3 amazon.ca...) (First 5 transactions)
+  - Desc: Amazon.ca*BU7DK9RI3 AMAZON.CA, Amount: -27.08, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amzn mktp ca*he1x38ax2 www.ama...) (First 5 transactions)
+  - Desc: AMZN Mktp CA*HE1X38AX2 WWW.AMAZON.C, Amount: -17.99, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amazon.ca*hs8t23382 amazon.ca...) (First 5 transactions)
+  - Desc: Amazon.ca*HS8T23382 AMAZON.CA, Amount: 107.34, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amzn mktp ca*hs0tr5hx1 www.ama...) (First 5 transactions)
+  - Desc: AMZN Mktp CA*HS0TR5HX1 WWW.AMAZON.C, Amount: 47.45, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amzn mktp ca*hj9y394j0 www.ama...) (First 5 transactions)
+  - Desc: AMZN Mktp CA*HJ9Y394J0 WWW.AMAZON.C, Amount: 25.98, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amazon.ca*hs7tw2wf2 amazon.ca...) (First 5 transactions)
+  - Desc: Amazon.ca*HS7TW2WF2 AMAZON.CA, Amount: 17.64, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amzn mktp ca*hj81o6ea2 www.ama...) (First 5 transactions)
+  - Desc: AMZN Mktp CA*HJ81O6EA2 WWW.AMAZON.C, Amount: 13.87, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amzn mktp ca*hv5bs25b2 www.ama...) (First 5 transactions)
+  - Desc: AMZN Mktp CA*HV5BS25B2 WWW.AMAZON.C, Amount: 28.13, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amzn mktp ca*hv28m9930 www.ama...) (First 5 transactions)
+  - Desc: AMZN Mktp CA*HV28M9930 WWW.AMAZON.C, Amount: 44.06, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amzn mktp ca*hv5q469n0 www.ama...) (First 5 transactions)
+  - Desc: AMZN Mktp CA*HV5Q469N0 WWW.AMAZON.C, Amount: 155.24, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (sq *black diamond bike an gosq...) (First 5 transactions)
+  - Desc: SQ *BLACK DIAMOND BIKE AN gosq.com, Amount: 0.01, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (apple store #r120 toronto...) (First 5 transactions)
+  - Desc: APPLE STORE #R120 TORONTO, Amount: 1411.37, AI Cat: Uncategorized/Review Needed
+  - Desc: APPLE STORE #R120 TORONTO, Amount: -1411.37, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amzn mktp ca*tr7j583b0 www.ama...) (First 5 transactions)
+  - Desc: AMZN Mktp CA*TR7J583B0 WWW.AMAZON.C, Amount: 47.44, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (thecorporationofnorfolkco fred...) (First 5 transactions)
+  - Desc: THECORPORATIONOFNORFOLKCO FREDERICTON, Amount: 4.0, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amazon.ca*tq8el9op0 amazon.ca...) (First 5 transactions)
+  - Desc: Amazon.ca*TQ8EL9OP0 AMAZON.CA, Amount: 115.61, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amzn mktp ca*tq9gb0l71 www.ama...) (First 5 transactions)
+  - Desc: AMZN Mktp CA*TQ9GB0L71 WWW.AMAZON.C, Amount: 38.94, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (carters #3026 milton...) (First 5 transactions)
+  - Desc: CARTERS #3026 MILTON, Amount: 44.93, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amazon.ca*tq9ig59c0 amazon.ca...) (First 5 transactions)
+  - Desc: Amazon.ca*TQ9IG59C0 AMAZON.CA, Amount: 3.97, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amz*curious buy nature www.ama...) (First 5 transactions)
+  - Desc: AMZ*Curious Buy Nature WWW.AMAZON.C, Amount: -38.94, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amz*amazon.ca www.amazon.c...) (First 5 transactions)
+  - Desc: AMZ*Amazon.ca WWW.AMAZON.C, Amount: -225.99, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amzn mktp ca*t385u6zk0 www.ama...) (First 5 transactions)
+  - Desc: AMZN Mktp CA*T385U6ZK0 WWW.AMAZON.C, Amount: 25.98, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amzn mktp ca*t38de8vf1 www.ama...) (First 5 transactions)
+  - Desc: AMZN Mktp CA*T38DE8VF1 WWW.AMAZON.C, Amount: 17.24, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amazon.ca*t35x20280 amazon.ca...) (First 5 transactions)
+  - Desc: Amazon.ca*T35X20280 AMAZON.CA, Amount: 26.35, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (the city of mississauga toront...) (First 5 transactions)
+  - Desc: THE CITY OF MISSISSAUGA TORONTO, Amount: 95.0, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (sq *emxayche toronto...) (First 5 transactions)
+  - Desc: SQ *EMXAYCHE Toronto, Amount: 29.0, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (sarna capital investments banf...) (First 5 transactions)
+  - Desc: SARNA CAPITAL INVESTMENTS BANFF, Amount: 7.04, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amazon.ca amazon.ca...) (First 5 transactions)
+  - Desc: Amazon.ca AMAZON.CA, Amount: -227.01, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amzn mktp ca*on4q244s3 www.ama...) (First 5 transactions)
+  - Desc: AMZN Mktp CA*ON4Q244S3 WWW.AMAZON.C, Amount: -28.24, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amazon.ca*227b36573 amazon.ca...) (First 5 transactions)
+  - Desc: Amazon.ca*227B36573 AMAZON.CA, Amount: -28.34, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amazon.ca*lm2dv8fn3 amazon.ca...) (First 5 transactions)
+  - Desc: Amazon.ca*LM2DV8FN3 AMAZON.CA, Amount: -33.61, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (kate spade halifax...) (First 5 transactions)
+  - Desc: Kate Spade HALIFAX, Amount: -243.94, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (yeh cheez milton...) (First 5 transactions)
+  - Desc: YEH CHEEZ MILTON, Amount: -50.29, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amzn mktp ca*yw7mj2p43 www.ama...) (First 5 transactions)
+  - Desc: AMZN Mktp CA*YW7MJ2P43 WWW.AMAZON.C, Amount: -33.59, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amazon.ca*em2u403w3 amazon.ca...) (First 5 transactions)
+  - Desc: Amazon.ca*EM2U403W3 AMAZON.CA, Amount: -31.19, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (1344pepven8003876683 mississau...) (First 5 transactions)
+  - Desc: 1344PEPVEN8003876683 MISSISSAUGA, Amount: -2.0, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amzn mktp ca*z67hd4ts3 www.ama...) (First 5 transactions)
+  - Desc: AMZN Mktp CA*Z67HD4TS3 WWW.AMAZON.C, Amount: -39.54, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (being me mississauga...) (First 5 transactions)
+  - Desc: BEING ME MISSISSAUGA, Amount: -50.0, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amzn mktp ca*e92h57ep3 www.ama...) (First 5 transactions)
+  - Desc: AMZN Mktp CA*E92H57EP3 WWW.AMAZON.C, Amount: -45.09, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (payment adjustment...) (First 5 transactions)
+  - Desc: PAYMENT ADJUSTMENT, Amount: -161.18, AI Cat: Uncategorized/Review Needed
+  - Desc: PAYMENT ADJUSTMENT, Amount: 224.48, AI Cat: Uncategorized/Review Needed
+  - Desc: PAYMENT ADJUSTMENT, Amount: 6205.23, AI Cat: Uncategorized/Review Needed
+  - Desc: PAYMENT ADJUSTMENT, Amount: -6458.46, AI Cat: Uncategorized/Review Needed
+  - Desc: PAYMENT ADJUSTMENT, Amount: 11594.14, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (starting balance...) (First 5 transactions)
+  - Desc: Starting Balance, Amount: 12333.76, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (opening balance...) (First 5 transactions)
+  - Desc: OPENING BALANCE, Amount: 915023.07, AI Cat: Uncategorized/Review Needed
+  - Desc: OPENING BALANCE, Amount: 1131638.93, AI Cat: Uncategorized/Review Needed
+  - Desc: OPENING BALANCE, Amount: 1026454.03, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (closing balance...) (First 5 transactions)
+  - Desc: CLOSING BALANCE, Amount: 950452.33, AI Cat: Uncategorized/Review Needed
+  - Desc: CLOSING BALANCE, Amount: 1131882.07, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (balance forward...) (First 5 transactions)
+  - Desc: BALANCE FORWARD, Amount: 18114.88, AI Cat: Uncategorized/Review Needed
+  - Desc: Balance Forward, Amount: 4470.11, AI Cat: Uncategorized/Review Needed
+  - Desc: Balance Forward, Amount: 27144.37, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (rtn nsf...) (First 5 transactions)
+  - Desc: RTN NSF, Amount: 6458.46, AI Cat: Uncategorized/Review Needed
+  - Desc: RTN NSF, Amount: 6205.23, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (frm:20656161389...) (First 5 transactions)
+  - Desc: FRM:20656161389, Amount: -23.77, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (bayyinah llc...) (First 5 transactions)
+  - Desc: BAYYINAH LLC, Amount: 15.35, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (husna llc...) (First 5 transactions)
+  - Desc: HUSNA LLC, Amount: 767.43, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (1853-tor relay t1 intl mississ...) (First 5 transactions)
+  - Desc: 1853-TOR RELAY T1 INTL MISSISSAUGA, Amount: 39.54, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (el alaoui essoussi 4 fes...) (First 5 transactions)
+  - Desc: EL ALAOUI ESSOUSSI 4 FES, Amount: 24.15, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (ansamble khmisset khemisset...) (First 5 transactions)
+  - Desc: ANSAMBLE KHMISSET KHEMISSET, Amount: 8.46, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (abdessalem el msiyah fes...) (First 5 transactions)
+  - Desc: ABDESSALEM EL MSIYAH FES, Amount: 272.37, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (mosaique et poterie de f fes...) (First 5 transactions)
+  - Desc: MOSAIQUE ET POTERIE DE F FES, Amount: 30.64, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (sp leenashijabs mississauga...) (First 5 transactions)
+  - Desc: SP LEENASHIJABS MISSISSAUGA, Amount: 55.2, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amzn mktp ca*jl8ze4r53 amazon....) (First 5 transactions)
+  - Desc: AMZN Mktp CA*JL8ZE4R53 AMAZON.CA, Amount: 33.89, AI Cat: Uncategorized/Review Needed
+
+Category: Review: Uncategorized (amazon msp...) (First 5 transactions)
+  - Desc: AMAZON MSP, Amount: 807.28, AI Cat: Uncategorized/Review Needed
+
+Analysis complete.

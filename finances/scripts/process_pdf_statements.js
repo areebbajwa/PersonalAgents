@@ -18,7 +18,7 @@ import {
 // import FormData from 'form-data'; // Removed form-data
 // import { fromPath } from 'pdf2pic'; // pdf2pic import, kept commented for potential fallback
 
-dotenv.config(); // Load environment variables from .env file
+dotenv.config({ path: path.resolve(process.cwd(), 'config/.env') }); // Load environment variables from config/.env
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 let openai;

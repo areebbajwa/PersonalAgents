@@ -11,13 +11,13 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from langchain.tools import BaseTool
 
-# If modifying these SCOPES, delete the file gmail_token.json.
+# If modifying these SCOPES, delete the file config/gmail_token.json.
 SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"]
 
 # Path to your client secrets and token files
-# IMPORTANT: Ensure client_secret.json has Gmail API enabled in Google Cloud Console.
-CLIENT_SECRET_FILE = "client_secret.json" 
-GMAIL_TOKEN_FILE = "gmail_token.json" # Separate token file for Gmail
+# IMPORTANT: Ensure config/client_secret.json has Gmail API enabled in Google Cloud Console.
+CLIENT_SECRET_FILE = "config/client_secret.json" 
+GMAIL_TOKEN_FILE = "config/gmail_token.json" # Separate token file for Gmail
 
 def get_gmail_credentials():
     """Gets valid user credentials for Gmail API from storage.
@@ -239,10 +239,10 @@ if __name__ == '__main__':
     
     # --- IMPORTANT ---
     # To test this locally:
-    # 1. Make sure you have 'client_secret.json' in your project root,
+    # 1. Make sure you have 'config/client_secret.json' in your project root,
     #    configured in Google Cloud Console with Gmail API enabled.
     # 2. Run this script once. It will open a browser for you to authorize.
-    #    'gmail_token.json' will be created.
+    #    'config/gmail_token.json' will be created.
     # 3. Then, you can call the tool's _run method.
     # 4. Replace 'XYZ' with a real partial ID from an Interac email in your test Gmail account.
     
@@ -274,6 +274,6 @@ if __name__ == '__main__':
         # else:
         #     print("\\nNo emails found matching the criteria.")
         print("\\nGmailTool test complete. Uncomment specific _run calls to test further.")
-        print("Remember to have client_secret.json and authorize when prompted.")
+        print("Remember to have config/client_secret.json and authorize when prompted.")
     else:
         print("Failed to obtain Gmail credentials. Cannot run test.") 

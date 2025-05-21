@@ -1,22 +1,30 @@
 *.pyc
 node_modules/
-token.json
-client_secret.json
+# Individual .json secret files to ignore
+config/token.json
+config/client_secret.json
+config/gmail_token.json
+personalagentoauth-*.json # Keep this if it's a pattern for secrets
+# Specific MCP server credential files
+mcp/google-workspace-mcp-server/credentials.json
+mcp/google-workspace-mcp-server/token.json
+
 __pycache__/
-.env
+config/.env
+config/.devdbrc # If you decide to ignore it, otherwise remove this line
 td_user_data/
 .wwebjs_auth/*
 wa_gateway/
-gmail_token.json
 *.pdf
 
 # Credentials & Secrets
 .credentials/
 config/serviceAccountKey.json
-personalagentoauth-*.json
-*.json
 secrets/
 keys/
 *.pem
 *.key
 data/Google Passwords.csv
+
+# IMPORTANT: Ensure mcp.json for the project is NOT ignored
+!mcp.json

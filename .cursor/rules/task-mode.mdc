@@ -25,7 +25,7 @@ You are an extremely advanced AI agent. Your primary function is to complete the
         3.  **Analyze Found Materials:**
             *   Meticulously read and interpret the content of any identified relevant data files, documentation, and completed TODOs.
             *   Focus on understanding existing data structures, previously used methods, successful approaches, encountered challenges, established conventions, and any information that could lead to a more efficient or accurate plan for the current task.
-        4.  **Incorporate Understanding:** The insights gained from this pre-task analysis MUST directly inform the creation of the `TODO.md` for the current task, the planned steps, and the overall strategy for task execution. For example, if a similar completed TODO shows a particular script was effective, that script should be considered for reuse.
+        4.  **Incorporate Understanding:** The insights gained from this pre-task analysis MUST directly inform the creation of the `TODO.md` for the current task, the planned steps, and the overall strategy for task execution.
     *   This entire analysis phase must be conducted autonomously.
 *   **Web Interaction:**
     *   Search the web as needed.
@@ -52,10 +52,13 @@ You are an extremely advanced AI agent. Your primary function is to complete the
         1.  You MUST first attempt to use the `sqlite_mcp` tool for all database interactions.
         2.  If the `sqlite_mcp` tool is not available or fails to execute, you MUST fall back to using the `sqlite3` command-line interface (CLI).
         3.  **CLI Usage Protocol:**
-            *   When using the `sqlite3` CLI, all SQL commands MUST be executed by passing them to the `sqlite3 data/personal.db "SQL_COMMAND_HERE"` command.
-            *   To prevent flooding the terminal output and to capture results or errors, you MUST redirect both standard output (stdout) and standard error (stderr) of the `sqlite3` command to a uniquely named temporary file (e.g., `temp_sqlite_output_<timestamp_or_uuid>.txt`) within a temporary directory.
-            *   After the command execution, you MUST read the content of this temporary file to get the result or error message.
-            *   The temporary file MUST be deleted immediately after its content has been read and processed, regardless of whether the command was successful or failed.
+            *   When using the `sqlite3` CLI:
+                *   A `tmp/` subdirectory MUST be created in the agent's primary operational workspace/current working directory if it does not already exist, for storing temporary CLI-related files.
+                *   If the SQL command string itself is exceptionally long (e.g., many kilobytes), first write it to a uniquely named temporary SQL file (e.g., `tmp/temp_query_<timestamp_or_uuid>.sql`). Then execute using `sqlite3 data/personal.db < tmp/temp_query_file.sql`. This temporary SQL file MUST be deleted immediately after execution.
+                *   Otherwise, pass the SQL command directly: `sqlite3 data/personal.db "SQL_COMMAND_HERE"`.
+            *   To prevent flooding the terminal output and to capture results or errors, you MUST redirect both standard output (stdout) and standard error (stderr) of the `sqlite3` command to a uniquely named temporary output file (e.g., `tmp/temp_sqlite_output_<timestamp_or_uuid>.txt`).
+            *   After the command execution, you MUST read the content of this temporary output file to get the result or error message.
+            *   The temporary output file MUST be deleted immediately after its content has been read and processed, regardless of whether the command was successful or failed.
 *   **Task Decomposition and Tracking (TODO.md):**
     *   **Applicability:** Applies to non-trivial tasks requiring multiple operational steps (this step follows "Pre-Task Contextual Analysis").
     *   **Task Identification & TODO File Path Generation:**
@@ -94,11 +97,20 @@ You are an extremely advanced AI agent. Your primary function is to complete the
     *   **Reuse First:** Search codebase before creating.
     *   **Recency:** Use most recent script if multiple options.
     *   **External Tools:** Search web for existing tools first.
-    *   **Intelligent File Placement:** Examine existing directory structure to determine the most logical location for new files.
+    *   **Intelligent File Placement & Organization:**
+        *   When creating any new files (data, reports, scripts, temporary files, etc.), you MUST first examine the existing directory structure of the project or relevant workspace to determine the most logical and organized location.
+        *   **NO files should be created in the root directory of the operational workspace unless absolutely unavoidable and explicitly justified.**
+        *   A `tmp/` subdirectory MUST be created in the agent's primary operational workspace/current working directory if it does not already exist. This `tmp/` directory is the **preferred location for all temporary files** (e.g., intermediate data, temporary script outputs, temporary SQL files).
+        *   Strive to maintain a clean and understandable file organization.
     *   **Temporary & Helper Script Deletion:** All scripts created specifically as temporary helpers for a particular step or sub-task, and which are not designed as general-purpose, task-agnostic utilities intended for future reuse, MUST be deleted immediately after they have served their purpose and their output (if any) has been processed or saved. This cleanup is mandatory. General-purpose scripts should be saved appropriately as per 'Intelligent File Placement'.
     *   **Script Length:** Manageable portions (max 100 lines per block).
-    *   **Logging:** Robust logging for long tasks, display logs.
+    *   **Logging:** For any long-running tasks (especially those involving multiple files or iterations), ensure robust logging of progress. Display these logs to provide visibility. **Logs MUST NOT contain large raw data payloads; instead, summarize data or reference file paths where large data is stored.**
 *   **Data Parsing & Processing:**
+    *   **File-Based Handling for Large Data:**
+        *   **Principle:** When any operation (script execution, tool usage, API calls including Gemini) involves processing or generating substantial amounts of data (e.g., exceeding a few kilobytes or what can be reasonably handled in terminal/API limits), you MUST use files as the primary medium for data exchange.
+        *   **Input:** For large inputs, save the data to a uniquely named temporary file within the `tmp/` subdirectory. Provide the file path to the script/tool/API. This temporary input file MUST be deleted after it's no longer needed.
+        *   **Output:** Instruct the script/tool/API to write its primary large output to a designated file (which could be temporary within `tmp/` or final). The agent will then read this file for further processing. Temporary output files within `tmp/` MUST be deleted after their content is consumed and no longer needed.
+        *   **Avoid Direct Transfer:** Do not pass large data blobs directly as command-line arguments, through standard input/output streams if it would flood the terminal, or within API request/response bodies if file-based alternatives exist or can be orchestrated.
     *   **Avoid Custom Parsing of AI Output:** Rely on structured JSON5.
     *   **AI Query Caching:** For ALL queries made to AI models (including Gemini 2.5 series models), you MUST use the `ai_cache_utils.js` script/module (or equivalent functionality if implementing in a different language, ensuring compatibility with its caching mechanism) to manage caching. This involves checking the cache for an existing response before making a new API call and writing the new result to the cache after a successful API call.
     *   **Direct Categorization for Small Datasets:** If a task involves categorization and the number of items to categorize is less than 1000, you MUST first attempt to perform the categorization yourself by directly analyzing the data and applying the categorization logic (including adhering to any provided list of choices as per the 'Gemini for Structured Data Extraction (and Categorization)' rule, even if not using Gemini). Only if this direct approach proves too complex for your direct processing capabilities, or if the dataset is 1000 items or more, should you resort to creating a script to query Gemini for categorization.
@@ -107,12 +119,13 @@ You are an extremely advanced AI agent. Your primary function is to complete the
         1.  Prompt MUST define desired JSON5 structure.
         2.  **For Categorization Tasks:** Prompt MUST include the specific list of allowed category choices and instruct AI to choose *only* from this list.
         3.  Configure API for JSON5 output.
+        4.  Adhere to "File-Based Handling for Large Data" if input to or output from Gemini is substantial.
     *   **Gemini Code Execution:** Enable when appropriate.
     *   **Direct Understanding:** Attempt for non-AI data.
-    *   **Batch Processing with Gemini:** When using Gemini for batch processing, the script MUST utilize `ai_cache_utils.js` and save processed data incrementally.
+    *   **Batch Processing with Gemini:** When using Gemini for batch processing, the script MUST utilize `ai_cache_utils.js`, adhere to "File-Based Handling for Large Data" for inputs/outputs, and save processed data incrementally.
     *   **Parallelism:** True parallel processing.
         *   **Incremental Saving in Parallel Operations:** Save results as they become ready.
-    *   **Sample Run & Verification:** Process sample, verify output (JSON5, categories, incremental saving, direct categorization if applicable), check `ai_cache_utils.js`. If sample fails, identify issue, correct, re-test. Switch to pro model if flash fails.
+    *   **Sample Run & Verification:** Process sample, verify output (JSON5, categories, incremental saving, direct categorization if applicable, file-based data handling), check `ai_cache_utils.js`. If sample fails, identify issue, correct, re-test. Switch to pro model if flash fails.
 *   **API Keys:**
     *   Search codebase first. If not found, find alternatives/workarounds. Document if unavoidably blocked, do NOT ask user.
 *   **SQL Efficiency:** Use as few queries as possible.

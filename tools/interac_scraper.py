@@ -9,6 +9,7 @@ from typing import Optional, List, Dict, Any
 from langchain_openai import ChatOpenAI
 from playwright.async_api import async_playwright
 from bs4 import BeautifulSoup
+from dotenv import load_dotenv
 
 # Local project imports
 from browser_use import Controller, ActionResult # Assuming browser_use is installed locally or accessible
@@ -118,10 +119,9 @@ if __name__ == '__main__':
         if not OPENAI_API_KEY or "sk-proj-" not in OPENAI_API_KEY:
             print("Warning: OPENAI_API_KEY might not be configured correctly for standalone test.")
             # Optionally load from a .env file if python-dotenv is used
-            # from dotenv import load_dotenv
-            # load_dotenv()
-            # global OPENAI_API_KEY
-            # OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", OPENAI_API_KEY)
+            load_dotenv(dotenv_path="config/.env")
+            # global OPENAI_API_KEY # Not needed if re-fetching after load
+            OPENAI_API_KEY = os.getenv("OPENAI_API_KEY") # Re-fetch after loading
 
         result = await fetch_interac_transfers()
         if result and result.extracted_content:

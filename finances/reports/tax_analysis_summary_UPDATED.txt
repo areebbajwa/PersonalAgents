@@ -1,0 +1,169 @@
+Analyzing transactions from: finances/data_exports/2023/tagged_transactions_for_analysis_2023.csv
+Total rows processed: 3171, Skipped (non-CAD): 238
+
+--- Tax Summary (based on PrimaryCategory filtering for personal credits/deductions) ---
+Credit: Donations: 13942.04
+Credit: Medical Expenses: 8532.11
+Income: Employment Income: 5329.57
+Income: Other Income: 11559.19
+Income: Other Investment Income: 270.75
+Info (Kalaam Foundation): Inter-Account Transfer: -35242.77
+Info (MPYRE Software Inc.): Inter-Account Transfer: 23485.00
+Info (Metropolis): Inter-Account Transfer: -1512.40
+Info (Personal): Cash Withdrawal: 5502.99
+Info (Personal): Inter-Account Transfer: 372244.63
+Review (AutoOptimize Inc.): Uncategorized (payment adjustment...): 63.30
+Review (Kalaam Foundation): Uncategorized (starting balance...): 12333.76
+Review (MPYRE Software Inc.): Uncategorized (balance forward...): 49729.36
+Review (MPYRE Software Inc.): Uncategorized (payment adjustment...): 11340.91
+Review (MPYRE Software Inc.): Uncategorized (rtn nsf...): 12663.69
+Review (Metropolis): Uncategorized (amazon msp...): 807.28
+Review (Personal): Uncategorized (1344pepven8003876683 mississau...): -2.00
+Review (Personal): Uncategorized (1853-tor relay t1 intl mississ...): 39.54
+Review (Personal): Uncategorized (abdessalem el msiyah fes...): 272.37
+Review (Personal): Uncategorized (amazon.ca amazon.ca...): -227.01
+Review (Personal): Uncategorized (amazon.ca*227b36573 amazon.ca...): -28.34
+Review (Personal): Uncategorized (amazon.ca*6j30u4wl3 amazon.ca...): -12.42
+Review (Personal): Uncategorized (amazon.ca*bu7dk9ri3 amazon.ca...): -27.08
+Review (Personal): Uncategorized (amazon.ca*em2u403w3 amazon.ca...): -31.19
+Review (Personal): Uncategorized (amazon.ca*h70ew24t1 amazon.ca...): -16.78
+Review (Personal): Uncategorized (amazon.ca*hg0wm3r72 amazon.ca...): -20.31
+Review (Personal): Uncategorized (amazon.ca*hs7tw2wf2 amazon.ca...): 17.64
+Review (Personal): Uncategorized (amazon.ca*hs8t23382 amazon.ca...): 107.34
+Review (Personal): Uncategorized (amazon.ca*lm2dv8fn3 amazon.ca...): -33.61
+Review (Personal): Uncategorized (amazon.ca*t35x20280 amazon.ca...): 26.35
+Review (Personal): Uncategorized (amazon.ca*tq8el9op0 amazon.ca...): 115.61
+Review (Personal): Uncategorized (amazon.ca*tq9ig59c0 amazon.ca...): 3.97
+Review (Personal): Uncategorized (amz*amazon.ca www.amazon.c...): -225.99
+Review (Personal): Uncategorized (amz*curious buy nature www.ama...): -38.94
+Review (Personal): Uncategorized (amzn mktp ca*157hx6oi3 www.ama...): -459.90
+Review (Personal): Uncategorized (amzn mktp ca*4b8ea1o93 www.ama...): -65.52
+Review (Personal): Uncategorized (amzn mktp ca*988294vr3 www.ama...): -57.85
+Review (Personal): Uncategorized (amzn mktp ca*e92h57ep3 www.ama...): -45.09
+Review (Personal): Uncategorized (amzn mktp ca*f00a05yn3 www.ama...): -39.76
+Review (Personal): Uncategorized (amzn mktp ca*he1x38ax2 www.ama...): -17.99
+Review (Personal): Uncategorized (amzn mktp ca*hj81o6ea2 www.ama...): 13.87
+Review (Personal): Uncategorized (amzn mktp ca*hj9y394j0 www.ama...): 25.98
+Review (Personal): Uncategorized (amzn mktp ca*hs0tr5hx1 www.ama...): 47.45
+Review (Personal): Uncategorized (amzn mktp ca*hv28m9930 www.ama...): 44.06
+Review (Personal): Uncategorized (amzn mktp ca*hv5bs25b2 www.ama...): 28.13
+Review (Personal): Uncategorized (amzn mktp ca*hv5q469n0 www.ama...): 155.24
+Review (Personal): Uncategorized (amzn mktp ca*hy1l46fk2 www.ama...): -25.97
+Review (Personal): Uncategorized (amzn mktp ca*jl8ze4r53 amazon....): 33.89
+Review (Personal): Uncategorized (amzn mktp ca*jq1w91s73 www.ama...): -135.58
+Review (Personal): Uncategorized (amzn mktp ca*on4q244s3 www.ama...): -28.24
+Review (Personal): Uncategorized (amzn mktp ca*t385u6zk0 www.ama...): 25.98
+Review (Personal): Uncategorized (amzn mktp ca*t38de8vf1 www.ama...): 17.24
+Review (Personal): Uncategorized (amzn mktp ca*tq9gb0l71 www.ama...): 38.94
+Review (Personal): Uncategorized (amzn mktp ca*tr7j583b0 www.ama...): 47.44
+Review (Personal): Uncategorized (amzn mktp ca*w329z03o3 www.ama...): -56.44
+Review (Personal): Uncategorized (amzn mktp ca*yw7mj2p43 www.ama...): -33.59
+Review (Personal): Uncategorized (amzn mktp ca*z67hd4ts3 www.ama...): -39.54
+Review (Personal): Uncategorized (ansamble khmisset khemisset...): 8.46
+Review (Personal): Uncategorized (apple store #r120 toronto...): 0.00
+Review (Personal): Uncategorized (bayyinah llc...): 15.35
+Review (Personal): Uncategorized (being me mississauga...): -50.00
+Review (Personal): Uncategorized (carters #3026 milton...): 44.93
+Review (Personal): Uncategorized (casa variedades cerro pla punt...): -6.89
+Review (Personal): Uncategorized (closing balance...): 2082334.40
+Review (Personal): Uncategorized (discoveru milton...): -434.00
+Review (Personal): Uncategorized (el alaoui essoussi 4 fes...): 24.15
+Review (Personal): Uncategorized (frm:20656161389...): -23.77
+Review (Personal): Uncategorized (husna llc...): 767.43
+Review (Personal): Uncategorized (kate spade halifax...): -243.94
+Review (Personal): Uncategorized (ls chaddors milton...): -280.70
+Review (Personal): Uncategorized (mobile deposit...): 1821.00
+Review (Personal): Uncategorized (mosaique et poterie de f fes...): 30.64
+Review (Personal): Uncategorized (opening balance...): 3073116.03
+Review (Personal): Uncategorized (paypal *torontomusl to 4029357...): 15.00
+Review (Personal): Uncategorized (sarna capital investments banf...): 7.04
+Review (Personal): Uncategorized (sp leenashijabs mississauga...): 55.20
+Review (Personal): Uncategorized (sp zelvoria httpszelvori...): -21.00
+Review (Personal): Uncategorized (sq *black diamond bike an gosq...): 0.01
+Review (Personal): Uncategorized (sq *emxayche toronto...): 29.00
+Review (Personal): Uncategorized (the city of mississauga toront...): 95.00
+Review (Personal): Uncategorized (thecorporationofnorfolkco fred...): 4.00
+Review (Personal): Uncategorized (yaqeen* one time mississauga...): 1220.24
+Review (Personal): Uncategorized (yeh cheez milton...): -50.29
+Review (Personal): Uncategorized (zara.com fredericton...): -3.33
+
+--- Cash Draw Investigation Details (Includes Mpyre sourced transfers/payments for personal use) ---
+
+Showing relevant mapped categories (Mpyre source, potential for personal use):
+
+Transactions from mapped category: Info (MPYRE Software Inc.): Inter-Account Transfer
+  Date: 2023-09-25, Acc: Mpyre CAD chequing 311-5217807 Aug 31-Sep, Amt: 10000.0, Desc: RO550 TFR-FR 561HR0F, AI Cat: Transfer (Between Own Accounts), PrimaryCat: MPYRE Software Inc.
+  Date: 2023-12-29, Acc: Mpyre CAD chequing (7807), Amt: 20000.0, Desc: JO214 TFR-FR 561HR0F, AI Cat: Transfer (Between Own Accounts), PrimaryCat: MPYRE Software Inc.
+  Date: 2023-12-29, Acc: Mpyre CAD chequing (7807), Amt: -15000.0, Desc: JO220 TFR-TO 6451459, AI Cat: Transfer (Between Own Accounts), PrimaryCat: MPYRE Software Inc.
+  Date: 2023-12-19, Acc: Mpyre CAD chequing (7807), Amt: -15000.0, Desc: RP201 TFR-TO 6451459, AI Cat: Transfer (Between Own Accounts), PrimaryCat: MPYRE Software Inc.
+  Date: 2023-12-07, Acc: Mpyre CAD chequing (7807), Amt: 20000.0, Desc: IU371 TFR-FR 561HR0F, AI Cat: Transfer (Between Own Accounts), PrimaryCat: MPYRE Software Inc.
+  Date: 2023-11-29, Acc: Mpyre CAD chequing (7807), Amt: 10000.0, Desc: HJ354 TFR-FR 561HR0F, AI Cat: Transfer (Between Own Accounts), PrimaryCat: MPYRE Software Inc.
+  Date: 2023-11-29, Acc: Mpyre CAD chequing (7807), Amt: -10000.0, Desc: HJ360 TFR-TO 6451459, AI Cat: Transfer (Between Own Accounts), PrimaryCat: MPYRE Software Inc.
+  Date: 2023-11-23, Acc: Mpyre CAD chequing (7807), Amt: 10000.0, Desc: IO534 TFR-FR 561HR0F, AI Cat: Transfer (Between Own Accounts), PrimaryCat: MPYRE Software Inc.
+  Date: 2023-11-23, Acc: Mpyre CAD chequing (7807), Amt: -10000.0, Desc: IO540 TFR-TO 6451459, AI Cat: Transfer (Between Own Accounts), PrimaryCat: MPYRE Software Inc.
+  Date: 2023-11-06, Acc: Mpyre CAD chequing (7807), Amt: 13485.0, Desc: JY001 TFR-FR 561HR0F, AI Cat: Transfer (Between Own Accounts), PrimaryCat: MPYRE Software Inc.
+
+Reviewing all transactions for direct payments from Mpyre accounts for categories typically personal:
+  No specific Mpyre-paid personal-type expenses (like dining, entertainment etc.) flagged by this check.
+
+--- RRSP Contribution Details (Personal PrimaryCategory only) ---
+  No RRSP contributions found via initial mapping. Performing raw check for 'Personal' PrimaryCategory...
+  No RRSP contributions found for 'Personal' PrimaryCategory via raw check either.
+Total Identified Personal RRSP Contributions: 0.00
+
+--- Professional Fees/Union Dues Details (Personal PrimaryCategory only) ---
+  No Professional Fees/Union Dues found for 'Personal' PrimaryCategory based on initial mapping.
+Total Identified Personal Professional Fees/Union Dues: 0.00
+
+--- Child Care Expense Details (Personal PrimaryCategory only) ---
+  No Child Care Expenses found for 'Personal' PrimaryCategory based on initial mapping.
+Total Identified Personal Child Care Expenses: 0.00
+
+--- Tuition Fee Details (Personal PrimaryCategory only) ---
+  No Tuition Fees found for 'Personal' PrimaryCategory based on initial mapping.
+Total Identified Personal Tuition Fees (requires T2202 verification): 0.00
+
+--- Investment Expense Details (Personal PrimaryCategory only) ---
+  No specific Investment Expenses found for 'Personal' PrimaryCategory based on initial mapping.
+Total Identified Personal Investment Expenses (requires verification): 0.00
+Filtered Credit: Medical Expenses transactions saved to: finances/data_exports/2023/medical_expenses_for_cra_2023.csv
+Filtered Credit: Donations transactions saved to: finances/data_exports/2023/donations_for_cra_2023.csv
+
+--- Items for Review/Information (from initial mapping, first 5 per category) ---
+
+Category: Not Directly Mapped (AutoOptimize Inc.)
+  - Date: 2023-03-22, Acc: AutoOptimize CAD credit card, Amt: 12.68, Desc: IMPROVMX PARIS, AI Cat: Travel, PrimaryCat: AutoOptimize Inc.
+  - Date: 2023-03-27, Acc: AutoOptimize CAD credit card, Amt: -12.51, Desc: PREAUTHORIZED PAYMENT, AI Cat: Credit Card Payment, PrimaryCat: AutoOptimize Inc.
+  - Date: 2023-07-24, Acc: AutoOptimize CAD credit card, Amt: 12.18, Desc: IMPROVMX PARIS, AI Cat: Subscriptions (Non-News/Entertainment), PrimaryCat: AutoOptimize Inc.
+  - Date: 2023-07-26, Acc: AutoOptimize CAD credit card, Amt: -12.25, Desc: PREAUTHORIZED PAYMENT, AI Cat: Credit Card Payment, PrimaryCat: AutoOptimize Inc.
+  - Date: 2023-08-08, Acc: AutoOptimize CAD credit card, Amt: 149.0, Desc: ANNUAL FEE, AI Cat: Bank Fees, PrimaryCat: AutoOptimize Inc.
+
+Category: Not Directly Mapped (Kalaam Foundation)
+  - Date: 2023-03-13, Acc: Areeb personal CAD credit card, Amt: -32.11, Desc: CHATGPT SUBSCRIPTION OPENAI.COM, AI Cat: Subscriptions (Non-News/Entertainment), PrimaryCat: Kalaam Foundation
+  - Date: 2023-07-13, Acc: Areeb personal CAD credit card, Amt: -30.67, Desc: CHATGPT SUBSCRIPTION OPENAI.COM, AI Cat: Subscriptions (Non-News/Entertainment), PrimaryCat: Kalaam Foundation
+  - Date: 2023-07-17, Acc: Areeb personal CAD credit card, Amt: -3.27, Desc: OPENAI OPENAI.COM, AI Cat: Subscriptions (Non-News/Entertainment), PrimaryCat: Kalaam Foundation
+  - Date: 2023-08-01, Acc: Areeb personal CAD credit card, Amt: -11.32, Desc: GOOGLE*CLOUD ZC5TZF CC GOOGLE.CO, AI Cat: Subscriptions (Non-News/Entertainment), PrimaryCat: Kalaam Foundation
+  - Date: 2023-01-10, Acc: Areeb personal CAD credit card, Amt: 4.27, Desc: OPENAI OPENAI.COM FOREIGN CURRENCY 3.10 USD @ EXCHANGE RATE 1.37741, AI Cat: Subscriptions (Non-News/Entertainment), PrimaryCat: Kalaam Foundation
+
+Category: Not Directly Mapped (MPYRE Software Inc.)
+  - Date: 2023-05-02, Acc: Mpyre CAD chequing 311-5217807 Apr 28-May, Amt: -18.07, Desc: PAYPAL MSP, AI Cat: Business Expense, PrimaryCat: MPYRE Software Inc.
+  - Date: 2023-05-11, Acc: Mpyre CAD chequing 311-5217807 Apr 28-May, Amt: -75.56, Desc: HWY407 ETR CBP, AI Cat: Transportation (Fuel/Transit/Maintenance), PrimaryCat: MPYRE Software Inc.
+  - Date: 2023-05-23, Acc: Mpyre CAD chequing 311-5217807 Apr 28-May, Amt: -14.68, Desc: PAYPAL MSP, AI Cat: Business Expense, PrimaryCat: MPYRE Software Inc.
+  - Date: 2023-05-23, Acc: Mpyre CAD chequing 311-5217807 Apr 28-May, Amt: -50.0, Desc: WPS Billing, AI Cat: Business Expense, PrimaryCat: MPYRE Software Inc.
+  - Date: 2023-05-26, Acc: Mpyre CAD chequing 311-5217807 Apr 28-May, Amt: -1620.73, Desc: TD VISA PREAUTH PYMT, AI Cat: Credit Card Payment, PrimaryCat: MPYRE Software Inc.
+
+Category: Not Directly Mapped (Metropolis)
+  - Date: 2023-12-27, Acc: TD BUSINESS CASH BACK VISA, Amt: -0.14, Desc: PAYMENT - THANK YOU, AI Cat: Credit Card Payment, PrimaryCat: Metropolis
+  - Date: 2023-10-31, Acc: TD BUSINESS CASH BACK VISA, Amt: -12.4, Desc: PAYMENT - THANK YOU, AI Cat: Credit Card Payment, PrimaryCat: Metropolis
+  - Date: 2023-11-06, Acc: TD BUSINESS CASH BACK VISA, Amt: -0.06, Desc: ANNUAL CASH BACK CREDIT, AI Cat: Refund (Non-Tax), PrimaryCat: Metropolis
+  - Date: 2023-09-06, Acc: TD BUSINESS CASH BACK VISA, Amt: -0.27, Desc: Retail Interest, AI Cat: Bank Fees, PrimaryCat: Metropolis
+  - Date: 2023-07-29, Acc: TD BUSINESS CASH BACK VISA, Amt: -12.0, Desc: CORP CANADA/15757688 OTTAWA, AI Cat: Business Expense, PrimaryCat: Metropolis
+
+Category: Not Directly Mapped (Personal)
+  - Date: 2023-01-03, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 5000.0, Desc: E-TRANSFER ***5Jc, AI Cat: Transfer (E-transfer Incoming), PrimaryCat: Personal
+  - Date: 2023-01-05, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: 100.0, Desc: E-TRANSFER ***vST, AI Cat: Transfer (E-transfer Incoming), PrimaryCat: Personal
+  - Date: 2023-01-06, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -169.5, Desc: OLYMPIA TRUST C FEE, AI Cat: Bank Fees, PrimaryCat: Personal
+  - Date: 2023-01-09, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -50.0, Desc: SEND E-TFR ***q9c, AI Cat: Transfer (E-transfer Outgoing), PrimaryCat: Personal
+  - Date: 2023-01-09, Acc: Areeb personal CAD chequing 311-6451459 Dec 30-Jan 31 2023, Amt: -20.0, Desc: SEND E-TFR ***SWe, AI Cat: Transfer (E-transfer Outgoing), PrimaryCat: Personal
+
+Analysis complete.
