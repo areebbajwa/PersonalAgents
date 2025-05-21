@@ -56,4 +56,28 @@ This document summarizes key information, decisions, and data points from the 20
 *   **Child Care Expenses:** For 2023, these were identified by the user and manually factored in. Future script iterations or manual checks should confirm if these are captured correctly when filtering for `PrimaryCategory` = "Personal".
 *   **Simulated 2023 Refund (for reference):** -$11,092.97.
 
+## VI. Additional Notes from 2023 JSON Data
+*   **Income Source 2023:** All personal funds derived from Mpyre/Margin accounts, to be classified as Dividend Income from Mpyre for 2023 tax year, as per user instruction on 2025-05-21.
+*   **T-slips 2023:** User confirmed no T4, T5, or T4A for self for 2023. Income figures derived from reclassification of cash draws.
+*   **RRSP 2023:** User confirmed no RRSP contributions for 2023.
+*   **Professional Fees 2023:** User confirmed no professional fees/union dues for 2023.
+*   **Employment Expenses 2023:** User confirmed no employer, T2200 not applicable for 2023.
+*   **Tuition Fees 2023:** User confirmed no post-secondary tuition fees for 2023. Previously identified amounts for children's programs are not eligible for tuition credit.
+*   **Margin Interest 2023:** User stated margin interest should be in transactions, but script did not identify specific margin interest transactions. Pending official statements or specific transaction details from user.
+*   **Medical Receipts 2023:** User confirmed availability of receipts.
+*   **Donation Receipts 2023:** User confirmed availability of receipts.
+*   **Other Identified Income Notes (from JSON):**
+    *   **Mariam Bajwa Income 2023:**
+        *   Description: Employment income from AMAZON MSP deposited to Metropolis CAD Mariam Account (0184).
+        *   Total Amount 2023: $3924.27
+        *   Attribution: Attributed to Areeb Bajwa's sister, Mariam. Not considered for Areeb's or Nisha's 2023 T1.
+        *   Transactions Identified:
+            *   2023-12-08: $1280.47
+            *   2023-10-27: $1219.84
+            *   2023-12-22: $862.57
+            *   2023-11-10: $561.39
+    *   **Kalaam Foundation Income 2023:**
+        *   Description: Various deposits (Stripe, transfers) to Kalaam Foundation accounts.
+        *   Attribution: Considered income to the Kalaam Foundation, not personal income to Areeb Bajwa for T1 purposes.
+
 This document should serve as a helpful starting point for future tax preparations. Remember to adapt to any changes in tax laws, personal circumstances, or data structures. 
