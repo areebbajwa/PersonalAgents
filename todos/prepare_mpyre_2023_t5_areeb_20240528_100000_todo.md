@@ -1,0 +1,42 @@
+# TODO for Prepare Mpyre Inc. 2023 T5 Slip for Areeb Bajwa (prepare_mpyre_2023_t5_areeb_20240528_100000)
+
+- [X] **Gather Information for T5 Slip**
+    - Notes:
+        - **Payer Information (Mpyre Software Inc.):**
+            - Business Number (BN): 807356423
+            - Corporation Name: MPYRE SOFTWARE INC.
+            - Corporation Address: 1202-20 Mississauga Valley Blvd. Mississauga ON L5A 3S1 Canada (Provided by user 2024-05-28)
+        - **Recipient Information (Areeb Bajwa):**
+            - Social Insurance Number (SIN): 529693855 (from `docs/tax_preparation_notes_for_areeb_bajwa.md`)
+            - Full Name: Areeb Bajwa (from `docs/tax_preparation_notes_for_areeb_bajwa.md`)
+            - Address: 1202-20 Mississauga Valley Blvd. Mississauga ON L5A 3S1 Canada (Assumed to be Areeb's address as it matches Mpyre's, pending confirmation if different)
+        - **Dividend Information (2023 - for Areeb Bajwa):**
+            - Type of Dividend: Eligible Dividends (from `docs/tax_preparation_notes_for_areeb_bajwa.md`)
+            - Date of Payment: December 31, 2023 (Assumed based on typical year-end dividend payments, from `docs/tax_preparation_notes_for_areeb_bajwa.md`)
+            - Amount of Actual Eligible Dividends: $84,593.00 (Box 24) (from `docs/tax_preparation_notes_for_areeb_bajwa.md`)
+            - Taxable Amount of Eligible Dividends: $116,738.34 (Box 25) (Calculated as $84,593.00 * 1.38, confirmed with CRA T5 Guide - T4015 Chapter 4)
+            - Dividend Tax Credit for Eligible Dividends: $17,533.57 (Box 26) (Calculated as $116,738.34 * 0.150198, confirmed with CRA T5 Guide - T4015 Chapter 4. Payer fills this for individuals.)
+- [X] **Determine if Mpyre Software Inc. has an RZ account with CRA.**
+    - Result: Likely yes. `mpyre_cra_overdue_check_20250521_201711_todo.md` mentions "MPYRE SOFTWARE INC (807356423RC0001)". The "RC" typically indicates a corporate income tax account, and "RZ" is the specific program identifier for information returns like T5s. The RZ account number would be 807356423RZ0001. This needs to be active for T5 filing.
+- [X] **Locate the CRA guide for T5 slip preparation.**
+    - Result: Found. CRA T5 Guide - T4015 "Return of Investment Income". Specific link used: https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/t4015/t5-guide-return-investment-income.html#P202_17541 (Chapter 4 - T5 Slip, section "Completing the T5 slip")
+- [X] **Prepare the T5 slip (e.g., using CRA Web Forms or tax software).**
+    - Method: Likely via CRA Web Forms, accessed through Mpyre Software Inc.'s "My Business Account" (access previously established as per `todos/completed/mpyre_cra_overdue_check_20250521_201711_todo.md`).
+    - Action: User to prepare T5 slip using the provided information via CRA My Business Account / Web Forms.
+    - Key information for Areeb Bajwa's T5 (Eligible Dividends for 2023):
+        - Payer Name: MPYRE SOFTWARE INC.
+        - Payer Account Number (BN with RZ extension): 807356423RZ0001
+        - Recipient Name: Areeb Bajwa
+        - Recipient SIN: 529693855
+        - Year: 2023
+        - Box 24 (Actual amount of eligible dividends): $84,593.00
+        - Box 25 (Taxable amount of eligible dividends): $116,738.34
+        - Box 26 (Dividend tax credit for eligible dividends): $17,533.57
+        - Report Code (Box 21): O (for Original)
+        - Recipient Type (Box 23): 1 (for Individual)
+        - Date of Payment: December 31, 2023 (This might be Box 22 in some versions or contexts, TBC when actually preparing the slip)
+- [X] **Prepare the T5 Summary.**
+    - Note: CRA Web Forms typically auto-generates the T5 Summary after slip entry. User to confirm generation.
+- [ ] **File the T5 slip and T5 Summary with the CRA.** (Awaiting User Action via Web Forms)
+- [ ] **Provide a copy of the T5 slip to Areeb Bajwa.** (Awaiting User Action - Print/PDF from Web Forms)
+- [ ] **Document the process and information in `docs/` if new generalizable knowledge is gained.** (Awaiting User Action) 

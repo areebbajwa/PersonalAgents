@@ -8,6 +8,10 @@ import {
   McpError,
 } from '@modelcontextprotocol/sdk/types.js';
 import { google } from 'googleapis';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as os from 'os';
+import * as mime from 'mime-types';
 
 // Environment variables required for OAuth
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
@@ -272,7 +276,7 @@ class GoogleWorkspaceServer {
         },
         {
           name: 'get_email_attachment',
-          description: 'Get the base64 encoded content of an email attachment.',
+          description: 'Saves an email attachment to a temporary file and returns its path. Optionally accepts a suggested filename and MIME type.',
           inputSchema: {
             type: 'object',
             properties: {
@@ -283,6 +287,14 @@ class GoogleWorkspaceServer {
               attachmentId: {
                 type: 'string',
                 description: 'The ID of the attachment to retrieve.',
+              },
+              suggestedFilename: {
+                type: 'string',
+                description: 'Optional. A suggested filename (e.g., from get_email_content). Extension will be derived from suggestedMimeType or actual MIME type.',
+              },
+              suggestedMimeType: {
+                type: 'string',
+                description: 'Optional. A suggested MIME type (e.g., from get_email_content) to help derive the extension.',
               },
             },
             required: ['messageId', 'attachmentId'],
@@ -414,6 +426,57 @@ class GoogleWorkspaceServer {
     }
   }
 
+  private findAttachmentPart(parts: any[] | undefined, attachmentId: string): any | null {
+    if (!parts) {
+      return null;
+    }
+    for (const part of parts) {
+      if (part.body && part.body.attachmentId === attachmentId) {
+        return part;
+      }
+      if (part.parts) {
+        const foundInNested = this.findAttachmentPart(part.parts, attachmentId);
+        if (foundInNested) {
+          return foundInNested;
+        }
+      }
+    }
+    return null;
+  }
+
+  private getFilenameFromHeaders(headers: any[]): string | null {
+    if (!headers) return null;
+    const contentDispositionHeader = headers.find(h => h.name?.toLowerCase() === 'content-disposition');
+    if (contentDispositionHeader && contentDispositionHeader.value) {
+      const match = contentDispositionHeader.value.match(/filename\*?=(?:UTF-8'')?([^;]+)/i) || 
+                      contentDispositionHeader.value.match(/filename="?([^"\n]+)"?/i);
+      if (match && match[1]) {
+        // Decode if URI encoded (e.g., from filename*=UTF-8''foo%20bar.pdf)
+        try {
+          return decodeURIComponent(match[1].replace(/^"|"$/g, '')); // Remove surrounding quotes if any
+        } catch (e) {
+          // Fallback for non-standard encoding, return as is after removing quotes
+          return match[1].replace(/^"|"$/g, '');
+        }
+      }
+    }
+    // Fallback for some inline images that might use Content-ID as filename hint in X-Attachment-Id
+    // or have it in Content-Type name parameter (less common for actual files)
+    const xAttachmentIdHeader = headers.find(h => h.name?.toLowerCase() === 'x-attachment-id');
+    if (xAttachmentIdHeader && xAttachmentIdHeader.value) {
+        // Often X-Attachment-Id is the filename for inline images if part.filename is empty
+        return xAttachmentIdHeader.value;
+    }
+    const contentTypeHeader = headers.find(h => h.name?.toLowerCase() === 'content-type');
+    if (contentTypeHeader && contentTypeHeader.value) {
+        const nameMatch = contentTypeHeader.value.match(/name="?([^"\n]+)"?/i);
+        if (nameMatch && nameMatch[1]) {
+            return nameMatch[1].replace(/^"|"$/g, '');
+        }
+    }
+    return null;
+  }
+
   private async handleGetEmailAttachment(args: any) {
     if (!args || !args.messageId || typeof args.messageId !== 'string') {
       throw new McpError(ErrorCode.InvalidParams, 'Message ID (messageId) is required and must be a string.');
@@ -423,6 +486,57 @@ class GoogleWorkspaceServer {
     }
 
     try {
+      const messageResponse = await this.gmail.users.messages.get({
+        userId: 'me',
+        id: args.messageId,
+        format: 'full',
+      });
+
+      if (!messageResponse.data || !messageResponse.data.payload) {
+        throw new McpError(ErrorCode.InternalError, 'Failed to retrieve email details or payload missing for filename.');
+      }
+
+      const attachmentPart = this.findAttachmentPart(messageResponse.data.payload.parts, args.attachmentId);
+      
+      // Prioritize suggested MIME type if provided and valid, otherwise use part's MIME type
+      let mimeTypeToUse = args.suggestedMimeType && mime.extension(args.suggestedMimeType) 
+                          ? args.suggestedMimeType 
+                          : attachmentPart?.mimeType || 'application/octet-stream';
+
+      let originalFilenameFromApi = attachmentPart?.filename;
+      if ((!originalFilenameFromApi || originalFilenameFromApi.trim() === '') && attachmentPart && attachmentPart.headers) {
+        originalFilenameFromApi = this.getFilenameFromHeaders(attachmentPart.headers);
+      }
+
+      let baseFilenameToUse: string;
+      // Prioritize suggested filename if provided
+      if (args.suggestedFilename && args.suggestedFilename.trim() !== '') {
+        baseFilenameToUse = path.basename(args.suggestedFilename, path.extname(args.suggestedFilename));
+      } else if (originalFilenameFromApi && originalFilenameFromApi.trim() !== '') {
+        baseFilenameToUse = path.basename(originalFilenameFromApi, path.extname(originalFilenameFromApi));
+      } else {
+        const timestamp = Date.now();
+        const shortAttachmentId = args.attachmentId.substring(0, 12);
+        baseFilenameToUse = `attachment_${shortAttachmentId}_${timestamp}`;
+        console.warn(`No explicit or suggested filename. Using generated base: ${baseFilenameToUse}`);
+      }
+
+      const extension = mime.extension(mimeTypeToUse) || 'dat';
+      let filenameToUse = `${baseFilenameToUse}.${extension}`;
+      
+      let sanitizedFilename = path.basename(filenameToUse).replace(/[^a-zA-Z0-9_.-]/g, '_');
+
+      const MAX_FILENAME_LENGTH = 200;
+      if (sanitizedFilename.length > MAX_FILENAME_LENGTH) {
+        const extOnly = path.extname(sanitizedFilename);
+        let baseOnly = path.basename(sanitizedFilename, extOnly);
+        const availableLengthForBase = MAX_FILENAME_LENGTH - extOnly.length;
+        if (baseOnly.length > availableLengthForBase) {
+            baseOnly = baseOnly.substring(0, availableLengthForBase);
+        }
+        sanitizedFilename = baseOnly + extOnly;
+      }
+
       const response = await this.gmail.users.messages.attachments.get({
         userId: 'me',
         messageId: args.messageId,
@@ -433,13 +547,39 @@ class GoogleWorkspaceServer {
         throw new McpError(ErrorCode.InternalError, 'Failed to retrieve attachment data or data is missing.');
       }
 
+      const attachmentData = Buffer.from(response.data.data, 'base64');
+      
+      const tempDir = path.join(os.tmpdir(), 'email_attachments');
+      if (!fs.existsSync(tempDir)) {
+        fs.mkdirSync(tempDir, { recursive: true });
+      }
+      
+      // Create a unique-ish path in case of filename collisions, though proper handling might need UUIDs for production
+      let count = 0;
+      let tempFilePath = path.join(tempDir, sanitizedFilename);
+      const originalSanitizedFilename = sanitizedFilename;
+      
+      // Simple mechanism to avoid overwriting: append (1), (2), etc.
+      while (fs.existsSync(tempFilePath)) {
+        count++;
+        const extension = path.extname(originalSanitizedFilename);
+        const basename = path.basename(originalSanitizedFilename, extension);
+        tempFilePath = path.join(tempDir, `${basename}(${count})${extension}`);
+      }
+
+      fs.writeFileSync(tempFilePath, attachmentData);
+
       return {
         content: [{
           type: 'text',
           text: JSON.stringify({
             messageId: args.messageId,
             attachmentId: args.attachmentId,
-            data: response.data.data,
+            filePath: tempFilePath,
+            originalSuggestedFilename: args.suggestedFilename, // For reference
+            apiFilename: originalFilenameFromApi, // For reference
+            derivedFilename: sanitizedFilename, 
+            mimeType: mimeTypeToUse, 
             size: response.data.size,
           })
         }],

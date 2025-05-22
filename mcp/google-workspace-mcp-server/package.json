@@ -19,9 +19,11 @@
   "dependencies": {
     "@google-cloud/local-auth": "^3.0.1",
     "@modelcontextprotocol/sdk": "0.6.0",
-    "googleapis": "^144.0.0"
+    "googleapis": "^144.0.0",
+    "mime-types": "^3.0.1"
   },
   "devDependencies": {
+    "@types/mime-types": "^2.1.4",
     "@types/node": "^20.11.24",
     "typescript": "^5.3.3"
   }
