@@ -24,6 +24,7 @@ This document summarizes the refined logic for assigning a `PrimaryCategory` to 
     *   Description contains `WPS BILLING`: Assign **MPYRE Software Inc.** (Wire transfer fees for Mpyre)
     *   Description contains `PAYPAL MSP`: Assign **MPYRE Software Inc.**
     *   Description contains `PENNYAPPEAL CANADA`, `ALLSTATE`, `HWY407 ETR BPY`: Assign **Personal**.
+    *   Description contains `RPW` (typically indicates a wire transfer): Assign **Metropolis**.
 
 3.  **General Cloud Service Keyword:**
     *   Description contains `CLOUD`: Assign **Kalaam Foundation**.
@@ -61,6 +62,8 @@ This document summarizes the refined logic for assigning a `PrimaryCategory` to 
 
 *   Transfers between accounts belonging to different entities (e.g., MPYRE funding Kalaam Foundation) need special attention. They should be recorded appropriately as transfers/donations/loans in each entity's books. The categorization script should ideally identify these based on source/destination accounts if possible, or they may need manual review. 
 *   Payments described as `TD VISA PREAUTH PYMT` originating from an MPYRE Software Inc. account require manual verification to determine if the payment was to a personal VISA card (in which case it's a personal cash draw) or to an MPYRE Software Inc. business VISA card (in which case it's an internal business transaction). The destination VISA card is not always identifiable from the transaction data alone.
+*   Similarly, payments described as `TD VISA PYMT MSP` (or similar VISA payment descriptions) originating from a **Metropolis** account require verification. If the destination VISA card cannot be confirmed as personal, it should be assumed to be a payment to a Metropolis business VISA card, and the transaction's `PrimaryCategory` should be **Metropolis**.
+*   E-transfers originating from a **Metropolis** account (e.g., `Description` contains `SEND E-TFR` or `ai_category` is `Transfer (E-transfer Outgoing)`) should be categorized as **Metropolis** expenses.
 
 **Transaction Filtering:**
 

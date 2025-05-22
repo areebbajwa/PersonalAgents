@@ -12,6 +12,7 @@ This document summarizes key information, decisions, and data points from the 20
 *   **Mailing Address (Dec 31, 2023):** 8175 first line nassagaweya, Campbellville ON L0P 1B0 Canada *(Note: Verify address annually)*
 *   **Marital Status (Dec 31, 2023):** Married
     *   **Spouse's Full Name:** Nisha Ravindranath
+    *   **Spouse's Date of Birth:** May 2, 1987
     *   **Spouse's SIN:** PENDING_USER_INPUT for 2023 simulation. *(Action: Obtain and record for future filings if not already done).*
     *   **Spouse's 2023 Net Income:** Assumed $0.00 for 2023 spousal credit calculation. *(Action: Obtain actual net income annually for accurate calculations).*
 *   **Dependents Claimed (2023):** None with net income.
@@ -79,5 +80,10 @@ This document summarizes key information, decisions, and data points from the 20
     *   **Kalaam Foundation Income 2023:**
         *   Description: Various deposits (Stripe, transfers) to Kalaam Foundation accounts.
         *   Attribution: Considered income to the Kalaam Foundation, not personal income to Areeb Bajwa for T1 purposes.
+
+## VII. Specific Transaction Notes (2023 Analysis)
+*   **Transfers to "KHA":** During the 2023 analysis of Metropolis account outflows, transfers to "KHA" (e.g., `HA#004 TFR-TO KHA`, `HA#005 TFR-TO KHA` from Metropolis CAD Areeb Account (3361)) were identified. User confirmed (2025-05-22) that "KHA" refers to Khadija Siddiqui (Areeb's mother) and these payments were for payroll. These are not to be considered personal income for Areeb or Nisha.
+*   **Metropolis E-Transfers & VISA Payments (for Nisha's Income Calculation - 2023):** User confirmed (2025-05-22) that e-transfers from Metropolis accounts (e.g., `SEND E-TFR ***twW`) are considered Metropolis business expenses. Additionally, generic VISA payments from Metropolis accounts (e.g., `TD VISA PYMT MSP`) are assumed to be to Metropolis business VISA cards unless explicitly confirmed as payments to a personal VISA. Therefore, these were excluded from Nisha's 2023 income calculation. Only direct personal expenses paid by Metropolis (e.g., dining) and direct transfers to confirmed/assumed personal accounts were included.
+*   **Metropolis "RPW" Transactions (Wire Transfers):** User confirmed (2025-05-22) that descriptions containing "RPW" (e.g., `231020B2590000RPW`, `231115B9317000RPW`) from Metropolis accounts signify wire transfers for Metropolis business purposes. These were previously miscategorized by AI as personal expenses (Dining & Entertainment) but are now correctly classified as Metropolis expenses and excluded from Nisha's 2023 income.
 
 This document should serve as a helpful starting point for future tax preparations. Remember to adapt to any changes in tax laws, personal circumstances, or data structures. 
