@@ -37,6 +37,29 @@
         - Date of Payment: December 31, 2023 (This might be Box 22 in some versions or contexts, TBC when actually preparing the slip)
 - [X] **Prepare the T5 Summary.**
     - Note: CRA Web Forms typically auto-generates the T5 Summary after slip entry. User to confirm generation.
-- [ ] **File the T5 slip and T5 Summary with the CRA.** (Awaiting User Action via Web Forms)
-- [ ] **Provide a copy of the T5 slip to Areeb Bajwa.** (Awaiting User Action - Print/PDF from Web Forms)
-- [ ] **Document the process and information in `docs/` if new generalizable knowledge is gained.** (Awaiting User Action) 
+- [x] File the 2023 T5 slip for Areeb Bajwa via CRA My Business Account.
+    - Navigated through CRA website to T5 filing.
+    - Entered Transmitter information (Areeb Bajwa).
+    - Entered Return information (T5, Original, 2023).
+    - Entered Filer information (Mpyre Software Inc., banking details).
+    - Entered T5 Recipient identification (Areeb Bajwa, SIN).
+    - Entered T5 Recipient address (8175 first line nassagaweya).
+    - Entered T5 Non-Financial information (Recipient bank transit: 03112, account: 5217807).
+    - Entered T5 Financial information:
+        - Actual amount of eligible dividends (Line 24): $84,593.00
+        - Taxable amount of eligible dividends (Line 25): $116,738.34
+        - Dividend tax credit for eligible dividends (Line 26): $17,533.70
+    - Validated slip.
+    - Reviewed summary.
+    - Confirmed and submitted the return.
+    - **Submission successful on May 22, 2025, at 1:31 PM EDT.**
+    - **Submission number: 29183333**
+    - CRA Account Number: 807356423RZ0001
+    - Tax Year: 2023
+- [x] **Provide a copy of the T5 slip to Areeb Bajwa.** (User saved PDF from browser after agent clicked "View PDF" on CRA site)
+- [x] **Document the process and information in `docs/` if new generalizable knowledge is gained.**
+    - Created `docs/filing_t5_slips_cra_web_forms.md` detailing the CRA Web Forms T5 filing process and 2023 dividend calculations.
+
+## Next Steps (Manual by User if not already done):
+- Ensure the saved PDF of the T5 slip is provided to Areeb Bajwa.
+- Archive this TODO file to `todos/completed/` if all user-dependent actions are also complete. 
