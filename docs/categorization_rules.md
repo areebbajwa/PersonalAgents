@@ -36,7 +36,7 @@ This document summarizes the refined logic for assigning a `PrimaryCategory` to 
     *   Description contains `CLOUD`: Assign **Kalaam Foundation**.
 
 5.  **Description Keywords for Specific Entities:**
-    *   **Kalaam Foundation:** Description contains `KALAAM`, `UPWORK`, `PURRWEB`, `OPENAI`, `ANAS`, `FIREBASE`, `VIMEO`, `JAHANZAIB`, `ISHAAQ`, `FRAMER`, `ANTHROPIC`, `MADINAH GIVE CO MSP`.
+    *   **Kalaam Foundation:** Description contains `KALAAM`, `UPWORK`, `PURRWEB`, `OPENAI`, `ANAS`, `FIREBASE`, `VIMEO`, `JAHANZAIB`, `ISHAAQ`, `FRAMER`, `ANTHROPIC`, `MADINAH GIVE CO` (both incoming donations and outgoing expenses).
 
 6.  **Account Name / Identifier Matching:**
     *   **Kalaam Foundation:**
@@ -94,6 +94,28 @@ This document summarizes the refined logic for assigning a `PrimaryCategory` to 
 - **Balance Forward entries are NOT income** - these are opening balances carried from previous periods
 - **RTN NSF entries are NOT income** - these are corrections for bounced/returned payments
 - Both must be excluded from financial statement calculations to prevent revenue overstatement
+
+## Revenue Source Classifications (May 2025)
+Based on detailed analysis with user clarification:
+
+### Kalaam Foundation Income Sources:
+1. **STRIPE MSP**: Direct donations via Stripe payment processor
+2. **Wire transfers (pattern: YYMMDDSNNNNNNNWIRE)**: iOS App Store revenue from Apple
+3. **Google Payment MSP**: Android Play Store revenue from Google Play
+4. **MADINAH GIVE CO MSP** (incoming, positive amounts): Large donations to Kalaam Foundation
+5. **WPS-[reference]**: Large institutional donations (e.g., EP Group $45.3k donation)
+
+### Expense Classifications:
+- **MADINAH GIVE CO** (outgoing, negative amounts): Kalaam Foundation expenses
+- **ISHAAQ/ISHAAQMHR**: Social media marketing expenses
+- **UPWORK**: Development contractor expenses
+- **ANTHROPIC/OPENAI**: AI service expenses
+- **CLOUD**: Cloud infrastructure expenses
+- **Bank fees**: Include MONTHLY PLAN FEE, MONTHLY ACCOUNT FEE, OVERDRAFT INTEREST in operational expenses
+
+### Internal Transfers (Exclude from Operational Analysis):
+- **TFR-TO transactions**: Internal transfers between accounts, not operational income/expenses
+- **TFR-FR transactions**: Internal transfers, exclude from revenue calculations
 
 ## Stripe Payouts
 - Stripe payouts may appear as either `STRIPE MSP` or `STRIPE PAYMENTS MSP` in the Description field.
