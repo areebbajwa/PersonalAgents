@@ -283,6 +283,29 @@ def fix_excluded_categories(conn, table_name):
     except Exception as e:
         print(f"Error fixing excluded categories: {e}")
 
+def fix_credit_card_amounts(conn, table_name):
+    """
+    Fixes credit card transactions that have positive amounts when they should be negative.
+    Credit card expenses should always be negative in financial calculations.
+    """
+    try:
+        print("Fixing credit card amount signs...")
+        cursor = conn.cursor()
+        
+        # Fix credit card amounts - flip positive amounts to negative for all credit card accounts
+        cursor.execute(f'''UPDATE "{table_name}" SET Amount = -Amount 
+                          WHERE Amount > 0 
+                          AND ("Account Name" LIKE '%VISA%' 
+                               OR "Account Name" LIKE '%credit card%'
+                               OR "Account Name" LIKE '%CREDIT CARD%')''')
+        credit_card_count = cursor.rowcount
+        
+        conn.commit()
+        print(f"Fixed credit card amounts: {credit_card_count} transactions flipped to negative")
+        
+    except Exception as e:
+        print(f"Error fixing credit card amounts: {e}")
+
 def process_and_categorize_transactions(conn, table_name):
     """
     Connects to the DB, fetches uncategorized transactions,
@@ -293,6 +316,9 @@ def process_and_categorize_transactions(conn, table_name):
         
         # First, fix any excluded categories that may have been miscategorized
         fix_excluded_categories(conn, table_name)
+        
+        # Second, fix credit card amount signs
+        fix_credit_card_amounts(conn, table_name)
         
         uncategorized_transactions = get_uncategorized_transactions(conn, table_name)
         

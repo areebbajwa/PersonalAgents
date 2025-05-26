@@ -117,6 +117,37 @@ Based on detailed analysis with user clarification:
 - **TFR-TO transactions**: Internal transfers between accounts, not operational income/expenses
 - **TFR-FR transactions**: Internal transfers, exclude from revenue calculations
 
+## Account Type Sign Corrections
+Credit card transactions import with positive amounts but represent expenses (should be negative):
+
+### Credit Card Accounts (flip positive amounts to negative):
+- **TD BUSINESS TRAVEL VISA** (all variations)
+- **Areeb personal CAD credit card** (all variations)  
+- **Areeb personal USD** credit card accounts
+
+### Bank Accounts (positive amounts remain positive):
+- **Kalaam Donations** accounts
+- **COMMUNITY PLAN** accounts
+- **TD BASIC BUSINESS PLAN** accounts
+- **BUSINESS INVESTOR ACCOUNT** accounts
+- **Mpyre** accounts
+
+### Complete Income Source Patterns:
+- **STRIPE MSP**: Stripe donation processor
+- **STRIPE PAYMENTS MSP**: Alternative Stripe pattern  
+- **Google Payment MSP**: Google Play Store revenue
+- **MADINAH GIVE CO MSP**: Large donations (incoming)
+- **MADINAH GIVE CO COR**: Alternative Madinah pattern
+- **WPS-[reference]**: Institutional donations (e.g., EP Group)
+- **[YYMMDD]S[NNNNNNN]WIRE**: App Store revenue from Apple
+
+### Non-Income Positive Transactions (exclude from revenue):
+- **Starting Balance**: Opening account balances
+- **ACCT BAL REBATE**: Bank fee rebates
+- **RTN FUNDS HELD**: Banking adjustments
+- **COLLECTION ITEM**: Banking corrections
+- **SEND E-TFR**: Internal transfers
+
 ## Stripe Payouts
 - Stripe payouts may appear as either `STRIPE MSP` or `STRIPE PAYMENTS MSP` in the Description field.
 - Both refer to Stripe, but `STRIPE MSP` is used for both detailed, date-specific account names (e.g., `Kalaam Donations 2065-6161389 Feb 28-Mar 31 2023`) and the generic account name (`Kalaam Donations (1389)`

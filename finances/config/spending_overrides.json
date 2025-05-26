@@ -25,6 +25,16 @@
         "note": "Institutional donations (e.g., EP Group)"
     },
     {
+        "fragment": "STRIPE PAYMENTS MSP",
+        "category": "Kalaam Foundation",
+        "note": "Stripe payment processor alternative pattern"
+    },
+    {
+        "fragment": "MADINAH GIVE CO COR",
+        "category": "Kalaam Foundation",
+        "note": "Large donations alternative pattern"
+    },
+    {
         "fragment": "BALANCE FORWARD",
         "category": "EXCLUDED_ACCOUNTING",
         "note": "Accounting carry-forward, not income/expense"
