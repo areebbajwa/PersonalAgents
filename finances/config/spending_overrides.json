@@ -1,0 +1,92 @@
+[
+    {
+        "fragment": "STRIPE MSP",
+        "category": "Kalaam Foundation",
+        "note": "Stripe payment processor for donations"
+    },
+    {
+        "fragment": "MADINAH GIVE CO MSP",
+        "category": "Kalaam Foundation",
+        "note": "Large donations to/from Madinah Give Co"
+    },
+    {
+        "fragment": "WIRE",
+        "category": "Kalaam Foundation",
+        "note": "App Store revenue via wire transfers"
+    },
+    {
+        "fragment": "Google Payment MSP",
+        "category": "Kalaam Foundation",
+        "note": "Google Play Store revenue"
+    },
+    {
+        "fragment": "WPS-",
+        "category": "Kalaam Foundation",
+        "note": "Institutional donations (e.g., EP Group)"
+    },
+    {
+        "fragment": "BALANCE FORWARD",
+        "category": "EXCLUDED_ACCOUNTING",
+        "note": "Accounting carry-forward, not income/expense"
+    },
+    {
+        "fragment": "Balance Forward",
+        "category": "EXCLUDED_ACCOUNTING",
+        "note": "Accounting carry-forward, not income/expense"
+    },
+    {
+        "fragment": "BAL FWD",
+        "category": "EXCLUDED_ACCOUNTING",
+        "note": "Accounting carry-forward, not income/expense"
+    },
+    {
+        "fragment": "OPENING BALANCE",
+        "category": "EXCLUDED_ACCOUNTING",
+        "note": "Accounting carry-forward, not income/expense"
+    },
+    {
+        "fragment": "RTN NSF",
+        "category": "EXCLUDED_ACCOUNTING",
+        "note": "NSF return, correction not income"
+    },
+    {
+        "fragment": "RETURN NSF",
+        "category": "EXCLUDED_ACCOUNTING",
+        "note": "NSF return, correction not income"
+    },
+    {
+        "fragment": "NSF RTN",
+        "category": "EXCLUDED_ACCOUNTING",
+        "note": "NSF return, correction not income"
+    },
+    {
+        "fragment": "RETURNED NSF",
+        "category": "EXCLUDED_ACCOUNTING",
+        "note": "NSF return, correction not income"
+    },
+    {
+        "fragment": "JOURNAL ENTRY",
+        "category": "EXCLUDED_ACCOUNTING",
+        "note": "Internal accounting adjustment"
+    },
+    {
+        "fragment": "ADJUSTMENT",
+        "category": "EXCLUDED_ACCOUNTING",
+        "note": "Internal accounting adjustment"
+    },
+    {
+        "fragment": "RECONCILIATION",
+        "category": "EXCLUDED_ACCOUNTING",
+        "note": "Internal accounting adjustment"
+    },
+    {
+        "fragment": "TFR-TO",
+        "category": "EXCLUDED_TRANSFER",
+        "note": "Internal transfer between accounts"
+    },
+    {
+        "fragment": "TFR-FR",
+        "category": "EXCLUDED_TRANSFER",
+        "note": "Internal transfer between accounts"
+    }
+]

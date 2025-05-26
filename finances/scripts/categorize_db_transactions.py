@@ -112,36 +112,63 @@ def get_uncategorized_transactions(conn, table_name):
 
 def categorize_transaction(description, account_name):
     """
-    Categorizes a transaction based on predefined rules.
+    Categorizes a transaction based on predefined rules from docs/categorization_rules.md.
     Uses the global SPENDING_OVERRIDES.
+    
+    Implements categorization hierarchy:
+    1. Exclude non-transaction accounting entries
+    2. Manual overrides (spending_overrides.json)
+    3. Specific description keywords (hardcoded)
+    4. General cloud service keyword
+    5. Description keywords for specific entities
+    6. Account name/identifier matching
+    7. Default category
     """
     description = str(description).upper() if description else ''
     account_name = str(account_name).upper() if account_name else ''
 
-    # 1. Manual Overrides
+    # 1. CRITICAL: Exclude Non-Transaction Accounting Entries
+    # Balance Forward entries
+    if any(keyword in description for keyword in ['BALANCE FORWARD', 'BAL FWD', 'OPENING BALANCE']):
+        return 'EXCLUDED_ACCOUNTING'
+    
+    # NSF Returns
+    if any(keyword in description for keyword in ['RTN NSF', 'RETURN NSF', 'NSF RTN', 'RETURNED NSF']):
+        return 'EXCLUDED_ACCOUNTING'
+    
+    # Internal Accounting
+    if any(keyword in description for keyword in ['JOURNAL ENTRY', 'ADJUSTMENT', 'RECONCILIATION']):
+        return 'EXCLUDED_ACCOUNTING'
+
+    # 2. Manual Overrides (spending_overrides.json)
     for override in SPENDING_OVERRIDES:
         if override.get('fragment', '').upper() in description:
             return override.get('category', 'Personal') # Default to Personal if category missing
 
-    # 2. Specific Description Keywords (Hardcoded)
+    # 3. Specific Description Keywords (Hardcoded)
     if 'WPS BILLING' in description:
         return 'MPYRE Software Inc.'
     if 'PAYPAL MSP' in description:
         return 'MPYRE Software Inc.'
     if any(keyword in description for keyword in ['PENNYAPPEAL CANADA', 'ALLSTATE', 'HWY407 ETR BPY']):
         return 'Personal'
+    if 'RPW' in description:  # Wire transfer indicator
+        return 'Metropolis'
 
-    # 3. General Cloud Service Keyword (NEW)
+    # 4. General Cloud Service Keyword
     if 'CLOUD' in description:
         return 'Kalaam Foundation'
 
-    # 4. Description Keywords for Specific Entities (was 3)
-    # Kalaam Foundation
-    kalaam_desc_keywords = ['KALAAM', 'UPWORK', 'PURRWEB', 'OPENAI', 'ANAS', 'FIREBASE', 'VIMEO', 'JAHANZAIB', 'ISHAAQ', 'FRAMER', 'ANTHROPIC']
+    # 5. Description Keywords for Specific Entities
+    # Kalaam Foundation - includes both income and expense keywords from categorization rules
+    kalaam_desc_keywords = [
+        'KALAAM', 'UPWORK', 'PURRWEB', 'OPENAI', 'ANAS', 'FIREBASE', 'VIMEO', 
+        'JAHANZAIB', 'ISHAAQ', 'FRAMER', 'ANTHROPIC', 'MADINAH GIVE CO'
+    ]
     if any(keyword in description for keyword in kalaam_desc_keywords):
         return 'Kalaam Foundation'
 
-    # 5. Account Name / Identifier Matching (Moved down)
+    # 6. Account Name / Identifier Matching
     # Kalaam Foundation
     kalaam_account_keywords = ['COMMUNITY PLAN', 'BUSINESS INVESTOR ACCOUNT', 'KALAAM DONATIONS', 'TD BASIC BUSINESS PLAN']
     if any(keyword in account_name for keyword in kalaam_account_keywords):
@@ -162,7 +189,7 @@ def categorize_transaction(description, account_name):
     if any(keyword in account_name for keyword in autooptimize_account_keywords):
         return 'AutoOptimize Inc.'
         
-    # 6. Default Category
+    # 7. Default Category
     return 'Personal'
 
 def update_transaction_category(conn, table_name, category, date, account_name, description, amount, currency):
@@ -220,6 +247,42 @@ def update_transaction_category(conn, table_name, category, date, account_name, 
         print(f"Error updating transaction(s) (Category='{category}', Date='{date}', Account='{account_name}', Desc='{description}', Amt='{amount}', Curr='{currency}'): {e}")
         return False
 
+def fix_excluded_categories(conn, table_name):
+    """
+    Fixes transactions that should be excluded but were incorrectly categorized.
+    This runs first to ensure EXCLUDED categories take priority.
+    """
+    try:
+        print("Fixing excluded transaction categories...")
+        cursor = conn.cursor()
+        
+        # Update transfers to EXCLUDED_TRANSFER
+        cursor.execute(f'''UPDATE "{table_name}" SET PrimaryCategory = 'EXCLUDED_TRANSFER' 
+                          WHERE Description LIKE '%TFR-TO%' OR Description LIKE '%TFR-FR%'
+                          AND PrimaryCategory != 'EXCLUDED_TRANSFER' ''')
+        transfer_count = cursor.rowcount
+        
+        # Update accounting entries to EXCLUDED_ACCOUNTING  
+        cursor.execute(f'''UPDATE "{table_name}" SET PrimaryCategory = 'EXCLUDED_ACCOUNTING'
+                          WHERE (Description LIKE '%BALANCE FORWARD%' OR 
+                                Description LIKE '%BAL FWD%' OR 
+                                Description LIKE '%OPENING BALANCE%' OR
+                                Description LIKE '%RTN NSF%' OR 
+                                Description LIKE '%RETURN NSF%' OR 
+                                Description LIKE '%NSF RTN%' OR 
+                                Description LIKE '%RETURNED NSF%' OR
+                                Description LIKE '%JOURNAL ENTRY%' OR 
+                                Description LIKE '%ADJUSTMENT%' OR 
+                                Description LIKE '%RECONCILIATION%')
+                          AND PrimaryCategory != 'EXCLUDED_ACCOUNTING' ''')
+        accounting_count = cursor.rowcount
+        
+        conn.commit()
+        print(f"Fixed excluded categories: {transfer_count} transfers, {accounting_count} accounting entries")
+        
+    except Exception as e:
+        print(f"Error fixing excluded categories: {e}")
+
 def process_and_categorize_transactions(conn, table_name):
     """
     Connects to the DB, fetches uncategorized transactions,
@@ -227,6 +290,9 @@ def process_and_categorize_transactions(conn, table_name):
     """
     try:
         print(f"Connected to database: {conn}")
+        
+        # First, fix any excluded categories that may have been miscategorized
+        fix_excluded_categories(conn, table_name)
         
         uncategorized_transactions = get_uncategorized_transactions(conn, table_name)
         
