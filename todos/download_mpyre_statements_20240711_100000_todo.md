@@ -91,7 +91,7 @@
             - [X] Statement: Mpyre_CAD_chequing_311-5217807_Mar_28-Apr_30_2024 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2024-04-30_Mpyre_CAD_chequing_311-5217807_Mar_28-Apr_30_2024.pdf
             - [X] Statement: Mpyre_CAD_chequing_311-5217807_Feb_29-Mar_28_2024 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2024-03-28_Mpyre_CAD_chequing_311-5217807_Feb_29-Mar_28_2024.pdf
             - [X] Statement: Mpyre_CAD_chequing_311-5217807_Jan_31-Feb_29_2024 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2024-02-29_Mpyre_CAD_chequing_311-5217807_Jan_31-Feb_29_2024.pdf
-            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Dec_29-Jan_31_2024 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2024-01-31_Mpyre_CAD_chequing_311-5217807_Dec_29-Jan_31_2024.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Dec_29-Jan_31_2024 - DB check: EXISTS (Count: 16). Skipped download.
             - [X] Year 2024: All statements checked and downloaded as needed.
     - [ ] Mpyre USD chequing 1012: Process for missing statements (ONLY 2021-01 through 2022-08 based on DB analysis).
         - [X] Created directory: data/downloaded_statements/mpyre/1012/
