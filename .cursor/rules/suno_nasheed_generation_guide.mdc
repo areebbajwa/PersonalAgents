@@ -31,7 +31,7 @@ This guide outlines the process for generating nasheeds using the Suno AI websit
         *   Use the browser tool to type the nasheed lyrics into the identified **Lyrics Textbox**.
 
     d.  **Input Style:**
-        *   Use the browser tool to type the style (e.g., "Pop, male vocals only accapella") into the identified **Style Description Textbox**. Remember to exclude music references if only acapella is desired.
+        *   Use the browser tool to type the style (e.g., "Pop, male vocals only accapella") into the identified **Style Description Textbox**. Always only use halal instruments. 
 
     e.  **Input Title:**
         *   Use the browser tool to type the song title into the identified **Song Title Textbox**.
@@ -40,7 +40,7 @@ This guide outlines the process for generating nasheeds using the Suno AI websit
         *   Use the browser tool to click the identified **Create Button**.
 
     g.  **Wait for Generation (Context-Dependent):**
-        *   The site will start generating the song. The user may or may not want to wait for each song to complete before starting the next.
+        *   The site will start generating the song. You don't need to wait for each song to complete before starting the next.
 
     h.  **Clear Fields for Next Song:**
         *   Take a snapshot if unsure about the "Clear All" button's reference.

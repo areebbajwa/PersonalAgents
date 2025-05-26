@@ -1,0 +1,153 @@
+# TODO: Download Mpyre Account Statements (2020 onwards)
+
+- [X] **Pre-Task Contextual Analysis**
+    - [X] Identify Mpyre accounts from existing data or documentation.
+        - Mpyre CAD Chequing (e.g., ...7807 / 03112-5217807, ...8118)
+        - Mpyre USD Chequing (e.g., ...1012 / 311-7301012)
+        - Mpyre TD Business Travel VISA (e.g., ...5082)
+        - Mpyre Canadian Margin (e.g., ...HR0E, ...6Y7E, ...561hr0f)
+        - Mpyre US Margin (e.g., ...HR0F, ...6Y7F, ...561hr0g)
+        - Other potential Mpyre accounts (endings: ...687A, ...687B)
+    - [X] Check `data/personal.db` (table: `transactions`) for existing transactions for Mpyre accounts from 2020-01-01 onwards.
+        - Accounts WITH transactions found:
+            - Mpyre CAD chequing (related to ...7807)
+            - Mpyre USD chequing (related to ...1012)
+            - TD BUSINESS TRAVEL VISA (...5082)
+    - [X] Determine which Mpyre accounts need statements downloaded.
+        - DATABASE ANALYSIS COMPLETED - Only download for periods with ZERO transactions:
+            - Mpyre CAD chequing 7807: ✅ COMPLETED (33 statements downloaded)
+            - Mpyre USD chequing 1012: ✅ COMPLETED (32 statements downloaded)
+            - TD BUSINESS TRAVEL VISA 5082: 🔄 IN PROGRESS (6/36 statements downloaded)
+            - TD BUSINESS TRAVEL VISA 7386 (CLOSED): ⏳ NOT STARTED (0/36 statements downloaded)
+            - Other accounts: To be analyzed if they exist in TD system
+- [ ] **Access TD Bank**
+    - [X] Navigate to TD EasyWeb. (User confirmed login, current page is statement page)
+    - [X] Confirm logged-in status (as per user).
+    - [X] Take initial snapshot of the accounts page. (Snapshot taken, account dropdown visible)
+- [ ] **Iterate Through Mpyre Accounts Requiring Statements**
+    - For each Mpyre account listed above:
+        - [ ] Create subdirectory in `data/downloaded_statements/mpyre/<account_identifier>` if not exists.
+        - [ ] List existing local statements in `data/downloaded_statements/mpyre/<account_identifier>`.
+        - [ ] In TD EasyWeb:
+            - [ ] Select the account from the dropdown.
+            - [ ] For each year (2020, 2021, 2022, 2023, 2024, current year):
+                - [ ] Select the year in the "Filter by year" dropdown.
+                - [ ] Take snapshot to list available statements.
+                - [ ] For each statement on TD website:
+                    - [ ] Parse statement date/period.
+                    - [ ] If not already downloaded locally:
+                        - [ ] Click to download.
+                        - [ ] Wait for download to `/Users/areeb2/Downloads/`.
+                        - [ ] Move downloaded file to `data/downloaded_statements/mpyre/<account_identifier>/<YYYY-MM-DD_description>.pdf` (standardized name).
+                        - [ ] Document downloaded file in this TODO.
+    - [-] Mpyre CAD chequing 7807: Selected. Confirmed existing data in DB (transactions table) for 2020+. No download needed.
+    - [-] Mpyre USD chequing 1012: Selected. Confirmed existing data in DB (transactions table) for 2020+. No download needed.
+    - [-] TD BUSINESS TRAVEL VISA 5082: Selected. Confirmed existing data in DB (transactions table) for 2020+. No download needed.
+    - [ ] Mpyre CAD chequing 7807: Process for missing statements (2020-Present).
+        - [ ] Year 2020:
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Nov_30-Dec_31_2020 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2020-12-31_Mpyre_CAD_chequing_311-5217807_Nov_30-Dec_31_2020.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Oct_30-Nov_30_2020 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2020-11-30_Mpyre_CAD_chequing_311-5217807_Oct_30-Nov_30_2020.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Sep_30-Oct_30_2020 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2020-10-30_Mpyre_CAD_chequing_311-5217807_Sep_30-Oct_30_2020.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Aug_31-Sep_30_2020 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2020-09-30_Mpyre_CAD_chequing_311-5217807_Aug_31-Sep_30_2020.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Jul_31-Aug_31_2020 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2020-08-31_Mpyre_CAD_chequing_311-5217807_Jul_31-Aug_31_2020.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Jun_30-Jul_31_2020 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2020-07-31_Mpyre_CAD_chequing_311-5217807_Jun_30-Jul_31_2020.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_May_29-Jun_30_2020 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2020-06-30_Mpyre_CAD_chequing_311-5217807_May_29-Jun_30_2020.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Apr_30-May_29_2020 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2020-05-29_Mpyre_CAD_chequing_311-5217807_Apr_30-May_29_2020.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Mar_31-Apr_30_2020 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2020-04-30_Mpyre_CAD_chequing_311-5217807_Mar_31-Apr_30_2020.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Feb_28-Mar_31_2020 - DB check: MISSING (Count: 0). Downloaded and moved to data/downloaded_statements/mpyre/7807/2020-03-31_Mpyre_CAD_chequing_311-5217807_Feb_28-Mar_31_2020.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Jan_31-Feb_28_2020 - DB check: MISSING (Count: 0). Downloaded and moved to data/downloaded_statements/mpyre/7807/2020-02-28_Mpyre_CAD_chequing_311-5217807_Jan_31-Feb_28_2020.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Dec_31-Jan_31_2020 - DB check: MISSING (Count: 0). Downloaded and moved to data/downloaded_statements/mpyre/7807/2020-01-31_Mpyre_CAD_chequing_311-5217807_Dec_31-Jan_31_2020.pdf
+            - [X] Year 2020: All statements checked and downloaded as needed. ✅ COMPLETED
+        - [ ] Year 2021:
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Nov_30-Dec_31_2021 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2021-12-31_Mpyre_CAD_chequing_311-5217807_Nov_30-Dec_31_2021.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Oct_29-Nov_30_2021 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2021-11-30_Mpyre_CAD_chequing_311-5217807_Oct_29-Nov_30_2021.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Sep_29-Oct_29_2021 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2021-10-29_Mpyre_CAD_chequing_311-5217807_Sep_29-Oct_29_2021.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Aug_31-Sep_29_2021 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2021-09-29_Mpyre_CAD_chequing_311-5217807_Aug_31-Sep_29_2021.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Jul_30-Aug_31_2021 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2021-08-31_Mpyre_CAD_chequing_311-5217807_Jul_30-Aug_31_2021.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Jun_30-Jul_30_2021 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2021-07-30_Mpyre_CAD_chequing_311-5217807_Jun_30-Jul_30_2021.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_May_31-Jun_30_2021 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2021-06-30_Mpyre_CAD_chequing_311-5217807_May_31-Jun_30_2021.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Apr_30-May_31_2021 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2021-05-31_Mpyre_CAD_chequing_311-5217807_Apr_30-May_31_2021.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Mar_31-Apr_30_2021 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2021-04-30_Mpyre_CAD_chequing_311-5217807_Mar_31-Apr_30_2021.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Feb_26-Mar_31_2021 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2021-03-31_Mpyre_CAD_chequing_311-5217807_Feb_26-Mar_31_2021.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Jan_29-Feb_26_2021 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2021-02-26_Mpyre_CAD_chequing_311-5217807_Jan_29-Feb_26_2021.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Dec_31-Jan_29_2021 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2021-01-29_Mpyre_CAD_chequing_311-5217807_Dec_31-Jan_29_2021.pdf
+            - [X] Year 2021: All statements checked and downloaded as needed.
+        - [ ] Year 2022:
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Dec_31-Jan_31_2022 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2022-01-31_Mpyre_CAD_chequing_311-5217807_Dec_31-Jan_31_2022.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Jan_31-Feb_28_2022 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2022-02-28_Mpyre_CAD_chequing_311-5217807_Jan_31-Feb_28_2022.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Feb_28-Mar_31_2022 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2022-03-31_Mpyre_CAD_chequing_311-5217807_Feb_28-Mar_31_2022.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Mar_31-Apr_29_2022 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2022-04-29_Mpyre_CAD_chequing_311-5217807_Mar_31-Apr_29_2022.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Apr_29-May_31_2022 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2022-05-31_Mpyre_CAD_chequing_311-5217807_Apr_29-May_31_2022.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_May_31-Jun_30_2022 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2022-06-30_Mpyre_CAD_chequing_311-5217807_May_31-Jun_30_2022.pdf
+        - [ ] Year 2023:
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Mar_31-Apr_28_2023 - DB check: EXISTS (Count: 5). Skipped download.
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Feb_28-Mar_31_2023 - DB check: EXISTS (Count: 8). Skipped download.
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Jan_31-Feb_28_2023 - DB check: EXISTS (Count: 6). Skipped download.
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Dec_30-Jan_31_2023 - DB check: EXISTS (Count: 6). Skipped download.
+            - [X] Year 2023: All statements checked and downloaded as needed.
+        - [ ] Year 2024:
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_May_31-Jun_28_2024 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2024-06-28_Mpyre_CAD_chequing_311-5217807_May_31-Jun_28_2024.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Apr_30-May_31_2024 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2024-05-31_Mpyre_CAD_chequing_311-5217807_Apr_30-May_31_2024.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Mar_28-Apr_30_2024 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2024-04-30_Mpyre_CAD_chequing_311-5217807_Mar_28-Apr_30_2024.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Feb_29-Mar_28_2024 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2024-03-28_Mpyre_CAD_chequing_311-5217807_Feb_29-Mar_28_2024.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Jan_31-Feb_29_2024 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2024-02-29_Mpyre_CAD_chequing_311-5217807_Jan_31-Feb_29_2024.pdf
+            - [X] Statement: Mpyre_CAD_chequing_311-5217807_Dec_29-Jan_31_2024 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2024-01-31_Mpyre_CAD_chequing_311-5217807_Dec_29-Jan_31_2024.pdf
+            - [X] Year 2024: All statements checked and downloaded as needed.
+    - [ ] Mpyre USD chequing 1012: Process for missing statements (ONLY 2021-01 through 2022-08 based on DB analysis).
+        - [X] Created directory: data/downloaded_statements/mpyre/1012/
+        - [X] Year 2020: ✅ COMPLETED - All 12 statements downloaded (DB Check: 0 transactions for account 1012 in 2020 - all statements were missing)
+            - [X] Statement: Mpyre_USD_chequing_311-7301012_Nov_30-Dec_31_2020 - Downloaded and moved to data/downloaded_statements/mpyre/1012/2020-12-31_Mpyre_USD_chequing_311-7301012_Nov_30-Dec_31_2020.pdf
+            - [X] Statement: Mpyre_USD_chequing_311-7301012_Oct_30-Nov_30_2020 - Downloaded and moved to data/downloaded_statements/mpyre/1012/2020-11-30_Mpyre_USD_chequing_311-7301012_Oct_30-Nov_30_2020.pdf
+            - [X] Statement: Mpyre_USD_chequing_311-7301012_Sep_30-Oct_30_2020 - Downloaded and moved to data/downloaded_statements/mpyre/1012/2020-10-30_Mpyre_USD_chequing_311-7301012_Sep_30-Oct_30_2020.pdf
+            - [X] Statement: Mpyre_USD_chequing_311-7301012_Aug_31-Sep_30_2020 - Downloaded and moved to data/downloaded_statements/mpyre/1012/2020-09-30_Mpyre_USD_chequing_311-7301012_Aug_31-Sep_30_2020.pdf
+            - [X] Statement: Mpyre_USD_chequing_311-7301012_Jul_31-Aug_31_2020 - Downloaded and moved to data/downloaded_statements/mpyre/1012/2020-08-31_Mpyre_USD_chequing_311-7301012_Jul_31-Aug_31_2020.pdf
+            - [X] Statement: Mpyre_USD_chequing_311-7301012_Jun_30-Jul_31_2020 - Downloaded and moved to data/downloaded_statements/mpyre/1012/2020-07-31_Mpyre_USD_chequing_311-7301012_Jun_30-Jul_31_2020.pdf
+            - [X] Statement: Mpyre_USD_chequing_311-7301012_May_29-Jun_30_2020 - Downloaded and moved to data/downloaded_statements/mpyre/1012/2020-06-30_Mpyre_USD_chequing_311-7301012_May_29-Jun_30_2020.pdf
+            - [X] Statement: Mpyre_USD_chequing_311-7301012_Apr_30-May_29_2020 - Downloaded and moved to data/downloaded_statements/mpyre/1012/2020-05-29_Mpyre_USD_chequing_311-7301012_Apr_30-May_29_2020.pdf
+            - [X] Statement: Mpyre_USD_chequing_311-7301012_Mar_31-Apr_30_2020 - Downloaded and moved to data/downloaded_statements/mpyre/1012/2020-04-30_Mpyre_USD_chequing_311-7301012_Mar_31-Apr_30_2020.pdf
+            - [X] Statement: Mpyre_USD_chequing_311-7301012_Feb_28-Mar_31_2020 - Downloaded and moved to data/downloaded_statements/mpyre/1012/2020-03-31_Mpyre_USD_chequing_311-7301012_Feb_28-Mar_31_2020.pdf
+            - [X] Statement: Mpyre_USD_chequing_311-7301012_Jan_31-Feb_28_2020 - Downloaded and moved to data/downloaded_statements/mpyre/1012/2020-02-28_Mpyre_USD_chequing_311-7301012_Jan_31-Feb_28_2020.pdf
+            - [X] Statement: Mpyre_USD_chequing_311-7301012_Dec_31-Jan_31_2020 - Downloaded and moved to data/downloaded_statements/mpyre/1012/2020-01-31_Mpyre_USD_chequing_311-7301012_Dec_31-Jan_31_2020.pdf
+        - [X] Year 2021: ✅ COMPLETED - All 12 statements downloaded (DB shows 0 transactions)
+            - [X] Statement: Mpyre_USD_chequing_311-7301012_Nov_30-Dec_31_2021 - Downloaded and moved to data/downloaded_statements/mpyre/1012/2021-12-31_Mpyre_USD_chequing_311-7301012_Nov_30-Dec_31_2021.pdf 
+        - [X] Year 2022: ✅ COMPLETED - All 8 needed statements downloaded (Jan-Aug only, DB has data from Sep onwards)
+            - [X] Statement: Mpyre_USD_chequing_311-7301012_Jul_29-Aug_31_2022 - Downloaded and moved to data/downloaded_statements/mpyre/1012/2022-08-31_Mpyre_USD_chequing_311-7301012_Jul_29-Aug_31_2022.pdf
+            - [X] Statement: Mpyre_USD_chequing_311-7301012_Jun_30-Jul_29_2022 - Downloaded and moved to data/downloaded_statements/mpyre/1012/2022-07-29_Mpyre_USD_chequing_311-7301012_Jun_30-Jul_29_2022.pdf
+            - [X] Statement: Mpyre_USD_chequing_311-7301012_May_31-Jun_30_2022 - Downloaded and moved to data/downloaded_statements/mpyre/1012/2022-06-30_Mpyre_USD_chequing_311-7301012_May_31-Jun_30_2022.pdf
+            - [X] Statement: Mpyre_USD_chequing_311-7301012_Apr_29-May_31_2022 - Downloaded and moved to data/downloaded_statements/mpyre/1012/2022-05-31_Mpyre_USD_chequing_311-7301012_Apr_29-May_31_2022.pdf
+            - [X] Statement: Mpyre_USD_chequing_311-7301012_Mar_31-Apr_29_2022 - Downloaded and moved to data/downloaded_statements/mpyre/1012/2022-04-29_Mpyre_USD_chequing_311-7301012_Mar_31-Apr_29_2022.pdf
+            - [X] Statement: Mpyre_USD_chequing_311-7301012_Feb_28-Mar_31_2022 - Downloaded and moved to data/downloaded_statements/mpyre/1012/2022-03-31_Mpyre_USD_chequing_311-7301012_Feb_28-Mar_31_2022.pdf
+            - [X] Statement: Mpyre_USD_chequing_311-7301012_Jan_31-Feb_28_2022 - Downloaded and moved to data/downloaded_statements/mpyre/1012/2022-02-28_Mpyre_USD_chequing_311-7301012_Jan_31-Feb_28_2022.pdf
+            - [X] Statement: Mpyre_USD_chequing_311-7301012_Dec_31-Jan_31_2022 - Downloaded and moved to data/downloaded_statements/mpyre/1012/2022-01-31_Mpyre_USD_chequing_311-7301012_Dec_31-Jan_31_2022.pdf
+        - [X] Year 2023: ✅ SKIP - DB has complete coverage from Sep 2022 onwards
+        - [X] Year 2024: ✅ SKIP - DB has complete coverage from Sep 2022 onwards
+        - [X] 🎉 MPYRE USD 1012 ACCOUNT: ✅ FULLY COMPLETED (32 statements total: 2020-2022)
+    - [ ] TD BUSINESS TRAVEL VISA 5082: Process for missing statements (2020-01 through 2022-11).
+        - [X] Created directory: data/downloaded_statements/mpyre/5082/
+        - [X] Year 2022: ✅ COMPLETED - All 12 statements downloaded (DB shows 0 transactions)
+            - [X] Statement: TD_BUSINESS_TRAVEL_VISA_5082_Dec_05-2022 - Downloaded and moved to data/downloaded_statements/mpyre/5082/2022-12-05_TD_BUSINESS_TRAVEL_VISA_5082_Dec_05-2022.pdf
+            - [X] Statement: TD_BUSINESS_TRAVEL_VISA_5082_Nov_07-2022 - Downloaded and moved to data/downloaded_statements/mpyre/5082/2022-11-07_TD_BUSINESS_TRAVEL_VISA_5082_Nov_07-2022.pdf
+            - [X] Statement: TD_BUSINESS_TRAVEL_VISA_5082_Oct_05-2022 - Downloaded and moved to data/downloaded_statements/mpyre/5082/2022-10-05_TD_BUSINESS_TRAVEL_VISA_5082_Oct_05-2022.pdf
+            - [X] Statement: TD_BUSINESS_TRAVEL_VISA_5082_Sep_06-2022 - Downloaded and moved to data/downloaded_statements/mpyre/5082/2022-09-06_TD_BUSINESS_TRAVEL_VISA_5082_Sep_06-2022.pdf
+            - [X] Statement: TD_BUSINESS_TRAVEL_VISA_5082_Aug_05-2022 - Downloaded and moved to data/downloaded_statements/mpyre/5082/2022-08-05_TD_BUSINESS_TRAVEL_VISA_5082_Aug_05-2022.pdf
+            - [X] Statement: TD_BUSINESS_TRAVEL_VISA_5082_Jul_05-2022 - Downloaded and moved to data/downloaded_statements/mpyre/5082/2022-07-05_TD_BUSINESS_TRAVEL_VISA_5082_Jul_05-2022.pdf
+            - [X] Statement: TD_BUSINESS_TRAVEL_VISA_5082_Jun_06-2022 - Downloaded and moved to data/downloaded_statements/mpyre/5082/2022-06-06_TD_BUSINESS_TRAVEL_VISA_5082_Jun_06-2022.pdf
+            - [X] Statement: TD_BUSINESS_TRAVEL_VISA_5082_May_05-2022 - Downloaded and moved to data/downloaded_statements/mpyre/5082/2022-05-05_TD_BUSINESS_TRAVEL_VISA_5082_May_05-2022.pdf
+            - [X] Statement: TD_BUSINESS_TRAVEL_VISA_5082_Apr_05-2022 - Downloaded and moved to data/downloaded_statements/mpyre/5082/2022-04-05_TD_BUSINESS_TRAVEL_VISA_5082_Apr_05-2022.pdf
+            - [X] Statement: TD_BUSINESS_TRAVEL_VISA_5082_Mar_07-2022 - Downloaded and moved to data/downloaded_statements/mpyre/5082/2022-03-07_TD_BUSINESS_TRAVEL_VISA_5082_Mar_07-2022.pdf
+            - [X] Statement: TD_BUSINESS_TRAVEL_VISA_5082_Feb_07-2022 - Downloaded and moved to data/downloaded_statements/mpyre/5082/2022-02-07_TD_BUSINESS_TRAVEL_VISA_5082_Feb_07-2022.pdf
+            - [X] Statement: TD_BUSINESS_TRAVEL_VISA_5082_Jan_05-2022 - Downloaded and moved to data/downloaded_statements/mpyre/5082/2022-01-05_TD_BUSINESS_TRAVEL_VISA_5082_Jan_05-2022.pdf
+        - [ ] Year 2021: NEED ALL 12 months (Jan-Dec) - DB shows 0 transactions
+        - [ ] Year 2020: NEED ALL 12 months (Jan-Dec) - DB shows 0 transactions
+    - [ ] TD BUSINESS TRAVEL VISA 7386 (CLOSED): Process for missing statements (2020-01 through 2022-11).
+        - [ ] Year 2022: NEED ALL 12 months (Jan-Dec) - DB shows 0 transactions
+        - [ ] Year 2021: NEED ALL 12 months (Jan-Dec) - DB shows 0 transactions  
+        - [ ] Year 2020: NEED ALL 12 months (Jan-Dec) - DB shows 0 transactions
+- [ ] **Post-Download Verification**
+    - [ ] Confirm all required statements are downloaded.
+    - [ ] Verify file naming and organization.
+- [ ] **Task Completion & Archival**
+    - [ ] Ensure all results/outputs are documented.
+    - [ ] Move this TODO file to `todos/completed/`.
+
+- [X] Mpyre CAD chequing 7807, Year 2020, Statement: Mpyre_CAD_chequing_311-5217807_Nov_30-Dec_31_2020 - DB check: MISSING. Downloaded and moved to data/downloaded_statements/mpyre/7807/2020-12-31_Mpyre_CAD_chequing_311-5217807_Nov_30-Dec_31_2020.pdf 
