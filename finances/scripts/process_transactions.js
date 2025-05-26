@@ -4,7 +4,11 @@ import {
     storeTextInCache, 
     MODEL_GEMINI_FLASH 
 } from './ai_cache_utils.js';
-import 'dotenv/config';
+import dotenv from 'dotenv';
+import path from 'path';
+
+// Load from config/.env relative to project root (two levels up from scripts)
+dotenv.config({ path: path.resolve(path.dirname(new URL(import.meta.url).pathname), '../../config/.env') });
 import sqlite3 from 'sqlite3'; // Added for DB query
 import pLimit from 'p-limit';   // Added for concurrency
 import JSON5 from 'json5'; // Import JSON5
@@ -61,18 +65,49 @@ if (!GEMINI_API_KEY) {
     process.exit(1);
 }
 
-// Ensure the table for tagged transactions exists before any tagging starts.
-// This is called once at the beginning of the script.
-createTaggedTransactionsTableIfNotExists().catch(err => {
-    console.error("Failed to create tagged_transactions_2023 table on startup. Exiting.", err);
-    process.exit(1); 
-});
+// Tables will be created dynamically based on year
 
 const genAI = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+
+// Function to check if transaction should be excluded from financial statements
+function isAccountingExclusion(description) {
+    const exclusionPatterns = [
+        'BALANCE FORWARD',
+        'Balance Forward', 
+        'BAL FWD',
+        'OPENING BALANCE',
+        'RTN NSF',
+        'RETURN NSF',
+        'NSF RTN', 
+        'RETURNED NSF',
+        'JOURNAL ENTRY',
+        'ADJUSTMENT',
+        'RECONCILIATION'
+    ];
+    
+    return exclusionPatterns.some(pattern => 
+        description.toUpperCase().includes(pattern.toUpperCase())
+    );
+}
 
 async function tagTransaction(transaction) {
     const transactionDescription = transaction.Description;
     let taggedTransactionData; // To store the successfully tagged data
+
+    // Check if this is an accounting exclusion FIRST
+    if (isAccountingExclusion(transactionDescription)) {
+        console.log(`EXCLUDING accounting entry: ${transactionDescription}`);
+        taggedTransactionData = {
+            ...transaction,
+            category: "EXCLUDED_ACCOUNTING",
+            merchant: "N/A",
+            tags: ["accounting-entry", "excluded"],
+            _cached: false,
+            _accounting_exclusion: true
+        };
+        await saveSingleTaggedTransaction(taggedTransactionData, new Date(transaction.Date).getFullYear());
+        return taggedTransactionData;
+    }
 
     try {
         const cachedResponse = await getTextFromCache(DB_PATH, transactionDescription, MODEL_GEMINI_FLASH);
@@ -81,7 +116,7 @@ async function tagTransaction(transaction) {
                 const parsedResponse = JSON5.parse(cachedResponse);
                 taggedTransactionData = { ...transaction, ...parsedResponse, _cached: true };
                 // Incrementally save if from cache and parsed successfully
-                await saveSingleTaggedTransaction(taggedTransactionData);
+                await saveSingleTaggedTransaction(taggedTransactionData, new Date(transaction.Date).getFullYear());
                 return taggedTransactionData;
             } catch (e) {
                 console.error(`Error parsing cached JSON5 for "${transactionDescription}":`, e.message);
@@ -166,7 +201,7 @@ Now, provide the JSON5 output for the transaction object provided above.`;
             await storeTextInCache(DB_PATH, transactionDescription, MODEL_GEMINI_FLASH, JSON5.stringify(llmResponseJson));
             taggedTransactionData = { ...transaction, ...llmResponseJson, _cached: false };
             // Incrementally save if from API and parsed successfully
-            await saveSingleTaggedTransaction(taggedTransactionData);
+            await saveSingleTaggedTransaction(taggedTransactionData, new Date(transaction.Date).getFullYear());
             return taggedTransactionData;
         } else {
             let errorDetail = "No valid content candidate part from Gemini";
@@ -194,7 +229,7 @@ Now, provide the JSON5 output for the transaction object provided above.`;
     }
 }
 
-async function fetchTransactions() {
+async function fetchTransactions(year) {
     return new Promise((resolve, reject) => {
         const db = new sqlite3.Database(DB_PATH, sqlite3.OPEN_READONLY, (err) => {
             if (err) {
@@ -203,7 +238,7 @@ async function fetchTransactions() {
             }
         });
 
-        const query = "SELECT * FROM transactions WHERE strftime('%Y', Date) = '2023';";
+        const query = `SELECT * FROM transactions WHERE strftime('%Y', Date) = '${year}';`;
         db.all(query, [], (err, rows) => {
             db.close();
             if (err) {
@@ -216,18 +251,28 @@ async function fetchTransactions() {
 }
 
 async function main() {
-    console.log("--- Starting Full Transaction Processing (2023) ---");
+    const year = process.argv[2] || '2023';
+    console.log(`--- Starting Full Transaction Processing (${year}) ---`);
+    
+    // Create table for this year
+    try {
+        await createTaggedTransactionsTableIfNotExists(year);
+    } catch (error) {
+        console.error(`Failed to create tagged_transactions_${year} table. Exiting.`, error);
+        return;
+    }
+    
     let transactions;
     try {
-        transactions = await fetchTransactions();
-        console.log(`Fetched ${transactions.length} transactions for 2023.`);
+        transactions = await fetchTransactions(year);
+        console.log(`Fetched ${transactions.length} transactions for ${year}.`);
     } catch (error) {
         console.error("Failed to fetch transactions. Aborting.", error);
         return;
     }
 
     if (!transactions || transactions.length === 0) {
-        console.log("No 2023 transactions found to process.");
+        console.log(`No ${year} transactions found to process.`);
         return;
     }
 
@@ -275,7 +320,7 @@ async function main() {
     // process.exit(0); // REMOVE THIS LINE to allow full script execution
 }
 
-async function createTaggedTransactionsTableIfNotExists() {
+async function createTaggedTransactionsTableIfNotExists(year) {
     return new Promise((resolve, reject) => {
         const db = new sqlite3.Database(DB_PATH, (err) => {
             if (err) {
@@ -284,12 +329,9 @@ async function createTaggedTransactionsTableIfNotExists() {
             }
         });
 
-        // id is now PRIMARY KEY for INSERT OR REPLACE
-        // Removed FOREIGN KEY constraint for simplicity with INSERT OR REPLACE, 
-        // as it might cause issues if original transaction.id is not perfectly unique or present.
-        // We assume transaction.id from the source data is sufficiently unique for our upsert purposes.
+        const tableName = `tagged_transactions_${year}`;
         const createTableSql = `
-        CREATE TABLE IF NOT EXISTS tagged_transactions_2023 (
+        CREATE TABLE IF NOT EXISTS ${tableName} (
             id INTEGER PRIMARY KEY, 
             Date DATE,
             "Account Name" TEXT,
@@ -308,18 +350,18 @@ async function createTaggedTransactionsTableIfNotExists() {
         
         db.exec(createTableSql, (err) => {
             if (err) {
-                console.error("Error creating tagged_transactions_2023 table:", err.message);
+                console.error(`Error creating ${tableName} table:`, err.message);
                 db.close();
                 return reject(err);
             }
-            const createIndexSql = `CREATE INDEX IF NOT EXISTS idx_tagged_transactions_2023_description ON tagged_transactions_2023 (Description);`;
+            const createIndexSql = `CREATE INDEX IF NOT EXISTS idx_${tableName}_description ON ${tableName} (Description);`;
             db.exec(createIndexSql, (indexErr) => {
                 db.close(); // Close DB connection
                 if (indexErr) {
-                    console.error("Error creating index on tagged_transactions_2023 table:", indexErr.message);
+                    console.error(`Error creating index on ${tableName} table:`, indexErr.message);
                     // Not rejecting here, as table creation was successful.
                 }
-                console.log("Table 'tagged_transactions_2023' checked/created successfully.");
+                console.log(`Table '${tableName}' checked/created successfully.`);
                 resolve();
             });
         });
@@ -327,7 +369,7 @@ async function createTaggedTransactionsTableIfNotExists() {
 }
 
 // New function to save a single tagged transaction using INSERT OR REPLACE
-async function saveSingleTaggedTransaction(tx) {
+async function saveSingleTaggedTransaction(tx, year) {
     if (!tx || tx._error || !tx.id) { // Ensure tx is valid, not an error, and has an ID
         // console.warn("Skipping save for transaction without ID or with error:", tx && tx.Description ? tx.Description : "Unknown");
         return;
@@ -341,8 +383,9 @@ async function saveSingleTaggedTransaction(tx) {
             }
         });
 
+        const tableName = `tagged_transactions_${year}`;
         const insertOrReplaceSql = `
-        INSERT OR REPLACE INTO tagged_transactions_2023 (
+        INSERT OR REPLACE INTO ${tableName} (
             id, Date, "Account Name", Amount, Description, SourceFile, PrimaryCategory, Currency, RawData, SheetTransactionID,
             ai_category, ai_merchant, ai_tags
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);

@@ -416,7 +416,25 @@ async function processDirectory(pdfDir, dbPath, sampleSize, targetFilename = nul
       return;
     }
   } else {
-    allFiles = fs.readdirSync(pdfDir).filter(f => f.toLowerCase().endsWith('.pdf'));
+    // Recursively find all PDF files in subdirectories
+    function findPDFsRecursively(dir, basePath = '') {
+      const files = [];
+      const entries = fs.readdirSync(dir, { withFileTypes: true });
+      
+      for (const entry of entries) {
+        const fullPath = path.join(dir, entry.name);
+        const relativePath = basePath ? path.join(basePath, entry.name) : entry.name;
+        
+        if (entry.isDirectory()) {
+          files.push(...findPDFsRecursively(fullPath, relativePath));
+        } else if (entry.isFile() && entry.name.toLowerCase().endsWith('.pdf')) {
+          files.push(relativePath);
+        }
+      }
+      return files;
+    }
+    
+    allFiles = findPDFsRecursively(pdfDir);
   }
   
   let filesToProcess = allFiles;

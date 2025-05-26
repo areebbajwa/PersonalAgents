@@ -1,4 +1,4 @@
-# Financial Transaction Categorization Rules (v2 - May 7, 2025)
+# Financial Transaction Categorization Rules (v3 - January 28, 2025)
 
 This document summarizes the refined logic for assigning a `PrimaryCategory` to financial transactions based on analysis of TD EasyWeb accounts and user clarifications. This logic aims to correctly separate transactions for Personal use, MPYRE Software Inc., Kalaam Foundation, Metropolis, and AutoOptimize Inc.
 
@@ -14,25 +14,31 @@ This document summarizes the refined logic for assigning a `PrimaryCategory` to 
 
 **Categorization Hierarchy (Applied in this order):**
 
-1.  **Manual Overrides (`spending_overrides.json`):**
+1.  **CRITICAL: Exclude Non-Transaction Accounting Entries:**
+    *   **Balance Forward:** Description contains `BALANCE FORWARD`, `Balance Forward`, `BAL FWD`, `OPENING BALANCE` - These are **EXCLUDED** from financial statements as they are accounting carry-forwards, not income or expenses.
+    *   **NSF Returns:** Description contains `RTN NSF`, `RETURN NSF`, `NSF RTN`, `RETURNED NSF` - These are **EXCLUDED** from financial statements as they are corrections/reversals of bounced payments, not income.
+    *   **Internal Accounting:** Description contains `JOURNAL ENTRY`, `ADJUSTMENT`, `RECONCILIATION` - These are **EXCLUDED** as internal accounting adjustments.
+    *   **Action:** Mark these transactions with category `EXCLUDED_ACCOUNTING` and do not include in revenue or expense calculations.
+
+2.  **Manual Overrides (`spending_overrides.json`):**
     *   If a transaction description contains a `fragment` listed in `spending_overrides.json`, the transaction is assigned the `category` specified in that file.
     *   **Important:** The `spending_overrides.json` file contains explicit text fragments that should be checked first for any transaction. Review this file regularly to see the current override rules. The file contains entries in the format: `{"fragment": "TEXT_TO_MATCH", "category": "ASSIGNED_CATEGORY"}`.
-    *   **Note:** This file is checked first. Existing rules might use the old "Kalaam" category, which may need future review to be updated to "Kalaam Foundation" or "MPYRE Software Inc." as appropriate for specific fragments. Logic using these rules should treat "Kalaam" as potentially ambiguous until the file is updated. *(Self-correction: The new script should map the category from the JSON file directly. If the file says "Kalaam", the script should assign "Kalaam". The user needs to update the JSON file itself if they want the overrides to assign "Kalaam Foundation" or "MPYRE Software Inc.").*
+    *   **Note:** This file is checked second (after accounting exclusions). Existing rules might use the old "Kalaam" category, which may need future review to be updated to "Kalaam Foundation" or "MPYRE Software Inc." as appropriate for specific fragments.
     *   **(Correction):** The script will apply the category exactly as specified in `spending_overrides.json`. If an override specifies `"category": "Kalaam"`, that category will be assigned by the override. The user needs to update this file manually if those overrides should now point to `"Kalaam Foundation"` or `"MPYRE Software Inc."`.
 
-2.  **Specific Description Keywords (Hardcoded):**
+3.  **Specific Description Keywords (Hardcoded):**
     *   Description contains `WPS BILLING`: Assign **MPYRE Software Inc.** (Wire transfer fees for Mpyre)
     *   Description contains `PAYPAL MSP`: Assign **MPYRE Software Inc.**
     *   Description contains `PENNYAPPEAL CANADA`, `ALLSTATE`, `HWY407 ETR BPY`: Assign **Personal**.
     *   Description contains `RPW` (typically indicates a wire transfer): Assign **Metropolis**.
 
-3.  **General Cloud Service Keyword:**
+4.  **General Cloud Service Keyword:**
     *   Description contains `CLOUD`: Assign **Kalaam Foundation**.
 
-4.  **Description Keywords for Specific Entities:**
+5.  **Description Keywords for Specific Entities:**
     *   **Kalaam Foundation:** Description contains `KALAAM`, `UPWORK`, `PURRWEB`, `OPENAI`, `ANAS`, `FIREBASE`, `VIMEO`, `JAHANZAIB`, `ISHAAQ`, `FRAMER`, `ANTHROPIC`, `MADINAH GIVE CO MSP`.
 
-5.  **Account Name / Identifier Matching:**
+6.  **Account Name / Identifier Matching:**
     *   **Kalaam Foundation:**
         *   Account Name contains: `COMMUNITY PLAN`, `BUSINESS INVESTOR ACCOUNT`, `Kalaam Donations`, `TD BASIC BUSINESS PLAN`.
         *   *(Account number endings inferred from TD data: `4162`, `4952`, `3538`, `2695`, `1389`, `2065`)*
@@ -46,7 +52,7 @@ This document summarizes the refined logic for assigning a `PrimaryCategory` to 
         *   Account Name contains: `AutoOptimize`.
         *   *(Account number endings inferred from TD data: `1147`, `6838`, `6040`)*
 
-6.  **Default Category:**
+7.  **Default Category:**
     *   If none of the above rules match, assign **Personal**.
 
 **Accounts Requiring Note:**
@@ -70,12 +76,24 @@ This document summarizes the refined logic for assigning a `PrimaryCategory` to 
 * In the current implementation, transaction filtering for transfer/payment terms is disabled to keep all transactions as requested.
 * The implementation has filtering logic commented out that would otherwise exclude transactions with keywords like `PAYMENT`, `TRANSFER`, `TFR-TO`, etc.
 
+**Financial Statement Processing:**
+
+* **CRITICAL:** Transactions marked as `EXCLUDED_ACCOUNTING` must be filtered out of financial statement calculations
+* **Revenue Calculation:** Only include transactions with positive amounts that are NOT marked as `EXCLUDED_ACCOUNTING`
+* **Expense Calculation:** Only include transactions with negative amounts that are NOT marked as `EXCLUDED_ACCOUNTING`
+* **Verification:** Always verify that Balance Forward and NSF Return transactions are properly excluded
+
 **Maintaining Categorization Rules:**
 
 * To add new manual overrides for specific merchants or transaction types, update the `spending_overrides.json` file rather than modifying this document.
 * The `spending_overrides.json` file should be reviewed periodically to ensure it reflects current categorization needs.
 
-# Recent Findings and Clarifications (May 2025)
+# Recent Findings and Clarifications (January 2025)
+
+## Critical Accounting Entry Exclusions
+- **Balance Forward entries are NOT income** - these are opening balances carried from previous periods
+- **RTN NSF entries are NOT income** - these are corrections for bounced/returned payments
+- Both must be excluded from financial statement calculations to prevent revenue overstatement
 
 ## Stripe Payouts
 - Stripe payouts may appear as either `STRIPE MSP` or `STRIPE PAYMENTS MSP` in the Description field.
