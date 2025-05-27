@@ -41,7 +41,17 @@ PersonalAgents/
 │
 ├── scripts/               # General utility scripts
 │
-└── tools/                 # Shared tools used by agents
+├── cli_tools/             # Standalone CLI tools and utilities
+│   ├── README.md          # CLI tools directory documentation
+│   └── desktop-automation-cli/  # Desktop UI automation tool
+│       ├── README.md            # User documentation
+│       ├── CURSOR_AGENT_INSTRUCTIONS.md  # AI assistant integration guide
+│       ├── automation           # Wrapper script for easy access
+│       ├── Cargo.toml          # Rust project configuration
+│       ├── src/                # Source code
+│       └── target/release/cli  # Compiled binary (after build)
+│
+└── tools/                 # LangChain tools used by agents
     ├── bank_tool.py       # Bank account access tools (verify current use)
     ├── interac_scraper.py # Interac e-Transfer scraper (verify current use)
     └── sheets_tool.py     # Google Sheets integration
@@ -110,6 +120,50 @@ The scripts in `finances/scripts/` provide a pipeline for:
 3.  **Transaction Categorization (Rule-based & AI)**:
     *   `categorize_db_transactions.py` applies rule-based categorization and updates missing currency information.
     *   `process_transactions.js` uses Google's Gemini AI to tag transactions with categories, merchants, and relevant tags, storing these enrichments in `personal.db`.
+
+## Desktop Automation
+
+The `cli_tools/desktop-automation-cli/` provides a powerful CLI tool for automating desktop applications on macOS:
+
+### Features
+- Open URLs and applications
+- List UI elements with accessibility information  
+- Direct input control (keyboard, mouse, text input)
+- AppleScript integration for reliable automation
+- JSON output for programmatic use
+
+### Quick Start
+```bash
+# Build the tool
+cd cli_tools/desktop-automation-cli
+cargo build --bin cli --release
+
+# Test it works
+./target/release/cli --help
+
+# Or use the wrapper script
+./automation --help
+```
+
+### Common Usage
+```bash
+# Web form automation example
+./automation open-url "https://easyweb.td.com"
+./automation input click "420,400"           # Click username field
+./automation input writetext "your_username"
+./automation input keypress "Tab"            # Move to password field
+./automation input writetext "your_password"
+./automation input keypress "Return"         # Submit form
+```
+
+### AI Integration
+The tool is designed for use with AI assistants like Cursor:
+- Stateless operation (no persistent state between commands)
+- JSON responses for easy parsing
+- Clear error messages and exit codes
+- Comprehensive documentation in [`CURSOR_AGENT_INSTRUCTIONS.md`](cli_tools/desktop-automation-cli/CURSOR_AGENT_INSTRUCTIONS.md)
+
+**Prerequisites**: macOS with accessibility permissions granted to your terminal application.
 
 ## Google Sheets Setup (Halaqa Agent)
 
