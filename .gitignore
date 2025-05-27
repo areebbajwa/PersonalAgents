@@ -26,5 +26,9 @@ keys/
 *.key
 data/Google Passwords.csv
 
+# Rust build artifacts
+target/
+Cargo.lock
+
 # IMPORTANT: Ensure mcp.json for the project is NOT ignored
 !mcp.json
