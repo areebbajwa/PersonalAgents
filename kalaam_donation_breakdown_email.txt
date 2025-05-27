@@ -26,22 +26,22 @@ Spending Breakdown (Nov 7, 2024 - Present):
 
 Category                     | Amount (USD) | Percentage | Key Components
 ---------------------------- | ------------ | ---------- | ----------------
-Contractors & Freelancers   | $27,645.10   | 29.2%      | Upwork development contractors
-Marketing & Social Media     | $19,049.93   | 20.1%      | Social media marketing campaigns
-AI & Cloud Services          | $36,875.55   | 38.9%      | Anthropic Claude API, OpenAI GPT, Google Cloud
-Other Operational Expenses   | $10,402.25   | 11.0%      | Miscellaneous operational costs
-Software & Subscriptions     | $612.64      | 0.6%       | Framer, Vimeo, Cloudflare, domain costs
-Bank Fees                   | $157.87      | 0.2%       | Account maintenance and transaction fees
-TOTAL OPERATIONAL           | $94,743.34   | 100.0%     |
+AI & Cloud Services          | $49,464.71   | 38.7%      | Anthropic Claude API, OpenAI GPT, Google Cloud
+Contractors & Freelancers   | $37,320.88   | 29.2%      | Upwork development contractors
+Marketing & Social Media     | $25,717.40   | 20.1%      | Social media marketing campaigns
+Other Operational Expenses   | $14,404.22   | 11.3%      | Miscellaneous operational costs
+Software & Subscriptions     | $783.17      | 0.6%       | Framer, Vimeo, Cloudflare, domain costs
+Bank Fees                   | $188.13      | 0.1%       | Account maintenance and transaction fees
+TOTAL OPERATIONAL           | $127,878.51  | 100.0%     |
 
 Donation Utilization Status:
 • Original Donation: $45,300.00 USD
-• Total Spent Since Donation: $94,743.34 USD
-• Direct Utilization Rate: 209.1% (exceeded by $49,443.34)
-• Context: Your donation represents 9.8% of total foundation income ($461,212.11)
-• Foundation Position: Strong financial foundation with multiple revenue sources
+• Total Spent Since Donation: $127,878.51 USD
+• Direct Utilization Rate: 282.3% (exceeded by $82,578.51)
+• Context: Your donation represents 12.5% of total foundation income ($361,229.61)
+• Foundation Position: Foundation currently operating at a deficit, requiring careful financial management
 
-Note: While spending since your donation exceeded the donation amount, the foundation has substantial total income from multiple sources including App Store revenue ($236,395.65) and Madinah Give Co donations ($150,841.84), ensuring operational sustainability.
+Note: While spending since your donation exceeded the donation amount, the foundation has total income from multiple sources including Madinah Give Co donations ($144,161.61) and Stripe donations ($136,994.28). However, operational expenses currently exceed income, resulting in a $60k deficit that requires attention.
 
 ----------------------------------------
 PART 2: COMPLETE SPEND-TO-DATE ANALYSIS
@@ -52,28 +52,29 @@ Overall Financial Position (Project Inception - Present)
 Total Income by Source:
 Source                          | Amount (USD)  | Percentage
 ------------------------------- | ------------- | ----------
-App Store Revenue (Wire)        | $236,395.65   | 51.3%
-Madinah Give Co Donations       | $150,841.84   | 32.7%
-Stripe Donations                | $44,174.61    | 9.6%
-Institutional Donations (WPS)   | $45,300.01    | 9.8%
-Google Play Revenue             | $11,800.00    | 2.6%
-TOTAL INCOME                   | $461,212.11   | 100.0%
+Madinah Give Co Donations       | $144,161.61   | 39.9%
+Stripe Donations                | $136,994.28   | 37.9%
+Institutional Donations (WPS)   | $45,300.01    | 12.5%
+App Store Revenue (Wire)        | $16,509.01    | 4.6%
+Google Play Revenue             | $15,940.77    | 4.4%
+Other Income                    | $2,323.93     | 0.6%
+TOTAL INCOME                   | $361,229.61   | 100.0%
 
 Total Operational Spending by Category:
 Category                     | Amount (USD) | Percentage
 ---------------------------- | ------------ | ----------
-Contractors & Freelancers   | $178,423.55  | 42.3%
-AI & Cloud Services          | $95,562.18   | 22.7%
-Marketing & Social Media     | $64,849.85   | 15.4%
-Other Operational Expenses   | $64,133.94   | 15.2%
-Software & Subscriptions     | $12,998.80   | 3.1%
-Bank Fees                   | $5,757.61    | 1.4%
+Contractors & Freelancers   | $291,353.51  | 69.1%
+AI & Cloud Services          | $62,204.00   | 14.7%
+Marketing & Social Media     | $47,667.91   | 11.3%
+Other Operational Expenses   | $17,865.15   | 4.2%
+Software & Subscriptions     | $1,867.91    | 0.4%
+Bank Fees                   | $767.45      | 0.2%
 TOTAL OPERATIONAL SPENDING  | $421,725.93  | 100.0%
 
 Financial Summary:
-• Total Income: $461,212.11 USD (App Store: $236,395.65 + Donations: $240,441.85 + Play Store: $11,800.00)
+• Total Income: $361,229.61 USD (Donations: $189,461.62 + Stripe: $136,994.28 + App/Play Stores: $32,449.78 + Other: $2,323.93)
 • Total Operational Spending: $421,725.93 USD
-• Net Position: $39,486.18 USD
+• Net Position: -$60,496.32 USD (60k deficit)
 
 ----------------------------------------
 PART 3: YOUR DONATION'S DIRECT IMPACT
@@ -81,13 +82,13 @@ PART 3: YOUR DONATION'S DIRECT IMPACT
 
 Your $45.3k donation directly enabled:
 
-• Advanced AI Infrastructure (38.9%): Powered our revolutionary AI-driven Arabic grammar system and cloud infrastructure
+• Advanced AI Infrastructure (38.7%): Powered our revolutionary AI-driven Arabic grammar system and cloud infrastructure
 
 • Enhanced Development Capacity (29.2%): Expanded our development team through Upwork contractors
 
 • Marketing & Social Media Growth (20.1%): Funded social media marketing campaigns
 
-• Operational Excellence (11.8%): Supported essential operational activities and platform subscriptions
+• Operational Excellence (11.9%): Supported essential operational activities and platform subscriptions
 
 ----------------------------------------
 
