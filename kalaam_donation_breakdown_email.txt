@@ -24,15 +24,25 @@ Donation Details:
 
 Spending Breakdown (Nov 7, 2024 - Present):
 
-Category                     | Amount (USD) | Percentage | Key Components
----------------------------- | ------------ | ---------- | ----------------
-AI & Cloud Services          | $49,464.71   | 38.7%      | Anthropic Claude API, OpenAI GPT, Google Cloud
-Contractors & Freelancers   | $37,320.88   | 29.2%      | Upwork development contractors
-Marketing & Social Media     | $25,717.40   | 20.1%      | Social media marketing campaigns
-Other Operational Expenses   | $14,404.22   | 11.3%      | Miscellaneous operational costs
-Software & Subscriptions     | $783.17      | 0.6%       | Framer, Vimeo, Cloudflare, domain costs
-Bank Fees                   | $188.13      | 0.1%       | Account maintenance and transaction fees
-TOTAL OPERATIONAL           | $127,878.51  | 100.0%     |
+• AI & Cloud Services: $49,464.71 (38.7%)
+  - Anthropic Claude API, OpenAI GPT, Google Cloud
+
+• Contractors & Freelancers: $37,320.88 (29.2%)
+  - Upwork development contractors
+
+• Marketing & Social Media: $25,717.40 (20.1%)
+  - Social media marketing campaigns
+
+• Other Operational Expenses: $14,404.22 (11.3%)
+  - Miscellaneous operational costs
+
+• Software & Subscriptions: $783.17 (0.6%)
+  - Framer, Vimeo, Cloudflare, domain costs
+
+• Bank Fees: $188.13 (0.1%)
+  - Account maintenance and transaction fees
+
+TOTAL OPERATIONAL SPENDING: $127,878.51
 
 Donation Utilization Status:
 • Original Donation: $45,300.00 USD
@@ -50,26 +60,26 @@ PART 2: COMPLETE SPEND-TO-DATE ANALYSIS
 Overall Financial Position (Project Inception - Present)
 
 Total Income by Source:
-Source                          | Amount (USD)  | Percentage
-------------------------------- | ------------- | ----------
-Madinah Give Co Donations       | $144,161.61   | 39.9%
-Stripe Donations                | $136,994.28   | 37.9%
-Institutional Donations (WPS)   | $45,300.01    | 12.5%
-App Store Revenue (Wire)        | $16,509.01    | 4.6%
-Google Play Revenue             | $15,940.77    | 4.4%
-Other Income                    | $2,323.93     | 0.6%
-TOTAL INCOME                   | $361,229.61   | 100.0%
+
+• Madinah Give Co Donations: $144,161.61 (39.9%)
+• Stripe Donations: $136,994.28 (37.9%)
+• Institutional Donations (WPS): $45,300.01 (12.5%)
+• App Store Revenue (Wire): $16,509.01 (4.6%)
+• Google Play Revenue: $15,940.77 (4.4%)
+• Other Income: $2,323.93 (0.6%)
+
+TOTAL INCOME: $361,229.61
 
 Total Operational Spending by Category:
-Category                     | Amount (USD) | Percentage
----------------------------- | ------------ | ----------
-Contractors & Freelancers   | $291,353.51  | 69.1%
-AI & Cloud Services          | $62,204.00   | 14.7%
-Marketing & Social Media     | $47,667.91   | 11.3%
-Other Operational Expenses   | $17,865.15   | 4.2%
-Software & Subscriptions     | $1,867.91    | 0.4%
-Bank Fees                   | $767.45      | 0.2%
-TOTAL OPERATIONAL SPENDING  | $421,725.93  | 100.0%
+
+• Contractors & Freelancers: $291,353.51 (69.1%)
+• AI & Cloud Services: $62,204.00 (14.7%)
+• Marketing & Social Media: $47,667.91 (11.3%)
+• Other Operational Expenses: $17,865.15 (4.2%)
+• Software & Subscriptions: $1,867.91 (0.4%)
+• Bank Fees: $767.45 (0.2%)
+
+TOTAL OPERATIONAL SPENDING: $421,725.93
 
 Financial Summary:
 • Total Income: $361,229.61 USD (Donations: $189,461.62 + Stripe: $136,994.28 + App/Play Stores: $32,449.78 + Other: $2,323.93)
@@ -97,5 +107,5 @@ Report compiled from financial database analysis covering all Kalaam Foundation 
 JazakAllah Khairun for your continued support.
 
 Best regards,
-[Your Name]
-Kalaam Foundation 
+Areeb Bajwa
+Founder, Kalaam Foundation 
