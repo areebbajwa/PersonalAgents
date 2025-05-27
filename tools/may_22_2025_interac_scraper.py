@@ -11,6 +11,9 @@ from playwright.async_api import async_playwright
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 
+# Load environment variables from config/.env
+load_dotenv(dotenv_path="config/.env")
+
 # Local project imports
 from browser_use import Controller, ActionResult # Assuming browser_use is installed locally or accessible
 from tools.browser_automator import BrowserAutomator
@@ -115,13 +118,9 @@ if __name__ == '__main__':
     # This allows testing the interac_scraper independently
     async def run_test_interac_scraper():
         print("Running Interac Scraper test...")
-        # You might want to load OPENAI_API_KEY from .env for local testing
+        # OPENAI_API_KEY is already loaded from config/.env at module level
         if not OPENAI_API_KEY or "sk-proj-" not in OPENAI_API_KEY:
             print("Warning: OPENAI_API_KEY might not be configured correctly for standalone test.")
-            # Optionally load from a .env file if python-dotenv is used
-            load_dotenv(dotenv_path="config/.env")
-            # global OPENAI_API_KEY # Not needed if re-fetching after load
-            OPENAI_API_KEY = os.getenv("OPENAI_API_KEY") # Re-fetch after loading
 
         result = await fetch_interac_transfers()
         if result and result.extracted_content:

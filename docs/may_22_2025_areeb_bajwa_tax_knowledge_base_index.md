@@ -7,7 +7,7 @@
 * Date of Birth: **1987-08-13**
 * Address: **8175 First Line Nassagaweya, Campbellville, ON L0P 1B0, Canada**
 * Marital Status: **Married** (Spouse: **Nisha Ravindranath**, SIN: 523211688)
-* No dependents claimed.
+* **Dependents:** 2 children - Rayyan Areeb Bajwa (son) and Neeya Areeb Bajwa (daughter)
 * Main 2023 income source: **Eligible dividends**
 * 2022 and 2023: Lived off a **HELOC** (Home Equity Line of Credit), not taxable, not reported as income.
 * Previous years' income: **2021: \$253k** (dividends/other), **2022: \$0**, **2023: \$116k** (eligible dividends).
@@ -112,7 +112,11 @@
 
 * HELOC funds used for personal living expenses are not taxable; interest not deductible.
 * Only HELOC interest on funds used for investment/business purposes is deductible (not claimed for 2022/2023).
-* No dependents, no foreign property income, no crypto tax issues noted.
+* **Dependents Information (Updated Jan 2025):**
+  * **Rayyan Areeb Bajwa (Son):** Born Sep 26, 2014, SIN: 579-056-011, Canadian citizen
+  * **Neeya Areeb Bajwa (Daughter):** Born Mar 3, 2017, SIN: 586-296-451, Canadian citizen
+  * Both reside at same address as taxpayer
+* No foreign property income, no crypto tax issues noted.
 * No payroll, GST/HST, or other compliance issues as of May 2025.
 
 ---

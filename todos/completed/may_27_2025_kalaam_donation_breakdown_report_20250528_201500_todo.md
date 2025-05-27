@@ -24,7 +24,7 @@
         - "STRIPE PAYMENTS MSP" ($30,971.16)
         - "MADINAH GIVE CO COR" ($5,590.12) 
         - Updated total true income to $372,627.37 USD
-    - **Documentation:** Enhanced `docs/categorization_rules.md` with account type classifications and income patterns
+    - **Documentation:** Enhanced `docs/may_26_2025_categorization_rules.md` with account type classifications and income patterns
 
 - [x] **Step 4: Report Generation**
     - **Completed:** Created comprehensive financial reports:
@@ -71,7 +71,7 @@
 **Files Modified/Created:**
 - `kalaam_donation_breakdown_email.txt` (final deliverable)
 - `finances/scripts/categorize_db_transactions.py` (enhanced with fixes)
-- `docs/categorization_rules.md` (updated with new rules)
+- `docs/may_26_2025_categorization_rules.md` (updated with new rules)
 - `finances/config/spending_overrides.json` (updated patterns)
 - Database: 3,115+ transactions corrected
 

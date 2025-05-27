@@ -257,7 +257,7 @@ For any new financial analysis project:
 
 ## 🔗 Related Documentation
 
-- `docs/categorization_rules.md` - Detailed categorization hierarchy
+- `docs/may_26_2025_categorization_rules.md` - Detailed categorization hierarchy
 - `finances/scripts/categorize_db_transactions.py` - Implementation of these patterns
 - `finances/config/spending_overrides.json` - Manual categorization overrides
 

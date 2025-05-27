@@ -114,7 +114,7 @@ def get_uncategorized_transactions(conn, table_name):
 
 def categorize_transaction(description, account_name):
     """
-    Categorizes a transaction based on predefined rules from docs/categorization_rules.md.
+    Categorizes a transaction based on predefined rules from docs/may_26_2025_may_26_2025_categorization_rules.md.
     Uses the global SPENDING_OVERRIDES.
     
     Implements categorization hierarchy:
