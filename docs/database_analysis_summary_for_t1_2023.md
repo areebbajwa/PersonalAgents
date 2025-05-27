@@ -20,7 +20,7 @@ To extract and analyze financial transactions from the user's personal database 
 ## 4. Cash Draw Analysis (Potential Dividend Income)
 - **Initial Goal:** Identify funds transferred from Mpyre corporate/business accounts to personal accounts or used for personal benefit.
 - **Method:**
-    - Used `scripts/analyze_tagged_tax_transactions.py` with the `--investigate_draws` flag, which searches for transactions categorized as 'Info: Inter-Account Transfer', 'Info: Cash Withdrawal', or raw `ai_category` like 'transfer (between own accounts)', 'transfer (e-transfer outgoing/incoming)', 'cash withdrawal'.
+    - Used `finances/scripts/analyze_tagged_tax_transactions.py` with the `--investigate_draws` flag, which searches for transactions categorized as 'Info: Inter-Account Transfer', 'Info: Cash Withdrawal', or raw `ai_category` like 'transfer (between own accounts)', 'transfer (e-transfer outgoing/incoming)', 'cash withdrawal'.
     - The script focused on transactions originating from accounts identified as "Mpyre CAD Chequing 8118", "Mpyre Margin 561hr0f", "Mpyre USD Margin 561hr0g" (as per earlier script logic which assumed these names might exist or be derivable).
     - Manually reviewed output in `data/cash_draw_details.txt`.
 - **Findings:**
@@ -31,7 +31,7 @@ To extract and analyze financial transactions from the user's personal database 
 ## 5. Margin Interest / Investment Expense Investigation
 - **Goal:** Identify margin interest paid, particularly related to "Mpyre Margin Account (561hr0f)".
 - **Method 1 (Script-based):**
-    - Ran `scripts/analyze_tagged_tax_transactions.py` with `--investment_expense_details` flag.
+    - Ran `finances/scripts/analyze_tagged_tax_transactions.py` with `--investment_expense_details` flag.
     - This searches for keywords like 'margin interest', 'investment interest', 'carrying charges' in `Description`, `ai_category`, `ai_tags`.
     - It also checks for generic interest charges from accounts named 'mpyre margin' or containing '561hr0f'.
     - **Result:** No specific investment expenses or margin interest transactions were identified by the script.

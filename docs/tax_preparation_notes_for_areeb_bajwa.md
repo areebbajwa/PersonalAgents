@@ -41,7 +41,7 @@ This document summarizes key information, decisions, and data points from the 20
 *   **Crucial Filtering Key for Account Ownership and Transaction Attribution:** The `PrimaryCategory` column in the transaction data (from `data/personal.db`) is the definitive source for determining if a transaction belongs to a "Personal", "MPYRE Software Inc.", or "Kalaam Foundation" context.
     *   **Personal Tax Claims:** Personal tax credits and deductions (donations, medical, child care, etc.) should *only* be claimed if the transaction's `PrimaryCategory` is "Personal".
     *   **Corporate/Foundation Transactions:** Transactions with `PrimaryCategory` "MPYRE Software Inc." or "Kalaam Foundation" are generally *not* for Areeb Bajwa's personal tax claims, unless they represent a clear financial benefit transferred to personal use (e.g., dividends from Mpyre Inc. as described in Section II).
-*   **Analysis Script:** `scripts/analyze_tagged_tax_transactions.py` (or its future versions) is used to parse and summarize data, relying heavily on the `PrimaryCategory` field from the database.
+*   **Analysis Script:** `finances/scripts/analyze_tagged_tax_transactions.py` (or its future versions) is used to parse and summarize data, relying heavily on the `PrimaryCategory` field from the database.
 *   **Supporting CSVs Generated (for CRA inquiries, 2023 examples - these were historical and their source directory `finances/data_exports/2023/` is removed):**
     *   `medical_expenses_for_cra_2023.csv` (contained only `PrimaryCategory` = "Personal" transactions)
     *   `donations_for_cra_2023.csv` (contained only `PrimaryCategory` = "Personal" transactions)

@@ -65,7 +65,7 @@ This file outlines the steps to address the concerns raised to avoid a CRA audit
 - [x] **(Self-correction/User Request) Further Reduce Audit Risk (2025-05-21/22):**
     - [x] Regenerate `donations_for_cra_2023.csv` and `medical_expenses_for_cra_2023.csv` as `tmp/*_REGEN.csv` because `finances/data_exports/` was deleted.
         - [x] Export `tagged_transactions_2023` from `data/personal.db` to `tmp/tagged_transactions_for_analysis_2023.csv`.
-        - [x] Run `scripts/analyze_tagged_tax_transactions.py` on the temp CSV to create `tmp/donations_for_cra_2023_REGEN.csv` and `tmp/medical_expenses_for_cra_2023_REGEN.csv`.
+        - [x] Run `finances/scripts/analyze_tagged_tax_transactions.py` on the temp CSV to create `tmp/donations_for_cra_2023_REGEN.csv` and `tmp/medical_expenses_for_cra_2023_REGEN.csv`.
     - [x] Modify `finances/reports/2023/simulated_t1_return_2023_areeb_bajwa.md`:
         - [x] Reduce total Donations claim to ~$11,000 (New total: $10,942.04).
         - [x] Reduce total Medical Expenses claim to ~$5,000 (New total: $5,134.51).
