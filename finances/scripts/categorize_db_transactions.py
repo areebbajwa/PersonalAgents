@@ -103,6 +103,8 @@ def connect_db(db_file_path):
 
 def get_uncategorized_transactions(conn, table_name):
     """Fetches transactions with no PrimaryCategory."""
+    # Set row factory to return row objects instead of tuples
+    conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
     query = f"SELECT * FROM {table_name} WHERE PrimaryCategory IS NULL OR PrimaryCategory = ''"
     cursor.execute(query)
@@ -255,18 +257,19 @@ def fix_excluded_categories(conn, table_name):
     """
     Fixes transactions that should be excluded but were incorrectly categorized.
     This runs first to ensure EXCLUDED categories take priority.
+    Only processes transactions that are currently uncategorized (NULL or empty).
     """
     try:
         print("Fixing excluded transaction categories...")
         cursor = conn.cursor()
         
-        # Update transfers to EXCLUDED_TRANSFER
+        # Update transfers to EXCLUDED_TRANSFER (only if currently uncategorized)
         cursor.execute(f'''UPDATE "{table_name}" SET PrimaryCategory = 'EXCLUDED_TRANSFER' 
-                          WHERE Description LIKE '%TFR-TO%' OR Description LIKE '%TFR-FR%'
-                          AND PrimaryCategory != 'EXCLUDED_TRANSFER' ''')
+                          WHERE (Description LIKE '%TFR-TO%' OR Description LIKE '%TFR-FR%')
+                          AND (PrimaryCategory IS NULL OR PrimaryCategory = '') ''')
         transfer_count = cursor.rowcount
         
-        # Update accounting entries to EXCLUDED_ACCOUNTING  
+        # Update accounting entries to EXCLUDED_ACCOUNTING (only if currently uncategorized)
         cursor.execute(f'''UPDATE "{table_name}" SET PrimaryCategory = 'EXCLUDED_ACCOUNTING'
                           WHERE (Description LIKE '%BALANCE FORWARD%' OR 
                                 Description LIKE '%BAL FWD%' OR 
@@ -280,7 +283,7 @@ def fix_excluded_categories(conn, table_name):
                                 Description LIKE '%JOURNAL ENTRY%' OR 
                                 Description LIKE '%ADJUSTMENT%' OR 
                                 Description LIKE '%RECONCILIATION%')
-                          AND PrimaryCategory != 'EXCLUDED_ACCOUNTING' ''')
+                          AND (PrimaryCategory IS NULL OR PrimaryCategory = '') ''')
         accounting_count = cursor.rowcount
         
         conn.commit()
@@ -293,17 +296,20 @@ def fix_credit_card_amounts(conn, table_name):
     """
     Fixes credit card transactions that have positive amounts when they should be negative.
     Credit card expenses should always be negative in financial calculations.
+    Only processes transactions that are currently uncategorized to avoid re-processing.
     """
     try:
         print("Fixing credit card amount signs...")
         cursor = conn.cursor()
         
         # Fix credit card amounts - flip positive amounts to negative for all credit card accounts
+        # Only process uncategorized transactions to avoid re-processing already fixed amounts
         cursor.execute(f'''UPDATE "{table_name}" SET Amount = -Amount 
                           WHERE Amount > 0 
                           AND ("Account Name" LIKE '%VISA%' 
                                OR "Account Name" LIKE '%credit card%'
-                               OR "Account Name" LIKE '%CREDIT CARD%')''')
+                               OR "Account Name" LIKE '%CREDIT CARD%')
+                          AND (PrimaryCategory IS NULL OR PrimaryCategory = '')''')
         credit_card_count = cursor.rowcount
         
         conn.commit()
@@ -317,41 +323,45 @@ def fix_madinah_duplicates(conn, table_name):
     Fixes the specific Madinah Give Co duplicate transactions from August 2023.
     These appear as identical amounts creating artificial income inflation.
     Keep only one instance of each legitimate transaction.
+    Only processes transactions that are currently uncategorized (NULL or empty).
     """
     try:
         print("Fixing Madinah Give Co duplicate transactions...")
         cursor = conn.cursor()
         
         # First, mark all the negative (expense) entries as excluded - these are corrections
+        # Only if they are currently uncategorized
         cursor.execute(f'''UPDATE "{table_name}" SET PrimaryCategory = 'EXCLUDED_ACCOUNTING'
                           WHERE Date = '2023-08-17' 
                           AND Amount < 0
                           AND Description LIKE '%MADINAH GIVE CO%'
-                          AND PrimaryCategory != 'EXCLUDED_ACCOUNTING' ''')
+                          AND (PrimaryCategory IS NULL OR PrimaryCategory = '') ''')
         negative_count = cursor.rowcount
         
         # Now handle the duplicate positive entries
         # For the $20,509.87 entries on 2023-08-16, keep only one and exclude the rest
+        # Only update entries that are currently categorized as 'Kalaam Foundation' or uncategorized
         cursor.execute(f'''UPDATE "{table_name}" SET PrimaryCategory = 'EXCLUDED_ACCOUNTING'
                           WHERE rowid IN (
                               SELECT rowid FROM "{table_name}"
                               WHERE Date = '2023-08-16' 
                               AND Amount = 20509.87 
                               AND Description LIKE '%MADINAH GIVE CO%'
-                              AND PrimaryCategory = 'Kalaam Foundation'
+                              AND (PrimaryCategory = 'Kalaam Foundation' OR PrimaryCategory IS NULL OR PrimaryCategory = '')
                               ORDER BY rowid
                               LIMIT 2 OFFSET 1
                           )''')
         duplicate_20k_count = cursor.rowcount
         
         # For the $5,590.12 entries on 2023-08-17, keep only one and exclude the rest  
+        # Only update entries that are currently categorized as 'Kalaam Foundation' or uncategorized
         cursor.execute(f'''UPDATE "{table_name}" SET PrimaryCategory = 'EXCLUDED_ACCOUNTING'
                           WHERE rowid IN (
                               SELECT rowid FROM "{table_name}"
                               WHERE Date = '2023-08-17' 
                               AND Amount = 5590.12 
                               AND Description LIKE '%MADINAH GIVE CO%'
-                              AND PrimaryCategory = 'Kalaam Foundation'
+                              AND (PrimaryCategory = 'Kalaam Foundation' OR PrimaryCategory IS NULL OR PrimaryCategory = '')
                               ORDER BY rowid
                               LIMIT 3 OFFSET 1
                           )''')
@@ -367,6 +377,10 @@ def process_and_categorize_transactions(conn, table_name):
     """
     Connects to the DB, fetches uncategorized transactions,
     categorizes them, and updates the DB.
+    
+    This function only processes transactions that are currently uncategorized
+    (PrimaryCategory IS NULL OR PrimaryCategory = '') to avoid overriding 
+    existing categorizations.
     """
     try:
         print(f"Connected to database: {conn}")
