@@ -5,7 +5,7 @@ import {
     initializeAICache,
     getFromAICache,
     storeInAICache
-} from './aiCache.js';
+} from '../../../utils/ai_cache_utils.js';
 
 class PDFProcessor {
     constructor(apiKey, cacheDbPath = './tmp/pdf_cache.db') {
