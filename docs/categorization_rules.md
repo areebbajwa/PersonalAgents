@@ -16,8 +16,10 @@ This document summarizes the refined logic for assigning a `PrimaryCategory` to 
 
 1.  **CRITICAL: Exclude Non-Transaction Accounting Entries:**
     *   **Balance Forward:** Description contains `BALANCE FORWARD`, `Balance Forward`, `BAL FWD`, `OPENING BALANCE` - These are **EXCLUDED** from financial statements as they are accounting carry-forwards, not income or expenses.
+    *   **Starting Balance:** Description contains `Starting Balance` - These are **EXCLUDED** as opening balances when accounting system started, not actual income.
     *   **NSF Returns:** Description contains `RTN NSF`, `RETURN NSF`, `NSF RTN`, `RETURNED NSF` - These are **EXCLUDED** from financial statements as they are corrections/reversals of bounced payments, not income.
     *   **Internal Accounting:** Description contains `JOURNAL ENTRY`, `ADJUSTMENT`, `RECONCILIATION` - These are **EXCLUDED** as internal accounting adjustments.
+    *   **Duplicate Corrections:** Identify and exclude duplicate transaction pairs where identical amounts appear as both income and expenses on consecutive dates (typically accounting corrections).
     *   **Action:** Mark these transactions with category `EXCLUDED_ACCOUNTING` and do not include in revenue or expense calculations.
 
 2.  **Manual Overrides (`spending_overrides.json`):**

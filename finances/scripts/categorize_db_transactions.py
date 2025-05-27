@@ -132,6 +132,10 @@ def categorize_transaction(description, account_name):
     if any(keyword in description for keyword in ['BALANCE FORWARD', 'BAL FWD', 'OPENING BALANCE']):
         return 'EXCLUDED_ACCOUNTING'
     
+    # Starting Balance entries
+    if 'STARTING BALANCE' in description:
+        return 'EXCLUDED_ACCOUNTING'
+    
     # NSF Returns
     if any(keyword in description for keyword in ['RTN NSF', 'RETURN NSF', 'NSF RTN', 'RETURNED NSF']):
         return 'EXCLUDED_ACCOUNTING'
@@ -267,6 +271,8 @@ def fix_excluded_categories(conn, table_name):
                           WHERE (Description LIKE '%BALANCE FORWARD%' OR 
                                 Description LIKE '%BAL FWD%' OR 
                                 Description LIKE '%OPENING BALANCE%' OR
+                                Description LIKE '%Starting Balance%' OR
+                                Description LIKE '%STARTING BALANCE%' OR
                                 Description LIKE '%RTN NSF%' OR 
                                 Description LIKE '%RETURN NSF%' OR 
                                 Description LIKE '%NSF RTN%' OR 
@@ -306,6 +312,57 @@ def fix_credit_card_amounts(conn, table_name):
     except Exception as e:
         print(f"Error fixing credit card amounts: {e}")
 
+def fix_madinah_duplicates(conn, table_name):
+    """
+    Fixes the specific Madinah Give Co duplicate transactions from August 2023.
+    These appear as identical amounts creating artificial income inflation.
+    Keep only one instance of each legitimate transaction.
+    """
+    try:
+        print("Fixing Madinah Give Co duplicate transactions...")
+        cursor = conn.cursor()
+        
+        # First, mark all the negative (expense) entries as excluded - these are corrections
+        cursor.execute(f'''UPDATE "{table_name}" SET PrimaryCategory = 'EXCLUDED_ACCOUNTING'
+                          WHERE Date = '2023-08-17' 
+                          AND Amount < 0
+                          AND Description LIKE '%MADINAH GIVE CO%'
+                          AND PrimaryCategory != 'EXCLUDED_ACCOUNTING' ''')
+        negative_count = cursor.rowcount
+        
+        # Now handle the duplicate positive entries
+        # For the $20,509.87 entries on 2023-08-16, keep only one and exclude the rest
+        cursor.execute(f'''UPDATE "{table_name}" SET PrimaryCategory = 'EXCLUDED_ACCOUNTING'
+                          WHERE rowid IN (
+                              SELECT rowid FROM "{table_name}"
+                              WHERE Date = '2023-08-16' 
+                              AND Amount = 20509.87 
+                              AND Description LIKE '%MADINAH GIVE CO%'
+                              AND PrimaryCategory = 'Kalaam Foundation'
+                              ORDER BY rowid
+                              LIMIT 2 OFFSET 1
+                          )''')
+        duplicate_20k_count = cursor.rowcount
+        
+        # For the $5,590.12 entries on 2023-08-17, keep only one and exclude the rest  
+        cursor.execute(f'''UPDATE "{table_name}" SET PrimaryCategory = 'EXCLUDED_ACCOUNTING'
+                          WHERE rowid IN (
+                              SELECT rowid FROM "{table_name}"
+                              WHERE Date = '2023-08-17' 
+                              AND Amount = 5590.12 
+                              AND Description LIKE '%MADINAH GIVE CO%'
+                              AND PrimaryCategory = 'Kalaam Foundation'
+                              ORDER BY rowid
+                              LIMIT 3 OFFSET 1
+                          )''')
+        duplicate_5k_count = cursor.rowcount
+        
+        conn.commit()
+        print(f"Fixed Madinah duplicates: {negative_count} negative corrections, {duplicate_20k_count} $20k duplicates, {duplicate_5k_count} $5k duplicates excluded")
+        
+    except Exception as e:
+        print(f"Error fixing Madinah duplicates: {e}")
+
 def process_and_categorize_transactions(conn, table_name):
     """
     Connects to the DB, fetches uncategorized transactions,
@@ -316,6 +373,9 @@ def process_and_categorize_transactions(conn, table_name):
         
         # First, fix any excluded categories that may have been miscategorized
         fix_excluded_categories(conn, table_name)
+        
+        # Fix the specific Madinah Give Co duplicate entries
+        fix_madinah_duplicates(conn, table_name)
         
         # Second, fix credit card amount signs
         fix_credit_card_amounts(conn, table_name)
