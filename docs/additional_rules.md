@@ -20,6 +20,18 @@
 
 **NEVER mark tasks as completed without successful end-to-end testing** - Tasks are only complete when they have been fully tested and demonstrated to work correctly. API key validation errors, missing dependencies, or any failures mean the task is NOT complete.
 
+**NEVER send an email or finalize a task by submitting it officially without confirmation first** - Always stop and ask for confirmation before the final step of submitting the work. This includes emails, file uploads, API submissions, or any final deliverable.
+
+## Content Verification and Research
+
+**Only include information you can verify from available resources** - Never make assumptions about capabilities, features, or details that you cannot directly verify from provided codebases, documentation, or user-specified resources.
+
+**Use multiple verification methods before making claims** - When analyzing systems or codebases, use appropriate search and investigation tools to confirm what actually exists before including information in responses.
+
+**Ask for clarification when context is ambiguous** - When terms or requests could have multiple interpretations, clarify the specific meaning before proceeding.
+
+**Remove internal process language from external deliverables** - Final outputs intended for external recipients should not contain references to your internal verification or analysis processes.
+
 ## API Key and Credential Management
 
 **Always check existing config files for API keys first** - Before asking user for API keys or credentials, search `config/.env`, `data/`, and other credential files. Many keys may already be available.
