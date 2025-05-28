@@ -63,4 +63,8 @@
 **Single file**: `cd cli_tools/pdf-ai-cli && ./pdf-ai <pdf_path> <output_text_file>`
 **Multiple files**: `cd cli_tools/pdf-ai-cli && ./pdf-ai batch <input_dir> <output_dir>`
 
-The tool supports both single file processing and batch processing of entire directories. Caching ensures fast processing of previously seen files. 
+The tool supports both single file processing and batch processing of entire directories. Caching ensures fast processing of previously seen files.
+
+## Personal Information Management
+
+**Check todos directory for personal information before asking user** - When forms or tasks require personal information (name, address, phone, etc.), always search the `todos/` and `todos/completed/` directories first for previously provided personal details before asking the user to provide them again. Personal information is often documented in completed task files. 
