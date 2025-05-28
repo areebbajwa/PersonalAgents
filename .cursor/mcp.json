@@ -1,15 +1,4 @@
 {
   "mcpServers": {
-    "google-workspace": {
-      "command": "node",
-      "args": [
-        "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/mcp/google-workspace-mcp-server/build/index.js"
-      ],
-      "env": {
-        "GOOGLE_CLIENT_ID": "840653695357-ksfmt3kcoqmis8aiislbp5qkudsvq6nj.apps.googleusercontent.com",
-        "GOOGLE_CLIENT_SECRET": "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",
-        "GOOGLE_REFRESH_TOKEN": "1//05ACJeb4HQc7WCgYIARAAGAUSNwF-L9Ir6uz-_UEriki2C4nLhTvhklGkMGrJjSc1MKpqz0Crbeu7oNS6ySKd_CT2XGNQz00HsQQ"
-      }
-    }
   }
 }

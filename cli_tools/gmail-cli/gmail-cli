@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Gmail CLI Wrapper Script
+# Usage: ./gmail-cli [command] [options]
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+node "$SCRIPT_DIR/src/index.js" "$@" 
