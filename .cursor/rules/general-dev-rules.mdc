@@ -1,0 +1,108 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+## Core Development Philosophy
+
+### 1. **Test-Driven Development (TDD)**
+- Always use TDD when refactoring or building complex functionality
+- Create comprehensive todo lists first after investigating current functionality
+- Test everything before considering work complete
+- Only run the specific tests that failed last time to save time - full test suites take too long
+
+### 2. **Simplification Over Complexity**
+- When systems become too complex, refactor and simplify rather than adding more complexity
+- Remove legacy code completely - don't leave any behind
+- Prefer unified approaches over fragmented solutions
+- Use batch operations and efficient APIs instead of multiple separate calls when possible
+
+### 3. **Real-World Testing Required**
+- Code is not considered complete until actually tested with real tasks
+- "It's not completed until you test it!"
+- Test with actual functionality, not just imports or basic setup
+- Use debugging and logging when issues are unclear
+
+## Development Process Rules
+
+### 4. **Process Management**
+- **NEVER** start background terminals or background tasks
+- For long-running processes, use foreground processes that output to a file
+- All processes should be visible and monitorable by the user
+- Ensure process output is captured and accessible for debugging
+
+### 5. **Documentation and README Requirements**
+- Include comprehensive README files with clear instructions
+- Document all learnings and previous attempts in todo lists to avoid repeating mistakes
+- Update todo lists throughout development to track what has been tried
+- Include all necessary setup steps and dependencies
+
+### 6. **Learning and Iteration Management**
+- Maintain comprehensive todo lists that track both current tasks and past attempts
+- Document what has been tried and failed, including why it didn't work
+- Update todo lists continuously with learnings to avoid repeating mistakes
+- Include specific details about failed approaches so they can be avoided in future iterations
+- Reference previous attempts when considering new approaches
+
+### 7. **Persistence and State Management**
+- Prefer persistent solutions that maintain state across sessions
+- Reuse existing instances/connections rather than recreating them
+- Store data appropriately and consider storage limitations
+- Auto-activate necessary environments when needed
+
+## Code Quality Standards
+
+### 8. **Error Handling and Debugging**
+- Add debug logging when issues are unclear
+- Ensure processes don't hang indefinitely due to unhandled errors
+- Provide clear error messages and fallback options
+- Log to files when appropriate for debugging
+
+### 9. **Architecture Patterns**
+- Create unified data structures instead of separate logic paths for similar functionality
+- Prefer single services handling related functionality over scattered logic across multiple files
+- Use clear separation of concerns (data fetching vs. processing vs. business logic)
+- Make systems modular and easily updatable
+
+## Development Workflow
+
+### 10. **Research and Implementation**
+- Search the web for best practices when unsure of the correct approach
+- Don't make assumptions - verify the proper way to implement solutions
+- Learn from existing implementations before creating custom solutions
+
+### 11. **Configuration Management**
+- Store configuration in environment files with clear naming conventions
+- Keep sensitive data out of version control
+- Use consistent patterns for configuration across projects
+
+## Project Management
+
+### 12. **File Organization**
+- Remove failed experiments and obsolete code - don't leave them in the codebase
+- Maintain clean project structure and address recurring issues
+
+### 13. **Version Control**
+- Check status regularly and maintain clean working directory
+- Address persistent untracked files appropriately
+
+## Performance and Efficiency
+
+### 14. **Optimization Principles**
+- Batch operations whenever possible instead of individual calls
+- Utilize available resources efficiently (large context windows, connection pooling, etc.)
+- Avoid duplicate operations - reuse cached data when possible
+- Consider resource limits and structure operations efficiently
+
+## Quality Assurance
+
+### 15. **Real-World Validation**
+- Test with actual user data and scenarios
+- Verify that outputs contain proper content (not generic error responses)
+- Check that all functionality works end-to-end before considering complete
+- Use appropriate testing methods for verification (manual testing, snapshots, etc.)
+
+### 16. **Environment and Dependencies**
+- Auto-start required environments (virtual environments, containers, etc.)
+- Ensure all dependencies are properly installed and configured
+- Test that tools work in isolation and integrated environments
