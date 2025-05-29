@@ -11,11 +11,15 @@ alwaysApply: false
 - Test everything before considering work complete
 - Only run the specific tests that failed last time to save time - full test suites take too long
 
-### 2. **Simplification Over Complexity**
+### 2. **Aggressive Simplification & Cleanup**
 - When systems become too complex, refactor and simplify rather than adding more complexity
-- Remove legacy code completely - don't leave any behind
+- **NEVER** create fallbacks, maintain legacy code, or keep backward compatibility
+- Remove legacy code completely - don't leave any behind, no matter how much existing code depends on it
+- Delete old, failed experiments and obsolete implementations immediately
+- Clean up old mess as you go - every change should leave the codebase cleaner than before
 - Prefer unified approaches over fragmented solutions
 - Use batch operations and efficient APIs instead of multiple separate calls when possible
+- Break things if necessary to achieve clean architecture - force dependent code to update
 
 ### 3. **Real-World Testing Required**
 - Code is not considered complete until actually tested with real tasks
@@ -55,14 +59,16 @@ alwaysApply: false
 ### 8. **Error Handling and Debugging**
 - Add debug logging when issues are unclear
 - Ensure processes don't hang indefinitely due to unhandled errors
-- Provide clear error messages and fallback options
+- Provide clear error messages but **NO** fallback options - force proper fixes
 - Log to files when appropriate for debugging
+- **NEVER** implement workarounds or temporary fixes that become permanent
 
 ### 9. **Architecture Patterns**
 - Create unified data structures instead of separate logic paths for similar functionality
 - Prefer single services handling related functionality over scattered logic across multiple files
 - Use clear separation of concerns (data fetching vs. processing vs. business logic)
 - Make systems modular and easily updatable
+- **Ruthlessly delete** duplicate or similar functionality - consolidate everything into single implementations
 
 ## Development Workflow
 
@@ -78,13 +84,17 @@ alwaysApply: false
 
 ## Project Management
 
-### 12. **File Organization**
-- Remove failed experiments and obsolete code - don't leave them in the codebase
-- Maintain clean project structure and address recurring issues
+### 12. **Aggressive File Organization & Cleanup**
+- **Immediately delete** failed experiments and obsolete code - don't leave them in the codebase
+- Remove entire directories of old approaches if they're no longer needed
+- Maintain clean project structure and address recurring issues by eliminating their root causes
+- **Never** keep "just in case" code - if it's not actively used, delete it
+- Clean up imports, unused functions, and dead code paths continuously
 
 ### 13. **Version Control**
 - Check status regularly and maintain clean working directory
-- Address persistent untracked files appropriately
+- Delete persistent untracked files that aren't needed
+- Commit frequently to avoid losing cleanup progress
 
 ## Performance and Efficiency
 
@@ -93,6 +103,7 @@ alwaysApply: false
 - Utilize available resources efficiently (large context windows, connection pooling, etc.)
 - Avoid duplicate operations - reuse cached data when possible
 - Consider resource limits and structure operations efficiently
+- **Delete** inefficient implementations rather than optimizing them - start fresh with better approaches
 
 ## Quality Assurance
 
@@ -106,3 +117,14 @@ alwaysApply: false
 - Auto-start required environments (virtual environments, containers, etc.)
 - Ensure all dependencies are properly installed and configured
 - Test that tools work in isolation and integrated environments
+- **Remove** unused dependencies and clean up requirements files regularly
+
+## Core Cleanup Principles
+
+### 17. **No Compromise on Cleanliness**
+- **NEVER** implement backward compatibility layers
+- **NEVER** create fallback mechanisms for old code
+- **NEVER** maintain deprecated functionality "just in case"
+- If old code breaks due to cleanup, fix it properly or delete it entirely
+- Every development session should result in a net reduction of code complexity
+- Delete first, implement second - remove the old mess before building the new solution
