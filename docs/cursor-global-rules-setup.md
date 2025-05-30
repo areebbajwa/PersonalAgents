@@ -24,7 +24,7 @@ If you prefer to set it up manually:
 mkdir -p ~/.cursor/rules
 
 # Create symlink to project rules
-ln -sf "$(pwd)/.cursor/rules/general-dev-rules.mdc" ~/.cursor/rules/general-dev-rules.mdc
+ln -sf "$(pwd)/.cursor/rules/dev-mode.mdc" ~/.cursor/rules/dev-mode.mdc
 ```
 
 ## File Structure
@@ -32,14 +32,14 @@ ln -sf "$(pwd)/.cursor/rules/general-dev-rules.mdc" ~/.cursor/rules/general-dev-
 ```
 PersonalAgents/
 ├── .cursor/rules/
-│   └── general-dev-rules.mdc          # ← Tracked in git
+│   └── dev-mode.mdc                   # ← Tracked in git
 ├── scripts/
 │   └── setup-global-cursor-rules.sh   # ← Setup automation
 └── docs/
     └── cursor-global-rules-setup.md   # ← This documentation
 
 ~/.cursor/rules/
-└── general-dev-rules.mdc              # ← Symlink to project file
+└── dev-mode.mdc                       # ← Symlink to project file
 ```
 
 ## Benefits
@@ -61,7 +61,7 @@ Once set up, the rules will be available in Cursor through:
 ## Updating Rules
 
 To update the rules:
-1. Edit `.cursor/rules/general-dev-rules.mdc` in this project
+1. Edit `.cursor/rules/dev-mode.mdc` in this project
 2. Commit changes to git
 3. Changes are immediately available globally via the symlink
 
@@ -78,11 +78,11 @@ To use these rules in a new project:
 If the symlink isn't working:
 ```bash
 # Check if symlink exists and points to correct location
-ls -la ~/.cursor/rules/general-dev-rules.mdc
+ls -la ~/.cursor/rules/dev-mode.mdc
 
 # Recreate symlink if needed
-rm ~/.cursor/rules/general-dev-rules.mdc
-ln -sf "/path/to/PersonalAgents/.cursor/rules/general-dev-rules.mdc" ~/.cursor/rules/general-dev-rules.mdc
+rm ~/.cursor/rules/dev-mode.mdc
+ln -sf "/path/to/PersonalAgents/.cursor/rules/dev-mode.mdc" ~/.cursor/rules/dev-mode.mdc
 ```
 
 ### Rules Not Loading
@@ -103,4 +103,4 @@ The rules include comprehensive development best practices covering:
 - Documentation requirements
 - Version control practices
 
-See `.cursor/rules/general-dev-rules.mdc` for the complete rule set. 
+See `.cursor/rules/dev-mode.mdc` for the complete rule set. 

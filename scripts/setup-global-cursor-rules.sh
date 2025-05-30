@@ -5,9 +5,9 @@
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
-RULES_FILE="$PROJECT_ROOT/.cursor/rules/general-dev-rules.mdc"
+RULES_FILE="$PROJECT_ROOT/.cursor/rules/dev-mode.mdc"
 GLOBAL_RULES_DIR="$HOME/.cursor/rules"
-GLOBAL_RULES_FILE="$GLOBAL_RULES_DIR/general-dev-rules.mdc"
+GLOBAL_RULES_FILE="$GLOBAL_RULES_DIR/dev-mode.mdc"
 
 echo "Setting up global Cursor rules..."
 
