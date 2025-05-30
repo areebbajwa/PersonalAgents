@@ -38,5 +38,5 @@ fi
 # Auto-activate virtual environment and run state viewer
 source "$VENV_ACTIVATE"
 
-# Execute the state viewer with all arguments passed through
-exec python "$SCRIPT_DIR/src/state_viewer.py" "$@" 
+# Change to the browser-use-cli directory and execute the state viewer
+cd "$SCRIPT_DIR" && exec python "src/state_viewer.py" "$@" 

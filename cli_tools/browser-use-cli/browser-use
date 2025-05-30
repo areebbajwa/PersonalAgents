@@ -39,5 +39,5 @@ fi
 # This ensures all dependencies are available
 source "$VENV_ACTIVATE"
 
-# Execute the CLI with all arguments passed through
-exec python "$SCRIPT_DIR/src/cli.py" "$@" 
+# Change to the browser-use-cli directory and execute the CLI
+cd "$SCRIPT_DIR" && exec python "src/cli.py" "$@" 
