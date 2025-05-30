@@ -37,12 +37,14 @@ class PersistentBrowserSession(BrowserSession):
     """
     
     def __init__(self, profile_dir: str, headless: bool = False):
-        # Create a simple BrowserSession without BrowserProfile for now
-        # The error suggests the constructor signature has changed
-        super().__init__(
-            headless=headless,
-            user_data_dir=profile_dir
+        # Create BrowserProfile with the profile directory and headless setting
+        browser_profile = BrowserProfile(
+            user_data_dir=profile_dir,
+            headless=headless
         )
+        
+        # Initialize BrowserSession with the browser_profile
+        super().__init__(browser_profile=browser_profile)
         self._is_persistent = True
         self._manually_closed = False
         

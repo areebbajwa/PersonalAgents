@@ -1,5 +1,18 @@
 # Additional Rules
 
+## Global CLI Tool Access
+
+**Use automated setup for global CLI tool access** - All CLI tools in `cli_tools/*/` directories can be made globally available via automated discovery. Run `./scripts/setup-global-cli-tools.sh` to create symlinks in `~/.local/bin/` for all discovered tools.
+
+**Adding new CLI tools to global access**:
+1. Create executable wrapper script in any `cli_tools/toolname/` directory
+2. Run `./scripts/setup-global-cli-tools.sh` to auto-discover and symlink the new tool
+3. Tool is immediately available globally: `toolname --help`
+
+**No manual maintenance required** - The setup script automatically scans `cli_tools/*/` and excludes `node_modules/`, `src/`, and `target/` directories. New tools are discovered automatically without updating any configuration.
+
+**PATH requirement** - Ensure `~/.local/bin` is in PATH: `export PATH="$HOME/.local/bin:$PATH"` (already set up in `.zshrc`)
+
 ## File Operations
 
 **Never rename `__init__.py` files** - Essential for Python package imports
