@@ -129,11 +129,15 @@ class BrowserService:
         """Shutdown the browser service"""
         self.running = False
         if self.browser_wrapper:
-            print(f"🛑 Closing browser wrapper...")
-            await self.browser_wrapper.close()
+            print("🛑 Closing browser wrapper...")
+            try:
+                await self.browser_wrapper.stop()
+            except Exception as e:
+                print(f"⚠️ Error during browser_wrapper.stop(): {e}")
             self.browser_wrapper = None
-            print(f"✅ Browser wrapper closed")
-        print(f"🛑 Browser service shutting down...")
+            print("✅ Browser wrapper believed to be stopped and dereferenced.")
+        # Add any other cleanup tasks here
+        print("✅ Browser service shutdown sequence complete.")
 
 # Global service instance
 service = BrowserService()
