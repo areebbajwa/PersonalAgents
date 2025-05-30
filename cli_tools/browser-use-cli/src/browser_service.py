@@ -44,6 +44,7 @@ class TaskRequest(BaseModel):
     task: str
     headless: bool = True
     enable_memory: bool = True
+    capture_state: bool = True  # Add option to enable/disable state capture
 
 class BrowserService:
     def __init__(self):
@@ -64,13 +65,15 @@ class BrowserService:
         
         print(f"🚀 Browser service initialized")
     
-    async def ensure_browser_wrapper(self, headless=True):
+    async def ensure_browser_wrapper(self, headless=True, capture_state=True):
         """Ensure browser wrapper is started"""
         if self.browser_wrapper is None:
-            print(f"📱 Creating persistent browser wrapper (headless={headless})...")
+            print(f"📱 Creating persistent browser wrapper (headless={headless}, capture_state={capture_state})...")
             self.browser_wrapper = PersistentBrowserWrapper(
                 profile_dir=PERSISTENT_PROFILE_DIR,
-                headless=headless
+                headless=headless,
+                capture_state=capture_state,
+                state_output_dir=None  # Use default directory
             )
             await self.browser_wrapper.start()
             print(f"✅ Persistent browser wrapper ready")
@@ -79,11 +82,11 @@ class BrowserService:
         
         return self.browser_wrapper
     
-    async def execute_task(self, task_description, headless=True, enable_memory=True):
+    async def execute_task(self, task_description, headless=True, enable_memory=True, capture_state=True):
         """Execute a browser automation task using the wrapper"""
         try:
             # Ensure wrapper is ready
-            wrapper = await self.ensure_browser_wrapper(headless)
+            wrapper = await self.ensure_browser_wrapper(headless, capture_state)
             
             # Execute task using wrapper (which uses browser-use internally)
             result = await wrapper.execute_task(task_description, self.llm)
@@ -92,12 +95,24 @@ class BrowserService:
             status = await wrapper.get_status()
             print(f"📊 Wrapper status: {status}")
             
-            return {
+            # Extract state file path from result metadata if available
+            state_file_path = None
+            if hasattr(result, '_metadata') and result._metadata:
+                state_file_path = result._metadata.get('state_file_path')
+            
+            response_data = {
                 "success": True,
                 "result": str(result),
                 "message": "Task completed successfully",
-                "tasks_completed": status["tasks_completed"]
+                "tasks_completed": status["tasks_completed"],
+                "state_file_path": state_file_path
             }
+            
+            # Output state file path for CLI consumption
+            if state_file_path:
+                print(f"🗂️ STATE_FILE: {state_file_path}")
+            
+            return response_data
             
         except Exception as e:
             print(f"❌ Task execution failed: {str(e)}")
@@ -106,7 +121,8 @@ class BrowserService:
             return {
                 "success": False,
                 "result": None,
-                "message": f"Task failed: {str(e)}"
+                "message": f"Task failed: {str(e)}",
+                "state_file_path": None
             }
     
     async def shutdown(self):
@@ -136,7 +152,8 @@ async def execute_task(request: TaskRequest):
     result = await service.execute_task(
         task_description=request.task,
         headless=request.headless,
-        enable_memory=request.enable_memory
+        enable_memory=request.enable_memory,
+        capture_state=request.capture_state
     )
     
     if result["success"]:

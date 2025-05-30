@@ -11,6 +11,14 @@ from langchain_core.language_models.chat_models import BaseChatModel
 import os
 import signal
 import subprocess
+from datetime import datetime
+
+# Import our state capture module
+try:
+    from .browser_state_capture import BrowserStateCapture
+except ImportError:
+    # Fallback for direct execution
+    from browser_state_capture import BrowserStateCapture
 
 # Version compatibility check
 try:
@@ -29,13 +37,12 @@ class PersistentBrowserSession(BrowserSession):
     """
     
     def __init__(self, profile_dir: str, headless: bool = False):
-        # Use browser-use's BrowserProfile but with our persistence settings
-        profile = BrowserProfile(
-            user_data_dir=profile_dir,
+        # Create a simple BrowserSession without BrowserProfile for now
+        # The error suggests the constructor signature has changed
+        super().__init__(
             headless=headless,
-            keep_alive=True  # We manage lifecycle manually
+            user_data_dir=profile_dir
         )
-        super().__init__(browser_profile=profile)
         self._is_persistent = True
         self._manually_closed = False
         
@@ -81,20 +88,81 @@ class PersistentBrowserWrapper:
     browser-use Agents that reuse the same session.
     """
     
-    def __init__(self, profile_dir: str, headless: bool = False):
+    def __init__(self, profile_dir: str, headless: bool = False, capture_state: bool = True, state_output_dir: str = None):
         self.profile_dir = profile_dir
         self.headless = headless
         self.session = None
         self.task_count = 0
+        
+        # Initialize state capture
+        self.capture_state = capture_state
+        if self.capture_state:
+            self.state_capture = BrowserStateCapture(output_dir=state_output_dir)
         
     async def start(self):
         """Start the persistent browser session"""
         if self.session is None:
             self.session = PersistentBrowserSession(self.profile_dir, self.headless)
             await self.session.__aenter__()
+            
+            # Set up console capture immediately if enabled
+            if self.capture_state:
+                await self._setup_console_capture()
+            
             print(f"🚀 Persistent browser wrapper started")
         else:
             print(f"🔄 Browser session already running")
+    
+    async def _setup_console_capture(self):
+        """Set up console capture on the browser session"""
+        try:
+            # Get the console collector from state capture
+            console_collector = self.state_capture.get_console_collector()
+            
+            # Set up console capture on browser context level to catch all pages
+            if hasattr(self.session, 'browser_context') and self.session.browser_context:
+                context = self.session.browser_context
+                
+                # Set up handler for new pages created in the context
+                def on_page_created(page):
+                    try:
+                        print(f"🎧 Setting up console capture on new page: {page.url[:60]}...")
+                        console_collector.setup_listeners(page)
+                    except Exception as e:
+                        print(f"⚠️ Error setting up console capture on page: {e}")
+                
+                # Listen for new pages
+                context.on("page", on_page_created)
+                print(f"🎧 Context-level page listener activated")
+                
+                # Set up on existing pages
+                for page in context.pages:
+                    on_page_created(page)
+                    
+            else:
+                print(f"⚠️ No browser context available for console capture setup")
+        except Exception as e:
+            print(f"⚠️ Error setting up console capture: {e}")
+            
+        # Also try to set up on current page if available
+        try:
+            current_page = await self.session.get_current_page()
+            if current_page:
+                console_collector = self.state_capture.get_console_collector()
+                console_collector.setup_listeners(current_page)
+                print(f"✅ Console capture also set up on current page")
+        except Exception as e:
+            print(f"⚠️ Could not set up console capture on current page: {e}")
+    
+    async def _ensure_console_capture_on_page(self, page):
+        """Ensure console capture is set up on a specific page"""
+        if self.capture_state and page:
+            try:
+                console_collector = self.state_capture.get_console_collector()
+                console_collector.setup_listeners(page)
+                print(f"🔄 Console capture ensured on page")
+            except Exception as e:
+                print(f"⚠️ Error ensuring console capture on page: {e}")
             
     async def execute_task(self, task: str, llm: BaseChatModel):
         """
@@ -108,6 +176,14 @@ class PersistentBrowserWrapper:
         print(f"🎯 Executing task #{self.task_count}: {task}")
         
         try:
+            # Re-setup console capture before each task in case page changed
+            if self.capture_state:
+                try:
+                    page = await self.session.get_current_page()
+                    await self._ensure_console_capture_on_page(page)
+                except Exception as e:
+                    print(f"⚠️ Could not setup console capture before task: {e}")
+            
             # Create browser-use Agent with our persistent session
             # This uses ALL of browser-use's automation logic, we just control the session
             agent = Agent(
@@ -117,25 +193,81 @@ class PersistentBrowserWrapper:
                 enable_memory=True
             )
             
-            # Use browser-use's proven task execution
-            result = await agent.run()
+            # Prevent browser-use agent from closing our persistent browser session
+            # Override the session's close methods to be no-ops for persistence
+            original_stop = getattr(self.session, 'stop', None)
+            original_close = getattr(self.session, 'close', None)
+            original_aexit = getattr(self.session, '__aexit__', None)
             
-            # Validate results using browser-use's format
-            action_results = result.action_results()
-            model_outputs = result.model_outputs()
-            
-            print(f"✅ Task #{self.task_count} completed with {len(action_results)} actions")
-            
-            # Prevent agent from closing our session
-            # Override the agent's cleanup to be a no-op
-            original_close = getattr(agent, 'close', None)
-            if original_close:
-                agent.close = lambda: print(f"🔄 Agent cleanup skipped for persistent session")
+            # Create no-op methods for browser session lifecycle
+            def no_op_stop(*args, **kwargs):
+                print(f"🔄 Skipping browser session stop for persistence")
+                return None
                 
-            return result
+            async def no_op_close(*args, **kwargs):
+                print(f"🔄 Skipping browser session close for persistence")
+                return None
+                
+            async def no_op_aexit(*args, **kwargs):
+                print(f"🔄 Skipping browser session __aexit__ for persistence")
+                return None
+            
+            # Replace the methods temporarily
+            if original_stop:
+                self.session.stop = no_op_stop
+            if original_close:
+                self.session.close = no_op_close
+            if original_aexit:
+                self.session.__aexit__ = no_op_aexit
+            
+            try:
+                # Use browser-use's proven task execution
+                result = await agent.run()
+                
+                # IMMEDIATELY capture state while browser is still active
+                state_file_path = None
+                if self.capture_state:
+                    try:
+                        print("📸 Capturing browser state while browser is still active...")
+                        state_file_path = await self.state_capture.capture_state(
+                            browser_session=self.session,
+                            task_description=task
+                        )
+                        print(f"📄 Browser state file: {state_file_path}")
+                    except Exception as e:
+                        print(f"⚠️ Failed to capture browser state: {str(e)}")
+                
+                # Validate results using browser-use's format
+                action_results = result.action_results()
+                model_outputs = result.model_outputs()
+                
+                print(f"✅ Task #{self.task_count} completed with {len(action_results)} actions")
+                
+                return result
+                
+            finally:
+                # Restore the original methods after task completion
+                if original_stop:
+                    self.session.stop = original_stop
+                if original_close:
+                    self.session.close = original_close
+                if original_aexit:
+                    self.session.__aexit__ = original_aexit
             
         except Exception as e:
             print(f"❌ Task #{self.task_count} failed: {str(e)}")
+            
+            # Still try to capture state on failure for debugging
+            if self.capture_state:
+                try:
+                    state_file_path = await self.state_capture.capture_state(
+                        browser_session=self.session,
+                        task_description=f"FAILED_{task}"
+                    )
+                    print(f"📄 Error state file: {state_file_path}")
+                except Exception as state_e:
+                    print(f"⚠️ Failed to capture error state: {str(state_e)}")
+            
             raise
             
     async def close(self):
