@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Browser-use CLI wrapper script with auto-venv activation
+# This script automatically activates the virtual environment and runs the CLI tool
+
+# Get the directory where this script is actually located (follow symlinks)
+SCRIPT_PATH="${BASH_SOURCE[0]}"
+while [ -L "$SCRIPT_PATH" ]; do
+    SCRIPT_DIR="$(cd -P "$(dirname "$SCRIPT_PATH")" && pwd)"
+    SCRIPT_PATH="$(readlink "$SCRIPT_PATH")"
+    [[ $SCRIPT_PATH != /* ]] && SCRIPT_PATH="$SCRIPT_DIR/$SCRIPT_PATH"
+done
+SCRIPT_DIR="$(cd -P "$(dirname "$SCRIPT_PATH")" && pwd)"
+
+# Path to the project root (two levels up from cli_tools/browser-use-cli/)
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
+# Virtual environment paths
+VENV_DIR="$PROJECT_ROOT/.venv"
+VENV_PYTHON="$VENV_DIR/bin/python"
+VENV_ACTIVATE="$VENV_DIR/bin/activate"
+
+# Check if virtual environment exists
+if [ ! -d "$VENV_DIR" ]; then
+    echo "❌ Error: Virtual environment not found at $VENV_DIR"
+    echo "💡 Please create the virtual environment first:"
+    echo "   cd $PROJECT_ROOT && python -m venv .venv"
+    exit 1
+fi
+
+# Check if virtual environment Python exists
+if [ ! -f "$VENV_PYTHON" ]; then
+    echo "❌ Error: Virtual environment Python not found at $VENV_PYTHON"
+    echo "💡 Please ensure the virtual environment is set up correctly"
+    exit 1
+fi
+
+# Auto-activate virtual environment and run CLI
+# This ensures all dependencies are available
+source "$VENV_ACTIVATE"
+
+# Change to the browser-use-cli directory and execute the CLI
+cd "$SCRIPT_DIR" && exec python "src/cli.py" "$@" 

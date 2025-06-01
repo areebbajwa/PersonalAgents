@@ -10,6 +10,7 @@ mcp/google-workspace-mcp-server/credentials.json
 mcp/google-workspace-mcp-server/token.json
 
 __pycache__/
+.env
 config/.env
 config/.devdbrc # If you decide to ignore it, otherwise remove this line
 td_user_data/
