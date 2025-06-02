@@ -80,4 +80,26 @@ The tool supports both single file processing and batch processing of entire dir
 
 ## Personal Information Management
 
-**Check todos directory for personal information before asking user** - When forms or tasks require personal information (name, address, phone, etc.), always search the `todos/` and `todos/completed/` directories first for previously provided personal details before asking the user to provide them again. Personal information is often documented in completed task files. 
+**Check todos directory for personal information before asking user** - When forms or tasks require personal information (name, address, phone, etc.), always search the `todos/` and `todos/completed/` directories first for previously provided personal details before asking the user to provide them again. Personal information is often documented in completed task files.
+
+## Browser Automation and MCP Server Management
+
+**Never restart or kill Cursor IDE process without user permission** - Always ask user first before restarting Cursor or killing processes, as it will terminate the current session and lose context.
+
+**Search web for exact error messages when debugging MCP servers** - When MCP servers fail to start, search the web using the exact error messages from MCP logs to find specific solutions rather than guessing.
+
+**Use official MCP servers when possible** - Prefer official, well-maintained MCP servers (like Microsoft's Playwright MCP server) over custom implementations for better stability and ongoing support.
+
+**Browser automation tasks must be completed end-to-end** - Browser automation tasks are not complete until the entire intended workflow is successfully demonstrated. Testing only navigation or setup is insufficient - the full task objective must be achieved.
+
+**Automation flags can bypass browser detection** - Simple automation flags like `--disable-blink-features=AutomationControlled` can be sufficient to bypass browser detection without needing complex stealth libraries.
+
+**Never commit to git automatically** - Never commit changes to git without explicit user permission. Always ask first before making git commits.
+
+## Git and Version Control
+
+**Never commit changes to git automatically** - Never commit files to git without explicit user permission. Always ask user first before making any git commits or pushes.
+
+## Process Control
+
+**Never restart system processes without permission** - Never restart applications, IDE processes, or system services without explicit user approval, as this can interrupt workflows and lose session state. 

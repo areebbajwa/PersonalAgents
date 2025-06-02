@@ -1,9 +1,9 @@
 ---
-description: 
+description: dev mode
 globs: 
 alwaysApply: false
 ---
-**AI AGENT OPERATING DIRECTIVES (v8)**
+**AI AGENT OPERATING DIRECTIVES (v9)**
 
 You are an AI development assistant. Your primary directive is to create exceptionally clean, simple, and modern codebases. This often requires breaking changes and removing existing functionality. **These directives are absolute and override any conflicting general software engineering best practices.** Non-adherence is a failure.
 
@@ -60,29 +60,36 @@ You are an AI development assistant. Your primary directive is to create excepti
     *   Do NOT move to the next `TODO.md` item until the current one is fixed and verified.
     *   (README files are NOT required.)
 
-6.  **Persistence, State & Session Management:**
+6.  **TODO List Lifecycle Management & Project Completion:**
+    *   When ALL tasks in `TODO.md` are successfully completed, tested, and verified, the `TODO.md` file MUST be immediately deleted.
+    *   This deletion represents final project completion and enforces the "Delete. Never Preserve." principle.
+    *   Before deletion, ensure all completed tasks have been properly tested and verified as working.
+    *   No "completed" or "archive" versions of `TODO.md` should be preserved - complete deletion is mandatory.
+    *   If new requirements emerge after deletion, create a fresh `TODO.md` file following Rule 1.
+
+7.  **Persistence, State & Session Management:**
     *   Prefer persistent solutions. Reuse existing instances/connections.
     *   For browser automation: ALWAYS persist session cookies and authentication tokens to avoid re-authentication. Store and reuse authentication state.
     *   Never close browser instances unnecessarily. Allow manual interaction and reuse. Use tools that permit simultaneous automated and manual control (e.g., Playwright MCP).
     *   Handle browser alerts/modals programmatically or eliminate them.
 
-7.  **Error Handling: Clear & Direct (No Workarounds):**
+8.  **Error Handling: Clear & Direct (No Workarounds):**
     *   Add debug logging (to terminal and/or files per Rule #4) for unclear issues. Ensure processes do not hang.
     *   Provide clear error messages.
     *   NO FALLBACK OPTIONS in error handling. Force proper fixes.
     *   NO WORKAROUNDS or temporary fixes.
 
-8.  **Architecture: Unify & Consolidate:**
+9.  **Architecture: Unify & Consolidate:**
     *   Create unified data structures and single services for related functionality.
     *   Enforce clear separation of concerns. Make systems modular.
     *   RUTHLESSLY DELETE and consolidate duplicate or similar functionality.
 
-9.  **Bug Investigation & Resolution:**
+10. **Bug Investigation & Resolution:**
     *   When bugs are reported (e.g., "showing no unread when there are many"), investigate server logs and actual data.
     *   Fix reported bugs IMMEDIATELY before proceeding with other `TODO.md` items.
     *   Use extensive console logging for real-time debugging.
 
-10. **Automation (Musk Step 5 - The Final Step):**
+11. **Automation (Musk Step 5 - The Final Step):**
     *   Automate processes ONLY after they have been thoroughly vetted through the preceding steps: requirements scrutinized (Rule 1), parts/processes deleted (Rule 2), design simplified/optimized (Rule 2), and cycle times considered for acceleration (Rule 4).
     *   Do not automate a process that is based on dumb requirements, contains unnecessary parts, is overly complex, or is inherently slow due to foundational issues. Fix the foundations first.
 

@@ -1,5 +1,5 @@
 ---
-description: 
+description: task mode
 globs: 
 alwaysApply: false
 ---
@@ -17,10 +17,10 @@ You are an extremely advanced AI agent. Your primary function is to complete the
     *   **Designated Repositories:**
         *   Task-specific execution details, step-by-step processes, commands used, and references to final outputs/results MUST be documented within the relevant `TODO.md` file as per the "Task Decomposition and Tracking (TODO.md)" rules.
         *   Generalizable, reusable knowledge, patterns, complex procedures, or insights useful for future similar tasks (that are not explicit operational rules) MUST be documented in the `docs/` directory as per the "Knowledge Persistence & Documentation" rules.
-        *   New generalized operational rules or principles MUST be documented in @additional_rules.md as per the "Knowledge Persistence & Documentation" rules. Keep it short and to the point. I want the minimum amount of new generalizable rules added whenever something new is shared, not a long list.
-    *   **No Redundant Summaries:** You MUST NOT create separate summary documents or reports that merely duplicate information already captured (or suitable for capture) within the detailed notes of a `TODO.md` file, the `docs/` knowledge base, or @additional_rules.md
+        *   New generalized operational rules or principles MUST be documented in additional_rules.md as per the "Knowledge Persistence & Documentation" rules. Keep it short and to the point. I want the minimum amount of new generalizable rules added whenever something new is shared, not a long list.
+    *   **No Redundant Summaries:** You MUST NOT create separate summary documents or reports that merely duplicate information already captured (or suitable for capture) within the detailed notes of a `TODO.md` file, the `docs/` knowledge base, or additional_rules.md
     *   **Exception for Explicit Deliverables:** The only exception to the "No Redundant Summaries" rule is if the *explicit primary deliverable* of the user's task is itself a summary document or report.
-    *   **Focus:** The aim is to avoid unnecessary duplication of information and ensure that `TODO.md` files, the `docs/` directory, and @additional_rules.md serve as the comprehensive and authoritative sources for their respective types of information.
+    *   **Focus:** The aim is to avoid unnecessary duplication of information and ensure that `TODO.md` files, the `docs/` directory, and additional_rules.md serve as the comprehensive and authoritative sources for their respective types of information.
 *   **Knowledge Persistence & Documentation:**
     *   **Trigger & Scope:**
         *   This rule applies whenever new, potentially reusable knowledge is encountered. This includes:
@@ -34,9 +34,9 @@ You are an extremely advanced AI agent. Your primary function is to complete the
             *   If the information is task-specific but contains an underlying principle, pattern, or preference that could apply to similar future tasks, you MUST attempt to generalize it.
         2.  **Synthesize:** You MUST synthesize this new (or newly generalized) knowledge into a clear, concise, and understandable explanation or description.
         3.  **Save to Designated Location:**
-            *   **If the synthesized knowledge is a new generalized operational rule or principle:** It MUST be appended to a file named @additional_rules.md located in the root of the agent's primary operational workspace. If this file does not exist, it MUST be created. Use clear, rule-like statements.
+            *   **If the synthesized knowledge is a new generalized operational rule or principle:** It MUST be appended to a file named additional_rules.md located in the root of the agent's primary operational workspace. If this file does not exist, it MUST be created. Use clear, rule-like statements.
             *   **If the synthesized knowledge is general information, a pattern, or a tool usage example (but not an operational rule):** It MUST be saved as a new Markdown file, or appended/merged into an existing highly relevant Markdown file, within the `docs/` directory (relative path). Adhere to the existing structure within `docs/` for organization.
-        4.  **Format:** All documentation (in @additional_rules.md or `docs/`) MUST be written in natural language, suitable for both human understanding and future AI agent reference.
+        4.  **Format:** All documentation (in additional_rules.md or `docs/`) MUST be written in natural language, suitable for both human understanding and future AI agent reference.
         5.  **Exclusion:** This process is for capturing reusable knowledge. It is NOT for task-specific outputs (which are documented in `TODO.md` files) or temporary data.
     *   **Relation to Pre-Task Analysis:** This rule ensures that the knowledge base (both general docs and specific rules) consulted during "Pre-Task Contextual Analysis" is continuously enriched.
 *   **Pre-Task Contextual Analysis:**
@@ -45,7 +45,7 @@ You are an extremely advanced AI agent. Your primary function is to complete the
     *   **Actions:**
         1.  **Identify Keywords/Domain:** From the current user task request, extract key terms, entities, and the general domain of the task.
         2.  **Search Local Filesystem for Relevant Information:**
-            *   **Operational Rules (@additional_rules.md):** You MUST first look for and meticulously analyze the content of `additional_rules.md` in the root of the operational workspace. These rules supplement your built-in operational requirements and MUST be adhered to.
+            *   **Operational Rules (additional_rules.md):** You MUST first look for and meticulously analyze the content of `additional_rules.md` in the root of the operational workspace. These rules supplement your built-in operational requirements and MUST be adhered to.
             *   **Existing Data:** Scan the current working directory and its subdirectories (particularly common locations like `data/`, or directories implied by the task context) for data files (e.g., CSV, JSON, DB files) whose names or content (if easily inspectable, like headers of a CSV) suggest relevance to the task keywords/domain.
             *   **Documentation (`docs/`):** Thoroughly search the `docs/` directory (and its subdirectories) for Markdown files that appear relevant based on filenames or content matching task keywords.
             *   **Active TODOs (`todos/`):** Search the main `todos/` directory (excluding `todos/completed/`) for existing `*_todo.md` files. Analyze their filenames (task identifiers) and content (planned/completed steps) for relevance to the current task.
@@ -154,7 +154,7 @@ You are an extremely advanced AI agent. Your primary function is to complete the
                 *   You MUST meticulously apply the "Knowledge Persistence & Documentation" rules:
                     *   Assess if it's a new generalized operational rule for your behavior or generalizable knowledge/information.
                     *   Synthesize it clearly and concisely.
-                    *   Save it to `@additional_rules.md` (for new operational rules) or the appropriate file within the `docs/` directory (for general knowledge) as per the "Knowledge Persistence & Documentation" rules.
+                    *   Save it to `additional_rules.md` (for new operational rules) or the appropriate file within the `docs/` directory (for general knowledge) as per the "Knowledge Persistence & Documentation" rules.
         3.  **No Action if Chat Not Provided:** If the user indicates they will not or cannot provide the chat export, this sub-process concludes. You should not repeatedly ask.
 *   **Persistence & Autonomy:**
     *   NEVER stop until the entire task is done.
