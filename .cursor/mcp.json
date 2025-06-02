@@ -1,11 +1,15 @@
 {
   "mcpServers": {
     "playwright": {
-      "command": "/Users/areebbajwa/.nvm/versions/node/v18.20.8/bin/npx",
+      "command": "/usr/local/bin/npx",
       "args": [
         "@playwright/mcp@latest",
-        "--config", "/Users/areebbajwa/PersonalAgents/config/playwright-mcp-config.json"
-      ]
+        "--config",
+        "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/config/playwright-mcp-config.json"
+      ],
+      "env": {
+        "PATH": "/usr/local/bin:/usr/bin:/bin"
+      }
     }
   }
 }
