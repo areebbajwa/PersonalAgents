@@ -10,6 +10,15 @@
       "env": {
         "PATH": "/usr/local/bin:/usr/bin:/bin"
       }
+    },
+    "browser-tools": {
+      "command": "/usr/local/bin/npx",
+      "args": [
+        "@agentdeskai/browser-tools-mcp@latest"
+      ],
+      "env": {
+        "PATH": "/usr/local/bin:/usr/bin:/bin"
+      }
     }
   }
 }
