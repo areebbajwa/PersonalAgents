@@ -1,0 +1,21 @@
+research_task:
+  description: >
+    Conduct comprehensive research on the future of AI, focusing on advancements in the last 2 years.
+    Your final output must be a bulleted list of the key findings, including emerging trends,
+    breakthrough technologies, and potential societal impacts.
+  expected_output: >
+    A detailed, bullet-point list summarizing the research on the future of AI.
+  agent: research_specialist
+
+writing_task:
+  description: >
+    Using the research findings provided, write an engaging and informative blog post of at least 3 paragraphs.
+    The blog post should be titled "The Future of AI: What's Next?".
+    It should be written for a general audience, avoiding overly technical jargon.
+  expected_output: >
+    A 3-paragraph blog post titled "The Future of AI: What's Next?" that is clear, engaging, and
+    summarizes the key research findings.
+  agent: content_writer
+  context:
+    - research_task
+  output_file: output/future_of_ai_blog_post.md 

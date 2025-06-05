@@ -1,0 +1,7 @@
+crewai>=0.28.8
+crewai-tools>=0.1.6
+google-genai
+serpapi
+# For a specific LLM integration, you would add it here. For example:
+# langchain-openai
+# langchain-google-genai 
