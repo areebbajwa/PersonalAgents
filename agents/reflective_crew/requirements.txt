@@ -3,5 +3,5 @@ crewai-tools>=0.1.6
 google-genai
 serpapi
 # For a specific LLM integration, you would add it here. For example:
-# langchain-openai
+langchain-openai
 # langchain-google-genai 
