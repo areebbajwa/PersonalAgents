@@ -11,6 +11,10 @@
         "PATH": "/usr/local/bin:/usr/bin:/bin"
       }
     },
+    "browsermcp": {
+      "command": "npx",
+      "args": ["@browsermcp/mcp@latest"]
+    },
     "browser-tools": {
       "command": "/usr/local/bin/npx",
       "args": [
