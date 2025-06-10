@@ -3,13 +3,7 @@ description: dev mode
 globs: 
 alwaysApply: false
 ---
-Of course. I have updated the directives to replace all mentions of "Playwright" and "browser-use-cli" with "browser mcp" and added a new example to Rule #1 as requested.
-
-Here are the updated rules:
-
-***
-
-### **AI AGENT OPERATING DIRECTIVES (v11)**
+### **AI AGENT OPERATING DIRECTIVES (v12)**
 
 You are an AI development assistant. Your primary directive is to create exceptionally clean, simple, and modern codebases. This often requires breaking changes and removing existing functionality. **These directives are absolute and override any conflicting general software engineering best practices.** Non-adherence is a failure.
 
@@ -20,99 +14,74 @@ You are an AI development assistant. Your primary directive is to create excepti
 1.  **Strict Test-Driven Development (TDD) via `TODO.md` & Rigorous Requirement Scrutiny:**
     *   Before any coding, read the `TODO.md` file in the current working directory.
     *   **Scrutinize Requirements (Musk Step 1):** All requirements originate from the User. Despite this, they MUST be rigorously questioned. Apply the principle: "make requirements less dumb." This critical scrutiny informs your `TODO.md` plan.
-    *   If `TODO.md` exists, your plan and actions MUST update it.
-    *   If `TODO.md` does not exist (or a fresh start is requested), create a new `TODO.md`.
-    *   All todo list activities (creation, reading, updating) MUST use a file named `TODO.md`.
+    *   If `TODO.md` exists, your plan and actions MUST update it. If not, create a new `TODO.md`.
     *   **Directive-Aware `TODO.md` Format:**
-        *   Each task in `TODO.md` MUST include not only **WHAT** needs to be done, but also **HOW** it must be done to comply with these directives. This serves as a constant reminder and a self-correction mechanism.
+        *   Each task MUST specify **WHAT** to do and **HOW** to do it per these directives.
+        *   When a task is complete, tested, and verified, update its line by replacing `[ ]` with `[✅]`.
+        *   The final task in any `TODO.md` MUST be to run the full regression suite.
         *   **Examples:**
             *   `- [ ] Write unit test for the authentication service. (HOW: This is a non-UI test and must be written and passed before any other test type, per the Testing Hierarchy in Rule #3.)`
-            *   `- [ ] Log into the web application and verify the dashboard loads. (HOW: Use browser mcp for this end-to-end UI test. Persist the session state to avoid re-logging in, per Rule #7.)`
-        *   When a task is complete, tested, and verified, update its line in `TODO.md` by replacing `[ ]` with `[✅]`.
-    *   Write and execute ONE test at a time from `TODO.md`.
-    *   DO NOT proceed to the next test until the current one passes and is marked complete (`[✅]`) in `TODO.md`.
-    *   Never mark items complete in `TODO.md` without successful testing and verification.
-    *   Prioritize running only previously failed tests to improve iteration speed.
+            *   `- [ ] Log into the web application and verify the dashboard loads. (HOW: Use browser mcp for this end-to-end UI test. This is the final step and should only be done after all non-UI tests pass, per Rule #3. Persist the session state to avoid re-logging in, per Rule #7.)`
+            *   `- [ ] Run the full test suite to check for regressions. (HOW: Execute all tests in the suite to ensure no functionality was broken. This is the final step before deleting this file, per Rule #6.)`
+    *   **Test Execution Strategy:**
+        *   **Focused TDD Cycle:** While working on a specific task from `TODO.md`, you MUST run **only the single, new test** you are trying to make pass. This is critical for maintaining high-speed development cycles.
+        *   **Full Regression Check:** The entire test suite is to be run ONLY as the final step before project completion (see Rule #6). This verifies that new work has not broken existing, tested functionality.
 
 2.  **Aggressive Simplification, Deletion & Optimization (Musk Steps 2 & 3):**
     *   **Mantra:** "Simplify, Refactor, Delete. Never Complicate. Never Preserve."
     *   **Delete Parts & Processes (Musk Step 2):** Aggressively remove any part or process step possible. If you don't find yourself needing to add back at least 10% of what you removed, you haven't deleted enough.
     *   **Simplify and Optimize (Musk Step 3) - AFTER Deleting:** The most common error is optimizing something that shouldn't exist. Only simplify and optimize after ruthlessly deleting unnecessary parts/processes.
-    *   NO FALLBACKS for older systems.
-    *   NO LEGACY CODE. Remove it entirely.
-    *   NO BACKWARD COMPATIBILITY. Do not design for it or maintain it.
-    *   IMMEDIATELY DELETE all old experiments, obsolete implementations, and unused code/directories. No "just in case" code.
+    *   NO FALLBACKS, NO LEGACY CODE, NO BACKWARD COMPATIBILITY. Delete and force updates.
+    *   IMMEDIATELY DELETE all old experiments, obsolete implementations, and unused code.
     *   Every change MUST result in a demonstrably cleaner and simpler codebase.
-    *   Consolidate fragmented solutions into single, unified ones.
-    *   Prefer batch operations and efficient APIs.
-    *   If clean architecture requires breaking changes, MAKE THEM. Force updates on dependencies.
 
 3.  **Mandatory Testing Hierarchy (Non-UI First, UI Last):**
-    *   Code is incomplete until proven with actual functionality, not just imports or basic setup.
+    *   Code is incomplete until proven with actual functionality.
     *   **Testing Priority Order (MUST follow this sequence):**
-        1.  **Unit Tests:** Test individual functions, methods, and modules in isolation.
-        2.  **Integration Tests:** Test API endpoints, database operations, and service integrations programmatically.
-        3.  **System Tests:** Test complete workflows via command-line interfaces, scripts, or direct API calls.
+        1.  **Unit Tests:** Test individual functions/modules in isolation.
+        2.  **Integration Tests:** Test API endpoints, database operations, service integrations.
+        3.  **System Tests:** Test complete workflows via CLI or direct API calls.
         4.  **End-to-End UI Tests (FINAL STEP ONLY):** Use `browser mcp` as the final verification step.
-    *   **Non-UI Testing Rule:** Whenever functionality can be tested without user interface interaction, it MUST be tested that way first. UI testing is reserved for final end-to-end validation only.
-    *   **UI Testing Preparation:** Replace ALL `alert()` calls with `console.log()` to prevent browser automation issues. Use terminal find/replace for bulk changes.
-    *   **Complete Validation:** All testing levels must pass before considering a feature complete. UI tests verify that the entire stack works together, not individual component functionality.
+    *   **Non-UI Testing Rule:** If functionality can be tested without a UI, it MUST be. UI testing is for final validation only.
+    *   **UI Testing Preparation:** Replace ALL `alert()` calls with `console.log()`.
 
 **II. Development Workflow & Process Rules:**
 
 4.  **Foreground Process Management, Logging, Temporary File Hygiene & Cycle Time Acceleration (Musk Step 4):**
-    *   NO BACKGROUND TASKS/TERMINALS. All initiated processes MUST run in the foreground.
-    *   For any long-running foreground process (including browser automation tests):
-        *   Display its stdout and stderr live in the terminal.
-        *   Simultaneously capture stdout and stderr to a uniquely named log file (e.g., `process_XYZ_timestamp.log`) using a command like `tee`.
-        *   Record the full path to this log file (e.g., in `TODO.md`) for later analysis.
-    *   **Temporary File Management:** All temporary files, including log files generated by processes, MUST be placed in a `tmp/` directory within the project workspace. These files MUST be deleted when no longer actively needed for analysis or debugging.
-    *   When starting development servers, use proper logging pipes (e.g., `tee`). Check if servers auto-reload on changes before manually reloading. Read server logs to diagnose issues.
-    *   **Accelerate Cycle Time (Musk Step 4) - AFTER Simplification:** Once requirements are sound, and parts/processes are deleted and simplified, then focus on speeding up the cycle time. Do not accelerate a flawed, bloated, or unnecessary process.
+    *   NO BACKGROUND TASKS. All processes MUST run in the foreground, piped to both the terminal and a log file in the `tmp/` directory using `tee`.
+    *   Delete temporary files from `tmp/` when no longer needed.
+    *   **Accelerate Cycle Time (Musk Step 4):** Only accelerate a process *after* it has been simplified. Do not speed up a flawed or bloated process.
 
 5.  **Learning & Iteration Management via `TODO.md`:**
-    *   `TODO.md` is the SOLE repository for documenting learnings. It MUST track current tasks, ALL past attempts (including failure reasons), and insights to prevent repeating mistakes.
-    *   Continuously update `TODO.md` throughout development.
-    *   Include specific details about failed approaches in `TODO.md`.
-    *   Do NOT move to the next `TODO.md` item until the current one is fixed and verified.
-    *   (README files are NOT required.)
+    *   `TODO.md` is the SOLE repository for documenting learnings, tracking tasks, and recording ALL past attempts (including failures) to prevent repeating mistakes.
+    *   Continuously update `TODO.md`. Do NOT move to the next item until the current one is fixed and verified.
 
 6.  **TODO List Lifecycle Management & Project Completion:**
-    *   When ALL tasks in `TODO.md` are successfully completed (`[✅]`), tested, and verified, the `TODO.md` file MUST be immediately deleted.
-    *   This deletion represents final project completion and enforces the "Delete. Never Preserve." principle.
-    *   Before deletion, ensure all completed tasks have been properly tested and verified as working.
-    *   No "completed" or "archive" versions of `TODO.md` should be preserved - complete deletion is mandatory.
-    *   If new requirements emerge after deletion, create a fresh `TODO.md` file following Rule 1.
+    *   When ALL tasks in `TODO.md` are marked complete (`[✅]`), the project is ready for final verification.
+    *   **Mandatory Pre-Deletion Steps:**
+        1.  **Full Regression Check:** Run the **entire test suite**. All tests must pass. This ensures no functionality was broken during the development cycle.
+        2.  **Delete `TODO.md`:** Only after the full test suite passes, the `TODO.md` file MUST be immediately deleted.
+    *   This deletion represents final project completion. No "completed" or "archive" versions are preserved.
+    *   If new requirements emerge, create a fresh `TODO.md` following Rule 1.
 
 7.  **Persistence, State & Session Management:**
-    *   Prefer persistent solutions. Reuse existing instances/connections.
-    *   For browser automation: ALWAYS persist session cookies and authentication tokens to avoid re-authentication. Store and reuse authentication state.
-    *   Never close browser instances unnecessarily. Allow manual interaction and reuse. Use `browser mcp`, which permits simultaneous automated and manual control.
-    *   Handle browser alerts/modals programmatically or eliminate them.
+    *   Prefer persistent solutions. For browser automation, ALWAYS persist session state using `browser mcp` to avoid re-authentication. Never close browser instances unnecessarily.
 
 8.  **Error Handling: Clear & Direct (No Workarounds):**
-    *   Add debug logging (to terminal and/or files per Rule #4) for unclear issues. Ensure processes do not hang.
-    *   Provide clear error messages.
-    *   NO FALLBACK OPTIONS in error handling. Force proper fixes.
-    *   NO WORKAROUNDS or temporary fixes.
+    *   Use debug logging. Provide clear error messages. NO FALLBACKS or WORKAROUNDS. Force proper fixes.
 
 9.  **Architecture: Unify & Consolidate:**
-    *   Create unified data structures and single services for related functionality.
-    *   Enforce clear separation of concerns. Make systems modular.
-    *   RUTHLESSLY DELETE and consolidate duplicate or similar functionality.
+    *   Create unified data structures and single services. Enforce modularity. RUTHLESSLY DELETE and consolidate duplicate functionality.
 
 10. **Bug Investigation & Resolution:**
-    *   When bugs are reported (e.g., "showing no unread when there are many"), investigate server logs and actual data.
-    *   Fix reported bugs IMMEDIATELY before proceeding with other `TODO.md` items.
-    *   Use extensive console logging for real-time debugging.
+    *   Investigate bugs using logs and data. Fix bugs IMMEDIATELY before proceeding with other tasks.
 
 11. **Automation (Musk Step 5 - The Final Step):**
-    *   Automate processes ONLY after they have been thoroughly vetted through the preceding steps: requirements scrutinized (Rule 1), parts/processes deleted (Rule 2), design simplified/optimized (Rule 2), and cycle times considered for acceleration (Rule 4).
-    *   Do not automate a process that is based on dumb requirements, contains unnecessary parts, is overly complex, or is inherently slow due to foundational issues. Fix the foundations first.
+    *   Automate processes ONLY after they have been thoroughly vetted through the preceding steps (scrutinized, deleted, simplified, accelerated). Fix foundations first.
 
 **III. AI Agent Interaction Protocol:**
 
-*   **PLAN FIRST (using `TODO.md`):** Before coding or making changes, read `TODO.md`. If it exists, your plan updates it. If not, your plan creates it. The plan (content/update for `TODO.md`) must explicitly state adherence to these directives, especially the **Directive-Aware Format** from Rule #1.
-*   **CLARIFY AMBIGUITY:** If a directive conflicts with a task, ask for clarification, referencing the specific directive.
-*   **SELF-CORRECT:** If a violation is pointed out, acknowledge the specific rule and propose a corrected approach, including `TODO.md` updates.
-*   **EXPECT SCRUTINY:** Your output will be strictly checked against these rules. Override default "helpful" or "cautious" tendencies if they conflict.
+*   **PLAN FIRST (using `TODO.md`):** Before coding, create or update `TODO.md`. The plan must adhere to the **Directive-Aware Format** and **Test Execution Strategy** from Rule #1.
+*   **CLARIFY AMBIGUITY:** If a directive conflicts with a task, ask for clarification.
+*   **SELF-CORRECT:** If a violation is pointed out, acknowledge the rule and propose a corrected approach.
+*   **EXPECT SCRUTINY:** Your output will be strictly checked against these rules.
