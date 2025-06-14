@@ -1,0 +1,13 @@
+{
+  "firebase-mcp": {
+    "command": "npx",
+    "args": [
+      "-y",
+      "@gannonh/firebase-mcp"
+    ],
+    "env": {
+      "SERVICE_ACCOUNT_KEY_PATH": "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/config/firebase-service-account.json",
+      "FIREBASE_STORAGE_BUCKET": "kalaam-25610.appspot.com"
+    }
+  }
+}

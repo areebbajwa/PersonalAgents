@@ -20,7 +20,18 @@ class GmailCLI {
     this.calendar = null;
   }
 
-  async initialize() {
+  async initialize(profile = 'default') {
+    // Load environment variables based on profile
+    const envPath =
+      profile === 'default'
+        ? path.resolve(process.cwd(), '../../config/.env')
+        : path.resolve(process.cwd(), `../../config/.env.${profile}`);
+
+    if (!fs.existsSync(envPath)) {
+      throw new Error(`Profile configuration file not found: ${envPath}`);
+    }
+    dotenv.config({ path: envPath, override: true });
+
     // Get credentials from environment
     const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
     const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
@@ -90,10 +101,11 @@ class GmailCLI {
     const maxResults = options.maxResults || 10;
     const query = options.query || '';
 
+    const finalQuery = `${query || ''} -label:"to-follow"`;
     const response = await this.gmail.users.messages.list({
       userId: 'me',
       maxResults,
-      q: query,
+      q: finalQuery,
     });
 
     if (!response.data.messages) {
@@ -132,11 +144,13 @@ class GmailCLI {
 
   async searchEmails(query, options) {
     const maxResults = options.maxResults || 10;
+    const sort = options.sort;
 
+    const finalQuery = `${query} -label:"to-follow"`;
     const response = await this.gmail.users.messages.list({
       userId: 'me',
       maxResults,
-      q: query,
+      q: finalQuery,
     });
 
     if (!response.data.messages) {
@@ -144,7 +158,7 @@ class GmailCLI {
       return;
     }
 
-    const messages = await Promise.all(
+    let messages = await Promise.all(
       response.data.messages.map(async (message) => {
         const msg = await this.gmail.users.messages.get({
           userId: 'me',
@@ -163,6 +177,14 @@ class GmailCLI {
       })
     );
 
+    if (sort) {
+      messages.sort((a, b) => {
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
+        return sort === 'asc' ? dateA - dateB : dateB - dateA;
+      });
+    }
+
     console.log(chalk.blue(`\n🔍 Search Results for: "${query}"`));
     messages.forEach((msg, index) => {
       console.log(chalk.gray(`\n${index + 1}. ID: ${msg.id}`));
@@ -174,10 +196,29 @@ class GmailCLI {
   }
 
   async sendEmail(to, subject, body, options) {
-    const emailLines = [
-      `To: ${to}`,
-      `Subject: ${subject}`,
-    ];
+    const emailLines = [];
+    // if we are replying to a thread, we need to fetch the original message
+    if (options.replyTo) {
+      const originalMessage = await this.gmail.users.messages.get({
+        userId: 'me',
+        id: options.replyTo,
+        format: 'metadata',
+        metadataHeaders: ['Subject', 'From', 'Message-ID', 'References'],
+      });
+
+      const originalSubject = this.getHeader(originalMessage.data.payload, 'Subject');
+      const originalMessageId = this.getHeader(originalMessage.data.payload, 'Message-ID');
+      const originalReferences = this.getHeader(originalMessage.data.payload, 'References');
+
+      emailLines.push(`To: ${this.getHeader(originalMessage.data.payload, 'From')}`);
+      emailLines.push(`Subject: Re: ${originalSubject}`);
+      emailLines.push(`In-Reply-To: ${originalMessageId}`);
+      emailLines.push(`References: ${originalReferences ? originalReferences + ' ' : ''}${originalMessageId}`);
+    } else {
+      emailLines.push(`To: ${to}`);
+      emailLines.push(`Subject: ${subject}`);
+    }
+
 
     if (options.cc) {
       emailLines.push(`Cc: ${options.cc}`);
@@ -192,12 +233,27 @@ class GmailCLI {
     const email = emailLines.join('\n');
     const encodedEmail = Buffer.from(email).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 
+    const requestBody = {
+      raw: encodedEmail,
+    };
+
+    if (options.replyTo) {
+      const originalMessage = await this.gmail.users.messages.get({
+        userId: 'me',
+        id: options.replyTo,
+        format: 'minimal',
+      });
+      requestBody.threadId = originalMessage.data.threadId;
+    }
+
     const response = await this.gmail.users.messages.send({
       userId: 'me',
-      requestBody: {
-        raw: encodedEmail,
-      },
+      requestBody,
     });
+
+    if (options.replyTo) {
+      await this.modifyEmail(options.replyTo, [], ['UNREAD']);
+    }
 
     console.log(chalk.green(`✅ Email sent successfully! Message ID: ${response.data.id}`));
   }
@@ -285,6 +341,84 @@ class GmailCLI {
     });
 
     console.log(chalk.green(`✅ Email labels modified successfully for message: ${messageId}`));
+  }
+
+  async listThreads(options) {
+    const { query, maxResults, last = '2w' } = options;
+    const spinner = ora('Fetching threads...').start();
+    let allThreads = [];
+    let nextPageToken = null;
+
+    try {
+      const finalQuery = `-label:"to-follow" from:me ${query || ''}`;
+      const listResponse = await this.gmail.users.threads.list({
+        userId: 'me',
+        q: finalQuery,
+        maxResults,
+      });
+
+      if (!listResponse.data.threads) {
+        spinner.succeed('No threads found matching your criteria.');
+        return;
+      }
+
+      const threads = listResponse.data.threads;
+      spinner.text = `Found ${threads.length} threads. Fetching details...`;
+
+      let detailedThreads = await Promise.all(
+        threads.map(async (thread) => {
+          const threadDetails = await this.gmail.users.threads.get({
+            userId: 'me',
+            id: thread.id,
+            format: 'full',
+          });
+          return threadDetails.data;
+        })
+      );
+
+      if (detailedThreads.length === 0) {
+        spinner.succeed('No threads found matching your criteria.');
+        return;
+      }
+
+      // Sort threads by the date of the first message
+      detailedThreads.sort((a, b) => {
+        const dateA = new Date(this.getHeader(a.messages[0].payload, 'Date')).getTime();
+        const dateB = new Date(this.getHeader(b.messages[0].payload, 'Date')).getTime();
+        return dateA - dateB;
+      });
+
+      spinner.succeed(`Fetched ${detailedThreads.length} threads.`);
+
+      for (const [index, thread] of detailedThreads.entries()) {
+        let threadContent = '';
+        threadContent += `--- Thread ${index + 1} / ${detailedThreads.length} | Thread ID: ${thread.id} ---\n\n`;
+
+        for (const [msgIndex, message] of thread.messages.entries()) {
+          const { text } = this.getEmailBody(message.payload);
+          const from = this.getHeader(message.payload, 'From');
+          const subject = this.getHeader(message.payload, 'Subject');
+          const date = this.getHeader(message.payload, 'Date');
+
+          threadContent += `--- Message ${msgIndex + 1} / ${thread.messages.length} ---\n`;
+          threadContent += `From: ${from}\n`;
+          threadContent += `Subject: ${subject}\n`;
+          threadContent += `Date: ${date}\n`;
+          threadContent += '--- Body ---\n';
+
+          if (text) {
+            threadContent += `${text}\n`;
+          } else {
+            threadContent += '(No text content)\n';
+          }
+          threadContent += '\n';
+        }
+        console.log(threadContent);
+      }
+    } catch (error) {
+      spinner.fail(`Error fetching threads: ${error.message}`);
+      throw error;
+    }
   }
 
   // Calendar Commands
@@ -392,7 +526,8 @@ const cli = new GmailCLI();
 program
   .name('gmail-cli')
   .description('A CLI tool for managing Gmail and Google Calendar')
-  .version('1.0.0');
+  .version('1.0.0')
+  .option('-p, --profile <name>', 'Specify the configuration profile to use', 'default');
 
 // Email Commands
 program
@@ -403,7 +538,8 @@ program
   .action(async (options) => {
     const spinner = ora('Initializing Gmail CLI...').start();
     try {
-      await cli.initialize();
+      const globalOptions = program.opts();
+      await cli.initialize(globalOptions.profile);
       spinner.succeed('Connected to Gmail');
       await cli.listEmails({ maxResults: parseInt(options.maxResults), query: options.query });
     } catch (error) {
@@ -416,12 +552,14 @@ program
   .command('search <query>')
   .description('Search emails with advanced query')
   .option('-m, --max-results <number>', 'Maximum number of emails to return', '10')
+  .option('-s, --sort <order>', 'Sort by date: "asc" or "desc"')
   .action(async (query, options) => {
     const spinner = ora('Searching emails...').start();
     try {
-      await cli.initialize();
+      const globalOptions = program.opts();
+      await cli.initialize(globalOptions.profile);
       spinner.succeed('Connected to Gmail');
-      await cli.searchEmails(query, { maxResults: parseInt(options.maxResults) });
+      await cli.searchEmails(query, { maxResults: parseInt(options.maxResults), sort: options.sort });
     } catch (error) {
       spinner.fail(`Error: ${error.message}`);
       process.exit(1);
@@ -433,10 +571,12 @@ program
   .description('Send a new email')
   .option('--cc <emails>', 'CC recipients (comma-separated)')
   .option('--bcc <emails>', 'BCC recipients (comma-separated)')
+  .option('--reply-to <messageId>', 'The message ID to reply to')
   .action(async (to, subject, body, options) => {
     const spinner = ora('Sending email...').start();
     try {
-      await cli.initialize();
+      const globalOptions = program.opts();
+      await cli.initialize(globalOptions.profile);
       spinner.text = 'Sending email...';
       await cli.sendEmail(to, subject, body, options);
       spinner.succeed('Email sent successfully');
@@ -452,7 +592,8 @@ program
   .action(async (messageId) => {
     const spinner = ora('Fetching email content...').start();
     try {
-      await cli.initialize();
+      const globalOptions = program.opts();
+      await cli.initialize(globalOptions.profile);
       spinner.succeed('Connected to Gmail');
       await cli.getEmailContent(messageId);
     } catch (error) {
@@ -468,7 +609,8 @@ program
   .action(async (messageId, attachmentId, options) => {
     const spinner = ora('Downloading attachment...').start();
     try {
-      await cli.initialize();
+      const globalOptions = program.opts();
+      await cli.initialize(globalOptions.profile);
       spinner.text = 'Downloading attachment...';
       await cli.getEmailAttachment(messageId, attachmentId, options.filename);
       spinner.succeed('Attachment downloaded');
@@ -486,11 +628,35 @@ program
   .action(async (messageId, options) => {
     const spinner = ora('Modifying email labels...').start();
     try {
-      await cli.initialize();
+      const globalOptions = program.opts();
+      await cli.initialize(globalOptions.profile);
       const addLabels = options.addLabels ? options.addLabels.split(',').map(l => l.trim()) : [];
       const removeLabels = options.removeLabels ? options.removeLabels.split(',').map(l => l.trim()) : [];
       await cli.modifyEmail(messageId, addLabels, removeLabels);
       spinner.succeed('Email labels modified');
+    } catch (error) {
+      spinner.fail(`Error: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('threads')
+  .description('List and fetch email threads')
+  .option('-q, --query <string>', 'Search query to filter threads')
+  .option('-m, --max-results <number>', 'Maximum number of threads to return', '300')
+  .option('-l, --last <duration>', 'Time duration to look back (e.g., 2w, 1d, 3m)', '2w')
+  .action(async (options) => {
+    const spinner = ora('Initializing...').start();
+    try {
+      const globalOptions = program.opts();
+      await cli.initialize(globalOptions.profile);
+      spinner.succeed('Connected to Gmail');
+      await cli.listThreads({
+        query: options.query,
+        maxResults: parseInt(options.maxResults),
+        last: options.last,
+      });
     } catch (error) {
       spinner.fail(`Error: ${error.message}`);
       process.exit(1);
@@ -509,7 +675,8 @@ events
   .action(async (options) => {
     const spinner = ora('Fetching calendar events...').start();
     try {
-      await cli.initialize();
+      const globalOptions = program.opts();
+      await cli.initialize(globalOptions.profile);
       spinner.succeed('Connected to Google Calendar');
       await cli.listEvents({
         maxResults: parseInt(options.maxResults),
@@ -531,7 +698,8 @@ events
   .action(async (summary, start, end, options) => {
     const spinner = ora('Creating calendar event...').start();
     try {
-      await cli.initialize();
+      const globalOptions = program.opts();
+      await cli.initialize(globalOptions.profile);
       spinner.text = 'Creating event...';
       await cli.createEvent(summary, start, end, options);
       spinner.succeed('Event created successfully');
@@ -553,7 +721,8 @@ events
   .action(async (eventId, options) => {
     const spinner = ora('Updating calendar event...').start();
     try {
-      await cli.initialize();
+      const globalOptions = program.opts();
+      await cli.initialize(globalOptions.profile);
       spinner.text = 'Updating event...';
       await cli.updateEvent(eventId, options);
       spinner.succeed('Event updated successfully');
@@ -569,7 +738,8 @@ events
   .action(async (eventId) => {
     const spinner = ora('Deleting calendar event...').start();
     try {
-      await cli.initialize();
+      const globalOptions = program.opts();
+      await cli.initialize(globalOptions.profile);
       spinner.text = 'Deleting event...';
       await cli.deleteEvent(eventId);
       spinner.succeed('Event deleted successfully');
@@ -585,8 +755,10 @@ program
   .description('Show required environment variables')
   .action(() => {
     console.log(chalk.blue('\n📋 Required Environment Variables:'));
-    console.log(chalk.white('The following variables must be set in config/.env:'));
-    console.log(chalk.yellow('  GOOGLE_CLIENT_ID=your_google_client_id'));
+    console.log(chalk.white('The following variables must be set in a .env file in the config/ directory.'));
+    console.log(chalk.white('By default, the tool uses `config/.env`.'));
+    console.log(chalk.white('You can use multiple profiles by creating `config/.env.profilename` and using the --profile flag.'));
+    console.log(chalk.yellow('\n  GOOGLE_CLIENT_ID=your_google_client_id'));
     console.log(chalk.yellow('  GOOGLE_CLIENT_SECRET=your_google_client_secret'));
     console.log(chalk.yellow('  GOOGLE_REFRESH_TOKEN=your_refresh_token'));
     console.log(chalk.gray('\nNote: These are the same credentials used by the MCP server.'));
@@ -597,4 +769,4 @@ if (process.argv.length === 2) {
   program.outputHelp();
 } else {
   program.parse();
-} 
+}
