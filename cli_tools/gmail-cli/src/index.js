@@ -228,7 +228,7 @@ class GmailCLI {
     }
 
     emailLines.push('');
-    emailLines.push(body);
+    emailLines.push(body.replace(/\\n/g, '\n'));
 
     const email = emailLines.join('\n');
     const encodedEmail = Buffer.from(email).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
@@ -659,6 +659,24 @@ program
       });
     } catch (error) {
       spinner.fail(`Error: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('forward <messageId> <to> [body]')
+  .description('Forward an email with attachments')
+  .option('--cc <emails>', 'CC recipients (comma-separated)')
+  .option('--bcc <emails>', 'BCC recipients (comma-separated)')
+  .action(async (messageId, to, body, options) => {
+    const spinner = ora('Initializing...').start();
+    try {
+      const globalOptions = program.opts();
+      await cli.initialize(globalOptions.profile);
+      spinner.succeed('Connected to Gmail');
+      await cli.forwardEmail(messageId, to, body, options);
+    } catch (error) {
+      // The error is already logged in the forwardEmail method
       process.exit(1);
     }
   });
