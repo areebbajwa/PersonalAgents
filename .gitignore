@@ -34,3 +34,4 @@ Cargo.lock
 # IMPORTANT: Ensure mcp.json for the project is NOT ignored
 !mcp.json
 .cursor/mcp.json
+*tmp*
