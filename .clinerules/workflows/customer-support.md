@@ -49,7 +49,7 @@
 
 9.  **Handling Discourse Forum Topics**
     *   After processing all emails, use the browser to navigate to the Discourse forum at [https://discussion.kalaamapp.com](https://discussion.kalaamapp.com).
-    *   First, collect the URLs of all topics and messages that require attention. Systematically check the following sections:
+    *   First, collect the URLs of all topics and messages that require attention. Systematically check the following sections. For each section, only extract URLs for topics that do not have the `visited` class (e.g., `<tr data-topic-id="4012" class="topic-list-item category-general">`):
         - **New:** Review all new topics and collect their URLs.
         - **Latest:** On the "Latest" page, collect the URLs of all the topics since the last visit.
         - **Unread:** Go through all unread topics and posts and collect their URLs.
