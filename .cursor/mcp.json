@@ -1,0 +1,72 @@
+{
+  "mcpServers": {
+    "browsermcp": {
+      "autoApprove": [
+        "browser_hover",
+        "browser_go_back",
+        "browser_go_forward",
+        "browser_select_option",
+        "browser_press_key",
+        "browser_click",
+        "browser_wait",
+        "browser_get_console_logs",
+        "browser_screenshot",
+        "browser_type",
+        "browser_navigate"
+      ],
+      "disabled": false,
+      "timeout": 3600,
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "@browsermcp/mcp@latest"
+      ]
+    },
+    "mcp-js-bridge": {
+      "autoApprove": [
+        "read_dom",
+        "execute_jquery"
+      ],
+      "disabled": false,
+      "timeout": 3600,
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/mcp/js-execution-mcp/index.js"
+      ]
+    },
+    "firebase-mcp": {
+      "autoApprove": [
+        "auth_get_user",
+        "storage_upload"
+      ],
+      "disabled": false,
+      "timeout": 60,
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@gannonh/firebase-mcp"
+      ],
+      "env": {
+        "SERVICE_ACCOUNT_KEY_PATH": "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/config/firebase-service-account.json",
+        "FIREBASE_STORAGE_BUCKET": "kalaam-25610.appspot.com"
+      }
+    },
+    "tavily-mcp": {
+      "autoApprove": [
+        "tavily-search"
+      ],
+      "timeout": 60,
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "tavily-mcp"
+      ],
+      "env": {
+        "TAVILY_API_KEY": "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"
+      }
+    }
+  }
+}
