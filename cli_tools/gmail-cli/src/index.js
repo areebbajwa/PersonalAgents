@@ -96,6 +96,19 @@ class GmailCLI {
     return attachments;
   }
 
+  async processInBatches(items, batchSize, processFn) {
+    let results = [];
+    for (let i = 0; i < items.length; i += batchSize) {
+      const batch = items.slice(i, i + batchSize);
+      const batchResults = await Promise.all(batch.map(processFn));
+      results = results.concat(batchResults);
+      if (this.onProgress) {
+        this.onProgress(results.length, items.length);
+      }
+    }
+    return results;
+  }
+
   // Email Commands
   async listEmails(options) {
     const maxResults = options.maxResults || 10;
@@ -365,16 +378,20 @@ class GmailCLI {
       const threads = listResponse.data.threads;
       spinner.text = `Found ${threads.length} threads. Fetching details...`;
 
-      let detailedThreads = await Promise.all(
-        threads.map(async (thread) => {
-          const threadDetails = await this.gmail.users.threads.get({
-            userId: 'me',
-            id: thread.id,
-            format: 'full',
-          });
-          return threadDetails.data;
-        })
-      );
+      this.onProgress = (processed, total) => {
+        spinner.text = `Processing threads... ${processed}/${total}`;
+      };
+
+      const detailedThreads = await this.processInBatches(threads, 20, async (thread) => {
+        const threadDetails = await this.gmail.users.threads.get({
+          userId: 'me',
+          id: thread.id,
+          format: 'full',
+        });
+        return threadDetails.data;
+      });
+
+      this.onProgress = null;
 
       if (detailedThreads.length === 0) {
         spinner.succeed('No threads found matching your criteria.');

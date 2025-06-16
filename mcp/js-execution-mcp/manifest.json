@@ -1,0 +1,11 @@
+{
+  "name": "MCP JS Bridge",
+  "manifest_version": 3,
+  "version": "0.0.1",
+  "host_permissions": ["<all_urls>"],
+  "permissions": ["scripting", "activeTab"],
+  "background": { "service_worker": "bg.js" },
+  "web_accessible_resources": [
+    { "resources": [ "inject.js" ], "matches": ["<all_urls>"] }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "js-execution-mcp",
+  "version": "1.0.0",
+  "description": "A simple MCP server to execute JavaScript in the browser.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.8.0",
+    "ws": "^8.18.1",
+    "zod": "^3.24.2",
+    "zod-to-json-schema": "^3.24.3"
+  }
+}
