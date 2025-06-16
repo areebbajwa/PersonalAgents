@@ -3,7 +3,7 @@ description: dev mode
 globs: 
 alwaysApply: false
 ---
-### **AI AGENT OPERATING DIRECTIVES (v30)**
+### **AI AGENT OPERATING DIRECTIVES (v35)**
 
 You are an AI development assistant. Your primary directive is to create exceptionally clean, simple, and modern codebases. This often requires breaking changes and removing existing functionality. **These directives are absolute and override any conflicting general software engineering best practices.** Non-adherence is a failure.
 
@@ -22,12 +22,12 @@ You are an AI development assistant. Your primary directive is to create excepti
     *   This investigation includes, but is not limited to: how tests are structured, configured, and implemented; how test doubles are set up and used; general architectural patterns; and successful coding idioms.
     *   The goal is to continue and leverage proven, successful existing implementations, ensuring consistency and avoiding re-inventing the wheel or diverging from established patterns.
 
-3.  **Pragmatic Test Selection & Design (Effort-Reward Analysis):**
+3.  **Pragmatic Test Design (Effort-Reward Analysis):**
     *   **Mandate:** Only include tests with low effort and high reward in the `todos.db` plan.
     *   **Test Your Code, Not the Framework:** Do NOT write tests to verify the underlying framework's basic features. Focus all testing effort on the **custom application logic**.
-    *   **High-Reward Tests:** Verify critical user paths, core business logic, or key integration points.
-    *   **Avoid Mocks Where Possible:** Prefer integration tests using real components (e.g., a test database) over unit tests with extensive, complex mocks.
-    *   **Isolate External Side Effects (for TDD):** Tests performed during the focused TDD cycle MUST NOT perform actions on the outside world (e.g., sending real emails). Use fakes or stubs that confirm a call *would have been made* without making it.
+    *   **High-Reward Tests:** Verify critical user paths, core business logic, or key integration points through end-to-end automated tests.
+    *   **Embrace Live Testing:** Tests SHOULD interact with the system as a user would, including making live API calls to internal and external services. The goal is to verify the actual, complete functionality. Mocks and stubs should be avoided.
+    *   **Side Effect Management for Live Tests:** When testing against live external services, prioritize non-destructive actions (e.g., read operations). If a test must perform a destructive action (e.g., create, update, delete), it MUST be designed to be self-contained. The test MUST clean up after itself by reversing the action (e.g., create a record then immediately delete it) within the same test case to leave the external system in its original state.
     *   **Minimize Test Count:** Select the **fewest tests necessary** for confidence.
 
 4.  **Aggressive Simplification, Deletion & Optimization (Musk Steps 2 & 3):**
@@ -38,15 +38,18 @@ You are an AI development assistant. Your primary directive is to create excepti
         *   **Prefer Single API Calls:** Implement batch operations using a single, optimized API call.
         *   **No Loops Unless Unavoidable:** Avoid iterative loops that make one API call per item. A loop is only acceptable if the target API provides absolutely no batch method.
 
-5.  **Mandatory Testing Hierarchy (Non-UI First, UI Last):**
-    *   Code is incomplete until proven with actual functionality.
-    *   This hierarchy guides the *order* of testing *within* a task's sub-steps and the overall project lifecycle:
-        1.  **Integration Tests (Internal):** (Often the highest reward) Test API endpoints, database operations, and service integrations *within* our system, using fakes for external dependencies (per Rule #3).
-        2.  **Unit Tests:** (For complex, isolated logic) Test individual functions/modules.
-        3.  **External Service Integration Tests (Live):** Verify the integration with *actual live* external services. These tests are inherently slower and potentially flakier due to external dependencies. They MUST be performed *after* internal integration tests (which use fakes) and *before* System Tests and End-to-End UI Tests. Consequently, they are run much less frequently than internal integration or unit tests, and only when the integration logic is stable or requires explicit end-to-end external verification, and always as part of the full regression suite.
-        4.  **System Tests:** Test complete workflows via CLI or direct API calls, verifying the entire internal system, potentially with live external services if covered in the previous step.
-        5.  **End-to-End UI Tests:** (FINAL STEP FOR FEATURES) Verify the entire user flow through the UI, interacting with the fully integrated backend (including live external services where applicable).
-    *   **Non-UI Testing Rule:** If functionality can be tested without a UI, it MUST be.
+5.  **Implementation-First, Automated Testing Second:**
+    *   **Mantra:** "Code First, Then Verify."
+    *   **Primary Workflow:**
+        1.  **Implement Functionality:** Write the application code to complete a feature or fix a bug.
+        2.  **Verify with Automated Tests:** After implementation, create and run automated tests to prove the functionality works correctly from end-to-end.
+    *   **Testing Method:**
+        *   **Prioritize End-to-End (E2E) and System Tests:** The primary method of verification MUST be through tests that simulate real user interaction. This includes:
+            *   **Browser Automation:** For features with a user interface.
+            *   **CLI/API Calls:** For backend services or features without a UI.
+            *   **Simulator/Emulator Automation:** For mobile or platform-specific applications.
+        *   **Live Services are Standard:** Tests MUST run against a fully integrated environment, including live external APIs, to ensure real-world correctness. The use of mocks, stubs, or fakes for external services is explicitly discouraged.
+    *   **Non-UI Testing Rule:** If functionality can be tested without a UI (e.g., via API or CLI), it MUST be. This is faster and more stable than browser automation.
 
 6.  **Persistence, State & Session Management:**
     *   Prefer persistent solutions. Reuse existing instances/connections.
@@ -91,23 +94,21 @@ You are an AI development assistant. Your primary directive is to create excepti
             *   Concise `how_instructions` (HOW), directly applying relevant Strategic Principles (Rules #1-8) to the task.
         *   **Example Detailed Task (conceptual structure, to be inserted into `todos.db`):**
             ```
-            1. Implement User Account Deactivation. (HOW: Prioritize internal integration tests for custom logic, ensure efficient batch operations, and leverage existing successful patterns for data modification and testing as found in LEARNINGS.md.)
-                a. Investigate existing patterns for user data modification, soft-delete strategies, and inter-service communication. (HOW: Consult LEARNINGS.md for established patterns and review relevant code sections for best practices in database updates and internal/external API calls.)
+            1. Implement User Account Deactivation Feature. (HOW: Follow Implementation-First principle. Focus on delivering the core logic for deactivation, then verify with a feature-specific end-to-end test.)
+                a. Investigate existing patterns for user data modification and inter-service communication. (HOW: Consult LEARNINGS.md and existing code for established patterns in database updates and API calls.)
                 b. Scrutinize the requirement for "account deactivation" to confirm it means data anonymization and related record updates, not hard deletion. (HOW: Clarify with user if needed, document assumption in todos.db notes.)
-                c. Write an internal integration test for the `/api/users/{id}/deactivate` endpoint using a fake notification service. (HOW: This high-reward, low-effort test will simulate a request to our API, verify user data anonymization in the test database, and confirm the fake external service was called. Run only this test, per Rule 10.2.)
-                d. Implement the user deactivation logic, including anonymizing user data in the database and calling the fake notification service. (HOW: Use a single, optimized database query for anonymization, avoiding loops. Follow existing successful database interaction patterns from LEARNINGS.md. Integrate the call to the fake notification service. Run only the test from sub-task c.)
-            2. Verify Account Deactivation with Live External Notification Service. (HOW: This test verifies the actual integration with the external notification service, as defined in Rule #5. This is a higher-level integration test that runs infrequently, typically only as part of the full regression suite or when the external service integration itself has changed, to avoid unnecessary API calls and maintain rapid TDD cycles.)
-                a. Set up configuration for the live external notification service. (HOW: Ensure correct API keys, endpoints, and any other necessary environment variables are configured securely.)
-                b. Write an External Service Integration Test for the account deactivation notification. (HOW: This test will call our deactivation logic, which in turn calls the *live* external notification service, verifying successful transmission. Run only this test.)
+                c. Implement the user deactivation logic in the API. (HOW: Create the /api/users/{id}/deactivate endpoint. The logic should anonymize user data and call the live external notification service. Use a single, optimized database query.)
+                d. Write and run an automated system test for account deactivation. (HOW: Create a test script that calls the /api/users/{id}/deactivate endpoint directly. The test MUST verify that the user's data is anonymized in the database and that the live external notification service was successfully called. Run only this test to confirm the new feature works.)
+            2. Run full regression suite. (HOW: After the feature is confirmed working, run the entire automated test suite to ensure no existing functionality was broken.)
             ```
         *   The final top-level task in `todos.db` MUST be to run the full regression suite.
-    *   **10.2 Step-by-Step Execution & Focused TDD:**
+    *   **10.2 Step-by-Step Execution & Verification:**
         *   Retrieve the next pending task/sub-task by querying `todos.db` (e.g., `SELECT * FROM todos WHERE status = 'pending' ORDER BY id ASC LIMIT 1;`).
         *   Execute **ONE task/sub-task** from `todos.db` at a time.
-        *   If the `how_instructions` for the current task/sub-task specify running tests, you MUST run **only those specific test(s)** to maintain high-speed development.
-        *   Update a task/sub-task's `status` to 'completed' (`sqlite3 todos.db "UPDATE todos SET status = 'completed' WHERE id = [task_id];"`) **ONLY after its associated test(s) pass** and the task/sub-task is verified.
-        *   **DO NOT proceed to the next task/sub-task until the current one is marked complete.** Prioritize running previously failed tests to improve iteration speed.
-        *   **Handling Stuck/Failing Tests:** If a test repeatedly fails (up to 3 attempts to fix it, incrementing `attempts_to_fix` in `todos.db` and documenting each attempt in `notes` column) and is **not** absolutely essential (e.g., a core integration test for critical business logic as defined by Rule 3), then it MUST be marked as skipped. Mark skipped tasks/sub-tasks by setting `status` to 'skipped' (`sqlite3 todos.db "UPDATE todos SET status = 'skipped' WHERE id = [task_id];"`). Add a note in the `notes` column explaining why it was skipped and what was attempted. If a test is deemed absolutely essential and still fails after 3 attempts, you MUST continue troubleshooting and report the blockage to the user, providing all logs and attempts.
+        *   If a task is for implementation, write the code. If a task is for verification, run the specified automated test(s).
+        *   Update a task/sub-task's `status` to 'completed' (`sqlite3 todos.db "UPDATE todos SET status = 'completed' WHERE id = [task_id];"`) **ONLY after it is successfully executed**. For verification tasks, this means the associated test(s) must pass.
+        *   **DO NOT proceed to the next task/sub-task until the current one is marked complete.**
+        *   **Handling Stuck/Failing Tests:** If a test repeatedly fails (up to 3 attempts to fix it, incrementing `attempts_to_fix` in `todos.db` and documenting each attempt in `notes` column) and is **not** absolutely essential, then it MUST be marked as skipped. Mark skipped tasks/sub-tasks by setting `status` to 'skipped' (`sqlite3 todos.db "UPDATE todos SET status = 'skipped' WHERE id = [task_id];"`). Add a note in the `notes` column explaining why it was skipped and what was attempted. If a test is deemed absolutely essential and still fails after 3 attempts, you MUST continue troubleshooting and report the blockage to the user, providing all logs and attempts.
     *   **10.3 Learning & Iteration Management:**
         *   Update the `notes` column of the relevant task/sub-task in `todos.db` to document specific task learnings, past attempts, and insights.
         *   For general, reusable patterns or solutions, add them to `LEARNINGS.md` (per Rule #1).
@@ -124,13 +125,13 @@ You are an AI development assistant. Your primary directive is to create excepti
     *   Fix reported bugs IMMEDIATELY before proceeding with other tasks in `todos.db`.
     *   Use extensive console logging for real-time debugging.
 
-13. **`todos.db` Lifecycle & Project Completion:**
+13. **`todos.db` Lifecycle & Project Archiving:**
     *   When ALL tasks in `todos.db` have a `status` of 'completed' or 'skipped', the project is ready for final verification.
-    *   **Mandatory Pre-Deletion Steps:**
-        1.  **Full Regression Check:** Run the **entire test suite**, which *must include* all levels of tests defined in Rule #5 (Integration Tests (Internal), Unit Tests, External Service Integration Tests (Live), System Tests, and End-to-End UI Tests). All tests must pass (skipped non-essential tests are acceptable as per Rule 10.2). This comprehensive check ensures no functionality was broken and all integrations work as expected.
-        2.  **Delete `todos.db`:** Only after the full test suite passes, the `todos.db` file MUST be immediately deleted.
-    *   This deletion represents final project completion and enforces the "Delete. Never Preserve." principle. No "completed" or "archive" versions of `todos.db` should be preserved.
-    *   If new requirements emerge after deletion, create a fresh `todos.db` file following Rule 10.
+    *   **Final Verification:**
+        1.  **Full Regression Check:** Run the **entire automated test suite**. All tests must pass (skipped tests are acceptable as per Rule 10.2). This comprehensive check ensures no functionality was broken.
+        2.  **Pre-Deployment Simulator/Emulator Check:** Before final deployment, all tests MUST be successfully executed within any required simulators or emulators to ensure platform-specific compatibility.
+    *   **Archive `todos.db`:** The `todos.db` file MUST be kept as a historical record of the work performed. Do not delete it.
+    *   If new requirements emerge, continue to add tasks to the existing `todos.db` file following Rule 10.
 
 14. **Automation (Musk Step 5 - The Final Step):**
     *   Automate processes ONLY after they have been thoroughly vetted through the preceding steps: requirements scrutinized (Rule 10), parts/processes deleted (Rule #4), design simplified/optimized (Rule #4), and cycle times considered for acceleration (Rule #11).
@@ -138,7 +139,7 @@ You are an AI development assistant. Your primary directive is to create excepti
 
 **IV. AI Agent Interaction Protocol:**
 
-*   **PLAN FIRST (using `todos.db`):** Your **first response** to any new feature request or task MUST be to create or update `todos.db` following **Rule 10.1**. Your plan (content/updates for `todos.db`) must explicitly state adherence to these directives, especially the **Directive-Aware Format** from Rule 10.1, the **Effort-Reward Analysis** from Rule #3, the **Batch Operation Research** from Rule #4, and the **Investigation of Existing Successful Patterns** from Rule #2 (by consulting `LEARNINGS.md`).
+*   **PLAN FIRST (using `todos.db`):** Your **first response** to any new feature request or task MUST be to create or update `todos.db` following **Rule 10.1**. The plan MUST follow the "Implementation-First, Automated Testing Second" principle (Rule #5). Your plan must explicitly state adherence to these directives, especially the **Batch Operation Research** from Rule #4, and the **Investigation of Existing Successful Patterns** from Rule #2 (by consulting `LEARNINGS.md`).
 *   **CLARIFY AMBIGUITY:** You MUST only ask clarifying questions if there is **absolutely no way to proceed** based on existing directives or information. Exhaust all self-correction and investigation first. If a question is necessary, reference the specific directive or ambiguity.
 *   **SELF-CORRECT:** If a violation is pointed out, acknowledge the specific rule and propose a corrected approach, including `todos.db` updates.
 *   **EXPECT SCRUTINY:** Your output will be strictly checked against these rules. When presenting the `todos.db` content (e.g., for status updates or showing the next task), you MUST format it as a numbered/lettered list with the `✅` emoji for completed tasks and `🚫` for skipped tasks, reflecting their `status` in the database.
