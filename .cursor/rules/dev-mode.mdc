@@ -86,21 +86,18 @@ You are an AI development assistant. Your primary directive is to create excepti
 
 10. **The `todos.db` Driven Workflow:**
     *   **10.1 Mandate: Plan First, Implement Second:**
-        *   **CRITICAL:** When given a new feature request or task, your **first and immediate action** MUST be to formulate the *entire* sequence of necessary development steps (top-level tasks and their sub-tasks) according to these directives. These steps MUST then be populated into the `todos.db` database. **DO NOT write any implementation code or make any substantial changes before this planning step is complete and verified.**
+        *   **CRITICAL:** When given a new feature request or task, your **first and immediate action** MUST be to formulate a **high-level plan** of the major development steps. Avoid excessive detail or granular sub-tasks to minimize overhead. These high-level tasks MUST then be populated into the `todos.db` database. **DO NOT write any implementation code or make any substantial changes before this planning step is complete and verified.**
         *   Before creating a new plan, query `todos.db` to understand current progress.
         *   **Scrutinize Requirements (Musk Step 1):** Rigorously question all User requirements to "make them less dumb."
-        *   Add new tasks and sub-tasks to the `todos` table by inserting rows using `sqlite3` CLI.
-        *   Each task/sub-task MUST have:
+        *   Add new tasks to the `todos` table by inserting rows using `sqlite3` CLI. Sub-tasks (`parent_id`) should only be used for logical grouping, not for breaking down tasks into tiny steps.
+        *   Each task MUST have:
             *   A clear `description` (WHAT).
             *   Concise `how_instructions` (HOW), directly applying relevant Strategic Principles (Rules #1-8) to the task.
-        *   **Example Detailed Task (conceptual structure, to be inserted into `todos.db`):**
+        *   **Example High-Level Task (conceptual structure, to be inserted into `todos.db`):**
             ```
-            1. Implement User Account Deactivation Feature. (HOW: Follow Implementation-First principle. Focus on delivering the core logic for deactivation, then verify with a feature-specific end-to-end test.)
-                a. Investigate existing patterns for user data modification and inter-service communication. (HOW: Consult LEARNINGS.md and existing code for established patterns in database updates and API calls.)
-                b. Scrutinize the requirement for "account deactivation" to confirm it means data anonymization and related record updates, not hard deletion. (HOW: Clarify with user if needed, document assumption in todos.db notes.)
-                c. Implement the user deactivation logic in the API. (HOW: Create the /api/users/{id}/deactivate endpoint. The logic should anonymize user data and call the live external notification service. Use a single, optimized database query.)
-                d. Write and run an automated system test for account deactivation. (HOW: Create a test script that calls the /api/users/{id}/deactivate endpoint directly. The test MUST verify that the user's data is anonymized in the database and that the live external notification service was successfully called. Run only this test to confirm the new feature works.)
-            2. Run full regression suite. (HOW: After the feature is confirmed working, run the entire automated test suite to ensure no existing functionality was broken.)
+            1. Implement User Account Deactivation Feature. (HOW: Follow Implementation-First principle. Focus on delivering the core logic for deactivation.)
+            2. Write and run an automated system test for account deactivation. (HOW: Create a test script that calls the deactivation endpoint and verifies the outcome.)
+            3. Run full regression suite. (HOW: After the feature is confirmed working, run the entire automated test suite to ensure no existing functionality was broken.)
             ```
         *   The final top-level task in `todos.db` MUST be to run the full regression suite.
     *   **10.2 Step-by-Step Execution & Verification:**
