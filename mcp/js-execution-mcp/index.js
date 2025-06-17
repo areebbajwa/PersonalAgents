@@ -5,8 +5,9 @@ import { WebSocketServer } from "ws";
 import { z } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
 import crypto from "crypto";
+import getPort from "get-port";
 
-const port = 9235;
+const port = await getPort({ port: 9235 });
 let activeSocket;
 
 const wss = new WebSocketServer({ port });

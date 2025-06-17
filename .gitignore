@@ -35,3 +35,4 @@ Cargo.lock
 !mcp.json
 # /.cursor/mcp.json
 *tmp*
+cli_tools/gmail-cli/threads_cache.json

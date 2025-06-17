@@ -19,6 +19,7 @@ You are an AI development assistant. Your primary directive is to create excepti
 
 2.  **Comprehensive Initial Investigation:**
     *   Before undertaking any new task or writing any new code, you MUST thoroughly investigate the existing codebase and consult `LEARNINGS.md` (per Rule #1) to identify and understand successful patterns currently in use.
+    *   When a task involves implementing or interacting with an API (internal or external), you MUST first search the web for the latest official API documentation. This ensures adherence to current best practices, correct method usage, and awareness of any recent changes or deprecations.
     *   This investigation includes, but is not limited to: how tests are structured, configured, and implemented; how test doubles are set up and used; general architectural patterns; and successful coding idioms.
     *   The goal is to continue and leverage proven, successful existing implementations, ensuring consistency and avoiding re-inventing the wheel or diverging from established patterns.
 

@@ -1,8 +1,8 @@
 # Customer Support Workflow Rules
 
-1.  **Fetch all previous support threads:** Before taking any action, always fetch and review ALL previous support threads (not just those from the current sender) using `cli_tools/gmail-cli/gmail-cli threads --profile support`. This must be done first, as it impacts all subsequent actions.
+1.  **Refresh Threads Cache:** At the beginning of a session, refresh the local cache of the 300 most recent support threads by running `cli_tools/gmail-cli/gmail-cli refresh-cache --profile support`. This ensures that the AI has the latest context for generating responses.
 
-2.  **Fetch all unread emails:** At the beginning of the session, use the `gmail-cli` `search` command with the query `'is:unread after:YYYY/MM/DD -from:dmarcreport@microsoft.com -from:noreply-dmarc-support@google.com -from:noreply@dmarc.yahoo.com -from:noreply-dmarc@zoho.com -from:dmarcreports@secureserver.net -from:notifications@stripe.com'` and the `--sort asc` option to fetch all unread emails, sorted by date ascending. Use a high `--max-results` value (e.g., 100) to ensure all unread emails within the desired timeframe are fetched. Restrict to unread emailslast 2 weeks.
+2.  **Fetch all unread emails:** Use the `gmail-cli` `search` command with the query `'is:unread after:YYYY/MM/DD -from:dmarcreport@microsoft.com -from:noreply-dmarc-support@google.com -from:noreply@dmarc.yahoo.com -from:noreply-dmarc@zoho.com -from:dmarcreports@secureserver.net -from:notifications@stripe.com'` and the `--sort asc` option to fetch all unread emails, sorted by date ascending. Use a high `--max-results` value (e.g., 100) to ensure all unread emails within the desired timeframe are fetched. Restrict to unread emails from the last 2 weeks.
 
 3.  **Process emails one by one, oldest first.**
     *   **For any issues related to data inaccuracy (e.g., incorrect translations, definitions), forward the email with attachments to Raghda (`r_khalifa@msn.com`) instead of creating a ticket.**
@@ -18,12 +18,13 @@
 4.  **Handle different email types:**
     *   **DMARC/Automated Reports:** These can be ignored.
     *   **Support Requests:**
-        *   Fetch the full thread content for the specific request using the `content` command with the message ID of the email (e.g., `cli_tools/gmail-cli/gmail-cli content <messageId> --profile support`). Always show the email you are responding to.
+        *   Use the `respond` command to generate a draft response. You can provide a single thread ID or multiple comma-separated thread IDs (e.g., `cli_tools/gmail-cli/gmail-cli respond <threadId1,threadId2,...> --profile support`). The tool will use cached threads for context and generate responses for all specified threads in a single batch.
         *   If the email is not in English, it must be translated before drafting a response. The response should be in the user's original language.
-        *   Draft a response to address the user's query, consistent with previous interactions.
-        *   **CRITICAL: Always ask for approval before sending any email.** Use the `ask_followup_question` tool to present the draft and get confirmation.
-        *   Once the draft is approved, send the email using the `send` command with the `--reply-to` option to ensure it is part of the correct thread.
-        *   The `gmail-cli` tool is configured to automatically mark the thread as read after a reply is sent.
+        *   **CRITICAL: Always ask for approval before sending any email.** Use the `ask_followup_question` tool to present the draft and get confirmation. When presenting the draft for an email thread, ensure you also have the original message ID, the sender's email address (who will be the recipient of the reply), and the original subject line.
+        *   Once the draft for a *single email thread* is approved: 
+            1.  Use the `cli_tools/gmail-cli/gmail-cli send <to> <subject> <body> --reply-to <originalMessageId> --profile support` command. Replace `<to>` with the original sender's email, `<subject>` with "Re: Original Subject" (or the approved subject), `<body>` with the approved response text, and `<originalMessageId>` with the ID of the email you are replying to.
+            2.  After the email is sent successfully, mark the original message as read using: `cli_tools/gmail-cli/gmail-cli modify <originalMessageId> --remove-labels UNREAD --profile support`.
+        *   **Note:** The `respond` command is only for generating and displaying responses. It does not send emails. Sending must be done individually using the `gmail-cli send` process described above.
 
 5.  **Drafting Responses:** Do not use a separate file for drafts. Present the draft directly within the `ask_followup_question` tool for approval.
 
@@ -55,7 +56,8 @@
         - **Unread:** Go through all unread topics and posts and collect their URLs.
     *   Once all URLs are collected, process them one by one by navigating to each URL directly.
     *   For each topic or message, assess if a reply is needed. A reply is generally required if it has not received a satisfactory response from Raghda, Salah, Jahanzaib, or Areeb.
-    *   Draft a response to address the user's query.
+    *   To help draft your response, use the `gmail-cli` tool with its text input feature. Summarize the user's query or the key points of the Discourse topic, then run: `cli_tools/gmail-cli/gmail-cli respond --text-input "Your summary or query text here" --profile support`. This will generate a draft based on the provided text and cached email context.
+    *   Review and refine the generated draft.
     *   **CRITICAL: Always ask for approval before posting any reply on the forum or in a direct message. Every topic that deserves a response should get one before moving on**
 
 10. **User Management**

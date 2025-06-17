@@ -9,23 +9,29 @@ import dotenv from 'dotenv';
 import chalk from 'chalk';
 import ora from 'ora';
 import mime from 'mime-types';
+import { GoogleGenAI } from '@google/genai';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Load environment variables from hardcoded config path
-dotenv.config({ path: path.resolve(process.cwd(), '../../config/.env') });
+// dotenv.config({ path: path.resolve(process.cwd(), 'config/.env') });
 
 class GmailCLI {
   constructor() {
     this.auth = null;
     this.gmail = null;
     this.calendar = null;
+    this.genAI = null;
   }
 
   async initialize(profile = 'default') {
     // Load environment variables based on profile
     const envPath =
       profile === 'default'
-        ? path.resolve(process.cwd(), '../../config/.env')
-        : path.resolve(process.cwd(), `../../config/.env.${profile}`);
+        ? path.resolve(__dirname, '../../../config/.env')
+        : path.resolve(__dirname, `../../../config/.env.${profile}`);
 
     if (!fs.existsSync(envPath)) {
       throw new Error(`Profile configuration file not found: ${envPath}`);
@@ -41,6 +47,10 @@ class GmailCLI {
       throw new Error('Required Google OAuth credentials not found in config/.env');
     }
 
+    if (!process.env.GEMINI_API_KEY) {
+      throw new Error(`GEMINI_API_KEY not found in ${path.basename(envPath)}`);
+    }
+
     // Set up OAuth2 client
     this.auth = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET);
     this.auth.setCredentials({ refresh_token: REFRESH_TOKEN });
@@ -48,6 +58,7 @@ class GmailCLI {
     // Initialize API clients
     this.gmail = google.gmail({ version: 'v1', auth: this.auth });
     this.calendar = google.calendar({ version: 'v3', auth: this.auth });
+    this.genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
   }
 
   // Helper methods from MCP server
@@ -285,6 +296,7 @@ class GmailCLI {
     const from = this.getHeader(payload, 'From');
     const to = this.getHeader(payload, 'To');
     const date = this.getHeader(payload, 'Date');
+    const threadId = message.threadId;
 
     const { text, html } = this.getEmailBody(payload);
     const attachments = this.getAttachments(payload);
@@ -294,6 +306,7 @@ class GmailCLI {
     console.log(chalk.green(`From: ${from}`));
     console.log(chalk.green(`To: ${to}`));
     console.log(chalk.yellow(`Date: ${date}`));
+    console.log(chalk.magenta(`Thread ID: ${threadId}`));
     
     if (attachments.length > 0) {
       console.log(chalk.cyan(`\n📎 Attachments (${attachments.length}):`));
@@ -357,7 +370,7 @@ class GmailCLI {
   }
 
   async listThreads(options) {
-    const { query, maxResults, last = '2w' } = options;
+    const { query, maxResults, last = '2w', silent = false } = options;
     const spinner = ora('Fetching threads...').start();
     let allThreads = [];
     let nextPageToken = null;
@@ -372,7 +385,7 @@ class GmailCLI {
 
       if (!listResponse.data.threads) {
         spinner.succeed('No threads found matching your criteria.');
-        return;
+        return [];
       }
 
       const threads = listResponse.data.threads;
@@ -395,7 +408,7 @@ class GmailCLI {
 
       if (detailedThreads.length === 0) {
         spinner.succeed('No threads found matching your criteria.');
-        return;
+        return [];
       }
 
       // Sort threads by the date of the first message
@@ -407,33 +420,170 @@ class GmailCLI {
 
       spinner.succeed(`Fetched ${detailedThreads.length} threads.`);
 
-      for (const [index, thread] of detailedThreads.entries()) {
-        let threadContent = '';
-        threadContent += `--- Thread ${index + 1} / ${detailedThreads.length} | Thread ID: ${thread.id} ---\n\n`;
+      if (!silent) {
+        for (const [index, thread] of detailedThreads.entries()) {
+          let threadContent = '';
+          threadContent += `--- Thread ${index + 1} / ${detailedThreads.length} | Thread ID: ${thread.id} ---\n\n`;
 
-        for (const [msgIndex, message] of thread.messages.entries()) {
-          const { text } = this.getEmailBody(message.payload);
-          const from = this.getHeader(message.payload, 'From');
-          const subject = this.getHeader(message.payload, 'Subject');
-          const date = this.getHeader(message.payload, 'Date');
+          for (const [msgIndex, message] of thread.messages.entries()) {
+            const { text } = this.getEmailBody(message.payload);
+            const from = this.getHeader(message.payload, 'From');
+            const subject = this.getHeader(message.payload, 'Subject');
+            const date = this.getHeader(message.payload, 'Date');
 
-          threadContent += `--- Message ${msgIndex + 1} / ${thread.messages.length} ---\n`;
-          threadContent += `From: ${from}\n`;
-          threadContent += `Subject: ${subject}\n`;
-          threadContent += `Date: ${date}\n`;
-          threadContent += '--- Body ---\n';
+            threadContent += `--- Message ${msgIndex + 1} / ${thread.messages.length} ---\n`;
+            threadContent += `From: ${from}\n`;
+            threadContent += `Subject: ${subject}\n`;
+            threadContent += `Date: ${date}\n`;
+            threadContent += '--- Body ---\n';
 
-          if (text) {
-            threadContent += `${text}\n`;
-          } else {
-            threadContent += '(No text content)\n';
+            if (text) {
+              threadContent += `${text}\n`;
+            } else {
+              threadContent += '(No text content)\n';
+            }
+            threadContent += '\n';
           }
-          threadContent += '\n';
+          console.log(threadContent);
         }
-        console.log(threadContent);
       }
+      return detailedThreads;
     } catch (error) {
       spinner.fail(`Error fetching threads: ${error.message}`);
+      throw error;
+    }
+  }
+
+  async refreshCache(options) {
+    const spinner = ora('Refreshing threads cache...').start();
+    try {
+      const threads = await this.listThreads({ ...options, silent: true });
+      const simplifiedThreads = threads.map(thread => {
+        let threadContent = '';
+        for (const message of thread.messages) {
+          const { text } = this.getEmailBody(message.payload);
+          const from = this.getHeader(message.payload, 'From');
+          threadContent += `From: ${from}\n${text}\n\n`;
+        }
+        return threadContent;
+      });
+
+      const cachePath = path.resolve(__dirname, '../threads_cache.json');
+      fs.writeFileSync(cachePath, JSON.stringify(simplifiedThreads, null, 2));
+      spinner.succeed(`Successfully refreshed threads cache with ${simplifiedThreads.length} threads.`);
+    } catch (error) {
+      spinner.fail(`Error refreshing cache: ${error.message}`);
+      throw error;
+    }
+  }
+
+  async respondToMultipleThreads(threadIdsString, options) {
+    const spinner = ora('Generating response...').start();
+    try {
+      const cachePath = path.resolve(__dirname, '../threads_cache.json');
+      if (!fs.existsSync(cachePath)) {
+        throw new Error('Threads cache not found. Please run `refresh-cache` first.');
+      }
+
+      const cachedThreads = JSON.parse(fs.readFileSync(cachePath, 'utf-8'));
+
+      const threadIds = threadIdsString.split(',').map(id => id.trim());
+      if (threadIds.length === 0) {
+        spinner.warn('No thread IDs provided.');
+        return;
+      }
+
+      spinner.text = `Fetching details for ${threadIds.length} thread(s)...`;
+
+      const threadsData = [];
+      for (const threadId of threadIds) {
+        const threadDetails = await this.gmail.users.threads.get({
+          userId: 'me',
+          id: threadId,
+          format: 'full',
+        });
+
+        let currentThreadContent = '';
+        for (const message of threadDetails.data.messages) {
+          const { text } = this.getEmailBody(message.payload);
+          const from = this.getHeader(message.payload, 'From');
+          currentThreadContent += `From: ${from}\n${text}\n\n`;
+        }
+        threadsData.push({
+          id: threadId,
+          content: currentThreadContent,
+          details: threadDetails.data
+        });
+      }
+      
+      spinner.text = 'Constructing prompt for AI...';
+
+      let prompt = `
+        Based on the following previous email threads, please draft a separate response for each of the current threads provided below.
+        Each response must be concise, helpful, and consistent with the tone of previous replies.
+
+        You will be given several "Current Thread" blocks, each with an ID (e.g., Current Thread 1 (ID: actual_thread_id_here)).
+        For each of these threads, you MUST generate a response.
+        Each generated response MUST strictly follow this format, replacing 'ACTUAL_THREAD_ID' with the specific ID of the thread you are responding to:
+        ===START_RESPONSE_FOR_THREAD_ID_ACTUAL_THREAD_ID===
+        (Your response content for this thread)
+        ===END_RESPONSE_FOR_THREAD_ID_ACTUAL_THREAD_ID===
+
+        It is critical that you use the exact delimiters and replace 'ACTUAL_THREAD_ID' with the real thread ID.
+        Do NOT include any other text or explanations outside these delimited blocks for each response.
+
+        Previous Threads (for context):
+        ${JSON.stringify(cachedThreads, null, 2)}
+
+      `;
+
+      threadsData.forEach((thread, index) => {
+        prompt += `
+        Current Thread ${index + 1} (ID: ${thread.id}):
+        --- Start of Content for Thread ${thread.id} ---
+        ${thread.content}
+        --- End of Content for Thread ${thread.id} ---
+        `;
+      });
+
+      prompt += `
+        Now, please provide the distinct responses for each "Current Thread" listed above, ensuring each response is wrapped in the specified start/end delimiters with the correct thread ID.
+      `;
+
+      const generationConfig = {
+        thinkingConfig: {
+          thinkingBudget: -1,
+        },
+        responseMimeType: 'text/plain',
+      };
+      const model = 'gemini-2.5-pro';
+      const contents = [
+        {
+          role: 'user',
+          parts: [
+            {
+              text: prompt,
+            },
+          ],
+        },
+      ];
+
+      const responseStream = await this.genAI.models.generateContentStream({
+        model,
+        config: generationConfig,
+        contents,
+      });
+
+      let fullResponse = '';
+      for await (const chunk of responseStream) {
+        const chunkText = chunk.text;
+        fullResponse += chunkText;
+        process.stdout.write(chalk.cyan(chunkText));
+      }
+      
+      spinner.succeed('\nGenerated response complete.');
+    } catch (error) {
+      spinner.fail(`Error responding to threads: ${error.message}`);
       throw error;
     }
   }
@@ -533,6 +683,135 @@ class GmailCLI {
     });
 
     console.log(chalk.green(`✅ Event deleted successfully! Event ID: ${eventId}`));
+  }
+
+  async generateAndDisplayResponses(inputData, cliOptions) {
+    const spinner = ora('Generating response...').start();
+    try {
+      const cachePath = path.resolve(__dirname, '../threads_cache.json');
+      if (!fs.existsSync(cachePath) && !inputData.isTextInput) { // Cache only strictly needed if not direct text input and we want context
+         spinner.warn('Threads cache not found. Context from previous threads will be limited. Consider running `refresh-cache`.');
+      }
+      
+      const cachedThreads = fs.existsSync(cachePath) ? JSON.parse(fs.readFileSync(cachePath, 'utf-8')) : [];
+
+      const threadsData = [];
+
+      if (inputData.isTextInput) {
+        spinner.text = 'Processing direct text input...';
+        threadsData.push({
+          id: 'direct-input-0', // Generic ID for direct input
+          content: inputData.textInput,
+          details: null, // No actual Gmail thread details
+        });
+      } else {
+        const threadIds = inputData.threadIdsString.split(',').map(id => id.trim()).filter(id => id);
+        if (threadIds.length === 0) {
+          spinner.warn('No valid thread IDs provided.');
+          return;
+        }
+
+        spinner.text = `Fetching details for ${threadIds.length} thread(s)...`;
+        for (const threadId of threadIds) {
+          const threadDetails = await this.gmail.users.threads.get({
+            userId: 'me',
+            id: threadId,
+            format: 'full',
+          });
+
+          let currentThreadContent = '';
+          for (const message of threadDetails.data.messages) {
+            const { text } = this.getEmailBody(message.payload);
+            const from = this.getHeader(message.payload, 'From');
+            currentThreadContent += `From: ${from}\n${text}\n\n`;
+          }
+          threadsData.push({
+            id: threadId,
+            content: currentThreadContent,
+            details: threadDetails.data,
+          });
+        }
+      }
+      
+      if (threadsData.length === 0) {
+        spinner.succeed('No content to process.');
+        return;
+      }
+
+      spinner.text = 'Constructing prompt for AI...';
+
+      let prompt = `
+        Based on the following previous email threads (if available), please draft a separate response for each of the current inputs provided below.
+        Each response must be concise and helpful. If the input is from an email thread, maintain consistency with previous replies.
+
+        You will be given one or more "Current Input" blocks, each with an ID (e.g., Current Input 1 (ID: actual_thread_id_or_generic_id)).
+        For each of these inputs, you MUST generate a response.
+        Each generated response MUST strictly follow this format, replacing 'ACTUAL_ID' with the specific ID of the input you are responding to:
+        ===START_RESPONSE_FOR_ID_ACTUAL_ID===
+        (Your response content for this input)
+        ===END_RESPONSE_FOR_ID_ACTUAL_ID===
+
+        It is critical that you use the exact delimiters and replace 'ACTUAL_ID' with the real ID (e.g., a thread ID or 'direct-input-0').
+        Do NOT include any other text or explanations outside these delimited blocks for each response.
+
+        Previous Threads (for context, if available):
+`;
+        prompt += cachedThreads.length > 0 ? JSON.stringify(cachedThreads, null, 2) : "No cached threads available for context.";
+        prompt += `
+
+`;
+
+
+      threadsData.forEach((thread, index) => {
+        prompt += `
+        Current Input ${index + 1} (ID: ${thread.id}):
+        --- Start of Content for Input ${thread.id} ---
+        ${thread.content}
+        --- End of Content for Input ${thread.id} ---
+        `;
+      });
+
+      prompt += `
+        Now, please provide the distinct responses for each "Current Input" listed above, ensuring each response is wrapped in the specified start/end delimiters with the correct ID.
+      `;
+      
+      const generationConfig = {
+        responseMimeType: 'text/plain',
+      };
+      const model = 'gemini-2.5-pro';
+      const contents = [
+        {
+          role: 'user',
+          parts: [
+            {
+              text: prompt,
+            },
+          ],
+        },
+      ];
+
+      const responseStream = await this.genAI.models.generateContentStream({
+        model,
+        config: generationConfig,
+        contents,
+      });
+
+      let fullResponse = '';
+      spinner.text = 'Receiving AI response...';
+      process.stdout.write(chalk.blue('\n--- AI Response Start ---\n'));
+      for await (const chunk of responseStream) {
+        const chunkText = chunk.text;
+        if (chunkText) {
+          fullResponse += chunkText;
+          process.stdout.write(chalk.cyan(chunkText));
+        }
+      }
+      process.stdout.write(chalk.blue('\n--- AI Response End ---\n'));
+      spinner.succeed('Generated response complete.');
+    } catch (error) {
+      spinner.fail(`Error generating responses: ${error.message}`);
+      throw error;
+    }
   }
 }
 
@@ -674,6 +953,58 @@ program
         maxResults: parseInt(options.maxResults),
         last: options.last,
       });
+    } catch (error) {
+      spinner.fail(`Error: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('refresh-cache')
+  .description('Refresh the cache of previous email threads')
+  .option('-m, --max-results <number>', 'Maximum number of threads to cache', '300')
+  .action(async (options) => {
+    const spinner = ora('Initializing...').start();
+    try {
+      const globalOptions = program.opts();
+      await cli.initialize(globalOptions.profile);
+      spinner.succeed('Connected to Gmail');
+      await cli.refreshCache({
+        maxResults: parseInt(options.maxResults),
+      });
+    } catch (error) {
+      spinner.fail(`Error: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('respond [threadIds]')
+  .description('Generate a response using cached context and display it. Provide comma-separated thread IDs or use --text-input for direct text.')
+  .option('--text-input <text>', 'Direct text input to generate a response for (use instead of threadIds for a single query)')
+  .action(async (threadIds, options) => {
+    const spinner = ora('Initializing...').start();
+    try {
+      if (threadIds && options.textInput) {
+        spinner.fail('Error: Cannot use both threadIds and --text-input simultaneously. Please provide one or the other.');
+        process.exit(1);
+      }
+      if (!threadIds && !options.textInput) {
+        spinner.fail('Error: You must provide either threadIds or use the --text-input option.');
+        process.exit(1);
+      }
+
+      const globalOptions = program.opts();
+      await cli.initialize(globalOptions.profile);
+      spinner.succeed('Connected to Gmail');
+
+      let inputData;
+      if (options.textInput) {
+        inputData = { textInput: options.textInput, isTextInput: true };
+      } else {
+        inputData = { threadIdsString: threadIds, isTextInput: false };
+      }
+      await cli.generateAndDisplayResponses(inputData, options);
     } catch (error) {
       spinner.fail(`Error: ${error.message}`);
       process.exit(1);
