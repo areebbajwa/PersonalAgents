@@ -685,6 +685,76 @@ class GmailCLI {
     console.log(chalk.green(`✅ Event deleted successfully! Event ID: ${eventId}`));
   }
 
+  async forwardEmail(messageId, to, body, options) {
+    const spinner = ora('Forwarding email...').start();
+    try {
+      // Get the original message
+      const originalMessage = await this.gmail.users.messages.get({
+        userId: 'me',
+        id: messageId,
+        format: 'full',
+      });
+
+      const originalPayload = originalMessage.data.payload;
+      const originalSubject = this.getHeader(originalPayload, 'Subject');
+      const originalFrom = this.getHeader(originalPayload, 'From');
+      const originalDate = this.getHeader(originalPayload, 'Date');
+      const { text: originalText, html: originalHtml } = this.getEmailBody(originalPayload);
+      const attachments = this.getAttachments(originalPayload);
+
+      // Create forward message
+      const emailLines = [];
+      emailLines.push(`To: ${to}`);
+      if (options.cc) emailLines.push(`Cc: ${options.cc}`);
+      if (options.bcc) emailLines.push(`Bcc: ${options.bcc}`);
+      emailLines.push(`Subject: Fwd: ${originalSubject}`);
+      emailLines.push('');
+      
+      // Add custom body if provided
+      if (body) {
+        emailLines.push(body);
+        emailLines.push('');
+      }
+
+      // Add forwarded message header
+      emailLines.push('---------- Forwarded message ----------');
+      emailLines.push(`From: ${originalFrom}`);
+      emailLines.push(`Date: ${originalDate}`);
+      emailLines.push(`Subject: ${originalSubject}`);
+      emailLines.push(`To: ${this.getHeader(originalPayload, 'To')}`);
+      emailLines.push('');
+
+      // Add original message content
+      if (originalText) {
+        emailLines.push(originalText);
+      } else if (originalHtml) {
+        emailLines.push(originalHtml);
+      }
+
+      const email = emailLines.join('\n');
+      const encodedEmail = Buffer.from(email).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+
+      const requestBody = {
+        raw: encodedEmail,
+      };
+
+      // Send the forward
+      const response = await this.gmail.users.messages.send({
+        userId: 'me',
+        requestBody,
+      });
+
+      spinner.succeed(`Email forwarded successfully! Message ID: ${response.data.id}`);
+      console.log(chalk.green(`✅ Forwarded to: ${to}`));
+      if (attachments.length > 0) {
+        console.log(chalk.yellow(`⚠️  Note: ${attachments.length} attachment(s) from original message could not be forwarded automatically`));
+      }
+    } catch (error) {
+      spinner.fail(`Error forwarding email: ${error.message}`);
+      throw error;
+    }
+  }
+
   async generateAndDisplayResponses(inputData, cliOptions) {
     const spinner = ora('Generating response...').start();
     try {
