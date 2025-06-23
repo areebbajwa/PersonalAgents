@@ -1,0 +1,18 @@
+# Workflow state files
+state/
+*.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Test coverage
+.coverage
+htmlcov/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo

@@ -369,6 +369,64 @@ class GmailCLI {
     console.log(chalk.green(`✅ Email labels modified successfully for message: ${messageId}`));
   }
 
+  async bulkMarkAsRead(query, options) {
+    const spinner = ora('Searching for emails to mark as read...').start();
+    try {
+      const maxResults = options.maxResults || 500;
+      
+      // Get all matching messages
+      const response = await this.gmail.users.messages.list({
+        userId: 'me',
+        maxResults,
+        q: query,
+      });
+
+      if (!response.data.messages || response.data.messages.length === 0) {
+        spinner.succeed('No messages found matching the query');
+        return;
+      }
+
+      const messageCount = response.data.messages.length;
+      spinner.text = `Found ${messageCount} messages. Marking as read...`;
+
+      // Process in batches to avoid rate limits
+      const batchSize = 50;
+      let processedCount = 0;
+
+      for (let i = 0; i < response.data.messages.length; i += batchSize) {
+        const batch = response.data.messages.slice(i, i + batchSize);
+        
+        await Promise.all(
+          batch.map(async (message) => {
+            try {
+              await this.gmail.users.messages.modify({
+                userId: 'me',
+                id: message.id,
+                requestBody: {
+                  removeLabelIds: ['UNREAD'],
+                },
+              });
+            } catch (error) {
+              console.error(chalk.red(`\nFailed to mark message ${message.id} as read: ${error.message}`));
+            }
+          })
+        );
+
+        processedCount += batch.length;
+        spinner.text = `Marking messages as read... ${processedCount}/${messageCount}`;
+      }
+
+      spinner.succeed(`Successfully marked ${messageCount} messages as read`);
+      
+      if (options.verbose) {
+        console.log(chalk.gray(`\nQuery used: ${query}`));
+      }
+    } catch (error) {
+      spinner.fail(`Error marking emails as read: ${error.message}`);
+      throw error;
+    }
+  }
+
   async listThreads(options) {
     const { query, maxResults, last = '2w', silent = false } = options;
     const spinner = ora('Fetching threads...').start();
@@ -1000,6 +1058,27 @@ program
       const removeLabels = options.removeLabels ? options.removeLabels.split(',').map(l => l.trim()) : [];
       await cli.modifyEmail(messageId, addLabels, removeLabels);
       spinner.succeed('Email labels modified');
+    } catch (error) {
+      spinner.fail(`Error: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('bulk-mark-read <query>')
+  .description('Mark multiple emails as read based on a search query')
+  .option('-m, --max-results <number>', 'Maximum number of emails to process', '500')
+  .option('-v, --verbose', 'Show verbose output')
+  .action(async (query, options) => {
+    const spinner = ora('Initializing...').start();
+    try {
+      const globalOptions = program.opts();
+      await cli.initialize(globalOptions.profile);
+      spinner.succeed('Connected to Gmail');
+      await cli.bulkMarkAsRead(query, {
+        maxResults: parseInt(options.maxResults),
+        verbose: options.verbose
+      });
     } catch (error) {
       spinner.fail(`Error: ${error.message}`);
       process.exit(1);

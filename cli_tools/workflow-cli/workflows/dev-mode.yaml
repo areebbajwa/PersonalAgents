@@ -1,0 +1,320 @@
+name: "Dev Mode"
+description: "Development workflow - simplified step-by-step process"
+steps:
+  - number: 1
+    title: "Announce Dev Mode"
+    content: |
+      MANDATORY first response:
+      ⚡ **DEV MODE ACTIVATED**
+      
+      I'm operating under DEV MODE rules: Simplify ruthlessly, test what matters, and create modern, maintainable code.
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 2
+    title: "Start Git Workflow"
+    content: |
+      Execute these steps IMMEDIATELY for any code changes:
+      1. Create branch:
+         ```
+         git checkout -b claude-session-YYYYMMDD-[topic]
+         git push -u origin claude-session-YYYYMMDD-[topic]
+         ```
+      2. Optional: Create draft PR if complex feature
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 3
+    title: "Consult Knowledge Base"
+    content: |
+      Execute these research steps before writing ANY code:
+      1. Check LEARNINGS.md for proven patterns
+      2. Search codebase for similar implementations
+      3. Find existing code to reuse/extend (prioritize ai_cache_utils.js for AI calls)
+      4. Check config/.env for existing API keys before asking user
+      5. Search todos/ directory for personal information before asking
+      6. Check official API docs for batch operations
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 4
+    title: "Apply Musk's 5-Step Process"
+    content: |
+      Apply this analysis to the current task:
+      1. Question: Is this requirement necessary?
+      2. Delete: What can we remove?
+      3. Simplify: How can we make it simpler?
+      4. Accelerate: Speed up only after simplifying
+      5. Automate: Automate only proven processes
+      
+      Example:
+      - User wants caching → Do ALL endpoints need it?
+      - Can we use in-memory instead of Redis?
+      - Test the simple solution first
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 5
+    title: "Plan with Test Gates"
+    content: |
+      Create this incremental plan:
+      1. Build feature A
+      2. Write E2E test for A
+      3. TEST GATE: Run test - MUST PASS
+      4. Only then: Build feature B
+      5. Write E2E test for B
+      6. TEST GATE: Run test - MUST PASS
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 6
+    title: "Implement One Piece at a Time"
+    content: |
+      Execute these implementation steps (never move forward until tests pass):
+      1. Write one logical unit of functionality
+      2. Write E2E test for that functionality
+      3. Run test in background: `npm test feature_a.test.js > test.log 2>&1 &`
+      4. Check progress: `sleep 30 && tail -n 100 test.log`
+      5. Mark test status: `✓ test_feature_a - PASSED at 10:32am`
+      6. ONLY if passed → Move to next feature
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 7
+    title: "Use Batch Operations"
+    content: |
+      Research and implement batch APIs:
+      # ❌ NEVER
+      for item in items:
+          api.update(item)  # 100 calls!
+      
+      # ✅ ALWAYS  
+      api.batch_update(items)  # 1 call!
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: false
+
+  - number: 8
+    title: "Track Test Status"
+    content: |
+      Maintain this test tracking log format:
+      ✓ test_user_registration.py - PASSED at 10:32am
+      ✓ test_user_login.py - PASSED at 10:45am
+      ⏸ test_password_reset.py - Working now
+      
+      Update the log after each test run.
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 9
+    title: "Commit with Test Status"
+    content: |
+      Execute these git operations after each feature is complete and tested:
+      1. Stage changes: `git add -A`
+      2. Commit with test results:
+         ```
+         git commit -m "feat: add X - tests: 5/5 passed"
+         git commit -m "fix: resolve Y - e2e tests: 3/3 passed"
+         git commit -m "refactor: optimize Z - unit tests: 45/45 passed"
+         ```
+      3. Push after 3-5 commits: `git push origin HEAD`
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 10
+    title: "Final Verification"
+    content: |
+      Execute these final steps before marking complete:
+      1. Run full test suite ONCE
+      2. Verify all tests pass
+      3. Update LEARNINGS.md with new patterns
+      4. Final commit and push
+      
+      **Workflow Complete:** Project ready for review
+    mandatory: true
+
+global_rules:
+  - title: "Key Principles (Apply to ALL Steps)"
+    content: |
+      1. Simplify Ruthlessly: Delete before optimizing
+      2. Test Gates: Never proceed with failing tests
+      3. Batch Everything: Always use batch APIs
+      4. Learn and Reuse: Check LEARNINGS.md first
+      5. Track Progress: Know which tests passed
+      6. Verify Everything: Only include information you can verify
+      7. Confirm Before Finalizing: Ask before final submissions
+
+  - title: "Critical Never Do Rules (Apply to ALL Steps)"
+    content: |
+      - NEVER mark tasks complete without successful E2E testing
+      - NEVER commit changes to git automatically (always ask first)
+      - NEVER create files unless absolutely necessary
+      - NEVER restart processes without user permission
+      - NEVER send emails or finalize without confirmation
+      - NEVER proceed with failing tests
+
+  - title: "Git & Process Control Rules"
+    content: |
+      - Never commit changes to git automatically
+      - Always ask user first before making git commits or pushes
+      - Never restart system processes without permission
+      - Never restart applications or IDE processes without approval
+      - Never send emails or finalize tasks without confirmation first
+      - Always stop and ask for confirmation before final submission
+      - Never restart Cursor IDE process without user permission
+
+  - title: "Content Verification Rules"
+    content: |
+      - Only include information you can verify from available resources
+      - Use multiple verification methods before making claims
+      - Ask for clarification when context is ambiguous
+      - Remove internal process language from external deliverables
+
+  - title: "API Key Management Rules"
+    content: |
+      - Always check existing config files for API keys first
+      - Search config/.env, data/, and other credential files
+      - Use relative paths for config files
+      - All tools must automatically load API keys from config/.env
+      - Never require users to manually set environment variables
+      - Hardcode path to config/.env in all tools and scripts
+
+  - title: "File Operations Rules"
+    content: |
+      - NEVER create files unless necessary
+      - ALWAYS prefer editing existing files
+      - NO proactive documentation creation
+      - Never rename __init__.py files (breaks Python imports)
+      - Don't rename config files referenced by scripts
+      - Don't rename utility modules imported by other scripts
+      - Use date prefixing format: mon_dd_yyyy_ for scripts/docs/reports
+      - Be specific about target files rather than using overly broad patterns
+      - When renaming files, always update references using find/replace commands
+
+  - title: "Code Reuse Rules"
+    content: |
+      - Prioritize existing utilities over new implementations
+      - Always search for and adapt existing code first
+      - Use ai_cache_utils.js for AI API calls to prevent redundant calls
+      - Check LEARNINGS.md for proven patterns
+      - Search codebase for similar implementations before coding
+
+  - title: "Testing Priority Rules"
+    content: |
+      ✅ High-Value Tests:
+      - E2E tests of critical flows
+      - Tests against live services
+      - Business logic validation
+      - CLI tools tested with real data (not just help commands)
+      - Full task objectives must be achieved in automation testing
+      
+      ❌ Skip These Tests:
+      - Framework functionality
+      - Simple getters/setters
+      - UI component rendering
+
+  - title: "Test Execution Rules"
+    content: |
+      - Run test in background: npm test feature_a.test.js > test.log 2>&1 &
+      - Check progress: sleep 30 && tail -n 100 test.log
+      - Mark test status: ✓ test_feature_a - PASSED at 10:32am
+      - Don't re-run passed tests until final verification
+      - Track what's already proven to work
+
+  - title: "Critical Testing Rules"
+    content: |
+      ❌ NEVER mark tasks complete without successful E2E testing
+      - Tasks are only complete when fully tested and working
+      - API key validation errors or failures = NOT complete
+      - NEVER proceed with failing tests
+
+  - title: "CLI Tool Development Rules"
+    content: |
+      - CLI tools must be tested with real data end-to-end
+      - Create wrapper scripts for Node.js CLI tools
+      - Use comprehensive help text with examples
+      - Document environment variables in help text
+      - Avoid separate README files for simple tools
+      - Use automated setup for global CLI tool access
+      - Run ./scripts/setup-global-cli-tools.sh to create symlinks
+
+  - title: "Documentation Rules"
+    content: |
+      - Update docs when user gives feedback
+      - Create new docs ONLY when asked
+      - Document in LEARNINGS.md what works
+      - Never create README proactively
+
+  - title: "Error Handling Rules"
+    content: |
+      - NO fallbacks that hide problems
+      - NO workarounds or temp fixes
+      - Fix bugs immediately
+      - Add clear debug logging
+      - Search web for exact error messages when debugging MCP servers
+      - Use official MCP servers when possible for better stability
+
+quick_reference:
+  commit_prefixes:
+    - prefix: "feat"
+      description: "New feature"
+    - prefix: "fix"
+      description: "Bug fix"
+    - prefix: "refactor"
+      description: "Code refactoring"
+    - prefix: "docs"
+      description: "Documentation"
+    - prefix: "test"
+      description: "Test changes"
+    - prefix: "chore"
+      description: "Maintenance"
+    - prefix: "style"
+      description: "Formatting"
+  
+  terminal_rules:
+    - "Max 2-minute timeout"
+    - "Background execution: cmd > log.txt 2>&1 &"
+    - "Check progress: sleep 10 && tail -n 50 log.txt"
+    - "Max sleep: 119 seconds"
+    - "Never use tail -f or watch"
+
+emergency_procedures:
+  - title: "Rollback"
+    commands:
+      - "git reset --hard [commit-hash]"
+      - "git push --force-with-lease origin HEAD"
+  
+  - title: "Session Recovery"
+    commands:
+      - "git branch --show-current"
+      - "git status"
+      - "Run tests"
+      - "Continue with commits"
+
+workflow_checklist:
+  before_starting:
+    - "Announced DEV MODE"
+    - "Created git branch with process control rules applied"
+    - "Consulted knowledge base with all foundation rules (file ops, code reuse, process control)"
+    - "Applied 5-step process"
+    - "Created test-gated plan with comprehensive testing rules"
+  
+  during_development:
+    - "Implementing with CLI development rules"
+    - "E2E testing with all rules from Step 5 applied"
+    - "Using batch operations"
+    - "Tracking test status per Step 5 guidelines"
+    - "Committing with test status"
+  
+  before_completion:
+    - "Final verification with documentation and error handling rules"
+    - "All critical 'never do' rules followed"
+    - "Key principles applied throughout"

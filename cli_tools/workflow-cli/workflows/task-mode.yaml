@@ -1,0 +1,202 @@
+name: "Task Mode"
+description: "Task planning and execution workflow - simplified autonomous task execution"
+steps:
+  - number: 1
+    title: "Announce Task Mode & Establish Core Rules"
+    content: |
+      MANDATORY first response:
+      🤖 **TASK MODE ACTIVATED**
+      
+      I have read and will adhere to all operational requirements in TASK MODE. I will complete this task autonomously without asking for clarification or help.
+      
+      **Core Operating Rules** (apply to all subsequent steps):
+      
+      **API & Credentials**:
+      - Always check config/.env for existing API keys first
+      - All tools must auto-load from config/.env
+      - Never ask user to manually set environment variables
+      
+      **File Operations**:
+      - NEVER rename __init__.py, config files, or utility modules
+      - Use date prefixing: mon_dd_yyyy_ for new files
+      - Modify existing files rather than create new ones
+      - Delete temp files when done
+      - Use full file paths in documentation
+      - Temp scripts: `tmp/temp_script_[timestamp].py`
+      
+      **Process Control**:
+      - NEVER restart Cursor/IDE without permission
+      - NEVER commit to git without explicit permission
+      - NEVER restart system processes without approval
+      
+      **Task Completion Standards**:
+      - End-to-end testing with real data is MANDATORY
+      - NEVER mark tasks complete without successful testing
+      - Get user confirmation before final delivery/submission/email
+      
+      **Next Step:** Run `workflow-cli --workflow task-mode.yaml --next` to continue
+    mandatory: true
+
+  - number: 2
+    title: "Search for Context"
+    content: |
+      Before starting ANY work, execute these search actions:
+      
+      **Actions to perform:**
+      1. Search `docs/` directory for relevant documentation
+      2. Check `todos/completed/` for similar past tasks and personal information
+      3. Look in `data/` directory for existing resources
+      4. Check `config/.env` for API keys and credentials (follow Step 1 rules)
+      5. Use gmail-cli if personal context is needed
+      6. Search for existing utilities and scripts to reuse
+      
+      **Next Step:** Run `workflow-cli --workflow task-mode.yaml --next` to continue
+    mandatory: true
+
+  - number: 3
+    title: "Create Task Plan"
+    content: |
+      **Actions to perform:**
+      1. Generate task ID using format: `action_target_YYYYMMDD_HHMMSS`
+      2. Create TODO file at: `todos/[task_id]_todo.md`
+      3. Structure the file with this template:
+         ```markdown
+         # Task: [User's Request]
+         Created: [Timestamp]
+         
+         ## Objective
+         [What success looks like]
+         
+         ## Plan
+         - [ ] Step 1: [Specific action]
+         - [ ] Step 2: [Specific action]
+         - [ ] Step 3: [Specific action]
+         ```
+      
+      **Next Step:** Run `workflow-cli --workflow task-mode.yaml --next` to continue
+    mandatory: true
+
+  - number: 4
+    title: "Execute Plan Step by Step"
+    content: |
+      **Actions to perform:**
+      Follow file operation rules from Step 1 and document everything as you go:
+      
+      1. Complete one planned step from your TODO file
+      2. Mark it done with timestamp in the TODO
+      3. Document in the TODO file:
+         - Exact commands used
+         - Files created (full paths)
+         - Key findings
+         - Output locations
+      4. Move to next planned step
+      
+      **Documentation format example:**
+      ```markdown
+      ### Step 1: Search filesystem [2024-01-22 15:01:00]
+      - Commands: `find . -name "*tax*" -o -name "*1099*"`
+      - Files found: 
+        - `data/tax_2023/1099-MISC.pdf`
+        - `data/tax_2023/W2.pdf`
+      - Next: Extract data from PDFs
+      ```
+      
+      **Next Step:** Run `workflow-cli --workflow task-mode.yaml --next` to continue
+    mandatory: true
+
+  - number: 5
+    title: "Handle Different Task Types"
+    content: |
+      Follow API/credentials and file operation rules from Step 1 for all task types:
+      
+      **Web Automation**:
+      1. Check `data/Google Passwords.csv` for credentials
+      2. Use Playwright tools: `navigate → snapshot → get refs → interact → verify`
+      3. If no credentials, create account with: areebb@gmail.com / Mxypkwj1@
+      4. Use automation flags like `--disable-blink-features=AutomationControlled`
+      
+      **PDF Processing**:
+      1. ALWAYS use PDF AI CLI tool: `cd cli_tools/pdf-ai-cli && ./pdf-ai <pdf_path> <output_text_file>`
+      2. For batch processing: `./pdf-ai batch <input_dir> <output_dir>`
+      3. Never ask user for PDF content - extract it automatically
+      
+      **Database Operations**:
+      1. Try sqlite_mcp tool first
+      2. Fallback: sqlite3 CLI with temp files
+      3. Use direct SQL when possible
+      
+      **AI Integration**:
+      1. Always use ai_cache_utils.js for caching
+      2. Use file I/O for large data
+      3. Only use Gemini 2.5 models (prefer Gemini Pro for PDFs)
+      4. Structure for JSON5 output
+      
+      **CLI Tool Development**:
+      1. Create wrapper scripts for Node.js tools
+      2. Make self-documenting with comprehensive help
+      3. Use `./scripts/setup-global-cli-tools.sh` for global access
+      
+      **Next Step:** Run `workflow-cli --workflow task-mode.yaml --next` to continue
+    mandatory: true
+
+  - number: 6
+    title: "Validate Before Completion"
+    content: |
+      **Actions to perform:**
+      Self-check everything (follow task completion standards from Step 1):
+      
+      1. Review: Does output match the original request?
+      2. Verify: All files exist and are accessible
+      3. Quality: Is output complete and correct?
+      4. Content: Only include verified information from available resources
+      5. Documentation: Can someone reproduce this?
+      6. Dependencies: All API keys working, no missing dependencies
+      
+      **Next Step:** Run `workflow-cli --workflow task-mode.yaml --next` to continue
+    mandatory: true
+
+  - number: 7
+    title: "Complete Task"
+    content: |
+      **Actions to perform:**
+      Apply task completion standards from Step 1, then execute these final steps:
+      
+      1. Confirm successful end-to-end testing has been completed
+      2. Update TODO file with completion timestamp
+      3. Move TODO file from `todos/` to `todos/completed/`
+      4. Extract any reusable patterns or learnings to `docs/`
+      5. Remove internal process language from external deliverables
+      
+      **Task Complete:** All steps executed successfully
+    mandatory: true
+
+global_rules:
+  - title: "Task ID Format"
+    content: |
+      `action_target_YYYYMMDD_HHMMSS`
+      - analyze_expenses_20240122_143000
+      - organize_photos_20240122_150000
+
+  - title: "File Organization"
+    content: |
+      - Task tracking: `todos/[task_id]_todo.md`
+      - Completed: `todos/completed/`
+      - Knowledge: `docs/`
+      - Temp work: `tmp/`
+
+  - title: "Autonomous Mindset"
+    content: |
+      - You are EXTREMELY capable
+      - NEVER state inability or ask for clarification
+      - ALWAYS find solutions and make logical decisions
+      - Exhaust ALL options before concluding
+
+quick_reference:
+  essential_checklist:
+    - "Announce TASK MODE & establish core rules (Step 1)"
+    - "Search for context before starting (Step 2)"
+    - "Create unique TODO with specific plan (Step 3)"
+    - "Document everything step by step (Step 4)"
+    - "Apply task-specific guidelines (Step 5)"
+    - "Validate before completion (Step 6)"
+    - "Complete task with testing & archival (Step 7)"

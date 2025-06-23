@@ -14,6 +14,7 @@ alwaysApply: false
 
 1.  **Navigate to Suno AI:**
     *   **Action:** Use the browser navigation tool to go to `https://suno.com/create`.
+    *   **Note:** If not logged in, use Apple sign-in (not Google) for authentication.
     *   **Goal:** Access the nasheed creation interface.
 
 **Phase 2: Nasheed Generation Cycle (Repeat 20 times for 20 unique figures/nasheeds)**
