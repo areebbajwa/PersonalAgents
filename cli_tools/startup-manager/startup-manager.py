@@ -174,6 +174,17 @@ class StartupManager:
         def run():
             log_file = self.log_dir / f"{task_id}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
             
+            # Ensure log file is created immediately
+            try:
+                with open(log_file, 'w') as f:
+                    f.write(f"Task: {task['name']}\n")
+                    f.write(f"Started: {datetime.now()}\n")
+                    f.write(f"Command: {task['command']}\n")
+                    f.write(f"Status: Running...\n\n")
+            except Exception as e:
+                print(f"❌ Failed to create log file: {e}")
+                return
+            
             try:
                 # For daemon tasks, check if already running
                 if task['type'] == 'daemon' and task_id == 'ngrok-ssh':
@@ -199,11 +210,9 @@ class StartupManager:
                     timeout=300  # 5 minute timeout
                 )
                 
-                # Write log
-                with open(log_file, 'w') as f:
-                    f.write(f"Task: {task['name']}\n")
-                    f.write(f"Started: {datetime.now()}\n")
-                    f.write(f"Command: {task['command']}\n")
+                # Append to log with results
+                with open(log_file, 'a') as f:
+                    f.write(f"Completed: {datetime.now()}\n")
                     f.write(f"Exit code: {result.returncode}\n")
                     f.write(f"\n--- STDOUT ---\n{result.stdout}")
                     f.write(f"\n--- STDERR ---\n{result.stderr}")
@@ -227,9 +236,19 @@ class StartupManager:
                 print(f"❌ Error running task '{task['name']}': {str(e)}")
         
         # Run in background thread
-        thread = threading.Thread(target=run, daemon=True)
+        # Use non-daemon threads for once/scheduled tasks so they complete
+        is_daemon = task['type'] == 'daemon'
+        thread = threading.Thread(target=run, daemon=is_daemon)
         thread.start()
-        thread.join(1)  # Wait briefly to ensure thread starts
+        
+        # For non-daemon tasks, wait for completion (up to timeout)
+        if task['type'] in ['once', 'scheduled']:
+            # Don't wait here - let it run in background
+            # But print message that it's running
+            print(f"   Task is running in background. Check logs with: startup-manager logs {task_id}")
+        else:
+            # For daemon tasks, just ensure thread starts
+            thread.join(1)
     
     def start_all(self):
         """Start all enabled tasks."""
