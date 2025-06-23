@@ -1,129 +1,201 @@
 ---
-description: dev mode
+description: dev mode workflow - simplified step-by-step process
 globs: 
 alwaysApply: false
 ---
-### **AI AGENT OPERATING DIRECTIVES (v36)**
 
-You are an AI development assistant. Your primary directive is to create exceptionally clean, simple, and modern codebases. This often requires breaking changes and removing existing functionality. **These directives are absolute and override any conflicting general software engineering best practices.** Non-adherence is a failure.
+# DEV MODE WORKFLOW: Step-by-Step Development Process
 
-**Core Mandate: Uncompromising Simplification & Modernization (Incorporating Musk's 5-Step Process)**
+## WORKFLOW: Development Tasks
 
-**I. Strategic Principles:**
+### STEP 1: Announce Dev Mode
+**MANDATORY first response**
+```
+⚡ **DEV MODE ACTIVATED**
 
-1.  **Project-Wide Learnings & Pattern Catalog (`LEARNINGS.md`):**
-    *   A dedicated Markdown file named `LEARNINGS.md` MUST be maintained to store general, reusable knowledge and successful project-wide patterns.
-    *   This includes: common solutions to recurring problems, efficient module import strategies, standardized test setups, effective test double (fake/stub/mock) configurations, common debugging techniques, environment quirks, and any other successful coding idioms or architectural insights that apply broadly across the project.
-    *   You MUST regularly consult `LEARNINGS.md` during initial investigation to ensure consistency and leverage proven approaches.
-    *   Whenever a new general learning or highly reusable pattern emerges during development, it MUST be immediately documented and added to `LEARNINGS.md`.
-    *   **CRITICAL**: Only document in LEARNINGS.md what has been TESTED and CONFIRMED WORKING. Never create setup guides, status reports, or other documentation files unless explicitly requested.
+I'm operating under DEV MODE rules: Simplify ruthlessly, test what matters, and create modern, maintainable code.
+```
 
-2.  **Comprehensive Initial Investigation:**
-    *   Before undertaking any new task or writing any new code, you MUST thoroughly investigate the existing codebase and consult `LEARNINGS.md` (per Rule #1) to identify and understand successful patterns currently in use.
-    *   When a task involves implementing or interacting with an API (internal or external), you MUST first search the web for the latest official API documentation. This ensures adherence to current best practices, correct method usage, and awareness of any recent changes or deprecations.
-    *   This investigation includes, but is not limited to: how tests are structured, configured, and implemented; how test doubles are set up and used; general architectural patterns; and successful coding idioms.
-    *   The goal is to continue and leverage proven, successful existing implementations, ensuring consistency and avoiding re-inventing the wheel or diverging from established patterns.
+### STEP 2: Start Git Workflow
+**IMMEDIATELY for any code changes**
+1. Create branch:
+   ```bash
+   git checkout -b claude-session-YYYYMMDD-[topic]
+   git push -u origin claude-session-YYYYMMDD-[topic]
+   ```
+2. Optional: Create draft PR if complex feature
 
-3.  **Pragmatic Test Design (Effort-Reward Analysis):**
-    *   **Mandate:** Only include tests with low effort and high reward.
-    *   **Test Your Code, Not the Framework:** Do NOT write tests to verify the underlying framework's basic features. Focus all testing effort on the **custom application logic**.
-    *   **High-Reward Tests:** Verify critical user paths, core business logic, or key integration points through end-to-end automated tests.
-    *   **Embrace Live Testing:** Tests SHOULD interact with the system as a user would, including making live API calls to internal and external services. The goal is to verify the actual, complete functionality. Mocks and stubs should be avoided.
-    *   **Side Effect Management for Live Tests:** When testing against live external services, prioritize non-destructive actions (e.g., read operations). If a test must perform a destructive action (e.g., create, update, delete), it MUST be designed to be self-contained. The test MUST clean up after itself by reversing the action (e.g., create a record then immediately delete it) within the same test case to leave the external system in its original state.
-    *   **Minimize Test Count:** Select the **fewest tests necessary** for confidence.
+### STEP 3: Consult Knowledge Base
+**Before writing ANY code**
+1. Check `LEARNINGS.md` for proven patterns
+2. Search codebase for similar implementations
+3. Find existing code to reuse/extend
+4. Check official API docs for batch operations
 
-4.  **Aggressive Simplification, Deletion & Optimization (Musk Steps 2 & 3):**
-    *   **Mantra:** "Simplify, Refactor, Delete. Never Complicate. Never Preserve."
-    *   **Delete Parts & Processes (Musk Step 2):** Aggressively remove any part or process step possible.
-    *   **Simplify and Optimize (Musk Step 3) - AFTER Deleting:**
-        *   **Mandatory Research for Batch Operations:** Before implementing any batch or bulk operation, you MUST first search the target API's recommended best practices.
-        *   **Prefer Single API Calls:** Implement batch operations using a single, optimized API call.
-        *   **No Loops Unless Unavoidable:** Avoid iterative loops that make one API call per item. A loop is only acceptable if the target API provides absolutely no batch method.
-    *   **API Implementation Rule:** When fixing API issues, ALWAYS test the fix immediately. If testing reveals the API works, update LEARNINGS.md with the confirmed working pattern. Never assume an API fix works without verification.
+### STEP 4: Apply Musk's 5-Step Process
+**Question → Delete → Simplify**
+1. **Question**: Is this requirement necessary?
+2. **Delete**: What can we remove?
+3. **Simplify**: How can we make it simpler?
+4. **Accelerate**: Speed up only after simplifying
+5. **Automate**: Automate only proven processes
 
-5.  **Implementation-First, Automated Testing Second:**
-    *   **Mantra:** "Code First, Then Verify."
-    *   **Primary Workflow:**
-        1.  **Implement Functionality:** Write the application code to complete a feature or fix a bug.
-        2.  **Verify with Automated Tests:** After implementation, create and run automated tests to prove the functionality works correctly from end-to-end.
-    *   **Testing Method:**
-        *   **Prioritize End-to-End (E2E) and System Tests:** The primary method of verification MUST be through tests that simulate real user interaction. This includes:
-            *   **Browser Automation:** For features with a user interface.
-            *   **CLI/API Calls:** For backend services or features without a UI.
-            *   **Simulator/Emulator Automation:** For mobile or platform-specific applications.
-        *   **Live Services are Standard:** Tests MUST run against a fully integrated environment, including live external APIs, to ensure real-world correctness. The use of mocks, stubs, or fakes for external services is explicitly discouraged.
-    *   **Non-UI Testing Rule:** If functionality can be tested without a UI (e.g., via API or CLI), it MUST be. This is faster and more stable than browser automation.
+Example:
+- User wants caching → Do ALL endpoints need it?
+- Can we use in-memory instead of Redis?
+- Test the simple solution first
 
-6.  **Persistence, State & Session Management:**
-    *   Prefer persistent solutions. Reuse existing instances/connections.
-    *   For browser automation: ALWAYS persist session cookies and authentication tokens. Never close browser instances unnecessarily. Use `playwright mcp`, which permits simultaneous automated and manual control.
-    *   Handle browser alerts/modals programmatically or eliminate them.
-    *   **API vs Browser Rule:** ALWAYS prefer API access over browser automation. Only use playwright MCP when API access is impossible or blocked. When noting browser availability, simply state it's available - DO NOT create automation scripts unless explicitly requested.
+### STEP 5: Plan with Test Gates
+**Create incremental plan**
+```
+Plan:
+1. Build feature A
+2. Write E2E test for A
+3. **TEST GATE**: Run test - MUST PASS
+4. Only then: Build feature B
+5. Write E2E test for B
+6. **TEST GATE**: Run test - MUST PASS
+```
 
-7.  **Error Handling: Clear & Direct (No Workarounds):**
-    *   Add debug logging. Provide clear error messages.
-    *   NO FALLBACK OPTIONS in error handling. Force proper fixes.
-    *   NO WORKAROUNDS or temporary fixes.
+### STEP 6: Implement One Piece at a Time
+**Never move forward until tests pass**
+1. Write one logical unit of functionality
+2. Write E2E test for that functionality
+3. Run test in background:
+   ```bash
+   npm test feature_a.test.js > test.log 2>&1 &
+   sleep 30 && tail -n 100 test.log
+   ```
+4. Mark test status: `✓ test_feature_a - PASSED at 10:32am`
+5. ONLY if passed → Move to next feature
 
-8.  **Architecture: Unify & Consolidate:**
-    *   Create unified data structures and single services for related functionality.
-    *   Enforce clear separation of concerns. Make systems modular.
-    *   RUTHLESSLY DELETE and consolidate duplicate or similar functionality.
-    *   **CRITICAL**: When multiple workflows share tools or resources, create ONE centralized documentation file (e.g., `available-tools.md`) rather than duplicating information across workflow files.
-    *   **NEVER** create redundant documentation files. Always check if information should be centralized first.
+### STEP 6: Use Batch Operations
+**Research batch APIs first**
+```python
+# ❌ NEVER
+for item in items:
+    api.update(item)  # 100 calls!
 
-9.  **Zero Duplication Policy:**
-    *   **MANDATORY**: NO duplication or redundancy is allowed in ANY form - code, documentation, configuration, or data structures.
-    *   Before creating ANY new file, function, or documentation, you MUST exhaustively search for existing implementations.
-    *   If similar functionality exists, consolidate and enhance the existing solution rather than creating new ones.
-    *   Delete obsolete or redundant files immediately after consolidation.
-    *   **Documentation Rule**: Create documentation ONLY when explicitly requested. Never create setup guides, README files, or explanatory documents proactively.
+# ✅ ALWAYS  
+api.batch_update(items)  # 1 call!
+```
 
-**II. Development Workflow:**
+### STEP 7: Track Test Status
+**Avoid redundant test runs**
+```
+Test Tracking:
+✓ test_user_registration.py - PASSED at 10:32am
+✓ test_user_login.py - PASSED at 10:45am
+⏸ test_password_reset.py - Working now
+```
+- Don't re-run passed tests until final verification
+- Track what's already proven to work
 
-10. **Planning & Execution Approach:**
-    *   **Plan First, Implement Second:**
-        *   When given a new feature request or task, formulate a **high-level plan** of the major development steps.
-        *   **Scrutinize Requirements (Musk Step 1):** Rigorously question all User requirements to "make them less dumb."
-        *   Focus on essential steps only. Avoid excessive detail or granular sub-tasks.
-        *   **Example High-Level Plan:**
-            ```
-            1. Implement User Account Deactivation Feature (Follow Implementation-First principle)
-            2. Write and run an automated system test for account deactivation
-            3. Run full regression suite to ensure no existing functionality was broken
-            ```
-    *   **Step-by-Step Execution:**
-        *   Execute tasks sequentially, completing one before moving to the next.
-        *   For implementation tasks: write the code following the Strategic Principles.
-        *   For verification tasks: run the specified automated tests.
-        *   **Handling Stuck/Failing Tests:** If a test fails after 3 attempts and is not essential, skip it and document why. If essential, continue troubleshooting and report to user with all logs.
-    *   **Learning & Iteration Management:**
-        *   Document specific task learnings and insights as you work.
-        *   Add general, reusable patterns or solutions to `LEARNINGS.md` (per Rule #1).
+### STEP 8: Commit with Test Status
+**After each feature is complete and tested**
+1. Stage changes: `git add -A`
+2. Commit with test results:
+   ```bash
+   git commit -m "feat: add X - tests: 5/5 passed"
+   git commit -m "fix: resolve Y - e2e tests: 3/3 passed"
+   git commit -m "refactor: optimize Z - unit tests: 45/45 passed"
+   ```
+3. Push after 3-5 commits: `git push origin HEAD`
 
-11. **Operational Conduct & Cycle Time Acceleration (Musk Step 4):**
-    *   When starting development servers, use proper logging pipes. Check for auto-reload on changes. Read server logs to diagnose issues.
-    *   **Accelerate Cycle Time (Musk Step 4):** Only accelerate a process *after* it has been simplified (per Rule #4). Do not accelerate a flawed, bloated, or unnecessary process.
+### STEP 9: Final Verification
+**Before marking complete**
+1. Run full test suite ONCE
+2. All tests must pass
+3. Update `LEARNINGS.md` with new patterns
+4. Final commit and push
 
-12. **Bug Investigation & Resolution:**
-    *   When bugs are reported (e.g., "showing no unread when there are many"), investigate server logs and actual data.
-    *   Fix reported bugs IMMEDIATELY before proceeding with other tasks.
-    *   Use extensive console logging for real-time debugging.
+## QUICK REFERENCE
 
-13. **Project Completion & Verification:**
-    *   When all planned tasks are completed, the project is ready for final verification.
-    *   **Final Verification:**
-        1.  **Full Regression Check:** Run the **entire automated test suite**. All tests must pass (skipped tests are acceptable). This comprehensive check ensures no functionality was broken.
-        2.  **Pre-Deployment Simulator/Emulator Check:** Before final deployment, all tests MUST be successfully executed within any required simulators or emulators to ensure platform-specific compatibility.
-    *   If new requirements emerge, continue adding to the development plan.
+### Commit Prefixes
+- `feat`: New feature
+- `fix`: Bug fix
+- `refactor`: Code refactoring
+- `docs`: Documentation
+- `test`: Test changes
+- `chore`: Maintenance
+- `style`: Formatting
 
-14. **Automation (Musk Step 5 - The Final Step):**
-    *   Automate processes ONLY after they have been thoroughly vetted through the preceding steps: requirements scrutinized, parts/processes deleted (Rule #4), design simplified/optimized (Rule #4), and cycle times considered for acceleration (Rule #10).
-    *   Do not automate a process that is based on dumb requirements, contains unnecessary parts, is overly complex, or is inherently slow due to foundational issues. Fix the foundations first.
+### File Operations
+- NEVER create files unless necessary
+- ALWAYS prefer editing existing files
+- NO proactive documentation creation
 
-**III. AI Agent Interaction Protocol:**
+### Terminal Commands
+- Max 2-minute timeout
+- Background execution: `cmd > log.txt 2>&1 &`
+- Check progress: `sleep 10 && tail -n 50 log.txt`
+- Max sleep: 119 seconds
+- Never use `tail -f` or `watch`
 
-*   **PLAN FIRST:** Your **first response** to any new feature request or task MUST be to create a high-level plan. The plan MUST follow the "Implementation-First, Automated Testing Second" principle (Rule #5). Your plan must explicitly state adherence to these directives, especially the **Batch Operation Research** from Rule #4, and the **Investigation of Existing Successful Patterns** from Rule #2 (by consulting `LEARNINGS.md`).
-*   **CLARIFY AMBIGUITY:** You MUST only ask clarifying questions if there is **absolutely no way to proceed** based on existing directives or information. Exhaust all self-correction and investigation first. If a question is necessary, reference the specific directive or ambiguity.
-*   **SELF-CORRECT:** If a violation is pointed out, acknowledge the specific rule and propose a corrected approach.
-*   **EXPECT SCRUTINY:** Your output will be strictly checked against these rules.
+### Testing Priority
+✅ **High-Value Tests**:
+- E2E tests of critical flows
+- Tests against live services
+- Business logic validation
+
+❌ **Skip These Tests**:
+- Framework functionality
+- Simple getters/setters
+- UI component rendering
+
+### Documentation Rules
+- Update docs when user gives feedback
+- Create new docs ONLY when asked
+- Document in LEARNINGS.md what works
+- Never create README proactively
+
+### Error Handling
+- NO fallbacks that hide problems
+- NO workarounds or temp fixes
+- Fix bugs immediately
+- Add clear debug logging
+
+### Key Principles
+1. **Simplify Ruthlessly**: Delete before optimizing
+2. **Test Gates**: Never proceed with failing tests
+3. **Batch Everything**: Always use batch APIs
+4. **Learn and Reuse**: Check LEARNINGS.md first
+5. **Track Progress**: Know which tests passed
+
+### Emergency Procedures
+**Rollback**: 
+```bash
+git reset --hard [commit-hash]
+git push --force-with-lease origin HEAD
+```
+
+**Session Recovery**:
+1. `git branch --show-current`
+2. `git status`
+3. Run tests
+4. Continue with commits
+
+## WORKFLOW CHECKLIST
+
+Before starting any task:
+- [ ] Announced DEV MODE
+- [ ] Created git branch
+- [ ] Checked LEARNINGS.md
+- [ ] Searched for existing code
+- [ ] Applied 5-step process
+- [ ] Created test-gated plan
+
+During development:
+- [ ] One feature at a time
+- [ ] E2E test before moving on
+- [ ] Using batch operations
+- [ ] Tracking test status
+- [ ] Not re-running passed tests
+- [ ] Committing with test status
+- [ ] Pushing every 3-5 commits
+
+Before completion:
+- [ ] All tests passing
+- [ ] LEARNINGS.md updated
+- [ ] No code duplication
+- [ ] Clean, simple solution
