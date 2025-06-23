@@ -45,14 +45,14 @@ class StartupManager:
         return {
             "chrome-health-monitor": {
                 "name": "Chrome Health Monitor",
-                "command": "/Users/areeb2/bin/chrome_health_monitor.sh",
+                "command": "/Users/areeb2/bin/chrome_health_monitor.sh monitor",
                 "enabled": True,
                 "type": "daemon",
                 "description": "Monitors Chrome browser health and fixes launch issues"
             },
             "ngrok-ssh": {
                 "name": "Ngrok SSH Tunnel",
-                "command": "ngrok tcp 22 --domain=7.tcp.ngrok.io:21775",
+                "command": "ngrok tcp 22 --remote-addr=7.tcp.ngrok.io:21775",
                 "enabled": True,
                 "type": "daemon",
                 "description": "Maintains SSH tunnel for remote access"
