@@ -175,6 +175,21 @@ class StartupManager:
             log_file = self.log_dir / f"{task_id}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
             
             try:
+                # For daemon tasks, check if already running
+                if task['type'] == 'daemon' and task_id == 'ngrok-ssh':
+                    check_result = subprocess.run(
+                        "ps aux | grep -E '[n]grok.*tcp.*22' | grep -v grep",
+                        shell=True,
+                        capture_output=True,
+                        text=True
+                    )
+                    if check_result.returncode == 0:
+                        print(f"✅ Task '{task['name']}' is already running")
+                        # Update last run time even if already running
+                        self.tasks[task_id]['last_run'] = datetime.now().isoformat()
+                        self._save_config()
+                        return
+                
                 # Run command and capture output
                 result = subprocess.run(
                     task['command'],
@@ -200,7 +215,11 @@ class StartupManager:
                 if result.returncode == 0:
                     print(f"✅ Task '{task['name']}' completed successfully")
                 else:
-                    print(f"❌ Task '{task['name']}' failed with exit code {result.returncode}")
+                    # Check for specific errors
+                    if "already online" in result.stderr and task_id == 'ngrok-ssh':
+                        print(f"✅ Task '{task['name']}' is already running")
+                    else:
+                        print(f"❌ Task '{task['name']}' failed with exit code {result.returncode}")
                     
             except subprocess.TimeoutExpired:
                 print(f"⏱️  Task '{task['name']}' timed out")
