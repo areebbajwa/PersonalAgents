@@ -36,3 +36,4 @@ Cargo.lock
 # /.cursor/mcp.json
 *tmp*
 cli_tools/gmail-cli/threads_cache.json
+mcp/chrome-cdp-mcp/.chrome-automation-profile/*

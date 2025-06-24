@@ -1,0 +1,33 @@
+---
+description: sync halaqa transfers
+globs: 
+alwaysApply: false
+---
+# Interac e-Transfer Tracking Workflow
+
+This rule documents the process for tracking Interac e-Transfers between TD Bank and Google Sheets.
+
+## Process Overview
+
+1. Log into TD Canada Trust EasyWeb at https://authentication.td.com. Use 123mxypkwj as the password.
+2. Navigate to Interac e-Transfer → History → Money Received tab
+3. View all received e-Transfers (use "Show more" to see everything)
+4. Scroll all the way to the bottom of the Transfers sheet to see the most recent entries
+5. Compare TD transfers with the latest entries in Google Sheets
+6. Generate a simple copy-pastable list of transfers not yet recorded
+
+## Response Format
+
+When asked to process e-Transfers, simply provide a ready-to-paste list in this format:
+DD/MM/YYYY Name Amount Email/Mobile Autodeposited
+DD/MM/YYYY Name Amount Email/Mobile Autodeposited
+
+Do not attempt to automate through browser interactions. Instead, focus on:
+1. Analyzing visible transfers
+2. Comparing with visible spreadsheet entries
+3. Providing a clean, formatted list of missing transfers
+4. Using exact names from the Commitments sheet, not the all-caps TD names
+
+## Name Matching
+
+Names in TD often appear in all caps (like "MUHAMMAD ALI JABBAR") and should be matched with the proper case names from the Commitments sheet for consistency in tracking.

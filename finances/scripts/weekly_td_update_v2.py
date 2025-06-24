@@ -184,7 +184,14 @@ def run_categorization():
     if os.path.exists(categorize_script):
         logging.info("Running categorization script...")
         try:
-            subprocess.run(['python3', categorize_script], check=True)
+            # Change to the script directory to avoid import issues
+            script_dir = os.path.dirname(categorize_script)
+            
+            # Try to use venv Python first, fall back to system Python
+            venv_python = '/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/.venv/bin/python'
+            python_cmd = venv_python if os.path.exists(venv_python) else 'python3'
+            
+            subprocess.run([python_cmd, categorize_script], check=True, cwd=script_dir)
             logging.info("Categorization completed")
         except subprocess.CalledProcessError as e:
             logging.warning(f"Categorization script failed: {e}")

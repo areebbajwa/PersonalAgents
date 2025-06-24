@@ -1,0 +1,199 @@
+name: "Dev Mode"
+description: "Development workflow - simplified step-by-step process"
+steps:
+  - number: 1
+    title: "Announce Dev Mode & Start Git Workflow"
+    content: |
+      MANDATORY first response:
+      ⚡ **DEV MODE ACTIVATED**
+      
+      I'm operating under DEV MODE rules: Simplify ruthlessly, test what matters, and create modern, maintainable code.
+      
+      **Check for existing todo:**
+      If continuing work on existing todo file in `todos/YYYYMMDD-[project]-todo.md`, skip to step 6.
+      
+      **For new work, execute git setup IMMEDIATELY:**
+      1. Create branch:
+         ```
+         git checkout -b [project-name]-YYYYMMDD
+         git push -u origin [project-name]-YYYYMMDD
+         ```
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 2
+    title: "Consult Knowledge Base"
+    content: |
+      Execute these research steps before writing ANY code:
+      1. Search codebase for similar implementations
+      2. Find existing code to reuse/extend (prioritize ai_cache_utils.js for AI calls)
+      3. Check config/.env for existing API keys before asking user
+      4. Search todos/ directory for previous learnings to avoid same mistakes
+      5. Check official API docs for batch operations
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 3
+    title: "Apply Musk's 5-Step Process"
+    content: |
+      Apply this analysis to the current task:
+      1. Question: Is this requirement necessary?
+      2. Delete: What can we remove?
+      3. Simplify: How can we make it simpler?
+      4. Accelerate: Speed up only after simplifying
+      5. Automate: Automate only proven processes
+      
+      Example:
+      - User wants caching → Do ALL endpoints need it?
+      - Can we use in-memory instead of Redis?
+      - Test the simple solution first
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 4
+    title: "Plan with Test Gates and Todo Management"
+    content: |
+      Create this incremental plan:
+      1. Build feature A
+      2. Write E2E test for A
+      3. TEST GATE: Run test - MUST PASS
+      4. Commit with test status: `git commit -m "feat: add X - tests: 5/5 passed"`
+      5. Only then: Build feature B
+      6. Write E2E test for B
+      7. TEST GATE: Run test - MUST PASS
+      8. Commit with test status
+      9. Run `workflow-cli --project [project-name] --next`
+      
+      **Use Batch Operations:**
+      Always prefer batch APIs over loops:
+      ```
+      # ❌ NEVER
+      for item in items:
+          api.update(item)  # 100 calls!
+      
+      # ✅ ALWAYS  
+      api.batch_update(items)  # 1 call!
+      ```
+      
+      **Todo File Management:**
+      1. Create/update todo file: `todos/YYYYMMDD-[project-name]-todo.md`
+      2. Use format: `✅ Task completed` and `🕒 Task pending`
+      3. When breakthrough achieved after being stuck, log with: `🔥 BREAKTHROUGH:`
+      4. Update todo file after each major milestone
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 5
+    title: "Implement One Piece at a Time"
+    content: |
+      Execute these implementation steps:
+      1. Write one logical unit of functionality
+      2. Write E2E test for that functionality
+      3. Run test and verify it passes
+      4. Update todo file with progress (✅ done, 🕒 pending)
+      5. Update todo file after each major milestone
+      6. ONLY if passed → Move to next feature
+      
+      **Call --next ONLY when entire todo list is completed**
+      **MUST complete autonomously - never give up, keep trying until done (only ask for help if stuck on 2FA)**
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 6
+    title: "Clean Up Environment"
+    content: |
+      Before final commits, clean up temporary files:
+      1. Delete test logs: `rm -f *.log test.log`
+      2. Remove temporary files: `rm -f temp_* tmp_*`
+      3. Clean up debug files: `rm -f debug_* *.debug`
+      4. Remove unneeded test artifacts
+      5. Verify only necessary files remain
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 7
+    title: "Final Verification"
+    content: |
+      Execute these final steps before marking complete:
+      1. Run full test suite ONCE
+      2. Verify all tests pass
+      3. Update todo file with final status
+      4. Final commit and push
+      5. Clean project state: `workflow-cli --project [project-name] --clean`
+      
+      **Workflow Complete:** Project ready for review
+    mandatory: true
+
+  - number: 8
+    title: "Branch Management Decision"
+    content: |
+      **WAIT FOR USER INSTRUCTION** before proceeding:
+      
+      First identify the main branch:
+      1. `git branch -r --sort=-committerdate | head -5` (find most active branch)
+      2. Usually main, master, or develop
+      
+      Ask user: "Should I merge this branch into [main-branch] and delete the feature branch?"
+      
+      If YES:
+      1. `git checkout [main-branch]`
+      2. `git pull origin [main-branch]`
+      3. `git merge [feature-branch]`
+      4. `git push origin [main-branch]`
+      5. `git branch -d [feature-branch]`
+      6. `git push origin --delete [feature-branch]`
+      
+      If NO: Leave branch as-is for manual review
+      
+      **Workflow Complete**
+    mandatory: true
+
+global_rules:
+  - title: "Core Principles"
+    content: |
+      1. Simplify ruthlessly, test what matters
+      2. Never proceed with failing tests
+      3. Use batch APIs instead of loops
+      4. Check existing code/todos first
+      5. Ask before commits/final submissions
+      6. Update todos/YYYYMMDD-[project]-todo.md with ✅🕒🔥
+      7. MUST complete entire todo list autonomously - never stop until done (only ask for help if stuck on 2FA)
+
+  - title: "Never Do"
+    content: |
+      - NEVER proceed with failing tests
+      - NEVER mark complete without E2E testing
+
+  - title: "Automation Tools"
+    content: |
+      - Check available MCP tools and resources
+      - Use official APIs first, selenium browser only for unsupported features
+      - Selenium browser: unblock auth, get API keys, one-time setup tasks
+      - Take screenshots when curious/stuck: screenshot-cli tool
+      - Last resort for GUI tasks: desktop-automation-cli
+
+
+quick_reference:
+  essential_commands:
+    - "workflow-cli --project [name] --next"
+    - "workflow-cli --project [name] --clean"
+
+emergency_procedures:
+  - title: "Rollback"
+    commands:
+      - "git reset --hard [commit-hash]"
+      - "git push --force-with-lease origin HEAD"
+  
+  - title: "Session Recovery"
+    commands:
+      - "git branch --show-current"
+      - "git status"
+      - "Run tests"
+      - "Continue with commits"
+
