@@ -54,57 +54,6 @@ steps:
     mandatory: true
 
   - number: 3
-    title: "Create Task Plan"
-    content: |
-      **Actions to perform:**
-      1. Generate task ID using format: `action_target_YYYYMMDD_HHMMSS`
-      2. Create TODO file at: `todos/[task_id]_todo.md`
-      3. Structure the file with this template:
-         ```markdown
-         # Task: [User's Request]
-         Created: [Timestamp]
-         
-         ## Objective
-         [What success looks like]
-         
-         ## Plan
-         - [ ] Step 1: [Specific action]
-         - [ ] Step 2: [Specific action]
-         - [ ] Step 3: [Specific action]
-         ```
-      
-      **Next Step:** Run `workflow-cli --workflow task-mode.yaml --next` to continue
-    mandatory: true
-
-  - number: 4
-    title: "Execute Plan Step by Step"
-    content: |
-      **Actions to perform:**
-      Follow file operation rules from Step 1 and document everything as you go:
-      
-      1. Complete one planned step from your TODO file
-      2. Mark it done with timestamp in the TODO
-      3. Document in the TODO file:
-         - Exact commands used
-         - Files created (full paths)
-         - Key findings
-         - Output locations
-      4. Move to next planned step
-      
-      **Documentation format example:**
-      ```markdown
-      ### Step 1: Search filesystem [2024-01-22 15:01:00]
-      - Commands: `find . -name "*tax*" -o -name "*1099*"`
-      - Files found: 
-        - `data/tax_2023/1099-MISC.pdf`
-        - `data/tax_2023/W2.pdf`
-      - Next: Extract data from PDFs
-      ```
-      
-      **Next Step:** Run `workflow-cli --workflow task-mode.yaml --next` to continue
-    mandatory: true
-
-  - number: 5
     title: "Handle Different Task Types"
     content: |
       Follow API/credentials and file operation rules from Step 1 for all task types:
@@ -135,6 +84,57 @@ steps:
       1. Create wrapper scripts for Node.js tools
       2. Make self-documenting with comprehensive help
       3. Use `./scripts/setup-global-cli-tools.sh` for global access
+      
+      **Next Step:** Run `workflow-cli --workflow task-mode.yaml --next` to continue
+    mandatory: true
+
+  - number: 4
+    title: "Create Task Plan"
+    content: |
+      **Actions to perform:**
+      1. Generate task ID using format: `action_target_YYYYMMDD_HHMMSS`
+      2. Create TODO file at: `todos/[task_id]_todo.md`
+      3. Structure the file with this template:
+         ```markdown
+         # Task: [User's Request]
+         Created: [Timestamp]
+         
+         ## Objective
+         [What success looks like]
+         
+         ## Plan
+         - [ ] Step 1: [Specific action]
+         - [ ] Step 2: [Specific action]
+         - [ ] Step 3: [Specific action]
+         ```
+      
+      **Next Step:** Run `workflow-cli --workflow task-mode.yaml --next` to continue
+    mandatory: true
+
+  - number: 5
+    title: "Execute Plan Step by Step"
+    content: |
+      **Actions to perform:**
+      Follow file operation rules from Step 1 and document everything as you go:
+      
+      1. Complete one planned step from your TODO file
+      2. Mark it done with timestamp in the TODO
+      3. Document in the TODO file:
+         - Exact commands used
+         - Files created (full paths)
+         - Key findings
+         - Output locations
+      4. Move to next planned step
+      
+      **Documentation format example:**
+      ```markdown
+      ### Step 1: Search filesystem [2024-01-22 15:01:00]
+      - Commands: `find . -name "*tax*" -o -name "*1099*"`
+      - Files found: 
+        - `data/tax_2023/1099-MISC.pdf`
+        - `data/tax_2023/W2.pdf`
+      - Next: Extract data from PDFs
+      ```
       
       **Next Step:** Run `workflow-cli --workflow task-mode.yaml --next` to continue
     mandatory: true

@@ -2,45 +2,40 @@ name: "Dev Mode"
 description: "Development workflow - simplified step-by-step process"
 steps:
   - number: 1
-    title: "Announce Dev Mode"
+    title: "Announce Dev Mode & Start Git Workflow"
     content: |
       MANDATORY first response:
       ⚡ **DEV MODE ACTIVATED**
       
       I'm operating under DEV MODE rules: Simplify ruthlessly, test what matters, and create modern, maintainable code.
       
+      **Check for existing todo:**
+      If continuing work on existing todo file in `todos/YYYYMMDD-[project]-todo.md`, skip to step 6.
+      
+      **For new work, execute git setup IMMEDIATELY:**
+      1. Create branch:
+         ```
+         git checkout -b [project-name]-YYYYMMDD
+         git push -u origin [project-name]-YYYYMMDD
+         ```
+      
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
 
   - number: 2
-    title: "Start Git Workflow"
+    title: "Consult Knowledge Base"
     content: |
-      Execute these steps IMMEDIATELY for any code changes:
-      1. Create branch:
-         ```
-         git checkout -b claude-session-YYYYMMDD-[topic]
-         git push -u origin claude-session-YYYYMMDD-[topic]
-         ```
-      2. Optional: Create draft PR if complex feature
+      Execute these research steps before writing ANY code:
+      1. Search codebase for similar implementations
+      2. Find existing code to reuse/extend (prioritize ai_cache_utils.js for AI calls)
+      3. Check config/.env for existing API keys before asking user
+      4. Search todos/ directory for previous learnings to avoid same mistakes
+      5. Check official API docs for batch operations
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
 
   - number: 3
-    title: "Consult Knowledge Base"
-    content: |
-      Execute these research steps before writing ANY code:
-      1. Check LEARNINGS.md for proven patterns
-      2. Search codebase for similar implementations
-      3. Find existing code to reuse/extend (prioritize ai_cache_utils.js for AI calls)
-      4. Check config/.env for existing API keys before asking user
-      5. Search todos/ directory for personal information before asking
-      6. Check official API docs for batch operations
-      
-      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
-    mandatory: true
-
-  - number: 4
     title: "Apply Musk's 5-Step Process"
     content: |
       Apply this analysis to the current task:
@@ -58,233 +53,131 @@ steps:
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
 
-  - number: 5
-    title: "Plan with Test Gates"
+  - number: 4
+    title: "Plan with Test Gates and Todo Management"
     content: |
       Create this incremental plan:
       1. Build feature A
       2. Write E2E test for A
       3. TEST GATE: Run test - MUST PASS
-      4. Only then: Build feature B
-      5. Write E2E test for B
-      6. TEST GATE: Run test - MUST PASS
+      4. Commit with test status: `git commit -m "feat: add X - tests: 5/5 passed"`
+      5. Only then: Build feature B
+      6. Write E2E test for B
+      7. TEST GATE: Run test - MUST PASS
+      8. Commit with test status
+      9. Run `workflow-cli --project [project-name] --next`
       
-      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
-    mandatory: true
-
-  - number: 6
-    title: "Implement One Piece at a Time"
-    content: |
-      Execute these implementation steps (never move forward until tests pass):
-      1. Write one logical unit of functionality
-      2. Write E2E test for that functionality
-      3. Run test in background: `npm test feature_a.test.js > test.log 2>&1 &`
-      4. Check progress: `sleep 30 && tail -n 100 test.log`
-      5. Mark test status: `✓ test_feature_a - PASSED at 10:32am`
-      6. ONLY if passed → Move to next feature
-      
-      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
-    mandatory: true
-
-  - number: 7
-    title: "Use Batch Operations"
-    content: |
-      Research and implement batch APIs:
+      **Use Batch Operations:**
+      Always prefer batch APIs over loops:
+      ```
       # ❌ NEVER
       for item in items:
           api.update(item)  # 100 calls!
       
       # ✅ ALWAYS  
       api.batch_update(items)  # 1 call!
+      ```
       
-      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
-    mandatory: false
-
-  - number: 8
-    title: "Track Test Status"
-    content: |
-      Maintain this test tracking log format:
-      ✓ test_user_registration.py - PASSED at 10:32am
-      ✓ test_user_login.py - PASSED at 10:45am
-      ⏸ test_password_reset.py - Working now
-      
-      Update the log after each test run.
+      **Todo File Management:**
+      1. Create/update todo file: `todos/YYYYMMDD-[project-name]-todo.md`
+      2. Use format: `✅ Task completed` and `🕒 Task pending`
+      3. When breakthrough achieved after being stuck, log with: `🔥 BREAKTHROUGH:`
+      4. Update todo file after each major milestone
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
 
-  - number: 9
-    title: "Commit with Test Status"
+  - number: 5
+    title: "Implement One Piece at a Time"
     content: |
-      Execute these git operations after each feature is complete and tested:
-      1. Stage changes: `git add -A`
-      2. Commit with test results:
-         ```
-         git commit -m "feat: add X - tests: 5/5 passed"
-         git commit -m "fix: resolve Y - e2e tests: 3/3 passed"
-         git commit -m "refactor: optimize Z - unit tests: 45/45 passed"
-         ```
-      3. Push after 3-5 commits: `git push origin HEAD`
+      Execute these implementation steps:
+      1. Write one logical unit of functionality
+      2. Write E2E test for that functionality
+      3. Run test and verify it passes
+      4. Update todo file with progress (✅ done, 🕒 pending)
+      5. Update todo file after each major milestone
+      6. ONLY if passed → Move to next feature
+      
+      **Call --next ONLY when entire todo list is completed**
+      **MUST complete autonomously - never give up, keep trying until done (only ask for help if stuck on 2FA)**
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
 
-  - number: 10
+  - number: 6
+    title: "Clean Up Environment"
+    content: |
+      Before final commits, clean up temporary files:
+      1. Delete test logs: `rm -f *.log test.log`
+      2. Remove temporary files: `rm -f temp_* tmp_*`
+      3. Clean up debug files: `rm -f debug_* *.debug`
+      4. Remove unneeded test artifacts
+      5. Verify only necessary files remain
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 7
     title: "Final Verification"
     content: |
       Execute these final steps before marking complete:
       1. Run full test suite ONCE
       2. Verify all tests pass
-      3. Update LEARNINGS.md with new patterns
+      3. Update todo file with final status
       4. Final commit and push
+      5. Clean project state: `workflow-cli --project [project-name] --clean`
       
       **Workflow Complete:** Project ready for review
     mandatory: true
 
-global_rules:
-  - title: "Key Principles (Apply to ALL Steps)"
+  - number: 8
+    title: "Branch Management Decision"
     content: |
-      1. Simplify Ruthlessly: Delete before optimizing
-      2. Test Gates: Never proceed with failing tests
-      3. Batch Everything: Always use batch APIs
-      4. Learn and Reuse: Check LEARNINGS.md first
-      5. Track Progress: Know which tests passed
-      6. Verify Everything: Only include information you can verify
-      7. Confirm Before Finalizing: Ask before final submissions
-
-  - title: "Critical Never Do Rules (Apply to ALL Steps)"
-    content: |
-      - NEVER mark tasks complete without successful E2E testing
-      - NEVER commit changes to git automatically (always ask first)
-      - NEVER create files unless absolutely necessary
-      - NEVER restart processes without user permission
-      - NEVER send emails or finalize without confirmation
-      - NEVER proceed with failing tests
-
-  - title: "Git & Process Control Rules"
-    content: |
-      - Never commit changes to git automatically
-      - Always ask user first before making git commits or pushes
-      - Never restart system processes without permission
-      - Never restart applications or IDE processes without approval
-      - Never send emails or finalize tasks without confirmation first
-      - Always stop and ask for confirmation before final submission
-      - Never restart Cursor IDE process without user permission
-
-  - title: "Content Verification Rules"
-    content: |
-      - Only include information you can verify from available resources
-      - Use multiple verification methods before making claims
-      - Ask for clarification when context is ambiguous
-      - Remove internal process language from external deliverables
-
-  - title: "API Key Management Rules"
-    content: |
-      - Always check existing config files for API keys first
-      - Search config/.env, data/, and other credential files
-      - Use relative paths for config files
-      - All tools must automatically load API keys from config/.env
-      - Never require users to manually set environment variables
-      - Hardcode path to config/.env in all tools and scripts
-
-  - title: "File Operations Rules"
-    content: |
-      - NEVER create files unless necessary
-      - ALWAYS prefer editing existing files
-      - NO proactive documentation creation
-      - Never rename __init__.py files (breaks Python imports)
-      - Don't rename config files referenced by scripts
-      - Don't rename utility modules imported by other scripts
-      - Use date prefixing format: mon_dd_yyyy_ for scripts/docs/reports
-      - Be specific about target files rather than using overly broad patterns
-      - When renaming files, always update references using find/replace commands
-
-  - title: "Code Reuse Rules"
-    content: |
-      - Prioritize existing utilities over new implementations
-      - Always search for and adapt existing code first
-      - Use ai_cache_utils.js for AI API calls to prevent redundant calls
-      - Check LEARNINGS.md for proven patterns
-      - Search codebase for similar implementations before coding
-
-  - title: "Testing Priority Rules"
-    content: |
-      ✅ High-Value Tests:
-      - E2E tests of critical flows
-      - Tests against live services
-      - Business logic validation
-      - CLI tools tested with real data (not just help commands)
-      - Full task objectives must be achieved in automation testing
+      **WAIT FOR USER INSTRUCTION** before proceeding:
       
-      ❌ Skip These Tests:
-      - Framework functionality
-      - Simple getters/setters
-      - UI component rendering
+      Ask user: "Should I merge this branch into main and delete the feature branch?"
+      
+      If YES:
+      1. `git checkout main`
+      2. `git pull origin main`
+      3. `git merge [feature-branch]`
+      4. `git push origin main`
+      5. `git branch -d [feature-branch]`
+      6. `git push origin --delete [feature-branch]`
+      
+      If NO: Leave branch as-is for manual review
+      
+      **Workflow Complete**
+    mandatory: true
 
-  - title: "Test Execution Rules"
+global_rules:
+  - title: "Core Principles"
     content: |
-      - Run test in background: npm test feature_a.test.js > test.log 2>&1 &
-      - Check progress: sleep 30 && tail -n 100 test.log
-      - Mark test status: ✓ test_feature_a - PASSED at 10:32am
-      - Don't re-run passed tests until final verification
-      - Track what's already proven to work
+      1. Simplify ruthlessly, test what matters
+      2. Never proceed with failing tests
+      3. Use batch APIs instead of loops
+      4. Check existing code/todos first
+      5. Ask before commits/final submissions
+      6. Update todos/YYYYMMDD-[project]-todo.md with ✅🕒🔥
+      7. MUST complete entire todo list autonomously - never stop until done (only ask for help if stuck on 2FA)
 
-  - title: "Critical Testing Rules"
+  - title: "Never Do"
     content: |
-      ❌ NEVER mark tasks complete without successful E2E testing
-      - Tasks are only complete when fully tested and working
-      - API key validation errors or failures = NOT complete
       - NEVER proceed with failing tests
+      - NEVER mark complete without E2E testing
 
-  - title: "CLI Tool Development Rules"
+  - title: "Automation Tools"
     content: |
-      - CLI tools must be tested with real data end-to-end
-      - Create wrapper scripts for Node.js CLI tools
-      - Use comprehensive help text with examples
-      - Document environment variables in help text
-      - Avoid separate README files for simple tools
-      - Use automated setup for global CLI tool access
-      - Run ./scripts/setup-global-cli-tools.sh to create symlinks
+      - Use official APIs first, selenium browser only for unsupported features
+      - Selenium browser: unblock auth, get API keys, one-time setup tasks
+      - Take screenshots when curious/stuck: screenshot-cli tool
+      - Last resort for GUI tasks: desktop-automation-cli
 
-  - title: "Documentation Rules"
-    content: |
-      - Update docs when user gives feedback
-      - Create new docs ONLY when asked
-      - Document in LEARNINGS.md what works
-      - Never create README proactively
-
-  - title: "Error Handling Rules"
-    content: |
-      - NO fallbacks that hide problems
-      - NO workarounds or temp fixes
-      - Fix bugs immediately
-      - Add clear debug logging
-      - Search web for exact error messages when debugging MCP servers
-      - Use official MCP servers when possible for better stability
 
 quick_reference:
-  commit_prefixes:
-    - prefix: "feat"
-      description: "New feature"
-    - prefix: "fix"
-      description: "Bug fix"
-    - prefix: "refactor"
-      description: "Code refactoring"
-    - prefix: "docs"
-      description: "Documentation"
-    - prefix: "test"
-      description: "Test changes"
-    - prefix: "chore"
-      description: "Maintenance"
-    - prefix: "style"
-      description: "Formatting"
-  
-  terminal_rules:
-    - "Max 2-minute timeout"
-    - "Background execution: cmd > log.txt 2>&1 &"
-    - "Check progress: sleep 10 && tail -n 50 log.txt"
-    - "Max sleep: 119 seconds"
-    - "Never use tail -f or watch"
+  essential_commands:
+    - "workflow-cli --project [name] --next"
+    - "workflow-cli --project [name] --clean"
 
 emergency_procedures:
   - title: "Rollback"
@@ -299,22 +192,3 @@ emergency_procedures:
       - "Run tests"
       - "Continue with commits"
 
-workflow_checklist:
-  before_starting:
-    - "Announced DEV MODE"
-    - "Created git branch with process control rules applied"
-    - "Consulted knowledge base with all foundation rules (file ops, code reuse, process control)"
-    - "Applied 5-step process"
-    - "Created test-gated plan with comprehensive testing rules"
-  
-  during_development:
-    - "Implementing with CLI development rules"
-    - "E2E testing with all rules from Step 5 applied"
-    - "Using batch operations"
-    - "Tracking test status per Step 5 guidelines"
-    - "Committing with test status"
-  
-  before_completion:
-    - "Final verification with documentation and error handling rules"
-    - "All critical 'never do' rules followed"
-    - "Key principles applied throughout"

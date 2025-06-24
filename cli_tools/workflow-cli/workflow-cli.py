@@ -77,6 +77,11 @@ class WorkflowManager:
     
     def get_workflow_rules(self, mode: str, step: Optional[int] = None, workflow_file: Optional[Path] = None) -> Dict:
         """Get relevant rules for current mode and step"""
+        # Update current state
+        self.current_state["current_mode"] = mode
+        if step is not None:
+            self.current_state["current_step"] = step
+        self._save_state()
         if workflow_file:
             # Use custom workflow file
             if not workflow_file.exists():
@@ -176,7 +181,34 @@ class WorkflowManager:
         current = self.current_state.get("current_step")
         if current is None:
             current = 0
-        self.current_state["current_step"] = current + 1
+        next_step = current + 1
+        
+        # First, check if the next step exists
+        if workflow_file:
+            if not workflow_file.exists():
+                return {"error": f"Workflow file not found: {workflow_file}"}
+            workflow = self._parse_workflow_file(workflow_file)
+        else:
+            mode_files = {
+                "dev": "dev-mode.yaml",
+                "task": "task-mode.yaml", 
+                "standard": "standard.yaml"
+            }
+            workflow_file_path = self.rules_dir / mode_files.get(mode, "CLAUDE.md")
+            if not workflow_file_path.exists():
+                return {"error": f"Workflow file not found: {workflow_file_path}"}
+            workflow = self._parse_workflow_file(workflow_file_path)
+        
+        # Check if next step exists
+        if next_step not in workflow["steps"]:
+            # We've completed the final step - delete state file
+            if self.state_file.exists():
+                self.state_file.unlink()
+            return {
+                "mode": mode,
+                "message": f"Workflow complete! All steps in {mode} mode have been finished.",
+                "state_cleared": True
+            }
         
         # Mark previous step as completed
         if current > 0:
@@ -184,6 +216,7 @@ class WorkflowManager:
             if completed_key not in self.current_state["completed_steps"]:
                 self.current_state["completed_steps"].append(completed_key)
         
+        self.current_state["current_step"] = next_step
         self._save_state()
         return self.get_workflow_rules(mode, self.current_state["current_step"], workflow_file=workflow_file)
     
@@ -225,6 +258,14 @@ class WorkflowManager:
         
         self._save_state()
         return {"status": "reset", "mode": mode}
+    
+    def clean_project_state(self) -> Dict:
+        """Delete project state file completely"""
+        if self.state_file.exists():
+            self.state_file.unlink()
+            return {"status": "cleaned", "message": "Project state deleted successfully"}
+        else:
+            return {"status": "not_found", "message": "No project state file found"}
 
 
 def main():
@@ -238,6 +279,7 @@ def main():
     parser.add_argument('--track-test', nargs=2, metavar=('NAME', 'STATUS'),
                        help='Track test execution (name and status)')
     parser.add_argument('--reset', action='store_true', help='Reset workflow state')
+    parser.add_argument('--clean', action='store_true', help='Delete project state completely')
     parser.add_argument('--project', type=str, help='Project/task name for state isolation')
     parser.add_argument('--rules-dir', type=Path, 
                        help='Directory containing workflow rules')
@@ -249,24 +291,10 @@ def main():
     if args.rules_dir:
         rules_dir = args.rules_dir
     else:
-        # Check CLI tool's workflows directory first
+        # Always use CLI tool's workflows directory
         # Resolve symlinks to get the actual script location
         script_path = Path(__file__).resolve()
-        cli_workflows = script_path.parent / 'workflows'
-        
-        # Then check project directory and user home
-        project_rules = Path.cwd() / '.cursor' / 'rules'
-        home_rules = Path.home() / '.cursor' / 'rules'
-        
-        if cli_workflows.exists():
-            rules_dir = cli_workflows
-        elif project_rules.exists():
-            rules_dir = project_rules
-        elif home_rules.exists():
-            rules_dir = home_rules
-        else:
-            # Default to CLI tool's workflows directory
-            rules_dir = cli_workflows
+        rules_dir = script_path.parent / 'workflows'
     
     # Initialize workflow manager
     manager = WorkflowManager(rules_dir, project=args.project, workflow_file=args.workflow)
@@ -276,6 +304,8 @@ def main():
     
     if args.reset:
         result = manager.reset_workflow(args.mode)
+    elif args.clean:
+        result = manager.clean_project_state()
     elif args.track_test:
         result = manager.track_test(args.track_test[0], args.track_test[1])
     elif args.next or args.set_step is not None or args.step is not None:
@@ -340,6 +370,11 @@ def main():
             if "emergency_procedures" in result:
                 print("\n=== EMERGENCY PROCEDURES ===")
                 print(result["emergency_procedures"])
+        elif "message" in result and "state_cleared" in result:
+            # Handle completion message
+            print(f"\n✅ {result['message']}\n")
+            if result.get("state_cleared"):
+                print("State file has been cleared. Start a new workflow with --mode [dev|task|standard]")
         else:
             print(json.dumps(result, indent=2))
 

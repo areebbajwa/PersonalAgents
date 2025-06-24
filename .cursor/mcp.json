@@ -1,39 +1,42 @@
 {
+  "numStartups": 36,
+  "installMethod": "unknown",
+  "autoUpdates": true,
+  "theme": "dark-ansi",
+  "tipsHistory": {
+    "ide-hotkey": 20,
+    "new-user-warmup": 5,
+    "shift-enter": 27,
+    "memory-command": 7,
+    "theme-command": 8,
+    "prompt-queue": 32,
+    "enter-to-steer-in-relatime": 10,
+    "todo-list": 11,
+    "# for memory": 33,
+    "install-github-app": 35,
+    "permissions": 35,
+    "drag-and-drop-images": 36,
+    "double-esc": 16,
+    "continue": 17,
+    "custom-commands": 18,
+    "shift-tab": 19
+  },
   "mcpServers": {
     "browsermcp": {
-      "autoApprove": [
-        "browser_hover",
-        "browser_go_back",
-        "browser_go_forward",
-        "browser_select_option",
-        "browser_press_key",
-        "browser_click",
-        "browser_wait",
-        "browser_get_console_logs",
-        "browser_screenshot",
-        "browser_type",
-        "browser_navigate"
-      ],
-      "disabled": false,
-      "timeout": 3600,
       "type": "stdio",
-      "command": "npx",
+      "command": "/Users/areeb2/.nvm/versions/node/v22.15.1/bin/npx",
       "args": [
         "@browsermcp/mcp@latest"
-      ]
+      ],
+      "env": {}
     },
     "mcp-js-bridge": {
-      "autoApprove": [
-        "read_dom",
-        "execute_jquery"
-      ],
-      "disabled": false,
-      "timeout": 3600,
       "type": "stdio",
-      "command": "node",
+      "command": "/Users/areeb2/.nvm/versions/node/v22.15.1/bin/node",
       "args": [
         "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/mcp/js-execution-mcp/index.js"
-      ]
+      ],
+      "env": {}
     },
     "firebase-mcp": {
       "autoApprove": [
@@ -43,7 +46,7 @@
       "disabled": false,
       "timeout": 60,
       "type": "stdio",
-      "command": "npx",
+      "command": "/Users/areeb2/.nvm/versions/node/v22.15.1/bin/npx",
       "args": [
         "-y",
         "@gannonh/firebase-mcp"
@@ -53,20 +56,535 @@
         "FIREBASE_STORAGE_BUCKET": "kalaam-25610.appspot.com"
       }
     },
-    "tavily-mcp": {
-      "autoApprove": [
-        "tavily-search"
-      ],
-      "timeout": 60,
+    "selenium": {
       "type": "stdio",
-      "command": "npx",
+      "command": "/Users/areeb2/.nvm/versions/node/v22.15.1/bin/node",
       "args": [
-        "-y",
-        "tavily-mcp"
+        "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/mcp/mcp-selenium-firefox-profile/server.js"
       ],
-      "env": {
-        "TAVILY_API_KEY": "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"
-      }
+      "env": {}
     }
-  }
+  },
+  "projects": {
+    "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents": {
+      "allowedTools": [],
+      "history": [
+        {
+          "display": "the only time it's ok to ask for help is if stuck on something that requires 2fa",
+          "pastedContents": {}
+        },
+        {
+          "display": "in global rules mention that the selenium browser can be used to unblock as needed: getting api keys, authenticating, doing one time tasks required to move forward. \\\nfor accessing data or performing routine tasks, official api should be used wherever available. only use the selenium browser if official api doesn't have proper support for something.\\\nin global rules also mention that if you're ever curious/stuck, you can take a screenshot using the screenshot-cli tool. in worst case scenarios where we can't move forward by running terminal commands, can use desktop-automation-cli. \\\nin core principles and in the todo list step mention that you MUST find a way to complete the entire todo list autonomously without asking for help. never stop until it's done and keep trying to find a way.",
+          "pastedContents": {}
+        },
+        {
+          "display": "the batch operations piece should be as an instruction in step 4, not part of the todo list",
+          "pastedContents": {}
+        },
+        {
+          "display": "remove these:       - NEVER commit automatically (ask first)      - NEVER create unnecessary files      - NEVER restart processes without permission\\\nwhy do we have a workflow checklist as part of the rules?\\\nthe quick references with commit prefixes seems unnecessarily verbose\\\n\"file & api management\" rules seem to duplicate what's already mentioned in the steps\\\nin step 4 reinforce using batch operations where supported with an example",
+          "pastedContents": {}
+        },
+        {
+          "display": "\"commit with test status\" should be moved into step 4",
+          "pastedContents": {}
+        },
+        {
+          "display": "the git session branch should be named after the project name, not \"session\". \\\nit should check todos directory not for personal information but for previous learnings so as not to make the same mistakes again\\\nin step 5, make it clear that --next should only be called once the entire todo list is completed.\\\nfrom step 5 remove mention of test.log file and add steps 7 and 8 in there\\\nmove the clean up environment step right before final verification\\\nwe have too many rules. remove redundant ones, simplify, compress",
+          "pastedContents": {}
+        },
+        {
+          "display": "in step 5, the final step in the plan should be to call the workflow-cli --next command. \\\nwe don't need a test tracking log. just todo file will do.\\\nfor pending task we should use a clock emoji, not an X emoji. that's for failure. \\\nin step 2, don't mention creating a PR.\\\ncombine steps 2 and 1\\\nin step 1 add instructions that if we're continuing an existing todo list we should jump to step 6\\\n",
+          "pastedContents": {}
+        },
+        {
+          "display": "read /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/workflow-cli/WORKFLOW_DESIGN_GUIDE.md and update dev mode.\\\n\\\n1. the batch operations step should be a global rule\\\n2. delete temporary/unneeded/log/test files in the final step before committing. also add a new workflow-cli command to delete the project state and run that command in the final step.\n3. in the final step, after everything is done, it should ask if the changes should be merged into the main/original branch and the new branch deleted. wait for instruction.\\\n4. it should maintain a running todo file on top of it's own internal todo list. that todo file should visually show what's done and what's left with emojis for checkmarks and crosses. whenever we achieve a breakthrough after being stuck on something, it should be logged to the todo file so we don't get stuck in the same place ever again. add this in step 5. get rid of any reference to learnings.md. just one todo file, prefixed with the date and project name. put it in a \"todos\" directory. add instructions to read/update this todo file whenever appropriate in global rules. \\\n5. there is too much redundancy. don't repeat anything as steps if already mentioned in global rules. ",
+          "pastedContents": {}
+        },
+        {
+          "display": "delete temporary/unneeded/log/test files",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
+        {
+          "display": "go ahead. follow dev mode workflow strictly",
+          "pastedContents": {}
+        },
+        {
+          "display": "don't guess. read the logs",
+          "pastedContents": {}
+        },
+        {
+          "display": "no it still says selenium:start_browser (MCP)(browser: \"firefox\")\n  ⎿  Error starting browser: Process unexpectedly closed with status 0\\\n\\\nwhen doing this from another claude code session",
+          "pastedContents": {}
+        },
+        {
+          "display": "use selenium mcp to go to google.com and search for kalaam",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "ok restarted",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "no i want it to work properly. maybe put it in a different path that's easier to access?",
+          "pastedContents": {}
+        },
+        {
+          "display": "can you test without me having to open up claude code instances manually?",
+          "pastedContents": {}
+        },
+        {
+          "display": "no. delete it. i want to test everything properly",
+          "pastedContents": {}
+        },
+        {
+          "display": "shouldn't it have created a coordination file?",
+          "pastedContents": {}
+        },
+        {
+          "display": "ok i restarted this as the first claude code instance",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "use selenium mcp to go to google.com and search for kalaam",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "selenium:start_browser (MCP)(browser: \"firefox\")\n  ⎿  Error starting browser: Process unexpectedly closed with status 0\\\n\\\nstill seems to start a new browser. any debug logs?",
+          "pastedContents": {}
+        },
+        {
+          "display": "use selenium mcp to go to google.com and search for kalaam",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "ok try now",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "MCP server \"selenium\": Connection failed: McpError: MCP error -32000: Connection closed\n[DEBUG] MCP server \"selenium\": Error message: MCP error -32000: Connection closed\n[DEBUG] MCP server \"selenium\": Error stack: McpError: MCP error -32000: Connection closed\n    at pl1._onclose (file:///Users/areeb2/.claude/local/node_modules/@anthropic-ai/claude-code/cli.js:1321:12595)\n    at _transport.onclose (file:///Users/areeb2/.claude/local/node_modules/@anthropic-ai/claude-code/cli.js:1321:12095)\n    at ChildProcess.<anonymous> (file:///Users/areeb2/.claude/local/node_modules/@anthropic-ai/claude-code/cli.js:1323:1444)\n    at ChildProcess.emit (node:events:518:28)\n    at ChildProcess.emit (node:domain:489:12)\n    at maybeClose (node:internal/child_process:1101:16)\n    at Socket.<anonymous> (node:internal/child_process:456:11)\n    at Socket.emit (node:events:518:28)\n    at Socket.emit (node:domain:489:12)\n    at Pipe.<anonymous> (node:net:351:12)\n[ERROR] MCP server \"selenium\" Connection failed: MCP error -32000: Connection closed",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "/mcp ",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "/mcp ",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "no we've already got it working properly in a single session. i want to get it working with multiple claude code instances now",
+          "pastedContents": {}
+        },
+        {
+          "display": "it's fine to create a new instance on the first start_browser. but all subsequent ones should re-connect and create new tabs in the existing one. is this possible?",
+          "pastedContents": {}
+        },
+        {
+          "display": "why does it create a new one?",
+          "pastedContents": {}
+        },
+        {
+          "display": "no i see this: selenium:start_browser (MCP)(browser: \"firefox\")\n  ⎿  Error starting browser: Process unexpectedly closed with status 0",
+          "pastedContents": {}
+        },
+        {
+          "display": "use selenium mcp to go to google.com and search for kalaam",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "ok try now",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "seems like using the mcp server from multiple claude code sessions gives issues. it tries to open new instances of firefox and struggles. can't we make it use the same instance with different tabs?",
+          "pastedContents": {}
+        },
+        {
+          "display": "no, use firefox",
+          "pastedContents": {}
+        },
+        {
+          "display": "use selenium mcp to go to google.com and search for kalaam",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "it should always use firefox, i shouldn't have to specify it",
+          "pastedContents": {}
+        },
+        {
+          "display": "/mcp ",
+          "pastedContents": {}
+        },
+        {
+          "display": "use selenium mcp to go to google.com and search for kalaam",
+          "pastedContents": {}
+        },
+        {
+          "display": "try now",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "debug why it's not working with the new approach, i dont want to hard code it",
+          "pastedContents": {}
+        },
+        {
+          "display": "no. it was working before when it was through an environment variable. why?",
+          "pastedContents": {}
+        },
+        {
+          "display": "try now. navigate to gmail and search for areeb",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "don't hard code the firefox profile. make it auto discover the default profile in case it changes.",
+          "pastedContents": {}
+        },
+        {
+          "display": "modify and fix the server",
+          "pastedContents": {}
+        },
+        {
+          "display": "search for emails from areeb",
+          "pastedContents": {}
+        },
+        {
+          "display": "ok try now",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "that's ok, this seemed to work and re-use my logged in state. how do we make this persistent",
+          "pastedContents": {}
+        },
+        {
+          "display": "it seems to start an automated version of firefox instead of real firefox. are you following instructions properly here: https://github.com/angiejones/mcp-selenium",
+          "pastedContents": {}
+        },
+        {
+          "display": "ok i restarted. test it out by accessing gmail.com",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "install selenium mcp to control real firefox\\\n\\\nhttps://github.com/angiejones/mcp-selenium",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "let's try using selenium mcp to control real firefox. https://github.com/angiejones/mcp-selenium",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "ok try now",
+          "pastedContents": {}
+        },
+        {
+          "display": "/mcp ",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "go ahead",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "Areeb, the freeze is not coming from Google at all—it’s Playwright itself.\nHere’s the straight-shot explanation, then the most reliable path to get you moving.\n\n---\n\n### What’s actually freezing\n\n* Playwright relies on a **patched build** of Firefox.\n  The vanilla `/Applications/Firefox.app/...` binary does not speak Playwright’s private “Juggler” protocol, so the browser exits the moment it sees the `-juggler-pipe` flag and MCP sits there forever waiting for a handshake. The Playwright docs are blunt: “Playwright doesn’t work with the branded version of Firefox since it relies on patches; use at your own risk.” ([stackoverflow.com][1], [playwright.dev][2])\n\n* Using the patched build gets you past the freeze, but Google’s login service flags that test build as “unsafe.” That’s why the direct login flow is impossible.\n\nSo you have two realistic options:\n\n1. keep Playwright’s patched Firefox and **inject a working cookie jar**;\n2. switch to a driver that can talk to real Firefox (geckodriver/Selenium) and accept the heavier stack.\n\nI’ll focus on the first, because it’s the lightest change to your MCP setup.\n\n---\n\n### Why your first cookie export failed\n\nFirefox stores cookies in `cookies.sqlite`. Your quick Python dump probably left out three fields Playwright needs:\n\n* `sameSite` (Firefox uses integers 0 / 1 / 2, Playwright wants `'None'`, `'Lax'`, `'Strict'`)\n* `expiry` must be an **integer** (`Number`), not a string\n* The JSON envelope must be `{ \"cookies\": […], \"origins\": [] }`\n\nIf any cookie is malformed (string where number expected, missing field, wrong sameSite value), Playwright silently skips it, and Google then treats you as signed-out.\n\n---\n\n### One-time script that **clones your real profile, converts every Google cookie, and writes a fully-valid storage-state file**\n\nSave this as `export-google-cookies.js` and run with Node. Adjust the two paths at the top.\n\n```js\n// adapt these:\nconst FF_PROFILE = '/Users/areeb2/Library/Application Support/Firefox/Profiles/1nykysv3.default-release';\nconst OUT_FILE   = '/Users/areeb2/google-firefox.json';\n\nconst { Database } = require('better-sqlite3');\nconst path = require('path');\nconst fs   = require('fs');\n\n// 1-copy cookies.sqlite so Firefox isn’t locking it\nconst tmp = '/tmp/ff-cookies.sqlite';\nfs.copyFileSync(path.join(FF_PROFILE, 'cookies.sqlite'), tmp);\n\n// 2-read every Google-family cookie\nconst db   = new Database(tmp, { readonly: true });\nconst rows = db.prepare(`\n  SELECT name, value, host, path, expiry, isSecure, isHttpOnly, sameSite\n  FROM   moz_cookies\n  WHERE  host LIKE '%google.%'\n`).all();\n\n// 3-translate Firefox → Playwright format\nconst SAME_SITE = ['None', 'Lax', 'Strict'];\nconst cookies   = rows.map(r => ({\n  name:      r.name,\n  value:     r.value,\n  domain:    r.host,\n  path:      r.path,\n  expires:   Number(r.expiry),        // integer!\n  httpOnly:  !!r.isHttpOnly,\n  secure:    !!r.isSecure,\n  sameSite:  SAME_SITE[r.sameSite] || 'None'\n}));\n\n// 4-write storage-state file\nfs.writeFileSync(OUT_FILE, JSON.stringify({ cookies, origins: [] }, null, 2));\nconsole.log(`✅ wrote ${cookies.length} cookies to ${OUT_FILE}`);\n```\n\nRun:\n\n```bash\nnode export-google-cookies.js\n```\n\nYou’ll see something like “✅ wrote 42 cookies to /Users/areeb2/google-firefox.json”.\n\n---\n\n### Point MCP at the patched Firefox **and** this storage file\n\n```json5\n\"playwright\": {\n  \"type\": \"stdio\",\n  \"command\": \"/Users/areeb2/.nvm/versions/node/v22.15.1/bin/npx\",\n  \"args\": [\n    \"@playwright/mcp@latest\",\n    \"--browser\", \"firefox\",\n    \"--storage-state\", \"/Users/areeb2/google-firefox.json\",\n    \"--user-data-dir\", \"/Users/areeb2/.pwt-google-ff\"   // any empty folder\n  ],\n  \"env\": {}\n}\n```\n\n* Don’t pass `--executable-path` – let MCP launch the **patched** browser it ships with.\n* Keep it **headed** for the first runs; once you confirm Gmail loads, you can add `--headless` if you want.\n\n---\n\n### When the cookies expire\n\nGoogle’s SID/HSID/LSID cookies last \\~30 days. To refresh:\n\n1. launch real Firefox, sign back in if needed;\n2. re-run `export-google-cookies.js`;\n3. restart MCP.\n\nNo manual Playwright login ever needed.\n\n---\n\n### If you absolutely must drive the **real** Firefox / Safari\n\nMove to geckodriver+Selenium (or DevTools-over-CDP for Chrome). Playwright MCP cannot, by design, attach to the unpatched binaries. That’s a tooling constraint, not a bug.\n\n---\n\nTry the conversion script and patched-Firefox run above. If Gmail still doesn’t come up authenticated, grab the MCP console log and the first 15 lines of `google-firefox.json` and we’ll pinpoint the missing cookie or same-site flag.\n\n[1]: https://stackoverflow.com/questions/75090385/running-playwright-with-the-local-firefox?utm_source=chatgpt.com \"Running playwright with the local firefox - Stack Overflow\"\n[2]: https://playwright.dev/docs/browsers?utm_source=chatgpt.com \"Browsers - Playwright\"\n",
+          "pastedContents": {}
+        },
+        {
+          "display": "ok go ahead",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "google won't let me login to that one. can't i login to the real firefox and save storage state from that? ",
+          "pastedContents": {}
+        },
+        {
+          "display": "Two separate problems are colliding here:\n\n---\n\n## 1 ⟂ Why the session freezes the moment MCP tries to **navigate**\n\n*Playwright can only talk to a Firefox binary that has a few project-specific patches.*\nWhen you pass `--executable-path \"/Applications/Firefox.app/…\"` it starts a vanilla Firefox that does **not** understand the extra `-juggler-pipe` flag Playwright always injects, so the browser quits at once and the protocol handshake never finishes. The MCP process keeps waiting, therefore every `navigate` (or any other) command hangs until it times out. The behaviour is documented—and has been complained about—in the Playwright issue tracker and on Stack Overflow: Playwright “doesn’t work with the branded version of Firefox since it relies on patches” and you must use the bundled build instead ([stackoverflow.com][1]). The docs also warn that `executablePath` is “use at your own risk” because the engines are patched ([playwright.dev][2]).\n\n**Bottom line:** driving the *real* Firefox with Playwright (and thus MCP) is not supported; the silent exit you’re seeing is expected.\n\n---\n\n## 2 ⟂ Why Google still says “This browser or app may not be secure” when you let MCP use the **patched** Firefox/WebKit builds\n\nGoogle’s login service fingerprints those patched test builds (and Playwright/Chromium’s automation bits) as non-production browsers. The UA strings look like *Firefox/128.0a1 Playwright* or *MiniBrowser/17.4*, navigator.webdriver is true, and a handful of Google-specific checks fail, so you always get the interstitial—even if you spoof the UA header.\n\nThere is currently **no reliable flag you can pass via MCP to make Google treat the patched Firefox or WebKit as “secure.”**\n\n---\n\n## Practical paths forward\n\n1. **Keep using Playwright’s patched Firefox but skip the login screen altogether.**\n   Do a single *manual* sign-in in a throw-away headed run, save the storage state, and feed that JSON to MCP on every run:\n\n   ```bash\n   # one-time\n   npx playwright open --browser=firefox \\\n     https://accounts.google.com \\\n     --save-storage ~/google.json\n   ```\n\n   Then\n\n   ```json5\n   \"args\": [\n     \"@playwright/mcp@latest\",\n     \"--browser\", \"firefox\",\n     \"--storage-state\", \"/Users/areeb2/google.json\"\n   ]\n   ```\n\n   When the cookies expire you just repeat the one-time step. Playwright’s own auth docs recommend exactly this pattern ([playwright.dev][3]).\n\n2. **Switch to Chromium but isolate it from your day-to-day Chrome.**\n   Launch MCP with:\n\n   ```json5\n   \"--browser\",\"chrome\",\n   \"--user-data-dir\",\"/Users/areeb2/.pwt-chrome\"\n   ```\n\n   You won’t touch your personal profile. If Google still flashes the warning, add a config file that injects the usual stealth arg `--disable-blink-features=AutomationControlled` (Chromium accepts it; Firefox/WebKit don’t) ­— many people report that single flag is enough to clear the interstitial ([stackoverflow.com][4]).\n\n3. **Use a different automation stack for “real” Firefox or Safari.**\n   Selenium + geckodriver or Puppeteer Classic can attach to an unpat[Pasted text #1 +22 lines]\\\n\\\nlet's do 1",
+          "pastedContents": {
+            "1": {
+              "id": 1,
+              "type": "text",
+              "content": "ched browser because they speak the WebDriver or CDP protocols that vanilla Firefox/Safari understand. That lets you reuse your everyday profile, but at the cost of losing Playwright’s conveniences (and MCP integration).\n\n4. **Abandon UI automation for the Google step and pull OAuth tokens instead.**\n   If you only need programmatic access (Gmail API, Calendar API, etc.), the OAuth 2 Device Flow or a Service Account cuts the login UI out completely and is immune to Google’s bot-detection heuristics.\n\n---\n\n### What *won’t* work\n\n* Pointing MCP at `/Applications/Firefox.app/…` (freezes)\n* Deleting `parent.lock` and hoping Playwright will attach (it’s the wrong binary, not a lock issue)\n* Extra UA strings or `--no-sandbox` alone (Google still sees the patched build)\n* WebKit on macOS (same “MiniBrowser” fingerprint Google blocks)\n\n---\n\n**Quickest unblock right now:** run MCP with the bundled Firefox *and* `--storage-state` that contains your already-signed-in cookies. It lets you stay in a Firefox engine, avoids touching your regular Chrome install, and gets past the “secure browser” gate in one shot. If you hit any edge-case (cookies expire, 2-factor, etc.) just regenerate the JSON and keep rolling.\n\n[1]: https://stackoverflow.com/questions/75090385/running-playwright-with-the-local-firefox \"Running playwright with the local firefox - Stack Overflow\"\n[2]: https://playwright.dev/docs/api/class-browsertype?utm_source=chatgpt.com \"BrowserType - Playwright\"\n[3]: https://playwright.dev/docs/auth?utm_source=chatgpt.com \"Authentication - Playwright\"\n[4]: https://stackoverflow.com/questions/75936459/this-browser-may-not-be-secure-error-when-trying-to-log-into-a-gmail-account-u \"selenium webdriver - \\\"This browser may not be secure\\\" error when trying to log into a Gmail account using Playwright Chromium via Playwright and Python - Stack Overflow\"\n"
+            }
+          }
+        },
+        {
+          "display": "ok try now",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "there's no .parentlock in there?",
+          "pastedContents": {}
+        },
+        {
+          "display": "follow these tips: \\\n\\\nThe hang is happening because Playwright can’t safely open a profile that Firefox itself still “owns.”\nYour default-release folder is locked every time normal Firefox is running, and Playwright refuses to drive a profile that’s in that state—even if you delete the `parent.lock` file manually, other lock artefacts and open sqlite handles remain. ([support.mozilla.org][1])\n\nYou don’t have to sign in again, but you **do** need an automation-only copy of that profile. The copy keeps every cookie, token and setting, yet is never touched by regular Firefox, so Playwright can grab it without a fight.\n\n---\n\n### One-time copy of your live profile\n\n```bash\n# Quit every Firefox window first\nosascript -e 'tell application \"Firefox\" to quit' || true\n\n# Make a carbon copy of the profile\ncp -R \\\n  \"/Users/areeb2/Library/Application Support/Firefox/Profiles/1nykysv3.default-release\" \\\n  \"/Users/areeb2/Library/Application Support/Firefox/Profiles/1nykysv3.automation\"\n\n# Remove any stale lock files in the copy\nrm -f \"/Users/areeb2/Library/Application Support/Firefox/Profiles/1nykysv3.automation/parent.lock\" \\\n      \"/Users/areeb2/Library/Application Support/Firefox/Profiles/1nykysv3.automation/lock\"\n```\n\nThat cloned directory already contains your Google cookies, so no new authentication step is needed.\n\n---\n\n### Point MCP at the clone, not the live profile\n\n```json5\n\"playwright\": {\n  \"type\": \"stdio\",\n  \"command\": \"/Users/areeb2/.nvm/versions/node/v22.15.1/bin/npx\",\n  \"args\": [\n    \"@playwright/mcp@latest\",\n    \"--browser\", \"firefox\",\n    \"--executable-path\", \"/Applications/Firefox.app/Contents/MacOS/firefox\",\n    \"--user-data-dir\",\n    \"/Users/areeb2/Library/Application Support/Firefox/Profiles/1nykysv3.automation\"\n  ],\n  \"env\": {}\n}\n```\n\n* The cloned profile isn’t locked, so Playwright attaches instantly.\n* Your everyday Firefox keeps using `1nykysv3.default-release`; no corruption, no conflicts.\n* If you ever need fresh cookies (for example when 2-factor expires), just repeat the copy step—no need to re-sign-in inside Playwright.\n\n---\n\n#### Tips if you still hit Google’s “not secure” screen\n\n1. **Double-check you’re really running the *system* Firefox.**\n   `--executable-path` must point at `/Applications/Firefox.app/...`. If you see a user-agent ending in `a1` or `Nightly`, it’s Playwright’s patched build and Google will complain.\n\n2. **Stay headed, not headless.**\n   Google flags a few headless fingerprints. Run without `--headless` unless you absolutely need it.\n\n3. **Don’t mix live and automation sessions simultaneously.**\n   Firefox won’t allow two processes on the *same* profile at once. Keep your day-to-day browser open on its original profile or close it while the script runs.\n\nGive the cloned-profile approach a try and your MCP script should breeze straight through Google login with no extra work. If anything still freezes—or you’d like to try the same trick on WebKit—let me know the exact symptom and we’ll dig deeper.\n\n[1]: https://support.mozilla.org/en-US/questions/1203397?utm_source=chatgpt.com \"Trying to make backups of my Firefox's Profile file. - Mozilla Support\"\n",
+          "pastedContents": {}
+        },
+        {
+          "display": "try now",
+          "pastedContents": {}
+        },
+        {
+          "display": "still struggling. Delete the parent.lock file inside 1nykysv3.default-release",
+          "pastedContents": {}
+        },
+        {
+          "display": "try now",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "no i want it to control the real firefox",
+          "pastedContents": {}
+        },
+        {
+          "display": "seems to be unable to control the firefox instance",
+          "pastedContents": {}
+        },
+        {
+          "display": "try again",
+          "pastedContents": {}
+        },
+        {
+          "display": "ok done",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "seems like it opens a new firefox unauthenticated browser instead of using existing logged in one",
+          "pastedContents": {}
+        },
+        {
+          "display": "ok i have restarted claude code and logged into firefox manually. try opening gmail with playwright mcp now",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "let's try downloading real firefox and using that. i will manually login to google once it's downloaded. then change mcp settings to \\\n\\\n\"playwright\": {\n  \"type\": \"stdio\",\n  \"command\": \"/Users/areeb2/.nvm/versions/node/v22.15.1/bin/npx\",\n  \"args\": [\n    \"@playwright/mcp@latest\",\n    \"--browser\", \"firefox\",\n    \"--executable-path\", \"/Applications/Firefox.app/Contents/MacOS/firefox\",\n    \"--user-data-dir\", \"/Users/areeb2/.pwt-real-ff\"\n  ],\n  \"env\": {}\n}\n",
+          "pastedContents": {}
+        },
+        {
+          "display": "gives the same error. tell me everything we've tried in detail i will do some research myself",
+          "pastedContents": {}
+        },
+        {
+          "display": "done. try now",
+          "pastedContents": {}
+        }
+      ],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 4,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "index.js",
+        "categorize_db_transactions.py",
+        "startup-manager.py",
+        "persistent_browser_wrapper.py",
+        "task-mode.mdc"
+      ],
+      "exampleFilesGeneratedAt": 1750788818336
+    },
+    "/Volumes/ExtremeSSD/Kalaam": {
+      "allowedTools": [],
+      "history": [
+        {
+          "display": "commit and push",
+          "pastedContents": {}
+        },
+        {
+          "display": "you deleted the scripts again",
+          "pastedContents": {}
+        },
+        {
+          "display": "looks like e2e/maestro has a sub-folder with e2e/maestro!",
+          "pastedContents": {}
+        },
+        {
+          "display": "for example /Volumes/ExtremeSSD/Kalaam/e2e/maestro/E2E_TESTING_GUIDE.md",
+          "pastedContents": {}
+        },
+        {
+          "display": "no i see many others",
+          "pastedContents": {}
+        },
+        {
+          "display": "too many md files just keep the ones i told you about",
+          "pastedContents": {}
+        },
+        {
+          "display": "clean up the e2e/maestro directory. there's too much in the root ",
+          "pastedContents": {}
+        },
+        {
+          "display": "e2e/maestro is really messy. and seems you deleted kalaam-app-e2e-test-sequence.md? i need that along with learnings.md",
+          "pastedContents": {}
+        },
+        {
+          "display": "yea don't touch those",
+          "pastedContents": {}
+        },
+        {
+          "display": "whats up with the scripts in the git changes like extract_logs.sh. what was modified there?",
+          "pastedContents": {}
+        },
+        {
+          "display": "too many unnecessary files in git that should be in gitignore",
+          "pastedContents": {}
+        },
+        {
+          "display": "don't create any new directories in the root. inside one specific e2e/maestro folder is fine",
+          "pastedContents": {}
+        },
+        {
+          "display": "recent commits by Areeb have messed up the directory structure for Kalaam and added lots of files in wrong places and messed up the directory structure. started after 928c37b1171c7d2e8507b5b14f1913b0b6460ce9. clean it up. remove temp/unnecessary files.",
+          "pastedContents": {}
+        }
+      ],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 1,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "FlashCardScreen.js",
+        "StudyScreen.js",
+        "App.js",
+        "ProfileTab.js",
+        "arabic.js"
+      ],
+      "exampleFilesGeneratedAt": 1750789740701
+    }
+  },
+  "userID": "96200396462dc1a54dcd7bf4ed2806506483ec7ffab4ccd45f138f1896711cd6",
+  "fallbackAvailableWarningThreshold": 0.5,
+  "firstStartTime": "2025-06-24T18:12:23.289Z",
+  "oauthAccount": {
+    "accountUuid": "a9ecdc64-7ff6-4fd5-bec8-b13d6be1305c",
+    "emailAddress": "areebb@gmail.com",
+    "organizationUuid": "6bf9b879-e06c-4736-885f-392714701df8",
+    "organizationRole": "admin",
+    "workspaceRole": null,
+    "organizationName": "Areeb Bajwa"
+  },
+  "shiftEnterKeyBindingInstalled": true,
+  "hasCompletedOnboarding": true,
+  "lastOnboardingVersion": "1.0.33",
+  "bypassPermissionsModeAccepted": true,
+  "subscriptionNoticeCount": 0,
+  "hasAvailableSubscription": false,
+  "cachedChangelog": "# Changelog\n\n## 1.0.31\n\n- Fixed a bug where ~/.claude.json would get reset when file contained invalid JSON\n\n## 1.0.30\n\n- Custom slash commands: Run bash output, @-mention files, enable thinking with thinking keywords\n- Improved file path autocomplete with filename matching\n- Added timestamps in Ctrl-r mode and fixed Ctrl-c handling\n- Enhanced jq regex support for complex filters with pipes and select\n\n## 1.0.29\n\n- Improved CJK character support in cursor navigation and rendering\n\n## 1.0.28\n\n- Slash commands: Fix selector display during history navigation\n- Resizes images before upload to prevent API size limit errors\n- Added XDG_CONFIG_HOME support to configuration directory\n- Performance optimizations for memory usage\n- New attributes (terminal.type, language) in OpenTelemetry logging\n\n## 1.0.27\n\n- Streamable HTTP MCP servers are now supported\n- Remote MCP servers (SSE and HTTP) now support OAuth\n- MCP resources can now be @-mentioned\n- /resume slash command to switch conversations within Claude Code\n\n## 1.0.25\n\n- Slash commands: moved \"project\" and \"user\" prefixes to descriptions\n- Slash commands: improved reliability for command discovery\n- Improved support for Ghostty\n- Improved web search reliability\n\n## 1.0.24\n\n- Improved /mcp output\n- Fixed a bug where settings arrays got overwritten instead of merged\n\n## 1.0.23\n\n- Released TypeScript SDK: import @anthropic-ai/claude-code to get started\n- Released Python SDK: pip install claude-code-sdk to get started\n\n## 1.0.22\n\n- SDK: Renamed `total_cost` to `total_cost_usd`\n\n## 1.0.21\n\n- Improved editing of files with tab-based indentation\n- Fix for tool_use without matching tool_result errors\n- Fixed a bug where stdio MCP server processes would linger after quitting Claude Code\n\n## 1.0.18\n\n- Added --add-dir CLI argument for specifying additional working directories\n- Added streaming input support without require -p flag\n- Improved startup performance and session storage performance\n- Added CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR environment variable to freeze working directory for bash commands\n- Added detailed MCP server tools display (/mcp)\n- MCP authentication and permission improvements\n- Added auto-reconnection for MCP SSE connections on disconnect\n- Fixed issue where pasted content was lost when dialogs appeared\n\n## 1.0.17\n\n- We now emit messages from sub-tasks in -p mode (look for the parent_tool_use_id property)\n- Fixed crashes when the VS Code diff tool is invoked multiple times quickly\n- MCP server list UI improvements\n- Update Claude Code process title to display \"claude\" instead of \"node\"\n\n## 1.0.11\n\n- Claude Code can now also be used with a Claude Pro subscription\n- Added /upgrade for smoother switching to Claude Max plans\n- Improved UI for authentication from API keys and Bedrock/Vertex/external auth tokens\n- Improved shell configuration error handling\n- Improved todo list handling during compaction\n\n## 1.0.10\n\n- Added markdown table support\n- Improved streaming performance\n\n## 1.0.8\n\n- Fixed Vertex AI region fallback when using CLOUD_ML_REGION\n- Increased default otel interval from 1s -> 5s\n- Fixed edge cases where MCP_TIMEOUT and MCP_TOOL_TIMEOUT weren't being respected\n- Fixed a regression where search tools unnecessarily asked for permissions\n- Added support for triggering thinking non-English languages\n- Improved compacting UI\n\n## 1.0.7\n\n- Renamed /allowed-tools -> /permissions\n- Migrated allowedTools and ignorePatterns from .claude.json -> settings.json\n- Deprecated claude config commands in favor of editing settings.json\n- Fixed a bug where --dangerously-skip-permissions sometimes didn't work in --print mode\n- Improved error handling for /install-github-app\n- Bugfixes, UI polish, and tool reliability improvements\n\n## 1.0.6\n\n- Improved edit reliability for tab-indented files\n- Respect CLAUDE_CONFIG_DIR everywhere\n- Reduced unnecessary tool permission prompts\n- Added support for symlinks in @file typeahead\n- Bugfixes, UI polish, and tool reliability improvements\n\n## 1.0.4\n\n- Fixed a bug where MCP tool errors weren't being parsed correctly\n\n## 1.0.1\n\n- Added `DISABLE_INTERLEAVED_THINKING` to give users the option to opt out of interleaved thinking.\n- Improved model references to show provider-specific names (Sonnet 3.7 for Bedrock, Sonnet 4 for Console)\n- Updated documentation links and OAuth process descriptions\n\n## 1.0.0\n\n- Claude Code is now generally available\n- Introducing Sonnet 4 and Opus 4 models\n\n## 0.2.125\n\n- Breaking change: Bedrock ARN passed to `ANTHROPIC_MODEL` or `ANTHROPIC_SMALL_FAST_MODEL` should no longer contain an escaped slash (specify `/` instead of `%2F`)\n- Removed `DEBUG=true` in favor of `ANTHROPIC_LOG=debug`, to log all requests\n\n## 0.2.117\n\n- Breaking change: --print JSON output now returns nested message objects, for forwards-compatibility as we introduce new metadata fields\n- Introduced settings.cleanupPeriodDays\n- Introduced CLAUDE_CODE_API_KEY_HELPER_TTL_MS env var\n- Introduced --debug mode\n\n## 0.2.108\n\n- You can now send messages to Claude while it works to steer Claude in real-time\n- Introduced BASH_DEFAULT_TIMEOUT_MS and BASH_MAX_TIMEOUT_MS env vars\n- Fixed a bug where thinking was not working in -p mode\n- Fixed a regression in /cost reporting\n- Deprecated MCP wizard interface in favor of other MCP commands\n- Lots of other bugfixes and improvements\n\n## 0.2.107\n\n- CLAUDE.md files can now import other files. Add @path/to/file.md to ./CLAUDE.md to load additional files on launch\n\n## 0.2.106\n\n- MCP SSE server configs can now specify custom headers\n- Fixed a bug where MCP permission prompt didn't always show correctly\n\n## 0.2.105\n\n- Claude can now search the web\n- Moved system & account status to /status\n- Added word movement keybindings for Vim\n- Improved latency for startup, todo tool, and file edits\n\n## 0.2.102\n\n- Improved thinking triggering reliability\n- Improved @mention reliability for images and folders\n- You can now paste multiple large chunks into one prompt\n\n## 0.2.100\n\n- Fixed a crash caused by a stack overflow error\n- Made db storage optional; missing db support disables --continue and --resume\n\n## 0.2.98\n\n- Fixed an issue where auto-compact was running twice\n\n## 0.2.96\n\n- Claude Code can now also be used with a Claude Max subscription (https://claude.ai/upgrade)\n\n## 0.2.93\n\n- Resume conversations from where you left off from with \"claude --continue\" and \"claude --resume\"\n- Claude now has access to a Todo list that helps it stay on track and be more organized\n\n## 0.2.82\n\n- Added support for --disallowedTools\n- Renamed tools for consistency: LSTool -> LS, View -> Read, etc.\n\n## 0.2.75\n\n- Hit Enter to queue up additional messages while Claude is working\n- Drag in or copy/paste image files directly into the prompt\n- @-mention files to directly add them to context\n- Run one-off MCP servers with `claude --mcp-config <path-to-file>`\n- Improved performance for filename auto-complete\n\n## 0.2.74\n\n- Added support for refreshing dynamically generated API keys (via apiKeyHelper), with a 5 minute TTL\n- Task tool can now perform writes and run bash commands\n\n## 0.2.72\n\n- Updated spinner to indicate tokens loaded and tool usage\n\n## 0.2.70\n\n- Network commands like curl are now available for Claude to use\n- Claude can now run multiple web queries in parallel\n- Pressing ESC once immediately interrupts Claude in Auto-accept mode\n\n## 0.2.69\n\n- Fixed UI glitches with improved Select component behavior\n- Enhanced terminal output display with better text truncation logic\n\n## 0.2.67\n\n- Shared project permission rules can be saved in .claude/settings.json\n\n## 0.2.66\n\n- Print mode (-p) now supports streaming output via --output-format=stream-json\n- Fixed issue where pasting could trigger memory or bash mode unexpectedly\n\n## 0.2.63\n\n- Fixed an issue where MCP tools were loaded twice, which caused tool call errors\n\n## 0.2.61\n\n- Navigate menus with vim-style keys (j/k) or bash/emacs shortcuts (Ctrl+n/p) for faster interaction\n- Enhanced image detection for more reliable clipboard paste functionality\n- Fixed an issue where ESC key could crash the conversation history selector\n\n## 0.2.59\n\n- Copy+paste images directly into your prompt\n- Improved progress indicators for bash and fetch tools\n- Bugfixes for non-interactive mode (-p)\n\n## 0.2.54\n\n- Quickly add to Memory by starting your message with '#'\n- Press ctrl+r to see full output for long tool results\n- Added support for MCP SSE transport\n\n## 0.2.53\n\n- New web fetch tool lets Claude view URLs that you paste in\n- Fixed a bug with JPEG detection\n\n## 0.2.50\n\n- New MCP \"project\" scope now allows you to add MCP servers to .mcp.json files and commit them to your repository\n\n## 0.2.49\n\n- Previous MCP server scopes have been renamed: previous \"project\" scope is now \"local\" and \"global\" scope is now \"user\"\n\n## 0.2.47\n\n- Press Tab to auto-complete file and folder names\n- Press Shift + Tab to toggle auto-accept for file edits\n- Automatic conversation compaction for infinite conversation length (toggle with /config)\n\n## 0.2.44\n\n- Ask Claude to make a plan with thinking mode: just say 'think' or 'think harder' or even 'ultrathink'\n\n## 0.2.41\n\n- MCP server startup timeout can now be configured via MCP_TIMEOUT environment variable\n- MCP server startup no longer blocks the app from starting up\n\n## 0.2.37\n\n- New /release-notes command lets you view release notes at any time\n- `claude config add/remove` commands now accept multiple values separated by commas or spaces\n\n## 0.2.36\n\n- Import MCP servers from Claude Desktop with `claude mcp add-from-claude-desktop`\n- Add MCP servers as JSON strings with `claude mcp add-json <n> <json>`\n\n## 0.2.34\n\n- Vim bindings for text input - enable with /vim or /config\n\n## 0.2.32\n\n- Interactive MCP setup wizard: Run \"claude mcp add\" to add MCP servers with a step-by-step interface\n- Fix for some PersistentShell issues\n\n## 0.2.31\n\n- Custom slash commands: Markdown files in .claude/commands/ directories now appear as custom slash commands to insert prompts into your conversation\n- MCP debug mode: Run with --mcp-debug flag to get more information about MCP server errors\n\n## 0.2.30\n\n- Added ANSI color theme for better terminal compatibility\n- Fixed issue where slash command arguments weren't being sent properly\n- (Mac-only) API keys are now stored in macOS Keychain\n\n## 0.2.26\n\n- New /approved-tools command for managing tool permissions\n- Word-level diff display for improved code readability\n- Fuzzy matching for slash commands\n\n## 0.2.21\n\n- Fuzzy matching for /commands\n",
+  "changelogLastFetched": 1750789213053,
+  "lastReleaseNotesSeen": "1.0.33"
 }
