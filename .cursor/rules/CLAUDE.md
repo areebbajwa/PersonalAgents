@@ -1,10 +1,13 @@
+Whenever user mentions "taskmode", use workflow-cli with task mode STRICTLY.
+Whenever user mentions "devmode", use workflow-cli with dev mode STRICTLY.
+
 # Workflow Management
 
 Use `workflow-cli` to get step-by-step instructions:
 
 ```bash
 # Start a new task/project
-workflow-cli --project [task-name] --mode [dev|task|standard] --step 1
+workflow-cli --project [task-name] --mode [dev|task] --step 1
 
 # Continue with same project (mode is remembered)
 workflow-cli --project [task-name] --next
