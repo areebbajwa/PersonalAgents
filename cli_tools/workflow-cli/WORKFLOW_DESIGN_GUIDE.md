@@ -6,6 +6,7 @@ A comprehensive guide for creating and converting workflows for the workflow-cli
 
 The workflow-cli exists to help AI assistants stay focused by providing **only the relevant rules for the current step** while maintaining essential global principles. This prevents information overload and keeps the AI on track.
 
+
 ## Workflow Structure
 
 ### YAML Format Requirements
@@ -51,14 +52,13 @@ Global rules are re-iterated with every step, so they must be:
    - Essential mindset/approach guidelines
 
 2. **Safety Rules** - Things that could cause damage if forgotten
-   - Never commit to git without permission
-   - Never restart processes without approval
-   - Never mark tasks complete without testing
+   - Never proceed with failing tests
+   - Never mark tasks complete without E2E testing
 
-3. **Keep It Minimal** - Aim for 5-10 total global rules maximum
-   - Each global rule will be shown with every step
-   - Too many global rules create information overload
-   - If you have 20+ global rules, most should be step-specific
+3. **Keep It Minimal** - Aim for 2-4 global rule sections
+   - Each section should have 5-7 items max
+   - Combine related rules to reduce redundancy
+   - If you have 10+ rule sections, consolidate them
 
 ### What Should NOT Be Global Rules
 
@@ -166,7 +166,31 @@ Each step should have clear actions AND all rules needed for those actions:
     - List of reusable components
 ```
 
-### 4. Use Progressive Rule Introduction
+### 4. Best Practices for Specific Workflow Components
+
+**Planning Steps:**
+- Include batch operation examples with code
+- Reinforce test gates and commit patterns
+- Integrate todo file management instructions
+- Call workflow-cli --next only after todo completion
+
+**Implementation Steps:**
+- Focus on action items, not rules
+- Reference earlier steps for shared guidelines
+- Include "never give up" reminders for autonomy
+- Combine related steps (e.g., test tracking with implementation)
+
+**Final Steps:**
+- Dynamic branch detection (not hardcoded "main")
+- Project state cleanup commands
+- User confirmation for destructive actions
+
+**Git Workflow:**
+- Use project-based branch naming: `[project-name]-YYYYMMDD`
+- Combine announcement with git setup when logical
+- Include instructions for continuing existing work
+
+### 5. Use Progressive Rule Introduction
 
 Introduce rules when they become relevant, but ensure dependencies are met:
 
@@ -215,6 +239,18 @@ workflow-cli --project task1
 workflow-cli --project work
 workflow-cli --project temp
 ```
+
+### Git Branch Naming
+
+Branches should follow project naming:
+```bash
+git checkout -b [project-name]-YYYYMMDD
+```
+
+### Project State Management
+
+- Use `workflow-cli --project [name] --clean` to delete project state after completion
+- State cleanup is included in final workflow steps
 
 ## Converting Existing Workflows
 
@@ -297,18 +333,22 @@ python3 test_workflow_cli.py
 
 ```yaml
 steps:
-  1. Announce Mode (always first)
+  1. Announce Mode & Git Setup (combine when logical)
   2. Gather Context/Setup
   3-N. Main workflow steps
-  N+1. Validate/Test
-  N+2. Complete/Report (always last)
+  N+1. Clean Up Environment
+  N+2. Final Verification
+  N+3. Branch Management (always last)
 ```
 
 ### 3. Distribute Rules Appropriately
 
-- **Start with minimal global rules** (5-10 max)
+- **Start with minimal global rules** (2-4 sections max)
 - **Add step-specific rules where they're used**
 - **Include emergency procedures for critical workflows**
+- **Integrate batch operation examples in planning steps where relevant**
+- **Add automation tool guidance if workflow requires it**
+- **Emphasize autonomous completion with 2FA as only exception**
 
 ### 4. Add Quick Reference
 
@@ -317,9 +357,8 @@ Keep it minimal - only the most essential items:
 ```yaml
 quick_reference:
   essential_commands:
-    - "Most important commands only"
-  critical_reminders:
-    - "Key things that are easy to forget"
+    - "workflow-cli --project [name] --next"
+    - "workflow-cli --project [name] --clean"
 ```
 
 ## Quality Checklist
@@ -333,10 +372,12 @@ Before deploying a workflow, verify:
 - [ ] Emergency procedures included if needed
 
 ### ✅ Global Rules
-- [ ] 5-10 global rules maximum
+- [ ] 2-4 global rule sections maximum
+- [ ] Keep each section concise (5-7 items max)
 - [ ] Only truly universal principles
 - [ ] No step-specific guidance in global rules
 - [ ] All critical safety rules included
+- [ ] Include automation tool hierarchy when needed
 
 ### ✅ Step Distribution
 - [ ] Step-specific rules moved to appropriate steps
@@ -400,6 +441,51 @@ Instead of duplicating rules, use references:
     - Create wrapper scripts for Node.js tools
 ```
 
+## Task Completion Philosophy
+
+### Autonomous Completion
+
+Workflows should emphasize autonomous task completion:
+
+1. **Never Give Up** - AI must find a way to complete the entire todo list
+2. **2FA Exception** - Only acceptable reason to ask for help
+3. **Tool Escalation Path**:
+   - Check existing tools (CLI tools, MCP tools)
+   - Official APIs (preferred)
+   - Selenium browser (for auth/setup/unsupported features)
+   - Screenshot-cli (for debugging/exploration)
+   - Desktop-automation-cli (last resort)
+
+### Todo File Management
+
+Replace traditional learning files with project-specific todo files:
+
+1. **File Format**: `todos/YYYYMMDD-[project-name]-todo.md`
+2. **Status Emojis**:
+   - ✅ Task completed
+   - 🕒 Task pending (not ❌ which implies failure)
+   - 🔥 BREAKTHROUGH: Log solutions to difficult problems
+3. **Purpose**: Track progress and capture learnings to avoid repeated mistakes
+
+### Automation Tool Hierarchy
+
+Workflows should provide clear escalation paths:
+
+1. **Check existing tools**:
+   - Look for CLI tools in the codebase
+   - Check available MCP tools and resources
+2. **Official APIs** (always preferred)
+3. **Selenium/Browser automation** (for auth, setup, unsupported features)
+4. **Screenshot tools** (for debugging/exploration)
+5. **Desktop automation** (last resort)
+
+### CLI Tool Development Strategy
+
+When new CLI tools are needed:
+- Spawn a new agent with dev mode workflow
+- Add CLI development as a task in the main todo list
+- Keep task execution separate from tool development
+
 ## Common Anti-Patterns to Avoid
 
 ### ❌ Rule Duplication Across Steps
@@ -443,9 +529,9 @@ content: |
 
 # DO: Self-contained workflows
 content: |
-  Search existing docs/learnings before proceeding:
-  1. Check docs/ for patterns
-  2. Look in todos/completed/ for examples
+  Search existing implementations before proceeding:
+  1. Check codebase for patterns
+  2. Look in todos/ for previous learnings
 ```
 
 ### ❌ Vague Steps
@@ -476,6 +562,25 @@ content: |
   **References:** [point to earlier steps for shared rules]
 ```
 
+### ❌ Redundant Workflow Components
+```yaml
+# DON'T: Unnecessary sections
+workflow_checklist:
+  before_starting: [duplicate of steps]
+  during_development: [duplicate of steps]
+  
+# DON'T: Verbose reference sections  
+commit_prefixes:
+  - prefix: "feat"
+    description: "New feature"
+  [... 10 more entries]
+
+# DO: Minimal, essential references only
+quick_reference:
+  essential_commands:
+    - "workflow-cli --project [name] --next"
+```
+
 ## Maintenance
 
 ### Regular Review
@@ -492,6 +597,7 @@ content: |
 - Keep workflows in git for change tracking
 - Document major changes in commit messages
 - Test changes before deploying
+
 
 ---
 

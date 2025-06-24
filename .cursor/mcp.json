@@ -21,6 +21,7 @@
     "custom-commands": 18,
     "shift-tab": 19
   },
+  "promptQueueUseCount": 1,
   "mcpServers": {
     "browsermcp": {
       "type": "stdio",
@@ -69,6 +70,78 @@
     "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents": {
       "allowedTools": [],
       "history": [
+        {
+          "display": "for task mode, whenever any steps can be done quicker in batches instead of one by one, it should. always ask the question: is there a way to do this faster",
+          "pastedContents": {}
+        },
+        {
+          "display": "don't add anything specific to dev mode or task mode. these are general guidelines for any workflow",
+          "pastedContents": {}
+        },
+        {
+          "display": "update workflow guide",
+          "pastedContents": {}
+        },
+        {
+          "display": "for task mode, don't call it a feature branch, it's a task branch",
+          "pastedContents": {}
+        },
+        {
+          "display": "cli tools can be in other directories too, don't hard-code \"cli_tools\". also don't hard code the mcp tools command. leave it general",
+          "pastedContents": {}
+        },
+        {
+          "display": "in automation tools for both task mode and dev mode mention looking at mcp tools that are available as well",
+          "pastedContents": {}
+        },
+        {
+          "display": "for task mode step 2 mention only using context that's directly relevant. don't mix up unrelated context.",
+          "pastedContents": {}
+        },
+        {
+          "display": "remove standard mode workflow",
+          "pastedContents": {}
+        },
+        {
+          "display": "add the spawning new agent to create new cli tools as needed to core principles as well",
+          "pastedContents": {}
+        },
+        {
+          "display": "get rid of the never commit to git rule and add the git branch initiation/merge at the end just like dev mode. ",
+          "pastedContents": {}
+        },
+        {
+          "display": "i think step 3 is unnecessary then? ",
+          "pastedContents": {}
+        },
+        {
+          "display": "remove gmail-cli from step 2. in automation tools mention looking for existing cli tools on top of what's mentioned.",
+          "pastedContents": {}
+        },
+        {
+          "display": "for the \"never do\" global rules, the tests rules are unnecessary - we're doing a task here, not creating tests. reinforce not stopping until task is complete though",
+          "pastedContents": {}
+        },
+        {
+          "display": "add the pdf cli and sqlite3 cli to automation tools. remove sqlite mcp mention. move \"ai integration\" into a new section in global rules - call it something like \"AI Integration when creating new tools/scripts\". add the cli dev instructions as a global rule section too. also add that any new CLI tool that's needed should be started as it's own dev mode workflow using workflow-cli by spawning a new agent and adding as a task in the todo list.\\\nremove mention of batching from task mode - that's more relevant for dev mode",
+          "pastedContents": {}
+        },
+        {
+          "display": "update task mode workflow with these learnings",
+          "pastedContents": {}
+        },
+        {
+          "display": "no, no summaries",
+          "pastedContents": {}
+        },
+        {
+          "display": "update /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/workflow-cli/WORKFLOW_DESIGN_GUIDE.md with all my feedback",
+          "pastedContents": {}
+        },
+        {
+          "display": "for step 8, the branch might not always be called main. need to find the most active branch and consider that main.",
+          "pastedContents": {}
+        },
         {
           "display": "the only time it's ok to ask for help is if stuck on something that requires 2fa",
           "pastedContents": {}
@@ -401,78 +474,6 @@
         },
         {
           "display": "ok try now",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "there's no .parentlock in there?",
-          "pastedContents": {}
-        },
-        {
-          "display": "follow these tips: \\\n\\\nThe hang is happening because Playwright can’t safely open a profile that Firefox itself still “owns.”\nYour default-release folder is locked every time normal Firefox is running, and Playwright refuses to drive a profile that’s in that state—even if you delete the `parent.lock` file manually, other lock artefacts and open sqlite handles remain. ([support.mozilla.org][1])\n\nYou don’t have to sign in again, but you **do** need an automation-only copy of that profile. The copy keeps every cookie, token and setting, yet is never touched by regular Firefox, so Playwright can grab it without a fight.\n\n---\n\n### One-time copy of your live profile\n\n```bash\n# Quit every Firefox window first\nosascript -e 'tell application \"Firefox\" to quit' || true\n\n# Make a carbon copy of the profile\ncp -R \\\n  \"/Users/areeb2/Library/Application Support/Firefox/Profiles/1nykysv3.default-release\" \\\n  \"/Users/areeb2/Library/Application Support/Firefox/Profiles/1nykysv3.automation\"\n\n# Remove any stale lock files in the copy\nrm -f \"/Users/areeb2/Library/Application Support/Firefox/Profiles/1nykysv3.automation/parent.lock\" \\\n      \"/Users/areeb2/Library/Application Support/Firefox/Profiles/1nykysv3.automation/lock\"\n```\n\nThat cloned directory already contains your Google cookies, so no new authentication step is needed.\n\n---\n\n### Point MCP at the clone, not the live profile\n\n```json5\n\"playwright\": {\n  \"type\": \"stdio\",\n  \"command\": \"/Users/areeb2/.nvm/versions/node/v22.15.1/bin/npx\",\n  \"args\": [\n    \"@playwright/mcp@latest\",\n    \"--browser\", \"firefox\",\n    \"--executable-path\", \"/Applications/Firefox.app/Contents/MacOS/firefox\",\n    \"--user-data-dir\",\n    \"/Users/areeb2/Library/Application Support/Firefox/Profiles/1nykysv3.automation\"\n  ],\n  \"env\": {}\n}\n```\n\n* The cloned profile isn’t locked, so Playwright attaches instantly.\n* Your everyday Firefox keeps using `1nykysv3.default-release`; no corruption, no conflicts.\n* If you ever need fresh cookies (for example when 2-factor expires), just repeat the copy step—no need to re-sign-in inside Playwright.\n\n---\n\n#### Tips if you still hit Google’s “not secure” screen\n\n1. **Double-check you’re really running the *system* Firefox.**\n   `--executable-path` must point at `/Applications/Firefox.app/...`. If you see a user-agent ending in `a1` or `Nightly`, it’s Playwright’s patched build and Google will complain.\n\n2. **Stay headed, not headless.**\n   Google flags a few headless fingerprints. Run without `--headless` unless you absolutely need it.\n\n3. **Don’t mix live and automation sessions simultaneously.**\n   Firefox won’t allow two processes on the *same* profile at once. Keep your day-to-day browser open on its original profile or close it while the script runs.\n\nGive the cloned-profile approach a try and your MCP script should breeze straight through Google login with no extra work. If anything still freezes—or you’d like to try the same trick on WebKit—let me know the exact symptom and we’ll dig deeper.\n\n[1]: https://support.mozilla.org/en-US/questions/1203397?utm_source=chatgpt.com \"Trying to make backups of my Firefox's Profile file. - Mozilla Support\"\n",
-          "pastedContents": {}
-        },
-        {
-          "display": "try now",
-          "pastedContents": {}
-        },
-        {
-          "display": "still struggling. Delete the parent.lock file inside 1nykysv3.default-release",
-          "pastedContents": {}
-        },
-        {
-          "display": "try now",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "no i want it to control the real firefox",
-          "pastedContents": {}
-        },
-        {
-          "display": "seems to be unable to control the firefox instance",
-          "pastedContents": {}
-        },
-        {
-          "display": "try again",
-          "pastedContents": {}
-        },
-        {
-          "display": "ok done",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "seems like it opens a new firefox unauthenticated browser instead of using existing logged in one",
-          "pastedContents": {}
-        },
-        {
-          "display": "ok i have restarted claude code and logged into firefox manually. try opening gmail with playwright mcp now",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "let's try downloading real firefox and using that. i will manually login to google once it's downloaded. then change mcp settings to \\\n\\\n\"playwright\": {\n  \"type\": \"stdio\",\n  \"command\": \"/Users/areeb2/.nvm/versions/node/v22.15.1/bin/npx\",\n  \"args\": [\n    \"@playwright/mcp@latest\",\n    \"--browser\", \"firefox\",\n    \"--executable-path\", \"/Applications/Firefox.app/Contents/MacOS/firefox\",\n    \"--user-data-dir\", \"/Users/areeb2/.pwt-real-ff\"\n  ],\n  \"env\": {}\n}\n",
-          "pastedContents": {}
-        },
-        {
-          "display": "gives the same error. tell me everything we've tried in detail i will do some research myself",
-          "pastedContents": {}
-        },
-        {
-          "display": "done. try now",
           "pastedContents": {}
         }
       ],

@@ -93,8 +93,7 @@ class WorkflowManager:
             # Map mode to workflow file
             mode_files = {
                 "dev": "dev-mode.yaml",
-                "task": "task-mode.yaml",
-                "standard": "standard.yaml"
+                "task": "task-mode.yaml"
             }
             
             workflow_file = self.rules_dir / mode_files.get(mode, "CLAUDE.md")
@@ -191,8 +190,7 @@ class WorkflowManager:
         else:
             mode_files = {
                 "dev": "dev-mode.yaml",
-                "task": "task-mode.yaml", 
-                "standard": "standard.yaml"
+                "task": "task-mode.yaml"
             }
             workflow_file_path = self.rules_dir / mode_files.get(mode, "CLAUDE.md")
             if not workflow_file_path.exists():
@@ -270,8 +268,8 @@ class WorkflowManager:
 
 def main():
     parser = argparse.ArgumentParser(description='Workflow CLI - Get relevant workflow rules')
-    parser.add_argument('--mode', choices=['dev', 'task', 'standard'], 
-                       help='Workflow mode (dev/task/standard)')
+    parser.add_argument('--mode', choices=['dev', 'task'], 
+                       help='Workflow mode (dev/task)')
     parser.add_argument('--workflow', type=Path, help='Path to custom workflow YAML file')
     parser.add_argument('--step', type=int, help='Current step number')
     parser.add_argument('--next', action='store_true', help='Advance to next step')
@@ -346,7 +344,7 @@ def main():
         result = {
             "current_state": manager.current_state,
             "project": args.project or "default",
-            "help": "Use --mode [dev|task|standard] to get workflow rules"
+            "help": "Use --mode [dev|task] to get workflow rules"
         }
     
     # Output result
@@ -374,7 +372,7 @@ def main():
             # Handle completion message
             print(f"\n✅ {result['message']}\n")
             if result.get("state_cleared"):
-                print("State file has been cleared. Start a new workflow with --mode [dev|task|standard]")
+                print("State file has been cleared. Start a new workflow with --mode [dev|task]")
         else:
             print(json.dumps(result, indent=2))
 

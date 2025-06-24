@@ -135,13 +135,17 @@ steps:
     content: |
       **WAIT FOR USER INSTRUCTION** before proceeding:
       
-      Ask user: "Should I merge this branch into main and delete the feature branch?"
+      First identify the main branch:
+      1. `git branch -r --sort=-committerdate | head -5` (find most active branch)
+      2. Usually main, master, or develop
+      
+      Ask user: "Should I merge this branch into [main-branch] and delete the feature branch?"
       
       If YES:
-      1. `git checkout main`
-      2. `git pull origin main`
+      1. `git checkout [main-branch]`
+      2. `git pull origin [main-branch]`
       3. `git merge [feature-branch]`
-      4. `git push origin main`
+      4. `git push origin [main-branch]`
       5. `git branch -d [feature-branch]`
       6. `git push origin --delete [feature-branch]`
       
@@ -168,6 +172,7 @@ global_rules:
 
   - title: "Automation Tools"
     content: |
+      - Check available MCP tools and resources
       - Use official APIs first, selenium browser only for unsupported features
       - Selenium browser: unblock auth, get API keys, one-time setup tasks
       - Take screenshots when curious/stuck: screenshot-cli tool

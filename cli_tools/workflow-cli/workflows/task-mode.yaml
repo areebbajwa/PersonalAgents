@@ -2,39 +2,24 @@ name: "Task Mode"
 description: "Task planning and execution workflow - simplified autonomous task execution"
 steps:
   - number: 1
-    title: "Announce Task Mode & Establish Core Rules"
+    title: "Announce Task Mode"
     content: |
       MANDATORY first response:
       🤖 **TASK MODE ACTIVATED**
       
-      I have read and will adhere to all operational requirements in TASK MODE. I will complete this task autonomously without asking for clarification or help.
+      I will complete this task autonomously without asking for help (except for 2FA).
       
-      **Core Operating Rules** (apply to all subsequent steps):
+      **Check for existing todo:**
+      If continuing work on existing todo file in `todos/`, skip to step 4.
       
-      **API & Credentials**:
-      - Always check config/.env for existing API keys first
-      - All tools must auto-load from config/.env
-      - Never ask user to manually set environment variables
+      **For new work, execute git setup IMMEDIATELY:**
+      1. Create branch:
+         ```
+         git checkout -b [project-name]-YYYYMMDD
+         git push -u origin [project-name]-YYYYMMDD
+         ```
       
-      **File Operations**:
-      - NEVER rename __init__.py, config files, or utility modules
-      - Use date prefixing: mon_dd_yyyy_ for new files
-      - Modify existing files rather than create new ones
-      - Delete temp files when done
-      - Use full file paths in documentation
-      - Temp scripts: `tmp/temp_script_[timestamp].py`
-      
-      **Process Control**:
-      - NEVER restart Cursor/IDE without permission
-      - NEVER commit to git without explicit permission
-      - NEVER restart system processes without approval
-      
-      **Task Completion Standards**:
-      - End-to-end testing with real data is MANDATORY
-      - NEVER mark tasks complete without successful testing
-      - Get user confirmation before final delivery/submission/email
-      
-      **Next Step:** Run `workflow-cli --workflow task-mode.yaml --next` to continue
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
 
   - number: 2
@@ -44,159 +29,145 @@ steps:
       
       **Actions to perform:**
       1. Search `docs/` directory for relevant documentation
-      2. Check `todos/completed/` for similar past tasks and personal information
+      2. Check `todos/` for previous learnings to avoid same mistakes
       3. Look in `data/` directory for existing resources
-      4. Check `config/.env` for API keys and credentials (follow Step 1 rules)
-      5. Use gmail-cli if personal context is needed
-      6. Search for existing utilities and scripts to reuse
+      4. Check `config/.env` for API keys and credentials
+      5. Search for existing utilities and scripts to reuse
       
-      **Next Step:** Run `workflow-cli --workflow task-mode.yaml --next` to continue
+      **IMPORTANT:** Only use context that's directly relevant to the current task. Don't mix in unrelated information.
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
 
   - number: 3
-    title: "Handle Different Task Types"
-    content: |
-      Follow API/credentials and file operation rules from Step 1 for all task types:
-      
-      **Web Automation**:
-      1. Check `data/Google Passwords.csv` for credentials
-      2. Use Playwright tools: `navigate → snapshot → get refs → interact → verify`
-      3. If no credentials, create account with: areebb@gmail.com / Mxypkwj1@
-      4. Use automation flags like `--disable-blink-features=AutomationControlled`
-      
-      **PDF Processing**:
-      1. ALWAYS use PDF AI CLI tool: `cd cli_tools/pdf-ai-cli && ./pdf-ai <pdf_path> <output_text_file>`
-      2. For batch processing: `./pdf-ai batch <input_dir> <output_dir>`
-      3. Never ask user for PDF content - extract it automatically
-      
-      **Database Operations**:
-      1. Try sqlite_mcp tool first
-      2. Fallback: sqlite3 CLI with temp files
-      3. Use direct SQL when possible
-      
-      **AI Integration**:
-      1. Always use ai_cache_utils.js for caching
-      2. Use file I/O for large data
-      3. Only use Gemini 2.5 models (prefer Gemini Pro for PDFs)
-      4. Structure for JSON5 output
-      
-      **CLI Tool Development**:
-      1. Create wrapper scripts for Node.js tools
-      2. Make self-documenting with comprehensive help
-      3. Use `./scripts/setup-global-cli-tools.sh` for global access
-      
-      **Next Step:** Run `workflow-cli --workflow task-mode.yaml --next` to continue
-    mandatory: true
-
-  - number: 4
     title: "Create Task Plan"
     content: |
       **Actions to perform:**
-      1. Generate task ID using format: `action_target_YYYYMMDD_HHMMSS`
-      2. Create TODO file at: `todos/[task_id]_todo.md`
-      3. Structure the file with this template:
-         ```markdown
-         # Task: [User's Request]
-         Created: [Timestamp]
-         
-         ## Objective
-         [What success looks like]
-         
-         ## Plan
-         - [ ] Step 1: [Specific action]
-         - [ ] Step 2: [Specific action]
-         - [ ] Step 3: [Specific action]
-         ```
+      1. Create TODO file at: `todos/YYYYMMDD-[project-name]-todo.md`
+      2. Structure the file with:
+         - 🕒 Task pending
+         - ✅ Task completed
+         - 🔥 BREAKTHROUGH: [solution when stuck]
+      3. Plan steps to complete entire task autonomously
       
-      **Next Step:** Run `workflow-cli --workflow task-mode.yaml --next` to continue
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
 
-  - number: 5
+  - number: 4
     title: "Execute Plan Step by Step"
     content: |
       **Actions to perform:**
-      Follow file operation rules from Step 1 and document everything as you go:
-      
       1. Complete one planned step from your TODO file
-      2. Mark it done with timestamp in the TODO
-      3. Document in the TODO file:
-         - Exact commands used
-         - Files created (full paths)
-         - Key findings
-         - Output locations
+      2. Update todo file with ✅ when done, 🕒 for in progress
+      3. Log breakthroughs with 🔥 BREAKTHROUGH: when stuck
       4. Move to next planned step
+      5. MUST complete entire todo list autonomously - never give up
       
-      **Documentation format example:**
-      ```markdown
-      ### Step 1: Search filesystem [2024-01-22 15:01:00]
-      - Commands: `find . -name "*tax*" -o -name "*1099*"`
-      - Files found: 
-        - `data/tax_2023/1099-MISC.pdf`
-        - `data/tax_2023/W2.pdf`
-      - Next: Extract data from PDFs
-      ```
+      **Batch Processing Mindset:**
+      Before executing any step, ask: "Can I do this faster in batches?"
+      - Processing multiple files? Do them all at once
+      - Making multiple API calls? Look for batch endpoints
+      - Running similar commands? Combine them
       
-      **Next Step:** Run `workflow-cli --workflow task-mode.yaml --next` to continue
+      **Call --next ONLY when entire todo list is completed**
+      **MUST complete autonomously - keep trying until done (only ask for help if stuck on 2FA)**
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 5
+    title: "Clean Up Environment"
+    content: |
+      Before final steps, clean up temporary files:
+      1. Delete test logs: `rm -f *.log test.log`
+      2. Remove temporary files: `rm -f temp_* tmp_*`
+      3. Clean up debug files: `rm -f debug_* *.debug`
+      4. Remove unneeded test artifacts
+      5. Verify only necessary files remain
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
 
   - number: 6
-    title: "Validate Before Completion"
+    title: "Final Verification"
     content: |
-      **Actions to perform:**
-      Self-check everything (follow task completion standards from Step 1):
+      Execute these final steps before marking complete:
+      1. Verify all tasks completed successfully
+      2. Update todo file with final status
+      3. Move TODO file to `todos/completed/`
+      4. Final commit and push
+      5. Clean project state: `workflow-cli --project [project-name] --clean`
       
-      1. Review: Does output match the original request?
-      2. Verify: All files exist and are accessible
-      3. Quality: Is output complete and correct?
-      4. Content: Only include verified information from available resources
-      5. Documentation: Can someone reproduce this?
-      6. Dependencies: All API keys working, no missing dependencies
-      
-      **Next Step:** Run `workflow-cli --workflow task-mode.yaml --next` to continue
+      **Workflow Complete:** Task ready for delivery
     mandatory: true
 
   - number: 7
-    title: "Complete Task"
+    title: "Branch Management Decision"
     content: |
-      **Actions to perform:**
-      Apply task completion standards from Step 1, then execute these final steps:
+      **WAIT FOR USER INSTRUCTION** before proceeding:
       
-      1. Confirm successful end-to-end testing has been completed
-      2. Update TODO file with completion timestamp
-      3. Move TODO file from `todos/` to `todos/completed/`
-      4. Extract any reusable patterns or learnings to `docs/`
-      5. Remove internal process language from external deliverables
+      First identify the main branch:
+      1. `git branch -r --sort=-committerdate | head -5` (find most active branch)
+      2. Usually main, master, or develop
       
-      **Task Complete:** All steps executed successfully
+      Ask user: "Should I merge this branch into [main-branch] and delete the task branch?"
+      
+      If YES:
+      1. `git checkout [main-branch]`
+      2. `git pull origin [main-branch]`
+      3. `git merge [task-branch]`
+      4. `git push origin [main-branch]`
+      5. `git branch -d [task-branch]`
+      6. `git push origin --delete [task-branch]`
+      
+      If NO: Leave branch as-is for manual review
+      
+      **Workflow Complete**
     mandatory: true
 
 global_rules:
-  - title: "Task ID Format"
+  - title: "Core Principles"
     content: |
-      `action_target_YYYYMMDD_HHMMSS`
-      - analyze_expenses_20240122_143000
-      - organize_photos_20240122_150000
+      1. Complete tasks autonomously without help (except 2FA)
+      2. Check existing code/todos first
+      3. Keep trying different approaches until success
+      4. Update todos/YYYYMMDD-[project]-todo.md with ✅🕒🔥
+      5. Spawn new agent with dev mode for any new CLI tools needed
+      6. Always ask: Is there a way to do this faster in batches?
 
-  - title: "File Organization"
+  - title: "Never Do"
     content: |
-      - Task tracking: `todos/[task_id]_todo.md`
-      - Completed: `todos/completed/`
-      - Knowledge: `docs/`
-      - Temp work: `tmp/`
+      - NEVER stop until task is complete
+      - NEVER give up - find another way
+      - NEVER ask for help (except 2FA)
 
-  - title: "Autonomous Mindset"
+  - title: "Automation Tools"
     content: |
-      - You are EXTREMELY capable
-      - NEVER state inability or ask for clarification
-      - ALWAYS find solutions and make logical decisions
-      - Exhaust ALL options before concluding
+      - Look for existing CLI tools in the codebase first
+      - Check available MCP tools and resources
+      - Use official APIs first, selenium browser only for unsupported features
+      - Selenium browser: unblock auth, get API keys, one-time setup tasks
+      - PDF processing: pdf-ai-cli for extraction and analysis
+      - Database queries: sqlite3 CLI with direct SQL
+      - Take screenshots when curious/stuck: screenshot-cli tool
+      - Last resort for GUI tasks: desktop-automation-cli
+
+  - title: "AI Integration for New Tools/Scripts"
+    content: |
+      - Always use ai_cache_utils.js for caching AI calls
+      - Use file I/O for large data exchanges
+      - Prefer Gemini models for complex tasks
+      - Structure prompts for YAML output when needed
+
+  - title: "CLI Tool Development"
+    content: |
+      - Create wrapper scripts for Node.js CLI tools
+      - Make self-documenting with comprehensive help text
+      - Use ./scripts/setup-global-cli-tools.sh for global access
+      - For new CLI tools: spawn new agent with dev mode workflow
+      - Add CLI development as task in main todo list
 
 quick_reference:
-  essential_checklist:
-    - "Announce TASK MODE & establish core rules (Step 1)"
-    - "Search for context before starting (Step 2)"
-    - "Create unique TODO with specific plan (Step 3)"
-    - "Document everything step by step (Step 4)"
-    - "Apply task-specific guidelines (Step 5)"
-    - "Validate before completion (Step 6)"
-    - "Complete task with testing & archival (Step 7)"
+  essential_commands:
+    - "workflow-cli --project [name] --next"
+    - "workflow-cli --project [name] --clean"
