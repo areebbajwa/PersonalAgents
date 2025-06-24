@@ -1,0 +1,17 @@
+{
+  "name": "mcp-selenium-firefox-profile",
+  "version": "1.0.0",
+  "description": "Selenium WebDriver MCP Server with Firefox Profile Support",
+  "type": "module",
+  "main": "server.js",
+  "bin": {
+    "mcp-selenium-firefox-profile": "./server.js"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.7.0",
+    "selenium-webdriver": "^4.18.1"
+  }
+}

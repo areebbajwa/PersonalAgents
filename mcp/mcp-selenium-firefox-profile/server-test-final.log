@@ -1,0 +1,13 @@
+Creating new Firefox instance...
+Found default Firefox profile: /Users/areeb2/Library/Application Support/Firefox/Profiles/1nykysv3.default-release
+Using Firefox profile: /Users/areeb2/Library/Application Support/Firefox/Profiles/1nykysv3.default-release
+Setting up port detection timeout...
+Browser started with session_id: firefox_1750797560401
+{"result":{"content":[{"type":"text","text":"Browser started with session_id: firefox_1750797560401"}]},"jsonrpc":"2.0","id":1}
+Port detection timeout triggered, detecting port...
+Detected geckodriver HTTP port from process: 64534
+Port detection result: 64534
+WebDriver proxy started on port 9515, forwarding to geckodriver on 64534
+Saved geckodriver port 64534 and proxy port 9515 to coordination file
+Browser closed during cleanup
+Proxy server closed during cleanup
