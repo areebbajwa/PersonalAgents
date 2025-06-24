@@ -26,11 +26,18 @@ steps:
     title: "Consult Knowledge Base"
     content: |
       Execute these research steps before writing ANY code:
+      
+      **Local Context:**
       1. Search codebase for similar implementations
       2. Find existing code to reuse/extend (prioritize ai_cache_utils.js for AI calls)
       3. Check config/.env for existing API keys before asking user
       4. Search todos/ directory for previous learnings to avoid same mistakes
-      5. Check official API docs for batch operations
+      
+      **Web Context:**
+      5. Search web for best practices on the technology/framework
+      6. Find latest API documentation and check for updates
+      7. Look for common patterns and pitfalls
+      8. Check for batch operation support in APIs
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
@@ -164,6 +171,7 @@ global_rules:
       5. Ask before commits/final submissions
       6. Update todos/YYYYMMDD-[project]-todo.md with ✅🕒🔥
       7. MUST complete entire todo list autonomously - never stop until done (only ask for help if stuck on 2FA)
+      8. Search the web as needed for documentation and solutions
 
   - title: "Never Do"
     content: |

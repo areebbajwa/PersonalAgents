@@ -37,7 +37,8 @@ ngrok tcp --region=us --remote-addr=7.tcp.ngrok.io:21775 22
 - Use `sa <partial-name>` to attach to any session
 
 ### Essential Screen Commands
-- `sl` or `sa` - List all sessions
+- `sl` or `sa` - List all sessions (sorted by usage frequency)
+- `sr` - Attach to most recent screen session
 - `sa term` - Attach to session (partial match works)
 - `Ctrl-a d` - Detach from session
 - `sk term-XXX` - Kill a session

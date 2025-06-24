@@ -27,12 +27,17 @@ steps:
     content: |
       Before starting ANY work, execute these search actions:
       
-      **Actions to perform:**
+      **Local Context:**
       1. Search `docs/` directory for relevant documentation
       2. Check `todos/` for previous learnings to avoid same mistakes
       3. Look in `data/` directory for existing resources
       4. Check `config/.env` for API keys and credentials
       5. Search for existing utilities and scripts to reuse
+      
+      **Web Context:**
+      6. Search web for best practices related to the task
+      7. Find latest API documentation if working with external services
+      8. Look for recent updates or changes to tools/libraries
       
       **IMPORTANT:** Only use context that's directly relevant to the current task. Don't mix in unrelated information.
       
@@ -43,12 +48,23 @@ steps:
     title: "Create Task Plan"
     content: |
       **Actions to perform:**
-      1. Create TODO file at: `todos/YYYYMMDD-[project-name]-todo.md`
-      2. Structure the file with:
-         - 🕒 Task pending
-         - ✅ Task completed
-         - 🔥 BREAKTHROUGH: [solution when stuck]
-      3. Plan steps to complete entire task autonomously
+      Create TODO file at: `todos/YYYYMMDD-[project-name]-todo.md`
+      
+      **Example format:**
+      ```markdown
+      # Task: [User's request]
+      
+      ## Todo List:
+      - 🕒 Search for existing customer data export scripts
+      - 🕒 Extract customer data from database
+      - 🕒 Filter for active customers only
+      - 🕒 Generate CSV report with required fields
+      - 🕒 Save to data/exports/ directory
+      - 🕒 Run workflow-cli --project [project-name] --next
+      
+      ## Progress Log:
+      [Updates will go here as tasks complete]
+      ```
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
@@ -134,6 +150,7 @@ global_rules:
       4. Update todos/YYYYMMDD-[project]-todo.md with ✅🕒🔥
       5. Spawn new agent with dev mode for any new CLI tools needed
       6. Always ask: Is there a way to do this faster in batches?
+      7. Search the web as needed for documentation and solutions
 
   - title: "Never Do"
     content: |
