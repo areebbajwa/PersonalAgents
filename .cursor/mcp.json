@@ -1,4 +1,6 @@
 {
+  "installMethod": "unknown",
+  "autoUpdates": true,
   "mcpServers": {
     "browsermcp": {
       "autoApprove": [
@@ -67,6 +69,28 @@
       "env": {
         "TAVILY_API_KEY": "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"
       }
+    }
+  },
+  "userID": "d3042e1cb78a39113d2aa604d394b2013a84d1ab44cac278e0f941a5ef6a00d9",
+  "fallbackAvailableWarningThreshold": 0.5,
+  "projects": {
+    "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents": {
+      "allowedTools": [],
+      "history": [
+        {
+          "display": "no! don't discard. keep latest mcp.json - very important",
+          "pastedContents": {}
+        }
+      ],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "ignorePatterns": [],
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false
     }
   }
 }
