@@ -23,22 +23,6 @@
   },
   "promptQueueUseCount": 1,
   "mcpServers": {
-    "browsermcp": {
-      "type": "stdio",
-      "command": "/Users/areeb2/.nvm/versions/node/v22.15.1/bin/npx",
-      "args": [
-        "@browsermcp/mcp@latest"
-      ],
-      "env": {}
-    },
-    "mcp-js-bridge": {
-      "type": "stdio",
-      "command": "/Users/areeb2/.nvm/versions/node/v22.15.1/bin/node",
-      "args": [
-        "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/mcp/js-execution-mcp/index.js"
-      ],
-      "env": {}
-    },
     "firebase-mcp": {
       "autoApprove": [
         "auth_get_user",
