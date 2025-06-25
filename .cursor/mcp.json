@@ -55,6 +55,22 @@
       "allowedTools": [],
       "history": [
         {
+          "display": "no for the example let's say we're downloading bank statements. after navigating to the appropriate website, all statements should be downloaded one after the other before sending them for processing.",
+          "pastedContents": {}
+        },
+        {
+          "display": "update example task list with an example",
+          "pastedContents": {}
+        },
+        {
+          "display": "in step 3 when creating the tasks mention that all similar actions should be performed back to back to avoid switching costs",
+          "pastedContents": {}
+        },
+        {
+          "display": "move the batch processing mindset in task mode to global rules",
+          "pastedContents": {}
+        },
+        {
           "display": "remove it from step 6. it should call --next there",
           "pastedContents": {}
         },
@@ -436,22 +452,6 @@
         },
         {
           "display": "add a command sr that connects to the most recent screen. also \"sl\" should list screens in order of most frequently used. task mode",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "add a command sr that connects to the most recent screen. also \"sl\" should list screens in order of most frequently used. follow task mode strictly.",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
           "pastedContents": {}
         }
       ],

@@ -59,20 +59,31 @@ steps:
       **Actions to perform:**
       Create TODO file at: `todos/YYYYMMDD-[project-name]-todo.md`
       
+      **Group similar actions together to avoid switching costs** (e.g., all file edits together, all API calls together)
+      
       **Example format:**
       ```markdown
       # YYYYMMDD-[project-name]-todo.md
       
       ## Tasks
-      ✅ [14:15] Search for existing customer data export scripts
-      ✅ [14:22] Extract customer data from database
-      🕒 [14:32] Filter for active customers only
-      🕒 Generate CSV report with required fields
-      🕒 Save to data/exports/ directory
+      ✅ [14:15] Navigate to bank website and login
+      
+      # Download all statements (grouped to avoid re-navigation)
+      ✅ [14:22] Download January 2025 statement
+      ✅ [14:23] Download December 2024 statement
+      ✅ [14:24] Download November 2024 statement
+      🕒 [14:25] Download October 2024 statement
+      🕒 Download September 2024 statement
+      🕒 Download August 2024 statement
+      
+      # Process all statements (after all downloads complete)
+      🕒 Extract transactions from all PDFs
+      🕒 Categorize expenses and merge into single report
+      🕒 Save to data/finance/2024-summary.csv
       🕒 Run workflow-cli --project [project-name] --next
       
       ## Notes
-      🔥 BREAKTHROUGH [14:28]: Found existing export utility that handles CSV generation
+      🔥 BREAKTHROUGH [14:20]: Found statements are in consistent PDF format, can batch process
       ```
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
@@ -91,12 +102,6 @@ steps:
       
       **CLI Tool Priority:**
       If a CLI tool exists for the task but doesn't work, priority should be to fix it first before attempting alternative approaches.
-      
-      **Batch Processing Mindset:**
-      Before executing any step, ask: "Can I do this faster in batches?"
-      - Processing multiple files? Do them all at once
-      - Making multiple API calls? Look for batch endpoints
-      - Running similar commands? Combine them
       
       **Call --next ONLY when entire todo list is completed**
       
@@ -171,6 +176,7 @@ global_rules:
       4. Update todos/YYYYMMDD-[project]-todo.md with timestamps in format: [HH:MM] using ✅🕒🔥
       5. Search the web as needed for documentation and solutions
       6. Keep directory structure clean: place new files in appropriate directories (cli_tools/, docs/, data/, scripts/, etc.)
+      7. Batch processing mindset: Process multiple files at once, use batch APIs, combine similar commands
 
   - title: "Never Do"
     content: |
