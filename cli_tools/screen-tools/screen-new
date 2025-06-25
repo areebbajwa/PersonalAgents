@@ -28,7 +28,26 @@ if screen -list | grep -q "\.${SESSION_NAME}"; then
 fi
 
 # Start new screen session with current directory preserved
-# The trick is to start screen with a command that changes directory first
-# This works even with login shells
+# Add logging to debug issues
 STARTUP_DIR="$PWD"
-exec screen -S "${SESSION_NAME}" bash -c "cd '$STARTUP_DIR' && exec $SHELL -l"
+LOG_FILE="/tmp/screen-new-${SESSION_NAME}.log"
+
+echo "Starting screen session: ${SESSION_NAME}" > "$LOG_FILE"
+echo "Current directory: $STARTUP_DIR" >> "$LOG_FILE"
+echo "Shell: $SHELL" >> "$LOG_FILE"
+echo "Date: $(date)" >> "$LOG_FILE"
+
+# Create a wrapper script that logs and changes directory
+WRAPPER_SCRIPT="/tmp/screen-wrapper-${SESSION_NAME}.sh"
+cat > "$WRAPPER_SCRIPT" << EOF
+#!/bin/bash
+echo "Wrapper script starting..." >> "$LOG_FILE"
+echo "Initial PWD: \$PWD" >> "$LOG_FILE"
+cd "$STARTUP_DIR" || echo "CD failed: \$?" >> "$LOG_FILE"
+echo "After CD PWD: \$PWD" >> "$LOG_FILE"
+exec $SHELL -l
+EOF
+chmod +x "$WRAPPER_SCRIPT"
+
+echo "Starting screen with wrapper script..." >> "$LOG_FILE"
+exec screen -S "${SESSION_NAME}" "$WRAPPER_SCRIPT"

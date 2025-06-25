@@ -1,5 +1,5 @@
 {
-  "numStartups": 46,
+  "numStartups": 47,
   "installMethod": "unknown",
   "autoUpdates": true,
   "theme": "dark-ansi",
@@ -54,6 +54,10 @@
     "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents": {
       "allowedTools": [],
       "history": [
+        {
+          "display": "still doesn't work. shows some errors that disappear very quickly. is it possible to log them?",
+          "pastedContents": {}
+        },
         {
           "display": "no it still doesn't pass the cd command to the screen once it starts. search the web",
           "pastedContents": {}
@@ -448,10 +452,6 @@
         },
         {
           "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "ok try now",
           "pastedContents": {}
         }
       ],

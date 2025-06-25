@@ -20,7 +20,26 @@ fi
 echo "📺 Starting quick screen session '${CLEAN_DIR}' in $(pwd)"
 
 # Start screen with current directory preserved
-# The trick is to start screen with a command that changes directory first
-# This works even with login shells
+# Add logging to debug issues
 STARTUP_DIR="$PWD"
-exec screen -S "${CLEAN_DIR}" bash -c "cd '$STARTUP_DIR' && exec $SHELL -l"
+LOG_FILE="/tmp/screen-quick-${CLEAN_DIR}.log"
+
+echo "Starting quick screen session: ${CLEAN_DIR}" > "$LOG_FILE"
+echo "Current directory: $STARTUP_DIR" >> "$LOG_FILE"
+echo "Shell: $SHELL" >> "$LOG_FILE"
+echo "Date: $(date)" >> "$LOG_FILE"
+
+# Create a wrapper script that logs and changes directory
+WRAPPER_SCRIPT="/tmp/screen-wrapper-${CLEAN_DIR}.sh"
+cat > "$WRAPPER_SCRIPT" << EOF
+#!/bin/bash
+echo "Wrapper script starting..." >> "$LOG_FILE"
+echo "Initial PWD: \$PWD" >> "$LOG_FILE"
+cd "$STARTUP_DIR" || echo "CD failed: \$?" >> "$LOG_FILE"
+echo "After CD PWD: \$PWD" >> "$LOG_FILE"
+exec $SHELL -l
+EOF
+chmod +x "$WRAPPER_SCRIPT"
+
+echo "Starting screen with wrapper script..." >> "$LOG_FILE"
+exec screen -S "${CLEAN_DIR}" "$WRAPPER_SCRIPT"
