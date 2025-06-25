@@ -14,6 +14,9 @@ if [[ -n "$STY" ]]; then
     CURRENT_SESSION=$(echo "$STY" | cut -d. -f2-)
     echo "📺 Current session: $CURRENT_SESSION (will be preserved)"
     echo ""
+else
+    echo "📺 Not in a screen session - will kill all sessions"
+    echo ""
 fi
 
 # First, show what will be killed
@@ -34,7 +37,11 @@ screen -ls | grep -E "^\s+[0-9]+\." | while read line; do
 done
 
 # Count sessions
-SESSION_COUNT=$(screen -ls | grep -E "^\s+[0-9]+\." | grep -v "$CURRENT_SESSION" | wc -l)
+if [[ -n "$CURRENT_SESSION" ]]; then
+    SESSION_COUNT=$(screen -ls | grep -E "^\s+[0-9]+\." | grep -v "$CURRENT_SESSION" | wc -l)
+else
+    SESSION_COUNT=$(screen -ls | grep -E "^\s+[0-9]+\." | wc -l)
+fi
 
 if [[ $SESSION_COUNT -eq 0 ]]; then
     echo "No sessions to kill."

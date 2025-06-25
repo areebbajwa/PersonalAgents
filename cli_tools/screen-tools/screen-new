@@ -27,5 +27,8 @@ if screen -list | grep -q "\.${SESSION_NAME}"; then
     exit 1
 fi
 
-# Start new screen session
-screen -S "${SESSION_NAME}"
+# Start new screen session with current directory preserved
+# The trick is to start screen with a command that changes directory first
+# This works even with login shells
+STARTUP_DIR="$PWD"
+exec screen -S "${SESSION_NAME}" bash -c "cd '$STARTUP_DIR' && exec $SHELL -l"

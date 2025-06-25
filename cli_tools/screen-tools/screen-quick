@@ -19,6 +19,8 @@ fi
 
 echo "📺 Starting quick screen session '${CLEAN_DIR}' in $(pwd)"
 
-# Start screen in the current directory
-# The key is we're already in the right directory when we start screen
-exec screen -S "${CLEAN_DIR}"
+# Start screen with current directory preserved
+# The trick is to start screen with a command that changes directory first
+# This works even with login shells
+STARTUP_DIR="$PWD"
+exec screen -S "${CLEAN_DIR}" bash -c "cd '$STARTUP_DIR' && exec $SHELL -l"
