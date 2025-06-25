@@ -317,6 +317,71 @@ const locatorSchema = {
     timeout: z.number().optional().describe("Maximum time to wait for element in milliseconds")
 };
 
+// Screenshot helper function
+const SCREENSHOT_DIR = path.join(process.cwd(), 'selenium-screenshots');
+let lastCleanupTime = Date.now();
+const CLEANUP_INTERVAL = 60 * 60 * 1000; // 1 hour
+const MAX_AGE = 24 * 60 * 60 * 1000; // 24 hours
+
+async function cleanupOldScreenshots() {
+    try {
+        const now = Date.now();
+        const files = await fs.readdir(SCREENSHOT_DIR);
+        let deletedCount = 0;
+        
+        for (const file of files) {
+            if (file.endsWith('.png')) {
+                const filePath = path.join(SCREENSHOT_DIR, file);
+                const stats = await fs.stat(filePath);
+                const age = now - stats.mtimeMs;
+                
+                if (age > MAX_AGE) {
+                    await fs.unlink(filePath);
+                    deletedCount++;
+                    console.error(`Deleted old screenshot: ${file}`);
+                }
+            }
+        }
+        
+        if (deletedCount > 0) {
+            console.error(`Cleaned up ${deletedCount} old screenshots`);
+        }
+    } catch (error) {
+        console.error(`Error cleaning up screenshots: ${error.message}`);
+    }
+}
+
+async function takeActionScreenshot(actionName) {
+    try {
+        // Ensure screenshot directory exists
+        await fs.mkdir(SCREENSHOT_DIR, { recursive: true });
+        
+        // Check if it's time to cleanup old screenshots
+        const now = Date.now();
+        if (now - lastCleanupTime > CLEANUP_INTERVAL) {
+            lastCleanupTime = now;
+            // Run cleanup asynchronously without blocking
+            cleanupOldScreenshots().catch(console.error);
+        }
+        
+        // Generate filename with timestamp
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+        const filename = `${actionName}_${timestamp}.png`;
+        const filepath = path.join(SCREENSHOT_DIR, filename);
+        
+        // Take screenshot
+        const driver = getDriver();
+        const screenshot = await driver.takeScreenshot();
+        await fs.writeFile(filepath, screenshot, 'base64');
+        
+        console.error(`Screenshot saved: ${filepath}`);
+        return filepath;
+    } catch (error) {
+        console.error(`Failed to take screenshot: ${error.message}`);
+        return null;
+    }
+}
+
 // Browser Management Tools
 server.tool(
     "start_browser",
@@ -463,8 +528,17 @@ server.tool(
             state.lastActivity = Date.now();
             const driver = getDriver();
             await driver.get(url);
+            
+            // Take screenshot after navigation
+            const screenshotPath = await takeActionScreenshot('navigate');
+            
+            const response = [{ type: 'text', text: `Navigated to ${url}` }];
+            if (screenshotPath) {
+                response.push({ type: 'text', text: `Screenshot: ${screenshotPath}` });
+            }
+            
             return {
-                content: [{ type: 'text', text: `Navigated to ${url}` }]
+                content: response
             };
         } catch (e) {
             return {
@@ -511,8 +585,17 @@ server.tool(
             const locator = getLocator(by, value);
             const element = await driver.wait(until.elementLocated(locator), timeout);
             await element.click();
+            
+            // Take screenshot after click
+            const screenshotPath = await takeActionScreenshot('click');
+            
+            const response = [{ type: 'text', text: 'Element clicked' }];
+            if (screenshotPath) {
+                response.push({ type: 'text', text: `Screenshot: ${screenshotPath}` });
+            }
+            
             return {
-                content: [{ type: 'text', text: 'Element clicked' }]
+                content: response
             };
         } catch (e) {
             return {
@@ -548,8 +631,16 @@ server.tool(
                 await element.sendKeys(Key.ENTER);
             }
             
+            // Take screenshot after typing
+            const screenshotPath = await takeActionScreenshot('send_keys');
+            
+            const response = [{ type: 'text', text: `Text "${text}" entered into element${pressEnter ? ' and Enter pressed' : ''}` }];
+            if (screenshotPath) {
+                response.push({ type: 'text', text: `Screenshot: ${screenshotPath}` });
+            }
+            
             return {
-                content: [{ type: 'text', text: `Text "${text}" entered into element${pressEnter ? ' and Enter pressed' : ''}` }]
+                content: response
             };
         } catch (e) {
             return {
@@ -597,8 +688,17 @@ server.tool(
             const element = await driver.wait(until.elementLocated(locator), timeout);
             const actions = driver.actions({ bridge: true });
             await actions.move({ origin: element }).perform();
+            
+            // Take screenshot after hover
+            const screenshotPath = await takeActionScreenshot('hover');
+            
+            const response = [{ type: 'text', text: 'Hovered over element' }];
+            if (screenshotPath) {
+                response.push({ type: 'text', text: `Screenshot: ${screenshotPath}` });
+            }
+            
             return {
-                content: [{ type: 'text', text: 'Hovered over element' }]
+                content: response
             };
         } catch (e) {
             return {
@@ -629,8 +729,16 @@ server.tool(
             const actions = driver.actions({ bridge: true });
             await actions.dragAndDrop(sourceElement, targetElement).perform();
             
+            // Take screenshot after drag and drop
+            const screenshotPath = await takeActionScreenshot('drag_drop');
+            
+            const response = [{ type: 'text', text: 'Drag and drop completed' }];
+            if (screenshotPath) {
+                response.push({ type: 'text', text: `Screenshot: ${screenshotPath}` });
+            }
+            
             return {
-                content: [{ type: 'text', text: 'Drag and drop completed' }]
+                content: response
             };
         } catch (e) {
             return {
@@ -654,8 +762,17 @@ server.tool(
             const element = await driver.wait(until.elementLocated(locator), timeout);
             const actions = driver.actions({ bridge: true });
             await actions.doubleClick(element).perform();
+            
+            // Take screenshot after double click
+            const screenshotPath = await takeActionScreenshot('double_click');
+            
+            const response = [{ type: 'text', text: 'Double click performed' }];
+            if (screenshotPath) {
+                response.push({ type: 'text', text: `Screenshot: ${screenshotPath}` });
+            }
+            
             return {
-                content: [{ type: 'text', text: 'Double click performed' }]
+                content: response
             };
         } catch (e) {
             return {
@@ -679,8 +796,17 @@ server.tool(
             const element = await driver.wait(until.elementLocated(locator), timeout);
             const actions = driver.actions({ bridge: true });
             await actions.contextClick(element).perform();
+            
+            // Take screenshot after right click
+            const screenshotPath = await takeActionScreenshot('right_click');
+            
+            const response = [{ type: 'text', text: 'Right click performed' }];
+            if (screenshotPath) {
+                response.push({ type: 'text', text: `Screenshot: ${screenshotPath}` });
+            }
+            
             return {
-                content: [{ type: 'text', text: 'Right click performed' }]
+                content: response
             };
         } catch (e) {
             return {
@@ -730,8 +856,16 @@ server.tool(
             const actualKey = keyMap[key] || key;
             await actions.sendKeys(actualKey).perform();
             
+            // Take screenshot after key press
+            const screenshotPath = await takeActionScreenshot('press_key');
+            
+            const response = [{ type: 'text', text: `Key '${key}' pressed` }];
+            if (screenshotPath) {
+                response.push({ type: 'text', text: `Screenshot: ${screenshotPath}` });
+            }
+            
             return {
-                content: [{ type: 'text', text: `Key '${key}' pressed` }]
+                content: response
             };
         } catch (e) {
             return {
@@ -755,8 +889,17 @@ server.tool(
             const locator = getLocator(by, value);
             const element = await driver.wait(until.elementLocated(locator), timeout);
             await element.sendKeys(filePath);
+            
+            // Take screenshot after file upload
+            const screenshotPath = await takeActionScreenshot('upload_file');
+            
+            const response = [{ type: 'text', text: 'File upload initiated' }];
+            if (screenshotPath) {
+                response.push({ type: 'text', text: `Screenshot: ${screenshotPath}` });
+            }
+            
             return {
-                content: [{ type: 'text', text: 'File upload initiated' }]
+                content: response
             };
         } catch (e) {
             return {
