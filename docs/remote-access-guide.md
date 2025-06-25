@@ -197,8 +197,8 @@ sl
 sa PersonalAgents
 
 # Screen scrolling (NEW: Auto-scrolling!)
-Ctrl+Up       # Auto-enter copy mode + page up
-Ctrl+Down     # Auto-enter copy mode + page down
+Ctrl+Shift+Up   # Auto-enter copy mode + page up
+Ctrl+Shift+Down # Auto-enter copy mode + page down
 
 # Manual scrolling
 Ctrl-a [      # Enter copy mode (or Ctrl-a ESC)

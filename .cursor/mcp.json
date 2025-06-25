@@ -1,5 +1,5 @@
 {
-  "numStartups": 51,
+  "numStartups": 57,
   "installMethod": "local",
   "autoUpdates": true,
   "theme": "dark-ansi",
@@ -10,16 +10,17 @@
     "memory-command": 38,
     "theme-command": 49,
     "prompt-queue": 44,
-    "enter-to-steer-in-relatime": 10,
-    "todo-list": 11,
-    "# for memory": 33,
-    "install-github-app": 35,
-    "permissions": 35,
+    "enter-to-steer-in-relatime": 53,
+    "todo-list": 54,
+    "# for memory": 55,
+    "install-github-app": 56,
+    "permissions": 57,
     "drag-and-drop-images": 36,
     "double-esc": 37,
     "continue": 40,
     "custom-commands": 50,
-    "shift-tab": 40
+    "shift-tab": 40,
+    "git-worktrees": 52
   },
   "promptQueueUseCount": 5,
   "mcpServers": {
@@ -43,10 +44,8 @@
     },
     "selenium": {
       "type": "stdio",
-      "command": "/Users/areeb2/.nvm/versions/node/v22.15.1/bin/node",
-      "args": [
-        "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/mcp/mcp-selenium-firefox-profile/server.js"
-      ],
+      "command": "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/mcp/mcp-selenium-firefox-profile/run-server.sh",
+      "args": [],
       "env": {}
     }
   },
@@ -54,6 +53,98 @@
     "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents": {
       "allowedTools": [],
       "history": [
+        {
+          "display": "no it's not that. revert the command and find a way to read debug logs",
+          "pastedContents": {}
+        },
+        {
+          "display": "make it ctrl+shift+up and down because ctrl+up is already used in mac",
+          "pastedContents": {}
+        },
+        {
+          "display": "can you add ctrl+up key to do page up and ctrl+down key to do page down? should auto switch to copy mode first",
+          "pastedContents": {}
+        },
+        {
+          "display": "ok restarted try now",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "in background!",
+          "pastedContents": {}
+        },
+        {
+          "display": "starting a browser throws an error with selenium mcp server. /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/mcp/mcp-selenium-firefox-profile. debug and f\nix",
+          "pastedContents": {}
+        },
+        {
+          "display": "go ahead",
+          "pastedContents": {}
+        },
+        {
+          "display": "devmode",
+          "pastedContents": {}
+        },
+        {
+          "display": "doesn't seem like i can scroll up when in screen. devmode",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
+        {
+          "display": "use selenium to get api key",
+          "pastedContents": {}
+        },
+        {
+          "display": "/mcp ",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "do the same for task mode",
+          "pastedContents": {}
+        },
+        {
+          "display": "in step 4 mention using selenium to get any missing api keys that are needed",
+          "pastedContents": {}
+        },
+        {
+          "display": "too complex. simplify",
+          "pastedContents": {}
+        },
+        {
+          "display": "make sure it checks and fixes any issue with coordination file at the very beginning",
+          "pastedContents": {}
+        },
+        {
+          "display": "no i mean the server should create it",
+          "pastedContents": {}
+        },
+        {
+          "display": "if the coordination file doesn't exist, it should create it",
+          "pastedContents": {}
+        },
+        {
+          "display": "no. use selenium to get api key if missing",
+          "pastedContents": {}
+        },
+        {
+          "display": "create a new cli tool that uses openrouter to ask all these models the same question: anthropic/claude-opus-4, google/gemini-2.5-pro-preview and openai/o3\\\n\\\ndevmode",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
         {
           "display": "no for the example let's say we're downloading bank statements. after navigating to the appropriate website, all statements should be downloaded one after the other before sending them for processing.",
           "pastedContents": {}
@@ -360,98 +451,6 @@
         },
         {
           "display": "screen gets auto-started for every new terminal, so fix that",
-          "pastedContents": {}
-        },
-        {
-          "display": "no i don't want a wrapper script. just pass working directory properly to screen",
-          "pastedContents": {}
-        },
-        {
-          "display": "Error: ERROR: cd to '/Volumes/ExtremeSSD/Kalaam' was blocked. For security, Claude Code may only change directories to      child directories of the original working directory (/Users/areeb2) for this session.\\\n\\\nthis happens when i try to run claude inside a screen. the working directory should be set to the screen directory. taskmode",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "/resume ",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "for both dev mode and task mode, before creating task plan it should search the web for best practices and latest api docs for context\\\nalso add in \"core principles\" to search the web as needed",
-          "pastedContents": {}
-        },
-        {
-          "display": "it's confusing. it should show a sample todo list instead of those rules",
-          "pastedContents": {}
-        },
-        {
-          "display": "in task mode, add calling the --next command as the last item in the todo list step",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "ok it works now. remove the main settings file and create a symlink that uses /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/.cursor/mcp.json instead",
-          "pastedContents": {}
-        },
-        {
-          "display": "if claude isn't installed, install it with npm install -g @anthropic-ai/claude-code",
-          "pastedContents": {}
-        },
-        {
-          "display": "it was working before we started this todo list though. what changed?",
-          "pastedContents": {}
-        },
-        {
-          "display": "we're currently in a screen so might not be able to find it",
-          "pastedContents": {}
-        },
-        {
-          "display": "still doesn't work. says unknown command. also starts off by saying unknown command \"passenv\"",
-          "pastedContents": {}
-        },
-        {
-          "display": "explain what's happening",
-          "pastedContents": {}
-        },
-        {
-          "display": "seems like some PATHs that were configured before no longer work. for example \"claude\" used to work before, now it says command not found when i try to run it in a new screen",
-          "pastedContents": {}
-        },
-        {
-          "display": "continue /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/todos/20250624-screen-commands-todo.md. taskmode",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "go on",
-          "pastedContents": {}
-        },
-        {
-          "display": "add a command sr that connects to the most recent screen. also \"sl\" should list screens in order of most frequently used. use task mode workflow",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "add a command sr that connects to the most recent screen. also \"sl\" should list screens in order of most frequently used. task mode",
           "pastedContents": {}
         }
       ],

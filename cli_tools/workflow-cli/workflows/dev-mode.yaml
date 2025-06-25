@@ -71,6 +71,11 @@ steps:
     content: |
       **⚠️ IMPORTANT: Final planning step - DO NOT implement yet!**
       
+      **API Keys Check:**
+      If any required API keys are missing from config/.env:
+      - Use Selenium browser automation to obtain them (login to service, navigate to API settings)
+      - Example: `mcp__selenium__start_browser` → navigate to API dashboard → copy keys
+      
       Create this incremental plan structure:
       1. Build feature A
       2. Write E2E test for A

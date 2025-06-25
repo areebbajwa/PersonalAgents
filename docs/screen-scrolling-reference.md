@@ -6,8 +6,8 @@ When using GNU Screen, you can't use your terminal's normal scrolling because Sc
 ## Quick Solution: Copy Mode
 
 ### Auto-Scrolling (NEW!):
-- `Ctrl+Up` - Automatically enters copy mode and pages up
-- `Ctrl+Down` - Automatically enters copy mode and pages down
+- `Ctrl+Shift+Up` - Automatically enters copy mode and pages up
+- `Ctrl+Shift+Down` - Automatically enters copy mode and pages down
 
 ### Manual Copy Mode (Choose one):
 - `Ctrl-a [` - Traditional method
@@ -50,12 +50,12 @@ Mouse scrolling may work depending on your terminal and configuration:
 
 ## Cheat Sheet
 ```
-Ctrl+Up     → Auto-enter copy mode + page up
-Ctrl+Down   → Auto-enter copy mode + page down
-Ctrl-a [    → Manually enter copy mode
-↑/↓         → Scroll line by line  
-PgUp/PgDn   → Scroll by pages
-ESC or q    → Exit copy mode
+Ctrl+Shift+Up   → Auto-enter copy mode + page up
+Ctrl+Shift+Down → Auto-enter copy mode + page down
+Ctrl-a [        → Manually enter copy mode
+↑/↓             → Scroll line by line  
+PgUp/PgDn       → Scroll by pages
+ESC or q        → Exit copy mode
 ```
 
 Remember: **Always enter copy mode first** before trying to scroll!

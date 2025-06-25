@@ -1,0 +1,22 @@
+{
+  "name": "openrouter-multi-model",
+  "version": "1.0.0",
+  "description": "CLI tool to query multiple AI models through OpenRouter API",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node test.js",
+    "start": "node index.js"
+  },
+  "bin": {
+    "openrouter-multi-model": "./openrouter-multi-model"
+  },
+  "keywords": ["openrouter", "ai", "cli", "multi-model"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.2",
+    "commander": "^11.1.0",
+    "dotenv": "^16.3.1"
+  }
+}

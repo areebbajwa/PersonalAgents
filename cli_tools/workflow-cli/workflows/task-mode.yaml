@@ -94,6 +94,11 @@ steps:
     content: |
       **NOW YOU CAN START IMPLEMENTATION!**
       
+      **API Keys Check:**
+      If any required API keys are missing from config/.env:
+      - Use Selenium browser automation to obtain them (login to service, navigate to API settings)
+      - Example: `mcp__selenium__start_browser` → navigate to API dashboard → copy keys
+      
       **Actions to perform:**
       1. Complete one planned step from your TODO file
       2. Update todo file with ✅ when done, 🕒 for in progress

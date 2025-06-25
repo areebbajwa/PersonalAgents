@@ -13,6 +13,11 @@ import os from 'os';
 import { spawn } from 'child_process';
 import http from 'http';
 import { request as httpRequest } from 'http';
+import { fileURLToPath } from 'url';
+
+// Get the directory of this script
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Helper function to parse INI file
 function parseIniFile(content) {
@@ -229,12 +234,12 @@ async function checkExistingFirefox() {
         
         // If last activity was more than 5 minutes ago, consider it stale
         if (timeSinceLastActivity > 5 * 60 * 1000) {
-            await fs.unlink(COORDINATION_FILE).catch(() => {});
             return null;
         }
         
         return coordination;
     } catch (e) {
+        // File doesn't exist or is invalid
         return null;
     }
 }
@@ -242,6 +247,10 @@ async function checkExistingFirefox() {
 // Update coordination file
 async function updateCoordination(data) {
     try {
+        // Ensure the directory exists
+        const dir = path.dirname(COORDINATION_FILE);
+        await fs.mkdir(dir, { recursive: true });
+        
         await fs.writeFile(COORDINATION_FILE, JSON.stringify({
             ...data,
             lastActivity: Date.now()
@@ -1067,6 +1076,21 @@ async function cleanup() {
 process.on('SIGTERM', cleanup);
 process.on('SIGINT', cleanup);
 
+// Error handler to prevent crashes
+process.on('uncaughtException', (error) => {
+    console.error('Uncaught Exception:', error);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});
+
 // Start the server
-const transport = new StdioServerTransport();
-await server.connect(transport);
+try {
+    const transport = new StdioServerTransport();
+    await server.connect(transport);
+    console.error('MCP Selenium server started successfully');
+} catch (error) {
+    console.error('Failed to start MCP server:', error);
+    process.exit(1);
+}
