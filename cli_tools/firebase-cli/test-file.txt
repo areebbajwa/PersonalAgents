@@ -1,0 +1,2 @@
+This is a test file for Firebase Storage upload.
+Created by firebase-cli E2E tests.

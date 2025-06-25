@@ -1,0 +1,439 @@
+#!/usr/bin/env node
+
+const { program } = require('commander');
+const admin = require('firebase-admin');
+const fs = require('fs');
+const path = require('path');
+const chalk = require('chalk');
+const mime = require('mime-types');
+
+// Initialize Firebase Admin SDK
+const serviceAccountPath = path.join(__dirname, '../../config/firebase-service-account.json');
+if (!fs.existsSync(serviceAccountPath)) {
+  console.error(chalk.red('Error: Firebase service account not found at', serviceAccountPath));
+  process.exit(1);
+}
+
+const serviceAccount = require(serviceAccountPath);
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  storageBucket: 'kalaam-25610.appspot.com'
+});
+
+const db = admin.firestore();
+const auth = admin.auth();
+const bucket = admin.storage().bucket();
+
+// Helper function for consistent JSON output
+function outputJSON(data) {
+  console.log(JSON.stringify(data, null, 2));
+}
+
+// Helper function for table output
+function outputTable(data, columns) {
+  if (!data || data.length === 0) {
+    console.log('No data found');
+    return;
+  }
+  
+  console.table(data, columns);
+}
+
+program
+  .name('firebase-cli')
+  .description('Firebase CLI tool for data operations (Firestore, Auth, Storage)')
+  .version('1.0.0');
+
+// Firestore commands
+const firestore = program.command('firestore').description('Firestore operations');
+
+firestore
+  .command('add <collection>')
+  .description('Add a document to a Firestore collection')
+  .option('-d, --data <json>', 'Document data as JSON string')
+  .option('-f, --file <path>', 'Path to JSON file containing document data')
+  .option('--json', 'Output result as JSON')
+  .action(async (collection, options) => {
+    try {
+      let data;
+      if (options.file) {
+        data = JSON.parse(fs.readFileSync(options.file, 'utf8'));
+      } else if (options.data) {
+        data = JSON.parse(options.data);
+      } else {
+        console.error(chalk.red('Error: Either --data or --file must be provided'));
+        process.exit(1);
+      }
+      
+      const docRef = await db.collection(collection).add({
+        ...data,
+        createdAt: admin.firestore.FieldValue.serverTimestamp()
+      });
+      
+      const result = { id: docRef.id, collection };
+      if (options.json) {
+        outputJSON(result);
+      } else {
+        console.log(chalk.green(`Document added with ID: ${docRef.id}`));
+      }
+    } catch (error) {
+      console.error(chalk.red('Error:', error.message));
+      process.exit(1);
+    }
+  });
+
+firestore
+  .command('list <collection>')
+  .description('List documents from a Firestore collection')
+  .option('-l, --limit <number>', 'Number of documents to return', '20')
+  .option('--order-by <field>', 'Field to order by')
+  .option('--order <direction>', 'Sort direction (asc/desc)', 'asc')
+  .option('--where <field:op:value>', 'Filter condition (e.g., status:==:active)')
+  .option('--json', 'Output result as JSON')
+  .action(async (collection, options) => {
+    try {
+      let query = db.collection(collection);
+      
+      if (options.where) {
+        const [field, op, ...valueParts] = options.where.split(':');
+        const value = valueParts.join(':');
+        query = query.where(field, op, value);
+      }
+      
+      if (options.orderBy) {
+        query = query.orderBy(options.orderBy, options.order);
+      }
+      
+      query = query.limit(parseInt(options.limit));
+      
+      const snapshot = await query.get();
+      const documents = [];
+      snapshot.forEach(doc => {
+        documents.push({ id: doc.id, ...doc.data() });
+      });
+      
+      if (options.json) {
+        outputJSON({ documents, count: documents.length });
+      } else {
+        console.log(chalk.cyan(`Found ${documents.length} documents:`));
+        outputTable(documents);
+      }
+    } catch (error) {
+      console.error(chalk.red('Error:', error.message));
+      process.exit(1);
+    }
+  });
+
+firestore
+  .command('get <collection> <id>')
+  .description('Get a document from a Firestore collection')
+  .option('--json', 'Output result as JSON')
+  .action(async (collection, id, options) => {
+    try {
+      const doc = await db.collection(collection).doc(id).get();
+      
+      if (!doc.exists) {
+        console.error(chalk.red('Document not found'));
+        process.exit(1);
+      }
+      
+      const data = { id: doc.id, ...doc.data() };
+      
+      if (options.json) {
+        outputJSON(data);
+      } else {
+        console.log(chalk.green('Document found:'));
+        Object.entries(data).forEach(([key, value]) => {
+          console.log(`  ${chalk.cyan(key)}: ${JSON.stringify(value)}`);
+        });
+      }
+    } catch (error) {
+      console.error(chalk.red('Error:', error.message));
+      process.exit(1);
+    }
+  });
+
+firestore
+  .command('update <collection> <id>')
+  .description('Update a document in a Firestore collection')
+  .option('-d, --data <json>', 'Update data as JSON string')
+  .option('-f, --file <path>', 'Path to JSON file containing update data')
+  .option('--json', 'Output result as JSON')
+  .action(async (collection, id, options) => {
+    try {
+      let data;
+      if (options.file) {
+        data = JSON.parse(fs.readFileSync(options.file, 'utf8'));
+      } else if (options.data) {
+        data = JSON.parse(options.data);
+      } else {
+        console.error(chalk.red('Error: Either --data or --file must be provided'));
+        process.exit(1);
+      }
+      
+      await db.collection(collection).doc(id).update({
+        ...data,
+        updatedAt: admin.firestore.FieldValue.serverTimestamp()
+      });
+      
+      if (options.json) {
+        outputJSON({ success: true, id, collection });
+      } else {
+        console.log(chalk.green(`Document ${id} updated successfully`));
+      }
+    } catch (error) {
+      console.error(chalk.red('Error:', error.message));
+      process.exit(1);
+    }
+  });
+
+firestore
+  .command('delete <collection> <id>')
+  .description('Delete a document from a Firestore collection')
+  .option('--json', 'Output result as JSON')
+  .action(async (collection, id, options) => {
+    try {
+      await db.collection(collection).doc(id).delete();
+      
+      if (options.json) {
+        outputJSON({ success: true, id, collection });
+      } else {
+        console.log(chalk.green(`Document ${id} deleted successfully`));
+      }
+    } catch (error) {
+      console.error(chalk.red('Error:', error.message));
+      process.exit(1);
+    }
+  });
+
+firestore
+  .command('collections')
+  .description('List all root collections')
+  .option('--json', 'Output result as JSON')
+  .action(async (options) => {
+    try {
+      const collections = await db.listCollections();
+      const collectionIds = collections.map(col => col.id);
+      
+      if (options.json) {
+        outputJSON({ collections: collectionIds });
+      } else {
+        console.log(chalk.cyan('Root collections:'));
+        collectionIds.forEach(id => console.log(`  - ${id}`));
+      }
+    } catch (error) {
+      console.error(chalk.red('Error:', error.message));
+      process.exit(1);
+    }
+  });
+
+firestore
+  .command('query-group <collectionId>')
+  .description('Query documents across all subcollections with the same name')
+  .option('-l, --limit <number>', 'Number of documents to return', '20')
+  .option('--where <field:op:value>', 'Filter condition')
+  .option('--json', 'Output result as JSON')
+  .action(async (collectionId, options) => {
+    try {
+      let query = db.collectionGroup(collectionId);
+      
+      if (options.where) {
+        const [field, op, ...valueParts] = options.where.split(':');
+        const value = valueParts.join(':');
+        query = query.where(field, op, value);
+      }
+      
+      query = query.limit(parseInt(options.limit));
+      
+      const snapshot = await query.get();
+      const documents = [];
+      snapshot.forEach(doc => {
+        documents.push({ 
+          id: doc.id, 
+          path: doc.ref.path,
+          ...doc.data() 
+        });
+      });
+      
+      if (options.json) {
+        outputJSON({ documents, count: documents.length });
+      } else {
+        console.log(chalk.cyan(`Found ${documents.length} documents in collection group '${collectionId}':`));
+        outputTable(documents);
+      }
+    } catch (error) {
+      console.error(chalk.red('Error:', error.message));
+      process.exit(1);
+    }
+  });
+
+// Auth commands
+const authCmd = program.command('auth').description('Firebase Authentication operations');
+
+authCmd
+  .command('get-user <identifier>')
+  .description('Get a user by ID or email')
+  .option('--json', 'Output result as JSON')
+  .action(async (identifier, options) => {
+    try {
+      let user;
+      if (identifier.includes('@')) {
+        user = await auth.getUserByEmail(identifier);
+      } else {
+        user = await auth.getUser(identifier);
+      }
+      
+      const userData = {
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName,
+        disabled: user.disabled,
+        emailVerified: user.emailVerified,
+        creationTime: user.metadata.creationTime,
+        lastSignInTime: user.metadata.lastSignInTime
+      };
+      
+      if (options.json) {
+        outputJSON(userData);
+      } else {
+        console.log(chalk.green('User found:'));
+        Object.entries(userData).forEach(([key, value]) => {
+          console.log(`  ${chalk.cyan(key)}: ${value || 'N/A'}`);
+        });
+      }
+    } catch (error) {
+      console.error(chalk.red('Error:', error.message));
+      process.exit(1);
+    }
+  });
+
+// Storage commands
+const storage = program.command('storage').description('Firebase Storage operations');
+
+storage
+  .command('list [directoryPath]')
+  .description('List files in Firebase Storage')
+  .option('-l, --limit <number>', 'Maximum number of files to list', '100')
+  .option('--json', 'Output result as JSON')
+  .action(async (directoryPath = '', options) => {
+    try {
+      const [files] = await bucket.getFiles({
+        prefix: directoryPath,
+        maxResults: parseInt(options.limit)
+      });
+      
+      const fileList = files.map(file => ({
+        name: file.name,
+        size: parseInt(file.metadata.size),
+        contentType: file.metadata.contentType,
+        updated: file.metadata.updated
+      }));
+      
+      if (options.json) {
+        outputJSON({ files: fileList, count: fileList.length });
+      } else {
+        console.log(chalk.cyan(`Found ${fileList.length} files:`));
+        outputTable(fileList);
+      }
+    } catch (error) {
+      console.error(chalk.red('Error:', error.message));
+      process.exit(1);
+    }
+  });
+
+storage
+  .command('get-info <filePath>')
+  .description('Get file information including metadata and download URL')
+  .option('--json', 'Output result as JSON')
+  .action(async (filePath, options) => {
+    try {
+      const file = bucket.file(filePath);
+      const [exists] = await file.exists();
+      
+      if (!exists) {
+        console.error(chalk.red('File not found'));
+        process.exit(1);
+      }
+      
+      const [metadata] = await file.getMetadata();
+      const [signedUrl] = await file.getSignedUrl({
+        action: 'read',
+        expires: Date.now() + 60 * 60 * 1000 // 1 hour
+      });
+      
+      const fileInfo = {
+        name: metadata.name,
+        size: parseInt(metadata.size),
+        contentType: metadata.contentType,
+        bucket: metadata.bucket,
+        created: metadata.timeCreated,
+        updated: metadata.updated,
+        downloadUrl: signedUrl
+      };
+      
+      if (options.json) {
+        outputJSON(fileInfo);
+      } else {
+        console.log(chalk.green('File information:'));
+        Object.entries(fileInfo).forEach(([key, value]) => {
+          console.log(`  ${chalk.cyan(key)}: ${value}`);
+        });
+      }
+    } catch (error) {
+      console.error(chalk.red('Error:', error.message));
+      process.exit(1);
+    }
+  });
+
+storage
+  .command('upload <localPath> <storagePath>')
+  .description('Upload a file to Firebase Storage')
+  .option('--content-type <type>', 'MIME type (auto-detected if not provided)')
+  .option('--json', 'Output result as JSON')
+  .action(async (localPath, storagePath, options) => {
+    try {
+      if (!fs.existsSync(localPath)) {
+        console.error(chalk.red('Local file not found:', localPath));
+        process.exit(1);
+      }
+      
+      const contentType = options.contentType || mime.lookup(localPath) || 'application/octet-stream';
+      
+      await bucket.upload(localPath, {
+        destination: storagePath,
+        metadata: {
+          contentType: contentType
+        }
+      });
+      
+      const file = bucket.file(storagePath);
+      const [signedUrl] = await file.getSignedUrl({
+        action: 'read',
+        expires: Date.now() + 60 * 60 * 1000 // 1 hour
+      });
+      
+      const result = {
+        success: true,
+        storagePath,
+        contentType,
+        downloadUrl: signedUrl
+      };
+      
+      if (options.json) {
+        outputJSON(result);
+      } else {
+        console.log(chalk.green(`File uploaded successfully to: ${storagePath}`));
+        console.log(chalk.cyan('Download URL:'), signedUrl);
+      }
+    } catch (error) {
+      console.error(chalk.red('Error:', error.message));
+      process.exit(1);
+    }
+  });
+
+// Parse arguments and show help if no command provided
+program.parse(process.argv);
+
+if (!process.argv.slice(2).length) {
+  program.outputHelp();
+}
