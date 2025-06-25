@@ -20,26 +20,18 @@ fi
 echo "📺 Starting quick screen session '${CLEAN_DIR}' in $(pwd)"
 
 # Start screen with current directory preserved
-# Add logging to debug issues
 STARTUP_DIR="$PWD"
-LOG_FILE="/tmp/screen-quick-${CLEAN_DIR}.log"
 
-echo "Starting quick screen session: ${CLEAN_DIR}" > "$LOG_FILE"
-echo "Current directory: $STARTUP_DIR" >> "$LOG_FILE"
-echo "Shell: $SHELL" >> "$LOG_FILE"
-echo "Date: $(date)" >> "$LOG_FILE"
+# Method from Stack Overflow: use eval to set directory before creating window
+# First create the session in detached mode
+screen -d -m -S "${CLEAN_DIR}"
 
-# Create a wrapper script that logs and changes directory
-WRAPPER_SCRIPT="/tmp/screen-wrapper-${CLEAN_DIR}.sh"
-cat > "$WRAPPER_SCRIPT" << EOF
-#!/bin/bash
-echo "Wrapper script starting..." >> "$LOG_FILE"
-echo "Initial PWD: \$PWD" >> "$LOG_FILE"
-cd "$STARTUP_DIR" || echo "CD failed: \$?" >> "$LOG_FILE"
-echo "After CD PWD: \$PWD" >> "$LOG_FILE"
-exec $SHELL -l
-EOF
-chmod +x "$WRAPPER_SCRIPT"
+# Then use eval to change directory and create the initial window
+screen -S "${CLEAN_DIR}" -X eval "chdir $STARTUP_DIR" "screen -t bash 0 bash"
 
-echo "Starting screen with wrapper script..." >> "$LOG_FILE"
-exec screen -S "${CLEAN_DIR}" "$WRAPPER_SCRIPT"
+# Kill the default window that was created
+screen -S "${CLEAN_DIR}" -X select 0
+screen -S "${CLEAN_DIR}" -X kill
+
+# Now attach to the session
+exec screen -r "${CLEAN_DIR}"

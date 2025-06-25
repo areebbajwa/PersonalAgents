@@ -55,6 +55,10 @@
       "allowedTools": [],
       "history": [
         {
+          "display": "check now",
+          "pastedContents": {}
+        },
+        {
           "display": "still doesn't work. shows some errors that disappear very quickly. is it possible to log them?",
           "pastedContents": {}
         },
@@ -448,10 +452,6 @@
         },
         {
           "display": "use selenium mcp to go to google.com and search for kalaam",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
           "pastedContents": {}
         }
       ],
