@@ -1,0 +1,7 @@
+#!/bin/bash
+# Wrapper script for workflow-cli.py
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Execute the Python script with all arguments
+exec python3 "$SCRIPT_DIR/workflow-cli.py" "$@"

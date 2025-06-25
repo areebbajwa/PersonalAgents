@@ -81,24 +81,7 @@ steps:
       7. TEST GATE: Run test - MUST PASS → `workflow-cli --project [project-name] --sub-task-next`
       8. Commit with test status
       
-      **Todo File Management:**
-      Create/update todo file: `todos/YYYYMMDD-[project-name]-todo.md`
-      
-      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
-    mandatory: true
-
-  - number: 5
-    title: "Implement One Piece at a Time"
-    content: |
-      **NOW YOU CAN START IMPLEMENTATION!**
-      
-      Execute these implementation steps:
-      1. Write one logical unit of functionality
-      2. Write E2E test for that functionality
-      3. Run test and verify it passes
-      4. After test passes → `workflow-cli --project [project-name] --sub-task-next`
-      5. Update todo file with progress
-      6. ONLY if passed → Move to next feature
+      **Create Todo File:** `todos/YYYYMMDD-[project-name]-todo.md`
       
       **Todo List Structure Example:**
       ```markdown
@@ -108,9 +91,14 @@ steps:
       ## Tasks
       ✅ [14:15] Set up project structure and git branch
       ✅ [14:22] Implement user authentication module
+      ✅ [14:25] Write E2E test for authentication
+      ✅ [14:26] TEST GATE PASSED → `workflow-cli --project [project-name] --sub-task-next`
       🕒 [14:32] Add caching layer for API responses
-      🕒 Create E2E tests for authentication flow
+      🕒 Write E2E test for caching
+      🕒 TEST GATE → `workflow-cli --project [project-name] --sub-task-next`
       🕒 Implement batch processing for data updates
+      🕒 Write E2E test for batch processing
+      🕒 TEST GATE → `workflow-cli --project [project-name] --sub-task-next`
       🕒 Final testing and cleanup
       🕒 Run `workflow-cli --project [project-name] --next`
       
@@ -121,7 +109,31 @@ steps:
       **IMPORTANT:** The FINAL item in your todo list must be:
       `🕒 Run workflow-cli --project [project-name] --next`
       
-      **MUST complete autonomously - never give up, keep trying until done**
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 5
+    title: "Implement One Piece at a Time"
+    content: |
+      **NOW YOU CAN START IMPLEMENTATION!**
+      
+      Execute these implementation steps:
+      1. Work through your todo list from step 4
+      2. Write one logical unit of functionality
+      3. Write E2E test for that functionality
+      4. Run test and verify it passes
+      5. After test passes → `workflow-cli --project [project-name] --sub-task-next`
+      6. Update todo file with progress and timestamps
+      7. ONLY if passed → Move to next feature
+      
+      **Remember:**
+      - Update timestamps in format [HH:MM] for each task/note
+      - Mark completed tasks with ✅
+      - Log breakthroughs with 🔥 BREAKTHROUGH
+      - MUST complete entire todo list autonomously
+      - Never give up, keep trying until done
+      
+      **Next Step:** Continue until all tasks complete, then run final `--next` from todo
     mandatory: true
 
   - number: 6
@@ -194,6 +206,7 @@ global_rules:
       6. Update todos/YYYYMMDD-[project]-todo.md with timestamps in format: [HH:MM] using ✅🕒🔥
       7. MUST complete entire todo list autonomously - never stop until done (only ask for help if stuck on 2FA)
       8. Search the web as needed for documentation and solutions
+      9. Keep directory structure clean: place new files in appropriate directories (cli_tools/, docs/, data/, scripts/, etc.)
 
   - title: "Never Do"
     content: |

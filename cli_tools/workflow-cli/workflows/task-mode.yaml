@@ -27,6 +27,9 @@ steps:
     content: |
       Before starting ANY work, execute these search actions:
       
+      **PRIORITY CHECK:**
+      If essentially the same task was done recently, just look at its todo list in `todos/` and follow it instead of doing a thorough context search.
+      
       **Local Context:**
       1. Search `docs/` directory for relevant documentation
       2. Check `todos/` for previous learnings to avoid same mistakes
@@ -77,7 +80,9 @@ steps:
       2. Update todo file with ✅ when done, 🕒 for in progress
       3. Log breakthroughs with 🔥 BREAKTHROUGH: when stuck
       4. Move to next planned step
-      5. MUST complete entire todo list autonomously - never give up
+      
+      **CLI Tool Priority:**
+      If a CLI tool exists for the task but doesn't work, priority should be to fix it first before attempting alternative approaches.
       
       **Batch Processing Mindset:**
       Before executing any step, ask: "Can I do this faster in batches?"
@@ -86,7 +91,6 @@ steps:
       - Running similar commands? Combine them
       
       **Call --next ONLY when entire todo list is completed**
-      **MUST complete autonomously - keep trying until done (only ask for help if stuck on 2FA)**
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
@@ -148,9 +152,8 @@ global_rules:
       2. Check existing code/todos first
       3. Keep trying different approaches until success
       4. Update todos/YYYYMMDD-[project]-todo.md with ✅🕒🔥
-      5. Spawn new agent with dev mode for any new CLI tools needed
-      6. Always ask: Is there a way to do this faster in batches?
-      7. Search the web as needed for documentation and solutions
+      5. Search the web as needed for documentation and solutions
+      6. Keep directory structure clean: place new files in appropriate directories (cli_tools/, docs/, data/, scripts/, etc.)
 
   - title: "Never Do"
     content: |
@@ -178,11 +181,9 @@ global_rules:
 
   - title: "CLI Tool Development"
     content: |
-      - Create wrapper scripts for Node.js CLI tools
-      - Make self-documenting with comprehensive help text
-      - Use ./scripts/setup-global-cli-tools.sh for global access
+      - Follow /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/CLI_TOOL_DESIGN_GUIDE.md
       - For new CLI tools: spawn new agent with dev mode workflow
-      - Add CLI development as task in main todo list
+      - Example todo task: `- 🕒 Create invoice-cli tool: spawn new agent with "workflow-cli --project invoice-cli --mode dev --step 1"`
 
 quick_reference:
   essential_commands:

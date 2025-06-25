@@ -264,6 +264,41 @@ class WorkflowManager:
             return {"status": "cleaned", "message": "Project state deleted successfully"}
         else:
             return {"status": "not_found", "message": "No project state file found"}
+    
+    def get_sub_task_reminder(self, mode: str, workflow_file: Optional[Path] = None) -> Dict:
+        """Get global rules and reminders about sub-task completion"""
+        # Get current workflow
+        if workflow_file:
+            if not workflow_file.exists():
+                return {"error": f"Workflow file not found: {workflow_file}"}
+            workflow = self._parse_workflow_file(workflow_file)
+        else:
+            mode_files = {
+                "dev": "dev-mode.yaml",
+                "task": "task-mode.yaml"
+            }
+            workflow_file_path = self.rules_dir / mode_files.get(mode, "CLAUDE.md")
+            if not workflow_file_path.exists():
+                return {"error": f"Workflow file not found: {workflow_file_path}"}
+            workflow = self._parse_workflow_file(workflow_file_path)
+        
+        # Build response with global rules and reminders
+        response = {
+            "mode": mode,
+            "current_step": self.current_state.get("current_step"),
+            "rules": workflow["global_rules"],
+            "reminder": {
+                "title": "Task Completion Reminder",
+                "content": """
+📝 **--sub-task-next**: After completing ONE todo task
+📋 **--next**: After completing ALL todos in current step
+
+Check your todo list. If tasks remain, continue working. If all done, use --next.
+"""
+            }
+        }
+        
+        return response
 
 
 def main():
@@ -273,6 +308,8 @@ def main():
     parser.add_argument('--workflow', type=Path, help='Path to custom workflow YAML file')
     parser.add_argument('--step', type=int, help='Current step number')
     parser.add_argument('--next', action='store_true', help='Advance to next step')
+    parser.add_argument('--sub-task-next', action='store_true', 
+                       help='Show global rules and remind about task completion')
     parser.add_argument('--set-step', type=int, help='Jump to specific step')
     parser.add_argument('--track-test', nargs=2, metavar=('NAME', 'STATUS'),
                        help='Track test execution (name and status)')
@@ -306,6 +343,17 @@ def main():
         result = manager.clean_project_state()
     elif args.track_test:
         result = manager.track_test(args.track_test[0], args.track_test[1])
+    elif args.sub_task_next:
+        # Handle sub-task-next command
+        if args.workflow:
+            mode = args.workflow.stem
+            result = manager.get_sub_task_reminder(mode, workflow_file=args.workflow)
+        else:
+            mode = args.mode or manager.current_state.get("current_mode")
+            if not mode:
+                result = {"error": "No mode specified and no current mode in project state. Use --mode to set initial mode."}
+            else:
+                result = manager.get_sub_task_reminder(mode)
     elif args.next or args.set_step is not None or args.step is not None:
         if args.workflow:
             # Custom workflow file - use filename as mode
@@ -353,21 +401,40 @@ def main():
     else:
         # Format for human reading
         if "rules" in result:
-            print(f"=== {result['mode'].upper()} MODE - Step {result.get('current_step', 'Overview')} ===\n")
-            
-            for rule in result["rules"]:
-                if rule.get("is_current_step"):
-                    print(f">>> CURRENT STEP <<<")
-                print(f"### {rule['title']}")
-                print(rule["content"])
-                print()
-            
-            if "next_step" in result:
-                print(f"\nNext: STEP {result['next_step']['number']} - {result['next_step']['title']}")
-            
-            if "emergency_procedures" in result:
-                print("\n=== EMERGENCY PROCEDURES ===")
-                print(result["emergency_procedures"])
+            # Check if this is a sub-task-next response
+            if "reminder" in result:
+                print(f"=== {result['mode'].upper()} MODE - Global Rules (Step {result.get('current_step', 'N/A')}) ===\n")
+                
+                # Print global rules
+                print("### GLOBAL RULES ###")
+                for rule in result["rules"]:
+                    if isinstance(rule, dict):
+                        print(f"### {rule.get('title', 'Rule')}")
+                        print(rule.get('content', ''))
+                    else:
+                        print(f"- {rule}")
+                    print()
+                
+                # Print reminder
+                print(f"\n### {result['reminder']['title']} ###")
+                print(result['reminder']['content'])
+            else:
+                # Regular rules output
+                print(f"=== {result['mode'].upper()} MODE - Step {result.get('current_step', 'Overview')} ===\n")
+                
+                for rule in result["rules"]:
+                    if rule.get("is_current_step"):
+                        print(f">>> CURRENT STEP <<<")
+                    print(f"### {rule['title']}")
+                    print(rule["content"])
+                    print()
+                
+                if "next_step" in result:
+                    print(f"\nNext: STEP {result['next_step']['number']} - {result['next_step']['title']}")
+                
+                if "emergency_procedures" in result:
+                    print("\n=== EMERGENCY PROCEDURES ===")
+                    print(result["emergency_procedures"])
         elif "message" in result and "state_cleared" in result:
             # Handle completion message
             print(f"\n✅ {result['message']}\n")
