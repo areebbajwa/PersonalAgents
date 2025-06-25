@@ -212,11 +212,14 @@ global_rules:
       7. MUST complete entire todo list autonomously - never stop until done (only ask for help if stuck on 2FA)
       8. Search the web as needed for documentation and solutions
       9. Keep directory structure clean: place new files in appropriate directories (cli_tools/, docs/, data/, scripts/, etc.)
+      10. ALWAYS read debug logs before attempting any fix - never make blind fixes
+
 
   - title: "Never Do"
     content: |
       - NEVER proceed with failing tests
       - NEVER mark complete without E2E testing
+      - NEVER attempt fixes without reading debug logs first
 
   - title: "Terminal Command Limits"
     content: |
