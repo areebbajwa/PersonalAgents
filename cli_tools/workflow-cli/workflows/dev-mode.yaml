@@ -12,7 +12,7 @@ steps:
       **⚠️ IMPORTANT: DO NOT start implementation yet. This is the planning phase.**
       
       **Check for existing todo:**
-      If continuing work on existing todo file in `todos/YYYYMMDD-[project]-todo.md`, skip to step 5.
+      If continuing work on existing todo file in `todos/YYYYMMDD-[project]-todo.md`, skip to step 4 and update existing todo list to match the todo list structure (if needed).
       
       **For new work, execute git setup IMMEDIATELY:**
       1. Create branch:
@@ -212,6 +212,11 @@ global_rules:
     content: |
       - NEVER proceed with failing tests
       - NEVER mark complete without E2E testing
+
+  - title: "Terminal Command Limits"
+    content: |
+      - Commands timeout after 2 minutes - run long tasks in background: `cmd > /tmp/log.txt 2>&1 &`
+      - Never use sleep > 119 seconds
 
   - title: "Automation Tools"
     content: |

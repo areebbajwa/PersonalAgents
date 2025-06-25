@@ -9,8 +9,10 @@ steps:
       
       I will complete this task autonomously without asking for help (except for 2FA).
       
+      **⚠️ IMPORTANT: DO NOT start implementation yet. This is the planning phase.**
+      
       **Check for existing todo:**
-      If continuing work on existing todo file in `todos/`, skip to step 4.
+      If continuing work on existing todo file in `todos/`, skip to step 4 and update existing todo list to match the todo list structure (if needed).
       
       **For new work, execute git setup IMMEDIATELY:**
       1. Create branch:
@@ -25,6 +27,8 @@ steps:
   - number: 2
     title: "Search for Context"
     content: |
+      **⚠️ IMPORTANT: This is research phase - DO NOT implement anything yet.**
+      
       Before starting ANY work, execute these search actions:
       
       **PRIORITY CHECK:**
@@ -50,23 +54,25 @@ steps:
   - number: 3
     title: "Create Task Plan"
     content: |
+      **⚠️ IMPORTANT: Final planning step - DO NOT implement yet!**
+      
       **Actions to perform:**
       Create TODO file at: `todos/YYYYMMDD-[project-name]-todo.md`
       
       **Example format:**
       ```markdown
-      # Task: [User's request]
+      # YYYYMMDD-[project-name]-todo.md
       
-      ## Todo List:
-      - 🕒 Search for existing customer data export scripts
-      - 🕒 Extract customer data from database
-      - 🕒 Filter for active customers only
-      - 🕒 Generate CSV report with required fields
-      - 🕒 Save to data/exports/ directory
-      - 🕒 Run workflow-cli --project [project-name] --next
+      ## Tasks
+      ✅ [14:15] Search for existing customer data export scripts
+      ✅ [14:22] Extract customer data from database
+      🕒 [14:32] Filter for active customers only
+      🕒 Generate CSV report with required fields
+      🕒 Save to data/exports/ directory
+      🕒 Run workflow-cli --project [project-name] --next
       
-      ## Progress Log:
-      [Updates will go here as tasks complete]
+      ## Notes
+      🔥 BREAKTHROUGH [14:28]: Found existing export utility that handles CSV generation
       ```
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
@@ -75,6 +81,8 @@ steps:
   - number: 4
     title: "Execute Plan Step by Step"
     content: |
+      **NOW YOU CAN START IMPLEMENTATION!**
+      
       **Actions to perform:**
       1. Complete one planned step from your TODO file
       2. Update todo file with ✅ when done, 🕒 for in progress
@@ -116,9 +124,8 @@ steps:
       2. Update todo file with final status
       3. Move TODO file to `todos/completed/`
       4. Final commit and push
-      5. Clean project state: `workflow-cli --project [project-name] --clean`
       
-      **Workflow Complete:** Task ready for delivery
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
 
   - number: 7
@@ -142,7 +149,17 @@ steps:
       
       If NO: Leave branch as-is for manual review
       
-      **Workflow Complete**
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 8
+    title: "Clean Project State"
+    content: |
+      Final cleanup step:
+      
+      Clean project state: `workflow-cli --project [project-name] --clean`
+      
+      **Workflow Complete:** Task finished and state cleaned up
     mandatory: true
 
 global_rules:
@@ -151,7 +168,7 @@ global_rules:
       1. Complete tasks autonomously without help (except 2FA)
       2. Check existing code/todos first
       3. Keep trying different approaches until success
-      4. Update todos/YYYYMMDD-[project]-todo.md with ✅🕒🔥
+      4. Update todos/YYYYMMDD-[project]-todo.md with timestamps in format: [HH:MM] using ✅🕒🔥
       5. Search the web as needed for documentation and solutions
       6. Keep directory structure clean: place new files in appropriate directories (cli_tools/, docs/, data/, scripts/, etc.)
 
@@ -160,6 +177,11 @@ global_rules:
       - NEVER stop until task is complete
       - NEVER give up - find another way
       - NEVER ask for help (except 2FA)
+
+  - title: "Terminal Command Limits"
+    content: |
+      - Commands timeout after 2 minutes - run long tasks in background: `cmd > /tmp/log.txt 2>&1 &`
+      - Never use sleep > 119 seconds
 
   - title: "Automation Tools"
     content: |

@@ -1,19 +1,10 @@
-Whenever user mentions "taskmode", use workflow-cli with task mode STRICTLY.
-Whenever user mentions "devmode", use workflow-cli with dev mode STRICTLY.
-
-# Workflow Management
-
-Use `workflow-cli` to get step-by-step instructions:
+"taskmode" → use workflow-cli task mode
+"devmode" → use workflow-cli dev mode
 
 ```bash
-# Start a new task/project
-workflow-cli --project [task-name] --mode [dev|task] --step 1
-
-# Continue with same project (mode is remembered)
-workflow-cli --project [task-name] --next
-
-# Use custom workflow file
-workflow-cli --workflow /path/to/custom-workflow.yaml --step 1
+workflow-cli --project [name] --mode [dev|task] --step 1  # start
+workflow-cli --project [name] --next                      # continue
 ```
 
-Each project maintains its own workflow state.
+Commands timeout after 2 minutes - background long tasks: `cmd > /tmp/log.txt 2>&1 &`
+Never use sleep > 119 seconds
