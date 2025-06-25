@@ -27,6 +27,11 @@ When running Claude Code inside a screen session started from VS Code, the worki
 🕒 Verify Claude Code access in real VS Code terminal
 🕒 Test may require actual VS Code terminal (not automated)
 
+## Known Issues
+- Automated tests for screen directory preservation fail in detached mode
+- Manual testing required to verify full functionality
+- Configuration changes are correct but screen behavior in automated tests differs from interactive use
+
 ## Solution Summary
 
 ### Changes Made:
