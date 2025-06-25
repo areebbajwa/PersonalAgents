@@ -245,3 +245,4 @@ tool-name test-command
 - [ ] Works from any directory after global setup
 - [ ] Has a README.md with detailed documentation
 - [ ] Tested with basic test cases
+- [ ] Run `./scripts/setup-global-cli-tools.sh` to install globally
