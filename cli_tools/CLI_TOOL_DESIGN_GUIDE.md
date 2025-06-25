@@ -17,8 +17,7 @@ cli_tools/
 │   ├── tool-name         # Main executable (matches directory name)
 │   ├── src/              # Source code (if applicable)
 │   ├── package.json      # For Node.js tools
-│   ├── requirements.txt  # For Python tools
-│   └── README.md         # Tool-specific documentation
+│   └── requirements.txt  # For Python tools
 ```
 
 ## Naming Conventions
@@ -243,6 +242,5 @@ tool-name test-command
 - [ ] Has clear, helpful error messages
 - [ ] Includes examples in help text
 - [ ] Works from any directory after global setup
-- [ ] Has a README.md with detailed documentation
 - [ ] Tested with basic test cases
 - [ ] Run `./scripts/setup-global-cli-tools.sh` to install globally
