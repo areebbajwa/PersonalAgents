@@ -143,7 +143,7 @@ sa front      # Connects to frontend-1234
 sa back       # Connects to backend-5678
 
 # Work in the session
-# Use Ctrl-a [ for scrolling
+# Use Ctrl-a [ or Ctrl-a ESC for scrolling (see below)
 # Use Ctrl-a d to detach
 ```
 
@@ -169,9 +169,11 @@ export DISABLE_AUTO_SCREEN=1
 - **Host unreachable**: Verify Mac is online and ngrok is running
 
 ### Screen Issues
-- **Can't scroll on iPhone**: Set `altscreen off` in ~/.screenrc
+- **Can't scroll**: You must enter copy mode first! Press `Ctrl-a [` or `Ctrl-a ESC`
+- **Can't scroll on iPhone**: Set `altscreen off` in ~/.screenrc for natural scrolling
 - **Lost in screen**: Press `Ctrl-a ?` for help
 - **Session disappeared**: Use `sl` to list all sessions
+- **Scrolling shows garbage**: This happens when switching between screen windows. Use copy mode instead
 
 ### Security Considerations
 - ngrok exposes SSH to internet - use strong passwords
@@ -194,10 +196,13 @@ sl
 # Attach session
 sa PersonalAgents
 
-# Screen scrolling
-Ctrl-a [  # Enter copy mode
-k/j       # Up/down
-ESC       # Exit
+# Screen scrolling (MUST enter copy mode first!)
+Ctrl-a [      # Enter copy mode (or Ctrl-a ESC)
+↑/↓ or k/j    # Navigate up/down
+PgUp/PgDn     # Page up/down
+Ctrl-b/Ctrl-f # Alternative page up/down
+g/G           # Jump to top/bottom
+ESC or q      # Exit copy mode
 
 # Detach
 Ctrl-a d
