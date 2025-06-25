@@ -196,7 +196,11 @@ sl
 # Attach session
 sa PersonalAgents
 
-# Screen scrolling (MUST enter copy mode first!)
+# Screen scrolling (NEW: Auto-scrolling!)
+Ctrl+Up       # Auto-enter copy mode + page up
+Ctrl+Down     # Auto-enter copy mode + page down
+
+# Manual scrolling
 Ctrl-a [      # Enter copy mode (or Ctrl-a ESC)
 ↑/↓ or k/j    # Navigate up/down
 PgUp/PgDn     # Page up/down
