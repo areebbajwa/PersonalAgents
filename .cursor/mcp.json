@@ -55,6 +55,14 @@
       "allowedTools": [],
       "history": [
         {
+          "display": "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/desktop-automation-cli",
+          "pastedContents": {}
+        },
+        {
+          "display": "use desktop-automation-cli to test",
+          "pastedContents": {}
+        },
+        {
           "display": "run --next command",
           "pastedContents": {}
         },
@@ -444,14 +452,6 @@
         },
         {
           "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "no we've already got it working properly in a single session. i want to get it working with multiple claude code instances now",
-          "pastedContents": {}
-        },
-        {
-          "display": "it's fine to create a new instance on the first start_browser. but all subsequent ones should re-connect and create new tabs in the existing one. is this possible?",
           "pastedContents": {}
         }
       ],
