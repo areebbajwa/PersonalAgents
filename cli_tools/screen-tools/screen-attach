@@ -1,0 +1,99 @@
+#!/bin/bash
+
+# Screen attach helper - intelligently attaches to screen sessions
+
+# Usage stats file
+USAGE_STATS_FILE="$HOME/.screen_usage_stats"
+
+# Function to update usage stats
+update_usage_stats() {
+    local session_name="$1"
+    local current_time=$(date +%s)
+    
+    # Initialize file if it doesn't exist
+    if [[ ! -f "$USAGE_STATS_FILE" ]]; then
+        echo '{}' > "$USAGE_STATS_FILE"
+    fi
+    
+    # Update stats using jq
+    if command -v jq >/dev/null 2>&1; then
+        jq --arg name "$session_name" --arg time "$current_time" \
+            '.[$name] = {count: ((.[$name].count // 0) + 1), last_access: ($time | tonumber)}' \
+            "$USAGE_STATS_FILE" > "${USAGE_STATS_FILE}.tmp" && \
+            mv "${USAGE_STATS_FILE}.tmp" "$USAGE_STATS_FILE"
+    fi
+}
+
+# If no argument, list sessions with better formatting
+if [ $# -eq 0 ]; then
+    echo "📺 Available screen sessions:"
+    echo ""
+    
+    # Get all sessions with better formatting
+    screen -ls | grep -E "^\s+[0-9]+\." | while read line; do
+        # Extract session info
+        FULL_NAME=$(echo "$line" | awk '{print $1}')
+        SESSION_NAME=$(echo "$FULL_NAME" | cut -d. -f2-)
+        STATUS=$(echo "$line" | grep -o "(.*)" | tr -d "()")
+        
+        # Show in a nice format
+        printf "  %-30s %s\n" "$SESSION_NAME" "[$STATUS]"
+    done
+    
+    # Count sessions
+    SESSION_COUNT=$(screen -ls | grep -c "^\s[0-9]")
+    
+    if [ $SESSION_COUNT -eq 0 ]; then
+        echo ""
+        echo "No screen sessions found."
+        echo "Start a new session with: sn <name>"
+        exit 1
+    elif [ $SESSION_COUNT -eq 1 ]; then
+        # Only one session, attach to it
+        SESSION=$(screen -ls | grep -E "^\s+[0-9]+\." | awk '{print $1}' | cut -d. -f2-)
+        echo ""
+        echo "Attaching to: $SESSION"
+        update_usage_stats "$SESSION"
+        screen -r || screen -x
+    else
+        # Multiple sessions, show simple prompt
+        echo ""
+        echo "To attach: sa <session-name>"
+        echo "Example: sa term-717A9284"
+    fi
+else
+    # Session name provided
+    SESSION_NAME="$1"
+    
+    # First try exact match
+    if screen -ls | grep -q "\.$SESSION_NAME\s"; then
+        update_usage_stats "$SESSION_NAME"
+        screen -r "$SESSION_NAME" || screen -x "$SESSION_NAME"
+    else
+        # Try partial match
+        MATCHES=$(screen -ls | grep -E "^\s+[0-9]+\.[^[:space:]]*$SESSION_NAME" | wc -l)
+        
+        if [ $MATCHES -eq 1 ]; then
+            # Single match found
+            FULL_SESSION=$(screen -ls | grep -E "^\s+[0-9]+\.[^[:space:]]*$SESSION_NAME" | awk '{print $1}' | cut -d. -f2-)
+            echo "Attaching to: $FULL_SESSION"
+            update_usage_stats "$FULL_SESSION"
+            screen -r "$FULL_SESSION" || screen -x "$FULL_SESSION"
+        elif [ $MATCHES -gt 1 ]; then
+            # Multiple matches
+            echo "Multiple sessions match '$SESSION_NAME':"
+            screen -ls | grep -E "^\s+[0-9]+\.[^[:space:]]*$SESSION_NAME"
+            echo ""
+            echo "Please be more specific."
+        else
+            echo "No session matching '$SESSION_NAME' found."
+            echo ""
+            echo "Available sessions:"
+            screen -ls | grep -E "^\s+[0-9]+\." | while read line; do
+                SESSION=$(echo "$line" | awk '{print $1}' | cut -d. -f2-)
+                STATUS=$(echo "$line" | grep -o "(.*)" | tr -d "()")
+                printf "  %-30s %s\n" "$SESSION" "[$STATUS]"
+            done
+        fi
+    fi
+fi

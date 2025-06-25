@@ -1,0 +1,52 @@
+#!/bin/bash
+# Display quick screen help and reference
+
+cat << 'EOF'
+=== GNU Screen Quick Reference ===
+
+STARTING & MANAGING SESSIONS
+  sn [name]     Start new named session
+  sl            List all active sessions
+  sa [name]     Attach to session (menu if no name)
+  sa -d [name]  Force detach others & attach
+  sk [name]     Kill a session
+  Ctrl-a d      Detach from current session
+
+WINDOW MANAGEMENT
+  Ctrl-a c      Create new window
+  Ctrl-a n      Next window
+  Ctrl-a p      Previous window
+  Ctrl-a [0-9]  Switch to window 0-9
+  Alt+[0-9]     Quick switch to window 0-9
+  Ctrl-a "      Show window list
+  Ctrl-a A      Rename current window
+  Ctrl-a k      Kill current window
+
+COPY & PASTE
+  Ctrl-a [      Enter copy/scrollback mode
+  Space         Start selection (in copy mode)
+  Enter         Copy selection (in copy mode)
+  Esc           Exit copy mode
+  Ctrl-a ]      Paste copied text
+
+SPLIT SCREEN
+  Ctrl-a S      Split horizontally
+  Ctrl-a Tab    Switch between splits
+  Ctrl-a X      Close current split
+
+OTHER USEFUL COMMANDS
+  Ctrl-a ?      Show help
+  Ctrl-a :      Enter command mode
+  Ctrl-a H      Toggle logging
+  Ctrl-a M      Toggle activity monitoring
+  Ctrl-a F      Fit window to terminal
+
+TIPS
+- Detach before closing SSH: Ctrl-a d
+- Session persists after disconnect
+- Access from any device via SSH
+- Run 'man screen' for full documentation
+- Config file: ~/.screenrc
+
+For full workflow guide: cat ~/bin/SCREEN_WORKFLOW.md
+EOF

@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Smart screen starter - alternative to auto-attach
+
+SESSION_NAME="main"
+
+if ! screen -list | grep -q "\.${SESSION_NAME}"; then
+    # No session - create it
+    echo "📺 Creating new screen session '${SESSION_NAME}'..."
+    screen -S ${SESSION_NAME}
+else
+    # Session exists - show options
+    echo "📺 Screen session '${SESSION_NAME}' exists"
+    echo ""
+    echo "Options:"
+    echo "  1) Attach to existing window (share view)"
+    echo "  2) Create new window in session"
+    echo "  3) List all windows"
+    echo "  4) Skip screen"
+    echo ""
+    read -p "Choice [1-4]: " choice
+    
+    case $choice in
+        1)
+            screen -x ${SESSION_NAME}
+            ;;
+        2)
+            # Create new window and attach
+            WINDOW_NUM=$(screen -S ${SESSION_NAME} -Q windows | wc -l)
+            screen -S ${SESSION_NAME} -X screen -t "window$WINDOW_NUM"
+            screen -r ${SESSION_NAME} -p $WINDOW_NUM
+            ;;
+        3)
+            screen -S ${SESSION_NAME} -Q windows
+            ;;
+        4)
+            echo "Skipping screen..."
+            ;;
+        *)
+            echo "Invalid choice"
+            ;;
+    esac
+fi

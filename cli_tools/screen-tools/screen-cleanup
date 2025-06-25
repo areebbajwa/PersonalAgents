@@ -1,0 +1,75 @@
+#!/bin/bash
+
+# Clean up old screen sessions that have been detached for more than 24 hours
+
+LOGFILE="$HOME/Library/Logs/screen-cleanup.log"
+MAX_AGE_HOURS=24
+
+echo "[$(date)] Starting screen cleanup" >> "$LOGFILE"
+
+# Get list of all screen sessions
+screen -ls | grep -E "^\s+[0-9]+\." | while read line; do
+    # Extract session info
+    PID=$(echo "$line" | awk '{print $1}' | cut -d. -f1)
+    SESSION_NAME=$(echo "$line" | awk '{print $1}' | cut -d. -f2-)
+    STATUS=$(echo "$line" | grep -o "(.*)" | tr -d "()")
+    
+    # Only process detached sessions
+    if [[ "$STATUS" == "Detached" ]]; then
+        # Get the last access time of the screen socket
+        SOCKET_PATH="/tmp/uscreens/S-$(whoami)/${PID}.${SESSION_NAME}"
+        
+        # Alternative socket locations (screen may use different paths)
+        if [ ! -e "$SOCKET_PATH" ]; then
+            SOCKET_PATH="/var/run/screen/S-$(whoami)/${PID}.${SESSION_NAME}"
+        fi
+        if [ ! -e "$SOCKET_PATH" ]; then
+            SOCKET_PATH="$HOME/.screen/${PID}.${SESSION_NAME}"
+        fi
+        
+        if [ -e "$SOCKET_PATH" ]; then
+            # Get last access time in seconds since epoch
+            if [[ "$OSTYPE" == "darwin"* ]]; then
+                # macOS
+                LAST_ACCESS=$(stat -f %a "$SOCKET_PATH")
+            else
+                # Linux
+                LAST_ACCESS=$(stat -c %X "$SOCKET_PATH")
+            fi
+            
+            CURRENT_TIME=$(date +%s)
+            AGE_SECONDS=$((CURRENT_TIME - LAST_ACCESS))
+            AGE_HOURS=$((AGE_SECONDS / 3600))
+            
+            if [ $AGE_HOURS -ge $MAX_AGE_HOURS ]; then
+                echo "[$(date)] Cleaning up session '$SESSION_NAME' (PID: $PID, idle for $AGE_HOURS hours)" >> "$LOGFILE"
+                screen -S "${PID}.${SESSION_NAME}" -X quit
+            fi
+        else
+            # If we can't find the socket file, check process age as fallback
+            if [[ "$OSTYPE" == "darwin"* ]]; then
+                # macOS - check process start time
+                PROCESS_START=$(ps -o lstart= -p $PID 2>/dev/null)
+                if [ -n "$PROCESS_START" ]; then
+                    # Convert to seconds and check age
+                    START_EPOCH=$(date -j -f "%a %b %d %T %Y" "$PROCESS_START" +%s 2>/dev/null)
+                    if [ -n "$START_EPOCH" ]; then
+                        CURRENT_TIME=$(date +%s)
+                        AGE_SECONDS=$((CURRENT_TIME - START_EPOCH))
+                        AGE_HOURS=$((AGE_SECONDS / 3600))
+                        
+                        if [ $AGE_HOURS -ge $MAX_AGE_HOURS ]; then
+                            echo "[$(date)] Cleaning up old session '$SESSION_NAME' (PID: $PID, age: $AGE_HOURS hours)" >> "$LOGFILE"
+                            screen -S "${PID}.${SESSION_NAME}" -X quit
+                        fi
+                    fi
+                fi
+            fi
+        fi
+    fi
+done
+
+# Clean up dead sessions
+screen -wipe >> "$LOGFILE" 2>&1
+
+echo "[$(date)] Screen cleanup completed" >> "$LOGFILE"

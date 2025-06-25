@@ -1,0 +1,31 @@
+#!/bin/bash
+# Start a new named screen session
+
+if [ $# -eq 0 ]; then
+    # No name provided, use directory-based name
+    DIR_NAME=$(basename "$PWD")
+    
+    # Clean the directory name (remove special chars, truncate if too long)
+    CLEAN_DIR=$(echo "$DIR_NAME" | sed 's/[^a-zA-Z0-9_-]/-/g' | cut -c1-20)
+    
+    # Add timestamp suffix for uniqueness (HHMM format)
+    SUFFIX=$(date +%H%M)
+    
+    SESSION_NAME="${CLEAN_DIR}-${SUFFIX}"
+    echo "📺 Creating screen session '${SESSION_NAME}' in $(pwd)"
+else
+    # Use provided name
+    SESSION_NAME="$1"
+    echo "📺 Creating screen session: ${SESSION_NAME}"
+fi
+
+# Check if session already exists
+if screen -list | grep -q "\.${SESSION_NAME}"; then
+    echo "Error: Session '${SESSION_NAME}' already exists!"
+    echo "Active sessions:"
+    screen -list
+    exit 1
+fi
+
+# Start new screen session
+screen -S "${SESSION_NAME}"

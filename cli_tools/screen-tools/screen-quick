@@ -1,0 +1,24 @@
+#!/bin/bash
+# Quick screen - start a screen session named after the current directory
+# This preserves the working directory properly
+
+# Get the current directory name
+if [[ "$PWD" == "$HOME" ]]; then
+    DIR_NAME="home"
+else
+    DIR_NAME=$(basename "$PWD")
+fi
+
+# Clean the directory name (remove special chars, truncate if too long)
+CLEAN_DIR=$(echo "$DIR_NAME" | sed 's/[^a-zA-Z0-9_-]/-/g' | cut -c1-30)
+
+# If we ended up with empty or just dash, use "quick"
+if [[ -z "$CLEAN_DIR" || "$CLEAN_DIR" == "-" ]]; then
+    CLEAN_DIR="quick"
+fi
+
+echo "📺 Starting quick screen session '${CLEAN_DIR}' in $(pwd)"
+
+# Start screen in the current directory
+# The key is we're already in the right directory when we start screen
+exec screen -S "${CLEAN_DIR}"

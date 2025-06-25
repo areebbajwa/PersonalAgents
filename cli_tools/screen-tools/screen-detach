@@ -1,0 +1,23 @@
+#!/bin/bash
+# Safely detach from current screen session
+
+# Check if we're inside a screen session
+if [ -z "$STY" ]; then
+    echo "Error: Not inside a screen session!"
+    echo "This command should be run from within a screen session."
+    echo
+    echo "To detach a specific session from outside:"
+    echo "  screen -d [session-name]"
+    exit 1
+fi
+
+# Get current session name
+SESSION_NAME=$(echo "$STY" | cut -d. -f2-)
+
+echo "Detaching from session: ${SESSION_NAME}"
+echo "To reattach later, use: screen-attach ${SESSION_NAME}"
+echo
+echo "Press Ctrl-a d to detach..."
+
+# Note: The actual detach must be done with Ctrl-a d
+# This script just provides information
