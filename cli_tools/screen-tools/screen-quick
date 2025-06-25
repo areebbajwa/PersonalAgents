@@ -22,16 +22,14 @@ echo "📺 Starting quick screen session '${CLEAN_DIR}' in $(pwd)"
 # Start screen with current directory preserved
 STARTUP_DIR="$PWD"
 
-# Method from Stack Overflow: use eval to set directory before creating window
-# First create the session in detached mode
-screen -d -m -S "${CLEAN_DIR}"
+# Simple approach: use screen's -c option to override the config temporarily
+# Create a minimal screenrc that sets the directory
+TEMP_RC="/tmp/.screenrc-${CLEAN_DIR}-$$"
+cat > "$TEMP_RC" << EOF
+# Minimal screenrc for directory preservation
+shell zsh
+chdir $STARTUP_DIR
+EOF
 
-# Then use eval to change directory and create the initial window
-screen -S "${CLEAN_DIR}" -X eval "chdir $STARTUP_DIR" "screen -t bash 0 bash"
-
-# Kill the default window that was created
-screen -S "${CLEAN_DIR}" -X select 0
-screen -S "${CLEAN_DIR}" -X kill
-
-# Now attach to the session
-exec screen -r "${CLEAN_DIR}"
+# Start screen with the custom config
+exec screen -c "$TEMP_RC" -S "${CLEAN_DIR}"

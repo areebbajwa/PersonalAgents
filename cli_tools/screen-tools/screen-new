@@ -30,16 +30,14 @@ fi
 # Start new screen session with current directory preserved
 STARTUP_DIR="$PWD"
 
-# Method from Stack Overflow: use eval to set directory before creating window
-# First create the session in detached mode
-screen -d -m -S "${SESSION_NAME}"
+# Simple approach: use screen's -c option to override the config temporarily
+# Create a minimal screenrc that sets the directory
+TEMP_RC="/tmp/.screenrc-${SESSION_NAME}-$$"
+cat > "$TEMP_RC" << EOF
+# Minimal screenrc for directory preservation
+shell zsh
+chdir $STARTUP_DIR
+EOF
 
-# Then use eval to change directory and create the initial window
-screen -S "${SESSION_NAME}" -X eval "chdir $STARTUP_DIR" "screen -t bash 0 bash"
-
-# Kill the default window that was created
-screen -S "${SESSION_NAME}" -X select 0
-screen -S "${SESSION_NAME}" -X kill
-
-# Now attach to the session
-exec screen -r "${SESSION_NAME}"
+# Start screen with the custom config
+exec screen -c "$TEMP_RC" -S "${SESSION_NAME}"
