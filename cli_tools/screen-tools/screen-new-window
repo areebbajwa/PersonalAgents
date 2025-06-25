@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Helper script to create a new window and attach to it
+SESSION_NAME="${1:-main}"
+
+# First create the new window
+screen -S "$SESSION_NAME" -X screen
+
+# Get the number of windows to find the last one
+WINDOW_COUNT=$(screen -S "$SESSION_NAME" -Q windows | grep -o '[0-9]\+\$' | tail -1)
+
+# Attach to the session and select the new window
+if [ -n "$WINDOW_COUNT" ]; then
+    exec screen -r "$SESSION_NAME" -p "$WINDOW_COUNT"
+else
+    exec screen -r "$SESSION_NAME"
+fi

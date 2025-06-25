@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Screen workspace manager - creates organized window layouts
+
+case "$1" in
+    "dev")
+        # Development workspace
+        screen -S main -X screen -t "editor" 0
+        screen -S main -X screen -t "server" 1
+        screen -S main -X screen -t "tests" 2
+        screen -S main -X screen -t "git" 3
+        echo "Created dev workspace with 4 windows: editor, server, tests, git"
+        ;;
+    "multi")
+        # Multi-project workspace
+        screen -S main -X screen -t "project1" 0
+        screen -S main -X screen -t "project2" 1
+        screen -S main -X screen -t "project3" 2
+        screen -S main -X screen -t "misc" 3
+        echo "Created multi-project workspace"
+        ;;
+    "clean")
+        # Kill all windows except 0
+        for i in {9..1}; do
+            screen -S main -X select $i
+            screen -S main -X kill 2>/dev/null
+        done
+        screen -S main -X select 0
+        echo "Cleaned up extra windows"
+        ;;
+    *)
+        echo "Usage: screen-workspace [dev|multi|clean]"
+        echo "  dev   - Create development layout (editor, server, tests, git)"
+        echo "  multi - Create multi-project layout"
+        echo "  clean - Remove all windows except first"
+        ;;
+esac

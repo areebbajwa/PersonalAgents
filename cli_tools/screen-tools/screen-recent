@@ -1,0 +1,151 @@
+#!/bin/bash
+
+# screen-recent - Connect to the most recently accessed screen session
+# This script finds and attaches to the screen session that was most recently accessed
+
+# Usage stats file
+USAGE_STATS_FILE="$HOME/.screen_usage_stats"
+
+# Function to update usage stats
+update_usage_stats() {
+    local session_name="$1"
+    local current_time=$(date +%s)
+    
+    # Initialize file if it doesn't exist
+    if [[ ! -f "$USAGE_STATS_FILE" ]]; then
+        echo '{}' > "$USAGE_STATS_FILE"
+    fi
+    
+    # Update stats using jq
+    if command -v jq >/dev/null 2>&1; then
+        jq --arg name "$session_name" --arg time "$current_time" \
+            '.[$name] = {count: ((.[$name].count // 0) + 1), last_access: ($time | tonumber)}' \
+            "$USAGE_STATS_FILE" > "${USAGE_STATS_FILE}.tmp" && \
+            mv "${USAGE_STATS_FILE}.tmp" "$USAGE_STATS_FILE"
+    fi
+}
+
+# Function to display help
+show_help() {
+    cat << EOF
+screen-recent - Connect to the most recently accessed screen session
+
+Usage: screen-recent [options]
+
+Options:
+    -h, --help     Show this help message
+    -d, --debug    Show debug information
+
+Description:
+    Finds the most recently accessed screen session based on socket file
+    access times and attaches to it. If already in a screen session,
+    shows an error. If no sessions exist, shows available options.
+
+Examples:
+    screen-recent      # Attach to most recent session
+    sr                 # Using the alias
+
+EOF
+}
+
+# Parse command line arguments
+DEBUG=false
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -h|--help)
+            show_help
+            exit 0
+            ;;
+        -d|--debug)
+            DEBUG=true
+            shift
+            ;;
+        *)
+            echo "Unknown option: $1"
+            show_help
+            exit 1
+            ;;
+    esac
+done
+
+# Check if already in a screen session
+if [ -n "$STY" ]; then
+    echo "Error: Already in screen session: $STY"
+    echo "Use 'Ctrl-a d' to detach first."
+    exit 1
+fi
+
+# Get screen socket directory
+SCREEN_DIR=$(screen -ls 2>&1 | grep -E "Socket.*in" | sed 's/.*in //' | sed 's/\.$//')
+
+if [ -z "$SCREEN_DIR" ] || [ ! -d "$SCREEN_DIR" ]; then
+    echo "Error: Could not find screen socket directory"
+    exit 1
+fi
+
+# Find all screen sessions
+mapfile -t sessions < <(screen -ls | grep -E "^\s*[0-9]+\." | awk '{print $1}')
+
+if [ ${#sessions[@]} -eq 0 ]; then
+    echo "No screen sessions found."
+    echo ""
+    echo "To create a new session:"
+    echo "  sn          # Auto-named based on current directory"
+    echo "  sn <name>   # With custom name"
+    exit 0
+fi
+
+# Find the most recently accessed session
+most_recent=""
+most_recent_time=0
+
+for session in "${sessions[@]}"; do
+    socket_file="$SCREEN_DIR/$session"
+    
+    if [ -e "$socket_file" ]; then
+        # Get access time (last time the session was accessed)
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            # macOS: stat -f "%a" gives access time as seconds since epoch
+            access_time=$(stat -f "%a" "$socket_file" 2>/dev/null || echo 0)
+        else
+            # Linux: stat -c "%X" gives access time as seconds since epoch
+            access_time=$(stat -c "%X" "$socket_file" 2>/dev/null || echo 0)
+        fi
+        
+        if [ "$DEBUG" = true ]; then
+            echo "Session: $session, Access time: $access_time"
+        fi
+        
+        if [ "$access_time" -gt "$most_recent_time" ]; then
+            most_recent_time=$access_time
+            most_recent=$session
+        fi
+    fi
+done
+
+if [ -z "$most_recent" ]; then
+    echo "Error: Could not determine most recent session"
+    echo ""
+    echo "Available sessions:"
+    screen -ls
+    exit 1
+fi
+
+# Extract session name for display
+session_name=$(echo "$most_recent" | cut -d. -f2-)
+
+# Check if session is already attached
+if screen -ls | grep -q "$most_recent.*Attached"; then
+    echo "Most recent session '$session_name' is already attached elsewhere."
+    echo ""
+    echo "Available sessions:"
+    screen -ls
+    exit 1
+fi
+
+# Update usage stats before attaching
+update_usage_stats "$session_name"
+
+# Attach to the most recent session
+echo "Attaching to most recent session: $session_name"
+exec screen -r "$most_recent"

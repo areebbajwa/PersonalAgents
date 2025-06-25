@@ -1,0 +1,93 @@
+#!/bin/bash
+
+# Kill all screen sessions except the current one
+
+# Check for -f force flag
+FORCE=false
+if [[ "$1" == "-f" || "$1" == "--force" ]]; then
+    FORCE=true
+fi
+
+# Get current session name if we're in screen
+CURRENT_SESSION=""
+if [[ -n "$STY" ]]; then
+    CURRENT_SESSION=$(echo "$STY" | cut -d. -f2-)
+    echo "📺 Current session: $CURRENT_SESSION (will be preserved)"
+    echo ""
+else
+    echo "📺 Not in a screen session - will kill all sessions"
+    echo ""
+fi
+
+# First, show what will be killed
+echo "📋 Sessions that will be killed:"
+SESSIONS_TO_KILL=()
+screen -ls | grep -E "^\s+[0-9]+\." | while read line; do
+    FULL_NAME=$(echo "$line" | awk '{print $1}')
+    SESSION_NAME=$(echo "$FULL_NAME" | cut -d. -f2-)
+    STATUS=$(echo "$line" | grep -o "(.*)" | tr -d "()")
+    
+    # Skip current session
+    if [[ -n "$CURRENT_SESSION" && "$SESSION_NAME" == "$CURRENT_SESSION" ]]; then
+        continue
+    fi
+    
+    echo "  - $SESSION_NAME [$STATUS]"
+    SESSIONS_TO_KILL+=("$FULL_NAME")
+done
+
+# Count sessions
+if [[ -n "$CURRENT_SESSION" ]]; then
+    SESSION_COUNT=$(screen -ls | grep -E "^\s+[0-9]+\." | grep -v "$CURRENT_SESSION" | wc -l)
+else
+    SESSION_COUNT=$(screen -ls | grep -E "^\s+[0-9]+\." | wc -l)
+fi
+
+if [[ $SESSION_COUNT -eq 0 ]]; then
+    echo "No sessions to kill."
+    exit 0
+fi
+
+# Ask for confirmation unless forced
+if [[ "$FORCE" != true ]]; then
+    echo ""
+    read -p "Kill $SESSION_COUNT sessions? [y/N] " -n 1 -r
+    echo ""
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo "Cancelled."
+        exit 0
+    fi
+fi
+
+echo ""
+
+# Actually kill the sessions
+KILL_COUNT=0
+screen -ls | grep -E "^\s+[0-9]+\." | while read line; do
+    # Extract session info
+    FULL_NAME=$(echo "$line" | awk '{print $1}')
+    PID=$(echo "$FULL_NAME" | cut -d. -f1)
+    SESSION_NAME=$(echo "$FULL_NAME" | cut -d. -f2-)
+    
+    # Skip current session
+    if [[ -n "$CURRENT_SESSION" && "$SESSION_NAME" == "$CURRENT_SESSION" ]]; then
+        echo "⏭️  Skipping current session: $SESSION_NAME"
+        continue
+    fi
+    
+    # Kill the session
+    echo "🗑️  Killing session: $SESSION_NAME (PID: $PID)"
+    screen -S "$FULL_NAME" -X quit
+    ((KILL_COUNT++))
+done
+
+# Clean up dead sessions
+screen -wipe > /dev/null 2>&1
+
+echo ""
+echo "✅ Killed $KILL_COUNT sessions"
+
+# Show remaining sessions
+echo ""
+echo "📺 Remaining sessions:"
+screen -ls

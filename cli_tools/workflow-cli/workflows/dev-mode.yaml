@@ -9,8 +9,10 @@ steps:
       
       I'm operating under DEV MODE rules: Simplify ruthlessly, test what matters, and create modern, maintainable code.
       
+      **⚠️ IMPORTANT: DO NOT start implementation yet. This is the planning phase.**
+      
       **Check for existing todo:**
-      If continuing work on existing todo file in `todos/YYYYMMDD-[project]-todo.md`, skip to step 6.
+      If continuing work on existing todo file in `todos/YYYYMMDD-[project]-todo.md`, skip to step 5.
       
       **For new work, execute git setup IMMEDIATELY:**
       1. Create branch:
@@ -25,17 +27,19 @@ steps:
   - number: 2
     title: "Consult Knowledge Base"
     content: |
-      Execute these research steps before writing ANY code:
+      **⚠️ IMPORTANT: This is research phase - DO NOT implement anything yet.**
+      
+      Execute these research steps:
       
       **Local Context:**
       1. Search codebase for similar implementations
       2. Find existing code to reuse/extend (prioritize ai_cache_utils.js for AI calls)
       3. Check config/.env for existing API keys before asking user
-      4. Search todos/ directory for previous learnings to avoid same mistakes
+      4. Search todos/ directory for previous learnings
       
       **Web Context:**
       5. Search web for best practices on the technology/framework
-      6. Find latest API documentation and check for updates
+      6. Find latest API documentation
       7. Look for common patterns and pitfalls
       8. Check for batch operation support in APIs
       
@@ -45,6 +49,8 @@ steps:
   - number: 3
     title: "Apply Musk's 5-Step Process"
     content: |
+      **⚠️ IMPORTANT: Still in planning phase - NO implementation yet.**
+      
       Apply this analysis to the current task:
       1. Question: Is this requirement necessary?
       2. Delete: What can we remove?
@@ -63,33 +69,20 @@ steps:
   - number: 4
     title: "Plan with Test Gates and Todo Management"
     content: |
-      Create this incremental plan:
+      **⚠️ IMPORTANT: Final planning step - DO NOT implement yet!**
+      
+      Create this incremental plan structure:
       1. Build feature A
       2. Write E2E test for A
-      3. TEST GATE: Run test - MUST PASS
+      3. TEST GATE: Run test - MUST PASS → `workflow-cli --project [project-name] --sub-task-next`
       4. Commit with test status: `git commit -m "feat: add X - tests: 5/5 passed"`
       5. Only then: Build feature B
       6. Write E2E test for B
-      7. TEST GATE: Run test - MUST PASS
+      7. TEST GATE: Run test - MUST PASS → `workflow-cli --project [project-name] --sub-task-next`
       8. Commit with test status
-      9. Run `workflow-cli --project [project-name] --next`
-      
-      **Use Batch Operations:**
-      Always prefer batch APIs over loops:
-      ```
-      # ❌ NEVER
-      for item in items:
-          api.update(item)  # 100 calls!
-      
-      # ✅ ALWAYS  
-      api.batch_update(items)  # 1 call!
-      ```
       
       **Todo File Management:**
-      1. Create/update todo file: `todos/YYYYMMDD-[project-name]-todo.md`
-      2. Use format: `✅ Task completed` and `🕒 Task pending`
-      3. When breakthrough achieved after being stuck, log with: `🔥 BREAKTHROUGH:`
-      4. Update todo file after each major milestone
+      Create/update todo file: `todos/YYYYMMDD-[project-name]-todo.md`
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
@@ -97,18 +90,38 @@ steps:
   - number: 5
     title: "Implement One Piece at a Time"
     content: |
+      **NOW YOU CAN START IMPLEMENTATION!**
+      
       Execute these implementation steps:
       1. Write one logical unit of functionality
       2. Write E2E test for that functionality
       3. Run test and verify it passes
-      4. Update todo file with progress (✅ done, 🕒 pending)
-      5. Update todo file after each major milestone
+      4. After test passes → `workflow-cli --project [project-name] --sub-task-next`
+      5. Update todo file with progress
       6. ONLY if passed → Move to next feature
       
-      **Call --next ONLY when entire todo list is completed**
-      **MUST complete autonomously - never give up, keep trying until done (only ask for help if stuck on 2FA)**
+      **Todo List Structure Example:**
+      ```markdown
+      # YYYYMMDD-[project-name]-todo.md
+      Last updated: 2025-06-25 14:32:15
       
-      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+      ## Tasks
+      ✅ [14:15] Set up project structure and git branch
+      ✅ [14:22] Implement user authentication module
+      🕒 [14:32] Add caching layer for API responses
+      🕒 Create E2E tests for authentication flow
+      🕒 Implement batch processing for data updates
+      🕒 Final testing and cleanup
+      🕒 Run `workflow-cli --project [project-name] --next`
+      
+      ## Notes
+      🔥 BREAKTHROUGH [14:28]: Found we can use existing auth middleware instead of building from scratch
+      ```
+      
+      **IMPORTANT:** The FINAL item in your todo list must be:
+      `🕒 Run workflow-cli --project [project-name] --next`
+      
+      **MUST complete autonomously - never give up, keep trying until done**
     mandatory: true
 
   - number: 6
@@ -132,9 +145,8 @@ steps:
       2. Verify all tests pass
       3. Update todo file with final status
       4. Final commit and push
-      5. Clean project state: `workflow-cli --project [project-name] --clean`
       
-      **Workflow Complete:** Project ready for review
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
 
   - number: 8
@@ -158,7 +170,17 @@ steps:
       
       If NO: Leave branch as-is for manual review
       
-      **Workflow Complete**
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 9
+    title: "Clean Project State"
+    content: |
+      Final cleanup step:
+      
+      Clean project state: `workflow-cli --project [project-name] --clean`
+      
+      **Workflow Complete:** Project finished and state cleaned up
     mandatory: true
 
 global_rules:
@@ -169,7 +191,7 @@ global_rules:
       3. Use batch APIs instead of loops
       4. Check existing code/todos first
       5. Ask before commits/final submissions
-      6. Update todos/YYYYMMDD-[project]-todo.md with ✅🕒🔥
+      6. Update todos/YYYYMMDD-[project]-todo.md with timestamps in format: [HH:MM] using ✅🕒🔥
       7. MUST complete entire todo list autonomously - never stop until done (only ask for help if stuck on 2FA)
       8. Search the web as needed for documentation and solutions
 
@@ -190,6 +212,7 @@ global_rules:
 quick_reference:
   essential_commands:
     - "workflow-cli --project [name] --next"
+    - "workflow-cli --project [name] --sub-task-next"
     - "workflow-cli --project [name] --clean"
 
 emergency_procedures:
@@ -202,6 +225,6 @@ emergency_procedures:
     commands:
       - "git branch --show-current"
       - "git status"
+      - "Check todos/YYYYMMDD-[project]-todo.md for progress"
       - "Run tests"
       - "Continue with commits"
-

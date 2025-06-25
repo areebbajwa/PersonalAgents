@@ -1,0 +1,40 @@
+#!/bin/bash
+# Quick demo of screen functionality
+
+echo "=== GNU Screen Demo ==="
+echo
+echo "This demo will show you basic screen usage."
+echo "Press Enter to continue after each step..."
+echo
+
+read -p "1. First, let's see if any sessions are running: "
+/Users/areeb2/bin/screen-list
+echo
+
+read -p "2. To start a new session, you would run: sn demo-session "
+echo "   (Not starting automatically to avoid interactive mode)"
+echo
+
+echo "3. Key commands to remember:"
+echo "   - Ctrl-a d: Detach from session"
+echo "   - Ctrl-a c: Create new window"
+echo "   - Ctrl-a n: Next window"
+echo "   - Ctrl-a [0-9]: Switch to window number"
+echo
+
+echo "4. Common workflow:"
+echo "   a) SSH to your Mac from iOS/another device"
+echo "   b) Run 'sa' to see and attach to existing sessions"
+echo "   c) Do your work"
+echo "   d) Press Ctrl-a d to detach"
+echo "   e) Your session continues running!"
+echo
+
+echo "5. Try it yourself:"
+echo "   - Run: sn test"
+echo "   - Create some windows with Ctrl-a c"
+echo "   - Detach with Ctrl-a d"
+echo "   - Reattach with: sa test"
+echo
+
+echo "For full documentation, see: ~/bin/SCREEN_WORKFLOW.md"

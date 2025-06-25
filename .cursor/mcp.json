@@ -1,5 +1,5 @@
 {
-  "numStartups": 41,
+  "numStartups": 47,
   "installMethod": "unknown",
   "autoUpdates": true,
   "theme": "dark-ansi",
@@ -9,7 +9,7 @@
     "shift-enter": 27,
     "memory-command": 38,
     "theme-command": 8,
-    "prompt-queue": 32,
+    "prompt-queue": 44,
     "enter-to-steer-in-relatime": 10,
     "todo-list": 11,
     "# for memory": 33,
@@ -21,7 +21,7 @@
     "custom-commands": 18,
     "shift-tab": 40
   },
-  "promptQueueUseCount": 1,
+  "promptQueueUseCount": 4,
   "mcpServers": {
     "firebase-mcp": {
       "autoApprove": [
@@ -54,6 +54,142 @@
     "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents": {
       "allowedTools": [],
       "history": [
+        {
+          "display": "still doesn't work check logs",
+          "pastedContents": {}
+        },
+        {
+          "display": "update /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/workflow-cli/workflows/dev-mode.yaml\\\n\\\nremove anything from individual steps that's already in global rules\\\nmake it clear that implementation should not begin until step 5. update each step prior to that with instructions to NOT start implementation yet\\\nupdate global rule - each todo list update should have a timestamp attached to it in an easy to read format\\\nin step 5 make the todo list structure explicit by turning it into a clear example\\\nafter each test gate passes, it should call a new --sub-task-next command\\\nthe very final step in the todo list should be a --next command\\\ndeleting project state with --clean should be in step 9, not step 7",
+          "pastedContents": {}
+        },
+        {
+          "display": "check now",
+          "pastedContents": {}
+        },
+        {
+          "display": "still doesn't work. shows some errors that disappear very quickly. is it possible to log them?",
+          "pastedContents": {}
+        },
+        {
+          "display": "no it still doesn't pass the cd command to the screen once it starts. search the web",
+          "pastedContents": {}
+        },
+        {
+          "display": "when i open the terminal the current working directory seems to be correct. but when i use sn or sq to create a new screen it seems to revert to start in the home directory, even though the screen is named properly after the working directory",
+          "pastedContents": {}
+        },
+        {
+          "display": "when i open the terminal the current working directory seems to be correct. but when i use sa or sq to create a new screen it seems to revert to the home directory",
+          "pastedContents": {}
+        },
+        {
+          "display": "i'm trying from outside of a screen - in that case it should just kill all",
+          "pastedContents": {}
+        },
+        {
+          "display": "ska doesn't seem to kill all except current",
+          "pastedContents": {}
+        },
+        {
+          "display": "merge to main branch and delete branch",
+          "pastedContents": {}
+        },
+        {
+          "display": "no, still doesn't work. get rid of auto screen and make it so that i can run the screen commands (sa, sr etc) from any terminal to connect/manage/list screens. devmode",
+          "pastedContents": {}
+        },
+        {
+          "display": "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/desktop-automation-cli",
+          "pastedContents": {}
+        },
+        {
+          "display": "use desktop-automation-cli to test",
+          "pastedContents": {}
+        },
+        {
+          "display": "run --next command",
+          "pastedContents": {}
+        },
+        {
+          "display": "no i want to preserve auto screen",
+          "pastedContents": {}
+        },
+        {
+          "display": "still losing the directory on a new terminal session. devmode",
+          "pastedContents": {}
+        },
+        {
+          "display": "run workflow --next",
+          "pastedContents": {}
+        },
+        {
+          "display": "it should delete screenshots older than 24h from time to time to make sure they don't pile up over time",
+          "pastedContents": {}
+        },
+        {
+          "display": "explain how vs code passes the path to the terminal when opening a new terminal",
+          "pastedContents": {}
+        },
+        {
+          "display": "modify the selenium mcp server to take screenshots after each action and output the path in the response. devmode",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
+        {
+          "display": "pay salah. he sent an email with payoneer invoice. pay it using business credit card. taskmode",
+          "pastedContents": {}
+        },
+        {
+          "display": "did you test it",
+          "pastedContents": {}
+        },
+        {
+          "display": "getting too complex. simplify. search the web",
+          "pastedContents": {}
+        },
+        {
+          "display": "still doesn't work. find a way to autonomously test this before declaring success",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "i'm starting terminal from vs code. used to work fine before",
+          "pastedContents": {}
+        },
+        {
+          "display": "still seems to start in the /Users/areeb2 every time",
+          "pastedContents": {}
+        },
+        {
+          "display": "screen gets auto-started for every new terminal, so fix that",
+          "pastedContents": {}
+        },
+        {
+          "display": "no i don't want a wrapper script. just pass working directory properly to screen",
+          "pastedContents": {}
+        },
+        {
+          "display": "Error: ERROR: cd to '/Volumes/ExtremeSSD/Kalaam' was blocked. For security, Claude Code may only change directories to      child directories of the original working directory (/Users/areeb2) for this session.\\\n\\\nthis happens when i try to run claude inside a screen. the working directory should be set to the screen directory. taskmode",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
+        {
+          "display": "/resume ",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
         {
           "display": "for both dev mode and task mode, before creating task plan it should search the web for best practices and latest api docs for context\\\nalso add in \"core principles\" to search the web as needed",
           "pastedContents": {}
@@ -317,142 +453,6 @@
         {
           "display": "/exit ",
           "pastedContents": {}
-        },
-        {
-          "display": "selenium:start_browser (MCP)(browser: \"firefox\")\n  ⎿  Error starting browser: Process unexpectedly closed with status 0\\\n\\\nstill seems to start a new browser. any debug logs?",
-          "pastedContents": {}
-        },
-        {
-          "display": "use selenium mcp to go to google.com and search for kalaam",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "ok try now",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "MCP server \"selenium\": Connection failed: McpError: MCP error -32000: Connection closed\n[DEBUG] MCP server \"selenium\": Error message: MCP error -32000: Connection closed\n[DEBUG] MCP server \"selenium\": Error stack: McpError: MCP error -32000: Connection closed\n    at pl1._onclose (file:///Users/areeb2/.claude/local/node_modules/@anthropic-ai/claude-code/cli.js:1321:12595)\n    at _transport.onclose (file:///Users/areeb2/.claude/local/node_modules/@anthropic-ai/claude-code/cli.js:1321:12095)\n    at ChildProcess.<anonymous> (file:///Users/areeb2/.claude/local/node_modules/@anthropic-ai/claude-code/cli.js:1323:1444)\n    at ChildProcess.emit (node:events:518:28)\n    at ChildProcess.emit (node:domain:489:12)\n    at maybeClose (node:internal/child_process:1101:16)\n    at Socket.<anonymous> (node:internal/child_process:456:11)\n    at Socket.emit (node:events:518:28)\n    at Socket.emit (node:domain:489:12)\n    at Pipe.<anonymous> (node:net:351:12)\n[ERROR] MCP server \"selenium\" Connection failed: MCP error -32000: Connection closed",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "/mcp ",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "/mcp ",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "no we've already got it working properly in a single session. i want to get it working with multiple claude code instances now",
-          "pastedContents": {}
-        },
-        {
-          "display": "it's fine to create a new instance on the first start_browser. but all subsequent ones should re-connect and create new tabs in the existing one. is this possible?",
-          "pastedContents": {}
-        },
-        {
-          "display": "why does it create a new one?",
-          "pastedContents": {}
-        },
-        {
-          "display": "no i see this: selenium:start_browser (MCP)(browser: \"firefox\")\n  ⎿  Error starting browser: Process unexpectedly closed with status 0",
-          "pastedContents": {}
-        },
-        {
-          "display": "use selenium mcp to go to google.com and search for kalaam",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "ok try now",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "seems like using the mcp server from multiple claude code sessions gives issues. it tries to open new instances of firefox and struggles. can't we make it use the same instance with different tabs?",
-          "pastedContents": {}
-        },
-        {
-          "display": "no, use firefox",
-          "pastedContents": {}
-        },
-        {
-          "display": "use selenium mcp to go to google.com and search for kalaam",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "it should always use firefox, i shouldn't have to specify it",
-          "pastedContents": {}
-        },
-        {
-          "display": "/mcp ",
-          "pastedContents": {}
-        },
-        {
-          "display": "use selenium mcp to go to google.com and search for kalaam",
-          "pastedContents": {}
-        },
-        {
-          "display": "try now",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "debug why it's not working with the new approach, i dont want to hard code it",
-          "pastedContents": {}
-        },
-        {
-          "display": "no. it was working before when it was through an environment variable. why?",
-          "pastedContents": {}
-        },
-        {
-          "display": "try now. navigate to gmail and search for areeb",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "don't hard code the firefox profile. make it auto discover the default profile in case it changes.",
-          "pastedContents": {}
-        },
-        {
-          "display": "modify and fix the server",
-          "pastedContents": {}
         }
       ],
       "mcpContextUris": [],
@@ -475,6 +475,18 @@
     "/Volumes/ExtremeSSD/Kalaam": {
       "allowedTools": [],
       "history": [
+        {
+          "display": "need to clear state to get to onboarding",
+          "pastedContents": {}
+        },
+        {
+          "display": "seems like it's not even running the test. don't you have to stop current app so the test can start?",
+          "pastedContents": {}
+        },
+        {
+          "display": "implement @kalaam-app-e2e-test-sequence.md . start a new taskmode workflow. this is a description of what needs to be done, not a todo list",
+          "pastedContents": {}
+        },
         {
           "display": "commit and push",
           "pastedContents": {}
@@ -533,7 +545,7 @@
       "enabledMcpjsonServers": [],
       "disabledMcpjsonServers": [],
       "hasTrustDialogAccepted": false,
-      "projectOnboardingSeenCount": 1,
+      "projectOnboardingSeenCount": 6,
       "hasClaudeMdExternalIncludesApproved": false,
       "hasClaudeMdExternalIncludesWarningShown": false,
       "exampleFiles": [
@@ -544,20 +556,28 @@
         "arabic.js"
       ],
       "exampleFilesGeneratedAt": 1750789740701,
-      "lastCost": 19.186125749999995,
-      "lastAPIDuration": 1552371,
-      "lastDuration": 15362819,
-      "lastLinesAdded": 20,
-      "lastLinesRemoved": 2,
-      "lastTotalInputTokens": 173167,
-      "lastTotalOutputTokens": 26003,
-      "lastTotalCacheCreationInputTokens": 376639,
-      "lastTotalCacheReadInputTokens": 7128545,
-      "lastSessionId": "8d4ab6f2-fcc1-4e04-bd39-c440a4a085c8"
+      "lastCost": 23.820787150000005,
+      "lastAPIDuration": 1773523,
+      "lastDuration": 75581794,
+      "lastLinesAdded": 1636,
+      "lastLinesRemoved": 38,
+      "lastTotalInputTokens": 94772,
+      "lastTotalOutputTokens": 42427,
+      "lastTotalCacheCreationInputTokens": 237897,
+      "lastTotalCacheReadInputTokens": 10987308,
+      "lastSessionId": "61270121-2ff7-4b7f-9b0c-04b20ae7acd7"
     },
     "/Users/areeb2": {
       "allowedTools": [],
       "history": [
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "where is that todo file saved?",
+          "pastedContents": {}
+        },
         {
           "display": "/exit ",
           "pastedContents": {}
@@ -568,19 +588,19 @@
       "enabledMcpjsonServers": [],
       "disabledMcpjsonServers": [],
       "hasTrustDialogAccepted": false,
-      "projectOnboardingSeenCount": 1,
+      "projectOnboardingSeenCount": 2,
       "hasClaudeMdExternalIncludesApproved": false,
       "hasClaudeMdExternalIncludesWarningShown": false,
-      "lastCost": 0,
-      "lastAPIDuration": 0,
-      "lastDuration": 6863,
+      "lastCost": 0.0018616000000000001,
+      "lastAPIDuration": 5159,
+      "lastDuration": 8740,
       "lastLinesAdded": 0,
       "lastLinesRemoved": 0,
-      "lastTotalInputTokens": 0,
-      "lastTotalOutputTokens": 0,
+      "lastTotalInputTokens": 2147,
+      "lastTotalOutputTokens": 36,
       "lastTotalCacheCreationInputTokens": 0,
       "lastTotalCacheReadInputTokens": 0,
-      "lastSessionId": "e6a87a06-1b83-46b2-aaf7-f91cdb0266c5"
+      "lastSessionId": "b65d751c-78e9-4575-a286-212a43d08b0b"
     }
   },
   "userID": "96200396462dc1a54dcd7bf4ed2806506483ec7ffab4ccd45f138f1896711cd6",
@@ -601,6 +621,7 @@
   "subscriptionNoticeCount": 0,
   "hasAvailableSubscription": false,
   "cachedChangelog": "# Changelog\n\n## 1.0.34\n\n- Fixed a memory leak causing a MaxListenersExceededWarning message to appear\n\n## 1.0.33\n\n- Improved logging functionality with session ID support\n- Added undo functionality (Ctrl+Z and vim 'u' command)\n- Improvements to plan mode\n\n## 1.0.32\n\n- Updated loopback config for litellm\n- Added forceLoginMethod setting to bypass login selection screen\n\n## 1.0.31\n\n- Fixed a bug where ~/.claude.json would get reset when file contained invalid JSON\n\n## 1.0.30\n\n- Custom slash commands: Run bash output, @-mention files, enable thinking with thinking keywords\n- Improved file path autocomplete with filename matching\n- Added timestamps in Ctrl-r mode and fixed Ctrl-c handling\n- Enhanced jq regex support for complex filters with pipes and select\n\n## 1.0.29\n\n- Improved CJK character support in cursor navigation and rendering\n\n## 1.0.28\n\n- Slash commands: Fix selector display during history navigation\n- Resizes images before upload to prevent API size limit errors\n- Added XDG_CONFIG_HOME support to configuration directory\n- Performance optimizations for memory usage\n- New attributes (terminal.type, language) in OpenTelemetry logging\n\n## 1.0.27\n\n- Streamable HTTP MCP servers are now supported\n- Remote MCP servers (SSE and HTTP) now support OAuth\n- MCP resources can now be @-mentioned\n- /resume slash command to switch conversations within Claude Code\n\n## 1.0.25\n\n- Slash commands: moved \"project\" and \"user\" prefixes to descriptions\n- Slash commands: improved reliability for command discovery\n- Improved support for Ghostty\n- Improved web search reliability\n\n## 1.0.24\n\n- Improved /mcp output\n- Fixed a bug where settings arrays got overwritten instead of merged\n\n## 1.0.23\n\n- Released TypeScript SDK: import @anthropic-ai/claude-code to get started\n- Released Python SDK: pip install claude-code-sdk to get started\n\n## 1.0.22\n\n- SDK: Renamed `total_cost` to `total_cost_usd`\n\n## 1.0.21\n\n- Improved editing of files with tab-based indentation\n- Fix for tool_use without matching tool_result errors\n- Fixed a bug where stdio MCP server processes would linger after quitting Claude Code\n\n## 1.0.18\n\n- Added --add-dir CLI argument for specifying additional working directories\n- Added streaming input support without require -p flag\n- Improved startup performance and session storage performance\n- Added CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR environment variable to freeze working directory for bash commands\n- Added detailed MCP server tools display (/mcp)\n- MCP authentication and permission improvements\n- Added auto-reconnection for MCP SSE connections on disconnect\n- Fixed issue where pasted content was lost when dialogs appeared\n\n## 1.0.17\n\n- We now emit messages from sub-tasks in -p mode (look for the parent_tool_use_id property)\n- Fixed crashes when the VS Code diff tool is invoked multiple times quickly\n- MCP server list UI improvements\n- Update Claude Code process title to display \"claude\" instead of \"node\"\n\n## 1.0.11\n\n- Claude Code can now also be used with a Claude Pro subscription\n- Added /upgrade for smoother switching to Claude Max plans\n- Improved UI for authentication from API keys and Bedrock/Vertex/external auth tokens\n- Improved shell configuration error handling\n- Improved todo list handling during compaction\n\n## 1.0.10\n\n- Added markdown table support\n- Improved streaming performance\n\n## 1.0.8\n\n- Fixed Vertex AI region fallback when using CLOUD_ML_REGION\n- Increased default otel interval from 1s -> 5s\n- Fixed edge cases where MCP_TIMEOUT and MCP_TOOL_TIMEOUT weren't being respected\n- Fixed a regression where search tools unnecessarily asked for permissions\n- Added support for triggering thinking non-English languages\n- Improved compacting UI\n\n## 1.0.7\n\n- Renamed /allowed-tools -> /permissions\n- Migrated allowedTools and ignorePatterns from .claude.json -> settings.json\n- Deprecated claude config commands in favor of editing settings.json\n- Fixed a bug where --dangerously-skip-permissions sometimes didn't work in --print mode\n- Improved error handling for /install-github-app\n- Bugfixes, UI polish, and tool reliability improvements\n\n## 1.0.6\n\n- Improved edit reliability for tab-indented files\n- Respect CLAUDE_CONFIG_DIR everywhere\n- Reduced unnecessary tool permission prompts\n- Added support for symlinks in @file typeahead\n- Bugfixes, UI polish, and tool reliability improvements\n\n## 1.0.4\n\n- Fixed a bug where MCP tool errors weren't being parsed correctly\n\n## 1.0.1\n\n- Added `DISABLE_INTERLEAVED_THINKING` to give users the option to opt out of interleaved thinking.\n- Improved model references to show provider-specific names (Sonnet 3.7 for Bedrock, Sonnet 4 for Console)\n- Updated documentation links and OAuth process descriptions\n\n## 1.0.0\n\n- Claude Code is now generally available\n- Introducing Sonnet 4 and Opus 4 models\n\n## 0.2.125\n\n- Breaking change: Bedrock ARN passed to `ANTHROPIC_MODEL` or `ANTHROPIC_SMALL_FAST_MODEL` should no longer contain an escaped slash (specify `/` instead of `%2F`)\n- Removed `DEBUG=true` in favor of `ANTHROPIC_LOG=debug`, to log all requests\n\n## 0.2.117\n\n- Breaking change: --print JSON output now returns nested message objects, for forwards-compatibility as we introduce new metadata fields\n- Introduced settings.cleanupPeriodDays\n- Introduced CLAUDE_CODE_API_KEY_HELPER_TTL_MS env var\n- Introduced --debug mode\n\n## 0.2.108\n\n- You can now send messages to Claude while it works to steer Claude in real-time\n- Introduced BASH_DEFAULT_TIMEOUT_MS and BASH_MAX_TIMEOUT_MS env vars\n- Fixed a bug where thinking was not working in -p mode\n- Fixed a regression in /cost reporting\n- Deprecated MCP wizard interface in favor of other MCP commands\n- Lots of other bugfixes and improvements\n\n## 0.2.107\n\n- CLAUDE.md files can now import other files. Add @path/to/file.md to ./CLAUDE.md to load additional files on launch\n\n## 0.2.106\n\n- MCP SSE server configs can now specify custom headers\n- Fixed a bug where MCP permission prompt didn't always show correctly\n\n## 0.2.105\n\n- Claude can now search the web\n- Moved system & account status to /status\n- Added word movement keybindings for Vim\n- Improved latency for startup, todo tool, and file edits\n\n## 0.2.102\n\n- Improved thinking triggering reliability\n- Improved @mention reliability for images and folders\n- You can now paste multiple large chunks into one prompt\n\n## 0.2.100\n\n- Fixed a crash caused by a stack overflow error\n- Made db storage optional; missing db support disables --continue and --resume\n\n## 0.2.98\n\n- Fixed an issue where auto-compact was running twice\n\n## 0.2.96\n\n- Claude Code can now also be used with a Claude Max subscription (https://claude.ai/upgrade)\n\n## 0.2.93\n\n- Resume conversations from where you left off from with \"claude --continue\" and \"claude --resume\"\n- Claude now has access to a Todo list that helps it stay on track and be more organized\n\n## 0.2.82\n\n- Added support for --disallowedTools\n- Renamed tools for consistency: LSTool -> LS, View -> Read, etc.\n\n## 0.2.75\n\n- Hit Enter to queue up additional messages while Claude is working\n- Drag in or copy/paste image files directly into the prompt\n- @-mention files to directly add them to context\n- Run one-off MCP servers with `claude --mcp-config <path-to-file>`\n- Improved performance for filename auto-complete\n\n## 0.2.74\n\n- Added support for refreshing dynamically generated API keys (via apiKeyHelper), with a 5 minute TTL\n- Task tool can now perform writes and run bash commands\n\n## 0.2.72\n\n- Updated spinner to indicate tokens loaded and tool usage\n\n## 0.2.70\n\n- Network commands like curl are now available for Claude to use\n- Claude can now run multiple web queries in parallel\n- Pressing ESC once immediately interrupts Claude in Auto-accept mode\n\n## 0.2.69\n\n- Fixed UI glitches with improved Select component behavior\n- Enhanced terminal output display with better text truncation logic\n\n## 0.2.67\n\n- Shared project permission rules can be saved in .claude/settings.json\n\n## 0.2.66\n\n- Print mode (-p) now supports streaming output via --output-format=stream-json\n- Fixed issue where pasting could trigger memory or bash mode unexpectedly\n\n## 0.2.63\n\n- Fixed an issue where MCP tools were loaded twice, which caused tool call errors\n\n## 0.2.61\n\n- Navigate menus with vim-style keys (j/k) or bash/emacs shortcuts (Ctrl+n/p) for faster interaction\n- Enhanced image detection for more reliable clipboard paste functionality\n- Fixed an issue where ESC key could crash the conversation history selector\n\n## 0.2.59\n\n- Copy+paste images directly into your prompt\n- Improved progress indicators for bash and fetch tools\n- Bugfixes for non-interactive mode (-p)\n\n## 0.2.54\n\n- Quickly add to Memory by starting your message with '#'\n- Press ctrl+r to see full output for long tool results\n- Added support for MCP SSE transport\n\n## 0.2.53\n\n- New web fetch tool lets Claude view URLs that you paste in\n- Fixed a bug with JPEG detection\n\n## 0.2.50\n\n- New MCP \"project\" scope now allows you to add MCP servers to .mcp.json files and commit them to your repository\n\n## 0.2.49\n\n- Previous MCP server scopes have been renamed: previous \"project\" scope is now \"local\" and \"global\" scope is now \"user\"\n\n## 0.2.47\n\n- Press Tab to auto-complete file and folder names\n- Press Shift + Tab to toggle auto-accept for file edits\n- Automatic conversation compaction for infinite conversation length (toggle with /config)\n\n## 0.2.44\n\n- Ask Claude to make a plan with thinking mode: just say 'think' or 'think harder' or even 'ultrathink'\n\n## 0.2.41\n\n- MCP server startup timeout can now be configured via MCP_TIMEOUT environment variable\n- MCP server startup no longer blocks the app from starting up\n\n## 0.2.37\n\n- New /release-notes command lets you view release notes at any time\n- `claude config add/remove` commands now accept multiple values separated by commas or spaces\n\n## 0.2.36\n\n- Import MCP servers from Claude Desktop with `claude mcp add-from-claude-desktop`\n- Add MCP servers as JSON strings with `claude mcp add-json <n> <json>`\n\n## 0.2.34\n\n- Vim bindings for text input - enable with /vim or /config\n\n## 0.2.32\n\n- Interactive MCP setup wizard: Run \"claude mcp add\" to add MCP servers with a step-by-step interface\n- Fix for some PersistentShell issues\n\n## 0.2.31\n\n- Custom slash commands: Markdown files in .claude/commands/ directories now appear as custom slash commands to insert prompts into your conversation\n- MCP debug mode: Run with --mcp-debug flag to get more information about MCP server errors\n\n## 0.2.30\n\n- Added ANSI color theme for better terminal compatibility\n- Fixed issue where slash command arguments weren't being sent properly\n- (Mac-only) API keys are now stored in macOS Keychain\n\n## 0.2.26\n\n- New /approved-tools command for managing tool permissions\n- Word-level diff display for improved code readability\n- Fuzzy matching for slash commands\n\n## 0.2.21\n\n- Fuzzy matching for /commands\n",
-  "changelogLastFetched": 1750806734640,
-  "lastReleaseNotesSeen": "1.0.33"
+  "changelogLastFetched": 1750808498671,
+  "lastReleaseNotesSeen": "1.0.34",
+  "hasUsedBackslashReturn": true
 }
