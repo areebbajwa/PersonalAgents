@@ -83,8 +83,11 @@ if [ -z "$SCREEN_DIR" ] || [ ! -d "$SCREEN_DIR" ]; then
     exit 1
 fi
 
-# Find all screen sessions
-mapfile -t sessions < <(screen -ls | grep -E "^\s*[0-9]+\." | awk '{print $1}')
+# Find all screen sessions (compatible with bash 3.2)
+sessions=()
+while IFS= read -r line; do
+    sessions+=("$line")
+done < <(screen -ls | grep -E "^\s*[0-9]+\." | awk '{print $1}')
 
 if [ ${#sessions[@]} -eq 0 ]; then
     echo "No screen sessions found."
