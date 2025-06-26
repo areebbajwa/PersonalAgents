@@ -168,82 +168,130 @@ class RecordCLI:
                 "message": "GEMINI_API_KEY not found in environment or config/.env"
             }
         
-        # Read video file
-        print("[Upload] Reading video file...")
-        try:
-            with open(video_path, 'rb') as f:
-                video_data = f.read()
-            
-            # Get file size in MB
-            file_size_mb = len(video_data) / (1024 * 1024)
-            print(f"[Upload] Video size: {file_size_mb:.1f} MB")
-            
-            if file_size_mb > 20:
-                print(f"[Warning] Video size exceeds 20 MB limit. Upload may fail.")
-            
-            # Encode to base64
-            print("[Upload] Encoding video for upload...")
-            base64_data = base64.b64encode(video_data).decode('utf-8')
-            
-        except Exception as e:
-            return {
-                "status": "error",
-                "message": f"Failed to read video file: {e}"
-            }
+        # Get file size
+        file_size_mb = os.path.getsize(video_path) / (1024 * 1024)
+        print(f"[Upload] Video size: {file_size_mb:.1f} MB")
         
-        # Prepare API request
-        model_id = "gemini-1.5-flash"
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_id}:generateContent?key={api_key}"
+        # Step 1: Upload file to Gemini File API
+        print("[Upload] Uploading video to Gemini File API...")
+        upload_url = f"https://generativelanguage.googleapis.com/upload/v1beta/files?key={api_key}"
         
-        prompt = """Analyze this screen recording and provide a detailed description of what happens in the video. 
-        Include timestamps for significant events or changes.
-        Format your response with timestamps like [MM:SS] at the beginning of each observation.
-        Focus on user actions, UI changes, and any text or content visible on screen."""
-        
-        payload = {
-            "contents": [
-                {
-                    "role": "user",
-                    "parts": [
-                        {
-                            "inlineData": {
-                                "mimeType": "video/mp4",
-                                "data": base64_data
-                            }
-                        },
-                        {
-                            "text": prompt
-                        }
-                    ]
-                }
-            ],
-            "generationConfig": {
-                "temperature": 0,
-                "responseMimeType": "text/plain"
+        # Create the file metadata
+        metadata = {
+            "file": {
+                "display_name": os.path.basename(video_path)
             }
         }
         
-        # Send request
-        print("[Upload] Sending to Gemini API...")
-        print(f"[Upload] Using model: {model_id}")
-        print("[Upload] This may take a moment for large videos...")
         try:
-            response = requests.post(
-                url,
-                json=payload,
-                headers={'Content-Type': 'application/json'},
-                timeout=120  # 2 minute timeout for large videos
-            )
+            # Upload file using multipart
+            with open(video_path, 'rb') as f:
+                files = {
+                    'metadata': (None, json.dumps(metadata), 'application/json'),
+                    'file': (os.path.basename(video_path), f, 'video/mp4')
+                }
+                
+                upload_response = requests.post(
+                    upload_url,
+                    files=files,
+                    timeout=120
+                )
             
-            if response.status_code != 200:
-                error_text = response.text
+            if upload_response.status_code != 200:
                 return {
                     "status": "error",
-                    "message": f"Gemini API error {response.status_code}: {error_text}"
+                    "message": f"File upload failed: {upload_response.status_code} - {upload_response.text}"
+                }
+            
+            upload_result = upload_response.json()
+            file_uri = upload_result.get('file', {}).get('uri')
+            file_name = upload_result.get('file', {}).get('name')
+            
+            if not file_uri:
+                return {
+                    "status": "error",
+                    "message": "No file URI returned from upload"
+                }
+            
+            print(f"[Upload] File uploaded successfully: {file_uri}")
+            
+            # Step 2: Wait for file to be processed
+            print("[Upload] Waiting for file processing...")
+            for attempt in range(30):  # Wait up to 30 seconds
+                check_url = f"https://generativelanguage.googleapis.com/v1beta/{file_name}?key={api_key}"
+                check_response = requests.get(check_url)
+                
+                if check_response.status_code == 200:
+                    file_info = check_response.json()
+                    state = file_info.get('state')
+                    
+                    if state == 'ACTIVE':
+                        print("[Upload] File processing complete!")
+                        break
+                    elif state == 'FAILED':
+                        return {
+                            "status": "error",
+                            "message": f"File processing failed: {file_info}"
+                        }
+                
+                time.sleep(1)
+            else:
+                return {
+                    "status": "error",
+                    "message": "File processing timed out"
+                }
+            
+            # Step 3: Analyze video with Gemini 2.5 Pro
+            model_id = "gemini-2.5-pro"
+            analysis_url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_id}:generateContent?key={api_key}"
+            
+            prompt = """Analyze this screen recording and provide a detailed description of what happens in the video. 
+            Include timestamps for significant events or changes.
+            Format your response with timestamps like [MM:SS] at the beginning of each observation.
+            Focus on user actions, UI changes, and any text or content visible on screen."""
+            
+            payload = {
+                "contents": [
+                    {
+                        "role": "user",
+                        "parts": [
+                            {
+                                "fileData": {
+                                    "mimeType": "video/mp4",
+                                    "fileUri": file_uri
+                                }
+                            },
+                            {
+                                "text": prompt
+                            }
+                        ]
+                    }
+                ],
+                "generationConfig": {
+                    "temperature": 0,
+                    "responseMimeType": "text/plain"
+                }
+            }
+            
+            print("[Upload] Sending to Gemini API for analysis...")
+            print(f"[Upload] Using model: {model_id}")
+            
+            analysis_response = requests.post(
+                analysis_url,
+                json=payload,
+                headers={'Content-Type': 'application/json'},
+                timeout=120
+            )
+            
+            if analysis_response.status_code != 200:
+                error_text = analysis_response.text
+                return {
+                    "status": "error",
+                    "message": f"Gemini API error {analysis_response.status_code}: {error_text}"
                 }
             
             # Handle response
-            result = response.json()
+            result = analysis_response.json()
             
             if 'candidates' in result and len(result['candidates']) > 0:
                 content = result['candidates'][0].get('content', {})
