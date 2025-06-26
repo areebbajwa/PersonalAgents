@@ -11,6 +11,9 @@ if ! screen -list | grep -q "\.${SESSION_NAME}"; then
     # No session - create it
     echo "📺 Creating new screen session '${SESSION_NAME}'..."
     
+    # Preserve current directory
+    STARTUP_DIR="$PWD"
+    
     # Create temporary screenrc for logging
     TEMP_RC="/tmp/.screenrc-${SESSION_NAME}-$$"
     cat > "$TEMP_RC" << EOF
@@ -18,6 +21,10 @@ if ! screen -list | grep -q "\.${SESSION_NAME}"; then
 source $HOME/.screenrc
 
 # Override settings for this session
+# Override defshell to not use login shell (which changes to home)
+defshell zsh
+shell zsh
+chdir $STARTUP_DIR
 logfile $HOME/.screen-logs/screenlog-${SESSION_NAME}-%Y%m%d-%n.log
 logfile flush 1
 deflog on

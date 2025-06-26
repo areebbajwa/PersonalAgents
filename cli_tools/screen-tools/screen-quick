@@ -27,6 +27,8 @@ STARTUP_DIR="$PWD"
 TEMP_RC="/tmp/.screenrc-${CLEAN_DIR}-$$"
 cat > "$TEMP_RC" << EOF
 # Minimal screenrc for directory preservation
+# Override defshell to not use login shell (which changes to home)
+defshell zsh
 shell zsh
 chdir $STARTUP_DIR
 EOF

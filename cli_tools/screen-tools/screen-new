@@ -38,6 +38,8 @@ cat > "$TEMP_RC" << EOF
 source $HOME/.screenrc
 
 # Override settings for this session
+# Override defshell to not use login shell (which changes to home)
+defshell zsh
 shell zsh
 chdir $STARTUP_DIR
 # Enable logging with session-based filename
