@@ -1,5 +1,5 @@
 {
-  "numStartups": 63,
+  "numStartups": 64,
   "installMethod": "local",
   "autoUpdates": true,
   "theme": "dark-ansi",
@@ -22,12 +22,160 @@
     "shift-tab": 61,
     "git-worktrees": 52
   },
-  "promptQueueUseCount": 18,
+  "promptQueueUseCount": 36,
   "mcpServers": {},
   "projects": {
     "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents": {
       "allowedTools": [],
       "history": [
+        {
+          "display": "run step 6 for clean up",
+          "pastedContents": {}
+        },
+        {
+          "display": "did we merge to main",
+          "pastedContents": {}
+        },
+        {
+          "display": "ok run --next",
+          "pastedContents": {}
+        },
+        {
+          "display": "make the ai-manager detect whether the workflow is complete or waiting for user input and stop sending auto keypresses. just ask in the gemini prompt",
+          "pastedContents": {}
+        },
+        {
+          "display": "the text instruction is sent as keypresses to the appropriate screen with enter at the end?",
+          "pastedContents": {}
+        },
+        {
+          "display": "is that real gemini output or sample? i want to run the real api call",
+          "pastedContents": {}
+        },
+        {
+          "display": "show me some sample gemini output with a real sample workflow",
+          "pastedContents": {}
+        },
+        {
+          "display": "wrap the various sections in xml tags so it doesn't confuse the AI",
+          "pastedContents": {}
+        },
+        {
+          "display": "show me the full prompt, don't cut it off",
+          "pastedContents": {}
+        },
+        {
+          "display": "doesn't seem like it's sending the full dev mode and task mode yaml file. don't try to send the rules separately, just instruct it to make sure all the rules mentioned in the file are followed strictly",
+          "pastedContents": {}
+        },
+        {
+          "display": "add an ai-manager-cli monitor command that shows live output across all projects and screens",
+          "pastedContents": {}
+        },
+        {
+          "display": "where can i see ai manager logs?",
+          "pastedContents": {}
+        },
+        {
+          "display": "no no just link to the cli design tool guide",
+          "pastedContents": {}
+        },
+        {
+          "display": "change all mentions of selenium to selenium-cli. \\\nin step 4 when creating the todo list, if it's a CLI tool make sure the todo list contains steps from the cli tool design guide. /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/CLI_TOOL_DESIGN_GUIDE.md",
+          "pastedContents": {}
+        },
+        {
+          "display": "in step 3 of dev mode, make sure anything mentioned in non-negotiables is not violated when simplifying",
+          "pastedContents": {}
+        },
+        {
+          "display": "i shouldn't have to start and stop ai manager manually. it should start and stop with the workflow. start on step 1, clean up at the end",
+          "pastedContents": {}
+        },
+        {
+          "display": "is this implemented into workflow-cli? explain ",
+          "pastedContents": {}
+        },
+        {
+          "display": "in the final verification step make sure the non-negotiables are reviewed. ensure that all requirements are met. if not, update todo list file and go back to step 4",
+          "pastedContents": {}
+        },
+        {
+          "display": "keystrokes came through but it gave new lines instead of enter key",
+          "pastedContents": {}
+        },
+        {
+          "display": "it said \"X: stuff - one or two arguments required\" at the bottom first. the key strokes came in later. is that normal",
+          "pastedContents": {}
+        },
+        {
+          "display": "try to send some keys to the screen again ",
+          "pastedContents": {}
+        },
+        {
+          "display": "did you test the cli commands as an end-user?",
+          "pastedContents": {}
+        },
+        {
+          "display": "in workflow cli section, add an alias updatetodo that does the same thing",
+          "pastedContents": {}
+        },
+        {
+          "display": "after adding new instructions, it should resume from --step 4 in that workflow",
+          "pastedContents": {}
+        },
+        {
+          "display": "you removed the terminal command instructions",
+          "pastedContents": {}
+        },
+        {
+          "display": "why do we have a duplicate section for this in claude.md?",
+          "pastedContents": {}
+        },
+        {
+          "display": "the new section is too verbose. make it one line and add to the top of claude.md as IMPORTANT:",
+          "pastedContents": {}
+        },
+        {
+          "display": "make it a cli tool. see /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/CLI_TOOL_DESIGN_GUIDE.md\\\n\\\nthen integrate it into workflow-cli as needed",
+          "pastedContents": {}
+        },
+        {
+          "display": "yes it came through but the new line simply triggered a new line instead of the enter key that sends the command",
+          "pastedContents": {}
+        },
+        {
+          "display": "it didn't come through to the screen i'm on...",
+          "pastedContents": {}
+        },
+        {
+          "display": "i need to see actual keypresses coming through. make it say \"yes please merge\"",
+          "pastedContents": {}
+        },
+        {
+          "display": "did the key presses come through in the screen test?",
+          "pastedContents": {}
+        },
+        {
+          "display": "in step 4 when creating the task list for both dev mode and task mode, make sure the user's exact words are saved at the top of the todo list as non-negotiable needs. also in the todo list it should mention any relevant context that was discovered during context discovery. link to the appropriate files instead of duplicating the info. then update claude.md and add a line that says that any new requirement/feedback/instruction should be added to this non-negotiable needs section whenever the user gives new instruction during a workflow.",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
+        {
+          "display": "update todo list file",
+          "pastedContents": {}
+        },
+        {
+          "display": "commit and push",
+          "pastedContents": {}
+        },
         {
           "display": "no i want to use 2.5. experiment with different types of requests, research on the web, find a way. update todo list and use step 4 for the workflow",
           "pastedContents": {}
@@ -300,154 +448,6 @@
         {
           "display": "is it possible to send input to a screen session without connecting to it? on mac terminal",
           "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "you didn't update cli help",
-          "pastedContents": {}
-        },
-        {
-          "display": "/resume ",
-          "pastedContents": {}
-        },
-        {
-          "display": "use selenium-cli instead",
-          "pastedContents": {}
-        },
-        {
-          "display": "continue creating suno nasheeds from existing todo list. taskmode",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "go ahead",
-          "pastedContents": {}
-        },
-        {
-          "display": "convert selenium mcp server to a cli tool. /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/mcp/mcp-selenium-firefox-profile. use devmode",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "also add a line in never do",
-          "pastedContents": {}
-        },
-        {
-          "display": "too verbose. just add it once into global rules as one line",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "for dev mode make sure that it NEVER tries a fix without first trying to read debug logs. always try to get debug logs first. we don't want blind fixes based on guesses.",
-          "pastedContents": {}
-        },
-        {
-          "display": "no it's not that. revert the command and find a way to read debug logs",
-          "pastedContents": {}
-        },
-        {
-          "display": "make it ctrl+shift+up and down because ctrl+up is already used in mac",
-          "pastedContents": {}
-        },
-        {
-          "display": "can you add ctrl+up key to do page up and ctrl+down key to do page down? should auto switch to copy mode first",
-          "pastedContents": {}
-        },
-        {
-          "display": "ok restarted try now",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "in background!",
-          "pastedContents": {}
-        },
-        {
-          "display": "starting a browser throws an error with selenium mcp server. /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/mcp/mcp-selenium-firefox-profile. debug and f\nix",
-          "pastedContents": {}
-        },
-        {
-          "display": "go ahead",
-          "pastedContents": {}
-        },
-        {
-          "display": "devmode",
-          "pastedContents": {}
-        },
-        {
-          "display": "doesn't seem like i can scroll up when in screen. devmode",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "use selenium to get api key",
-          "pastedContents": {}
-        },
-        {
-          "display": "/mcp ",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "do the same for task mode",
-          "pastedContents": {}
-        },
-        {
-          "display": "in step 4 mention using selenium to get any missing api keys that are needed",
-          "pastedContents": {}
-        },
-        {
-          "display": "too complex. simplify",
-          "pastedContents": {}
-        },
-        {
-          "display": "make sure it checks and fixes any issue with coordination file at the very beginning",
-          "pastedContents": {}
-        },
-        {
-          "display": "no i mean the server should create it",
-          "pastedContents": {}
-        },
-        {
-          "display": "if the coordination file doesn't exist, it should create it",
-          "pastedContents": {}
-        },
-        {
-          "display": "no. use selenium to get api key if missing",
-          "pastedContents": {}
-        },
-        {
-          "display": "create a new cli tool that uses openrouter to ask all these models the same question: anthropic/claude-opus-4, google/gemini-2.5-pro-preview and openai/o3\\\n\\\ndevmode",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "no for the example let's say we're downloading bank statements. after navigating to the appropriate website, all statements should be downloaded one after the other before sending them for processing.",
-          "pastedContents": {}
         }
       ],
       "mcpContextUris": [],
@@ -465,7 +465,8 @@
         "persistent_browser_wrapper.py",
         "task-mode.mdc"
       ],
-      "exampleFilesGeneratedAt": 1750788818336
+      "exampleFilesGeneratedAt": 1750788818336,
+      "hasCompletedProjectOnboarding": true
     },
     "/Volumes/ExtremeSSD/Kalaam": {
       "allowedTools": [],

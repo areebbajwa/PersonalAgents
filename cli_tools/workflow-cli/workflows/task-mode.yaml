@@ -67,6 +67,13 @@ steps:
       ```markdown
       # YYYYMMDD-[project-name]-todo.md
       
+      ## Non-Negotiable User Requirements: "[exact user words preserved here]"
+      
+      ## Context Discovery
+      - Link to relevant existing code: [file_path:line number]
+      - Related todos/learnings: [link to relevant todo files]
+      - Key insights from codebase research: [brief summary with file links]
+      
       ## Tasks
       ✅ [14:15] Navigate to bank website and login
       
@@ -98,8 +105,8 @@ steps:
       
       **API Keys Check:**
       If any required API keys are missing from config/.env:
-      - Use Selenium browser automation to obtain them (login to service, navigate to API settings)
-      - Example: `mcp__selenium__start_browser` → navigate to API dashboard → copy keys
+      - Use selenium-cli browser automation to obtain them (login to service, navigate to API settings)
+      - Example: `selenium-cli start` → navigate to API dashboard → copy keys
       
       **Actions to perform:**
       1. Complete one planned step from your TODO file
@@ -132,10 +139,12 @@ steps:
     title: "Final Verification"
     content: |
       Execute these final steps before marking complete:
-      1. Verify all tasks completed successfully
-      2. Update todo file with final status
-      3. Move TODO file to `todos/completed/`
-      4. Final commit and push
+      1. **REVIEW NON-NEGOTIABLES:** Check todo file's "Non-Negotiable User Requirements" section - ensure ALL requirements are met
+      2. If any requirements not met: update todo list and `workflow-cli --project [project-name] --step 4`
+      3. Verify all tasks completed successfully
+      4. Update todo file with final status
+      5. Move TODO file to `todos/completed/`
+      6. Final commit and push
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
@@ -205,8 +214,8 @@ global_rules:
     content: |
       - Look for existing CLI tools in the codebase first
       - Check available MCP tools and resources
-      - Use official APIs first, selenium browser only for unsupported features
-      - Selenium browser: unblock auth, get API keys, one-time setup tasks
+      - Use official APIs first, selenium-cli browser only for unsupported features
+      - selenium-cli browser: unblock auth, get API keys, one-time setup tasks
       - PDF processing: pdf-ai-cli for extraction and analysis
       - Database queries: sqlite3 CLI with direct SQL
       - Take screenshots when curious/stuck: screenshot-cli tool

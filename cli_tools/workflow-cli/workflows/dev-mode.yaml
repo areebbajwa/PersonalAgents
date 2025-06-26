@@ -54,6 +54,8 @@ steps:
     content: |
       **⚠️ IMPORTANT: Still in planning phase - NO implementation yet.**
       
+      **CRITICAL:** Review Non-Negotiable User Requirements from todo file - NEVER violate these when simplifying.
+      
       Apply this analysis to the current task:
       1. Question: Is this requirement necessary?
       2. Delete: What can we remove?
@@ -74,10 +76,12 @@ steps:
     content: |
       **⚠️ IMPORTANT: Final planning step - DO NOT implement yet!**
       
+      **CLI Tool Check:** If creating a CLI tool, include steps from: `/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/CLI_TOOL_DESIGN_GUIDE.md`
+      
       **API Keys Check:**
       If any required API keys are missing from config/.env:
-      - Use Selenium browser automation to obtain them (login to service, navigate to API settings)
-      - Example: `mcp__selenium__start_browser` → navigate to API dashboard → copy keys
+      - Use selenium-cli browser automation to obtain them (login to service, navigate to API settings)
+      - Example: `selenium-cli start` → navigate to API dashboard → copy keys
       
       Create this incremental plan structure:
       1. Build feature A
@@ -95,6 +99,13 @@ steps:
       ```markdown
       # YYYYMMDD-[project-name]-todo.md
       Last updated: 2025-06-25 14:32:15
+      
+      ## Non-Negotiable User Requirements: "[exact user words preserved here]"
+      
+      ## Context Discovery
+      - Link to relevant existing code: [file_path:line number]
+      - Related todos/learnings: [link to relevant todo files]
+      - Key insights from codebase research: [brief summary with file links]
       
       ## Tasks
       ✅ [14:15] Set up project structure and git branch
@@ -144,7 +155,7 @@ steps:
       **Next Step:** Continue until all tasks complete, then run final `--next` from todo
     mandatory: true
 
-  - number: 6
+  - number: 6delete
     title: "Clean Up Environment"
     content: |
       Before final commits, clean up temporary/unneeded files by looking at git status. Make sure .gitignore is up-to-date.
@@ -156,11 +167,13 @@ steps:
     title: "Final Verification"
     content: |
       Execute these final steps before marking complete:
-      1. Run the application in production mode (non-test mode) exactly as end users would
-      2. Manually verify ALL functionality works in the production environment
-      3. Test critical user workflows end-to-end in production mode. Make sure not to use any mocks and use live API endpoints. Just make sure to reverse any changes that would affect production data.
-      4. Update todo file with final status
-      5. Final commit and push
+      1. **REVIEW NON-NEGOTIABLES:** Check todo file's "Non-Negotiable User Requirements" section - ensure ALL requirements are met
+      2. If any requirements not met: update todo list and `workflow-cli --project [project-name] --step 4`
+      3. Run the application in production mode (non-test mode) exactly as end users would
+      4. Manually verify ALL functionality works in the production environment
+      5. Test critical user workflows end-to-end in production mode. Make sure not to use any mocks and use live API endpoints. Just make sure to reverse any changes that would affect production data.
+      6. Update todo file with final status
+      7. Final commit and push
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
@@ -236,8 +249,8 @@ global_rules:
   - title: "Automation Tools"
     content: |
       - Check available MCP tools and resources
-      - Use official APIs first, selenium browser only for unsupported features
-      - Selenium browser: unblock auth, get API keys, one-time setup tasks
+      - Use official APIs first, selenium-cli browser only for unsupported features
+      - selenium-cli browser: unblock auth, get API keys, one-time setup tasks
       - Take screenshots when curious/stuck: screenshot-cli tool
       - Last resort for GUI tasks: desktop-automation-cli
 
