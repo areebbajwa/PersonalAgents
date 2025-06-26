@@ -6,8 +6,8 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Screenshot directory - project root relative
-const SCREENSHOT_DIR = path.join(__dirname, '..', '..', '..', 'selenium-screenshots');
+// Screenshot directory - within CLI directory
+const SCREENSHOT_DIR = path.join(__dirname, '..', 'screenshots');
 
 // Ensure screenshot directory exists
 export async function ensureScreenshotDir() {

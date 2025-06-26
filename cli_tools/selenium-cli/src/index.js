@@ -444,7 +444,7 @@ program
 // Screenshot command
 program
     .command('screenshot [path]')
-    .description('Take a screenshot (saves to selenium-screenshots/ if no path specified)')
+    .description('Take a screenshot (saves to screenshots/ if no path specified)')
     .action(async (path) => {
         const spinner = ora('Taking screenshot...').start();
         try {
@@ -465,7 +465,7 @@ program
 // Export HTML command
 program
     .command('export-html [path]')
-    .description('Export page HTML source (saves to selenium-html/ if no path specified)')
+    .description('Export page HTML source (saves to screenshots/ if no path specified)')
     .action(async (path) => {
         const spinner = ora('Exporting HTML...').start();
         try {
