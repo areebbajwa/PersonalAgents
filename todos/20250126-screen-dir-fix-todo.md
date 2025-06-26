@@ -1,5 +1,5 @@
 # 20250126-screen-dir-fix-todo.md
-Last updated: 2025-01-26 23:18:00
+Last updated: 2025-01-26 23:40:00
 
 ## Tasks
 ✅ [22:52] Set up project structure and git branch
@@ -17,9 +17,13 @@ Last updated: 2025-01-26 23:18:00
 ✅ [23:20] Commit the fix
 ✅ [23:20] Final testing and cleanup
 ✅ [23:20] Run `workflow-cli --project screen-dir-fix --next`
+✅ [23:35] Found previous learnings file with correct solution
+✅ [23:40] Applied minimal screenrc approach from learnings
+✅ [23:40] Committed the correct fix
 
 ## Notes
 🔥 BREAKTHROUGH [22:50]: The issue is that workflow-cli shows cd commands but doesn't execute them - users need to run them manually
 🔥 BREAKTHROUGH [22:58]: The real issue - worktree commands were removed from the workflow in commit f477ea3!
 🔥 BREAKTHROUGH [23:10]: The ACTUAL issue - screen auto-start creates sessions but doesn't preserve working directory
 🔥 BREAKTHROUGH [23:15]: Found root cause - defshell -zsh in .screenrc starts login shell which changes to home directory
+🔥 BREAKTHROUGH [23:35]: Found our previous learnings! The correct fix is to use minimal screenrc without sourcing main .screenrc
