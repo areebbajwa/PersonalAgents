@@ -6,8 +6,8 @@ import ora from 'ora';
 import * as browserManager from './browser-manager.js';
 import * as screenshotManager from './screenshot-manager.js';
 import { takeScreenshot } from './browser-manager.js';
-import * as batchMode from './batch-mode.js';
 import * as persistentSession from './persistent-session.js';
+import * as defaultSession from './default-session.js';
 import { spawn } from 'child_process';
 import { fileURLToPath } from 'url';
 import path from 'path';
@@ -22,23 +22,16 @@ if (!process.env.SELENIUM_CLI_TEST) {
     screenshotManager.startPeriodicCleanup();
 }
 
-// Clean up on exit
+// Clean up on exit - only stop screenshot cleanup, don't close browser
 process.on('SIGINT', async () => {
     screenshotManager.stopPeriodicCleanup();
-    const status = browserManager.getSessionStatus();
-    if (status.hasSession) {
-        console.log('\nClosing browser...');
-        await browserManager.closeBrowser();
-    }
+    // Don't close browser on exit - user must use 'close' command
     process.exit(0);
 });
 
 process.on('SIGTERM', async () => {
     screenshotManager.stopPeriodicCleanup();
-    const status = browserManager.getSessionStatus();
-    if (status.hasSession) {
-        await browserManager.closeBrowser();
-    }
+    // Don't close browser on exit - user must use 'close' command
     process.exit(0);
 });
 
@@ -49,17 +42,13 @@ program
     .version('1.0.0')
     .addHelpText('after', `
 Examples:
-  # Quick automation (single session)
-  $ selenium-cli launch --headless
+  # Quick automation (browser stays open)
+  $ selenium-cli launch
   $ selenium-cli navigate https://example.com
   $ selenium-cli screenshot
-  $ selenium-cli close
+  $ selenium-cli close  # Optional - browser stays open if not called
 
-  # Batch mode (multiple commands in one session)
-  $ selenium-cli batch commands.txt
-  $ selenium-cli run  # Interactive batch mode
-
-  # Persistent sessions (browser stays open)
+  # Persistent sessions (better for multiple commands)
   $ selenium-cli session create mysession
   $ selenium-cli session send mysession navigate https://google.com
   $ selenium-cli session send mysession click id=search-button
@@ -84,9 +73,10 @@ Features:
   - Firefox browser automation
   - Uses existing Firefox profile by default (for logged-in sessions)
   - Automatic screenshots after actions
+  - Browser stays open after commands (no auto-close)
   - Session isolation (multiple instances don't interfere)
-  - Batch command execution
   - Persistent sessions for interactive automation
+  - HTML export for debugging element selectors
   
 Note: By default, selenium-cli uses your existing Firefox profile to maintain
 logged-in sessions. Use --no-profile to start with a fresh profile.
@@ -315,20 +305,21 @@ program
     .action(async (options) => {
         const spinner = ora('Launching browser...').start();
         try {
-            const result = await browserManager.launchBrowser({
+            const sessionInfo = await defaultSession.ensureDefaultSession({
                 headless: options.headless,
-                useProfile: !options.noProfile,
-                arguments: options.args
+                useProfile: !options.noProfile
             });
             spinner.succeed(chalk.green('Browser launched successfully'));
-            console.log(chalk.gray(`Session ID: ${result.sessionId}`));
+            console.log(chalk.gray(`Session port: ${sessionInfo.port}`));
             
             // Take initial screenshot
-            const screenshotPath = screenshotManager.getScreenshotPath(
-                screenshotManager.generateScreenshotFilename('launch')
-            );
-            await takeScreenshot(screenshotPath);
-            console.log(chalk.gray(`Screenshot: ${screenshotPath}`));
+            const result = await defaultSession.sendToDefaultSession({
+                action: 'screenshot'
+            });
+            
+            if (result.screenshot) {
+                console.log(chalk.gray(`Screenshot: ${result.screenshot}`));
+            }
         } catch (error) {
             spinner.fail(chalk.red(`Failed to launch browser: ${error.message}`));
             process.exit(1);
@@ -342,15 +333,15 @@ program
     .action(async (url) => {
         const spinner = ora(`Navigating to ${url}...`).start();
         try {
-            await browserManager.navigate(url);
+            const result = await defaultSession.sendToDefaultSession({
+                action: 'navigate',
+                url: url
+            });
             spinner.succeed(chalk.green('Navigation successful'));
             
-            // Take screenshot after navigation
-            const screenshotPath = screenshotManager.getScreenshotPath(
-                screenshotManager.generateScreenshotFilename('navigate')
-            );
-            await takeScreenshot(screenshotPath);
-            console.log(chalk.gray(`Screenshot: ${screenshotPath}`));
+            if (result.screenshot) {
+                console.log(chalk.gray(`Screenshot: ${result.screenshot}`));
+            }
         } catch (error) {
             spinner.fail(chalk.red(`Failed to navigate: ${error.message}`));
             process.exit(1);
@@ -457,14 +448,39 @@ program
     .action(async (path) => {
         const spinner = ora('Taking screenshot...').start();
         try {
-            const outputPath = path || screenshotManager.getScreenshotPath(
-                screenshotManager.generateScreenshotFilename('manual')
-            );
-            const result = await takeScreenshot(outputPath);
+            const result = await defaultSession.sendToDefaultSession({
+                action: 'screenshot',
+                path: path
+            });
             spinner.succeed(chalk.green('Screenshot saved'));
-            console.log(chalk.gray(`Path: ${result.path || outputPath}`));
+            if (result.path) {
+                console.log(chalk.gray(`Path: ${result.path}`));
+            }
         } catch (error) {
             spinner.fail(chalk.red(`Failed to take screenshot: ${error.message}`));
+            process.exit(1);
+        }
+    });
+
+// Export HTML command
+program
+    .command('export-html [path]')
+    .description('Export page HTML source (saves to selenium-html/ if no path specified)')
+    .action(async (path) => {
+        const spinner = ora('Exporting HTML...').start();
+        try {
+            const outputPath = path || screenshotManager.getScreenshotPath(
+                screenshotManager.generateScreenshotFilename('export-html').replace('.png', '.html')
+            );
+            const result = await defaultSession.sendToDefaultSession({
+                action: 'export-html',
+                path: outputPath
+            });
+            spinner.succeed(chalk.green('HTML exported'));
+            console.log(chalk.gray(`Path: ${result.path}`));
+            console.log(chalk.gray(`Size: ${result.size} characters`));
+        } catch (error) {
+            spinner.fail(chalk.red(`Failed to export HTML: ${error.message}`));
             process.exit(1);
         }
     });
@@ -605,12 +621,16 @@ program
 program
     .command('status')
     .description('Check browser session status')
-    .action(() => {
-        const status = browserManager.getSessionStatus();
-        if (status.hasSession) {
-            console.log(chalk.green('✓ Browser session is active'));
-            console.log(chalk.gray(`Session ID: ${status.sessionId}`));
-        } else {
+    .action(async () => {
+        try {
+            const sessionInfo = await defaultSession.getDefaultSessionInfo();
+            if (sessionInfo && await persistentSession.isSessionRunning(sessionInfo)) {
+                console.log(chalk.green('✓ Browser session is active'));
+                console.log(chalk.gray(`Session port: ${sessionInfo.port}`));
+            } else {
+                console.log(chalk.yellow('No active browser session'));
+            }
+        } catch (error) {
             console.log(chalk.yellow('No active browser session'));
         }
     });
@@ -622,141 +642,20 @@ program
     .action(async () => {
         const spinner = ora('Closing browser...').start();
         try {
-            await browserManager.closeBrowser();
-            spinner.succeed(chalk.green('Browser closed successfully'));
+            const sessionInfo = await defaultSession.getDefaultSessionInfo();
+            if (sessionInfo && await persistentSession.isSessionRunning(sessionInfo)) {
+                await persistentSession.sendCommandToSession(sessionInfo, { action: 'close' });
+                await persistentSession.deleteSessionInfo('__default__');
+                spinner.succeed(chalk.green('Browser closed successfully'));
+            } else {
+                spinner.succeed(chalk.yellow('No active browser session to close'));
+            }
         } catch (error) {
             spinner.fail(chalk.red(`Failed to close browser: ${error.message}`));
             process.exit(1);
         }
     });
 
-// Batch command
-program
-    .command('batch <file>')
-    .description('Execute commands from a batch file')
-    .action(async (file) => {
-        const spinner = ora('Loading batch file...').start();
-        try {
-            const commands = await batchMode.parseBatchFile(file);
-            spinner.succeed(chalk.green(`Loaded ${commands.length} commands`));
-            
-            console.log(chalk.blue('\nExecuting batch commands...\n'));
-            const results = await batchMode.executeBatch(commands);
-            
-            // Summary
-            const successful = results.filter(r => r.success).length;
-            const failed = results.length - successful;
-            
-            console.log('\n' + chalk.blue('Batch execution complete:'));
-            console.log(chalk.green(`✓ Successful: ${successful}`));
-            if (failed > 0) {
-                console.log(chalk.red(`✗ Failed: ${failed}`));
-                process.exit(1);
-            }
-        } catch (error) {
-            spinner.fail(chalk.red(`Batch execution failed: ${error.message}`));
-            process.exit(1);
-        }
-    });
-
-// Run command - Execute multiple commands in sequence
-program
-    .command('run')
-    .description('Run multiple commands in a single session (interactive mode)')
-    .action(async () => {
-        console.log(chalk.blue('Entering interactive batch mode...'));
-        console.log(chalk.gray('Type commands one per line. Type "exit" to finish.\n'));
-        
-        const readline = await import('readline');
-        const rl = readline.createInterface({
-            input: process.stdin,
-            output: process.stdout,
-            prompt: 'selenium> '
-        });
-        
-        const commands = [];
-        
-        rl.prompt();
-        
-        rl.on('line', async (line) => {
-            const trimmed = line.trim();
-            
-            if (trimmed === 'exit') {
-                rl.close();
-                
-                if (commands.length > 0) {
-                    console.log(chalk.blue('\nExecuting commands...\n'));
-                    const results = await batchMode.executeBatch(commands);
-                    
-                    // Summary
-                    const successful = results.filter(r => r.success).length;
-                    const failed = results.length - successful;
-                    
-                    console.log('\n' + chalk.blue('Execution complete:'));
-                    console.log(chalk.green(`✓ Successful: ${successful}`));
-                    if (failed > 0) {
-                        console.log(chalk.red(`✗ Failed: ${failed}`));
-                    }
-                }
-                
-                process.exit(0);
-            } else if (trimmed) {
-                // Parse command
-                const parts = trimmed.split(/\s+/);
-                const action = parts[0];
-                
-                let cmd;
-                switch (action) {
-                    case 'launch':
-                        const launchOpts = {};
-                        if (parts.includes('--headless')) launchOpts.headless = true;
-                        if (parts.includes('--no-profile')) launchOpts.useProfile = false;
-                        cmd = { action, options: launchOpts };
-                        break;
-                        
-                    case 'navigate':
-                        cmd = { action, url: parts[1] };
-                        break;
-                        
-                    case 'click':
-                    case 'text':
-                    case 'hover':
-                        const [by, value] = parts[1].split('=');
-                        cmd = { action, by, value };
-                        break;
-                        
-                    case 'type':
-                        const [typeBy, typeValue] = parts[1].split('=');
-                        const text = parts.slice(2).join(' ');
-                        cmd = { action, by: typeBy, value: typeValue, text };
-                        break;
-                        
-                    case 'screenshot':
-                        cmd = { action, path: parts[1] };
-                        break;
-                        
-                    case 'key':
-                        cmd = { action, key: parts[1] };
-                        break;
-                        
-                    case 'status':
-                    case 'close':
-                        cmd = { action };
-                        break;
-                        
-                    default:
-                        console.log(chalk.yellow(`Unknown command: ${action}`));
-                        rl.prompt();
-                        return;
-                }
-                
-                commands.push(cmd);
-                console.log(chalk.gray(`Added: ${trimmed}`));
-            }
-            
-            rl.prompt();
-        });
-    });
 
 // Parse arguments
 program.parse(process.argv);

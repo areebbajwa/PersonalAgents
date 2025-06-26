@@ -83,90 +83,60 @@ async function testBasicCLI() {
     }
 }
 
-// Test 2: Batch mode with real website
-async function testBatchMode() {
-    const batchFile = path.join(__dirname, '..', 'test-integration-batch.txt');
-    const batchContent = `launch --headless
-navigate https://www.google.com
-screenshot
-navigate https://github.com
-screenshot
-close`;
+// Test 2: Single command execution
+async function testSingleCommands() {
+    // Test launch command
+    let result = await runCommand(['launch', '--headless'], 30000);
+    if (result.code !== 0) {
+        throw new Error(`Launch failed: ${result.stderr}`);
+    }
+    if (!result.stdout.includes('Browser launched successfully')) {
+        throw new Error('Launch should succeed');
+    }
     
-    await fs.writeFile(batchFile, batchContent);
+    // Test navigate command
+    result = await runCommand(['navigate', 'https://example.com'], 30000);
+    if (result.code !== 0) {
+        throw new Error(`Navigate failed: ${result.stderr}`);
+    }
+    if (!result.stdout.includes('Navigation successful')) {
+        throw new Error('Navigate should succeed');
+    }
     
-    try {
-        const result = await runCommand(['batch', batchFile], 60000);
-        if (result.code !== 0) {
-            throw new Error(`Batch execution failed: ${result.stderr}`);
-        }
-        if (!result.stdout.includes('Batch execution complete')) {
-            throw new Error('Batch should complete successfully');
-        }
-        if (!result.stdout.includes('✓ Successful: 6')) {
-            throw new Error('All 6 commands should succeed');
-        }
-    } finally {
-        await fs.unlink(batchFile).catch(() => {});
+    // Test screenshot command
+    result = await runCommand(['screenshot'], 30000);
+    if (result.code !== 0) {
+        throw new Error(`Screenshot failed: ${result.stderr}`);
+    }
+    if (!result.stdout.includes('Screenshot saved')) {
+        throw new Error('Screenshot should succeed');
+    }
+    
+    // Test close command
+    result = await runCommand(['close'], 30000);
+    if (result.code !== 0) {
+        throw new Error(`Close failed: ${result.stderr}`);
+    }
+    if (!result.stdout.includes('Browser closed successfully')) {
+        throw new Error('Close should succeed');
     }
 }
 
-// Test 3: Multiple concurrent batches
-async function testConcurrentBatches() {
-    const batch1 = `launch --headless
-navigate https://example.com
-screenshot
-close`;
-    
-    const batch2 = `launch --headless
-navigate https://httpbin.org
-screenshot
-close`;
-    
-    const file1 = '/tmp/selenium-batch1.txt';
-    const file2 = '/tmp/selenium-batch2.txt';
-    
-    await fs.writeFile(file1, batch1);
-    await fs.writeFile(file2, batch2);
-    
-    try {
-        // Run two batches concurrently
-        const [result1, result2] = await Promise.all([
-            runCommand(['batch', file1], 60000),
-            runCommand(['batch', file2], 60000)
-        ]);
-        
-        if (result1.code !== 0 || result2.code !== 0) {
-            throw new Error('Both batches should succeed');
-        }
-    } finally {
-        await fs.unlink(file1).catch(() => {});
-        await fs.unlink(file2).catch(() => {});
-    }
-}
-
-// Test 4: Firefox profile usage
+// Test 3: Firefox profile usage
 async function testFirefoxProfile() {
-    const batchFile = '/tmp/profile-test.txt';
-    const batchContent = `launch --use-profile
-navigate https://github.com
-screenshot
-close`;
-    
-    await fs.writeFile(batchFile, batchContent);
-    
-    try {
-        const result = await runCommand(['batch', batchFile], 60000);
-        if (result.code !== 0) {
-            throw new Error(`Profile test failed: ${result.stderr}`);
-        }
-        if (!result.stdout.includes('Using Firefox profile:')) {
-            throw new Error('Should detect and use Firefox profile');
-        }
-    } finally {
-        await fs.unlink(batchFile).catch(() => {});
+    // Launch with profile
+    let result = await runCommand(['launch', '--headless'], 30000);
+    if (result.code !== 0) {
+        throw new Error(`Profile test failed: ${result.stderr}`);
     }
+    if (!result.stdout.includes('Using Firefox profile:')) {
+        throw new Error('Should detect and use Firefox profile');
+    }
+    
+    // Clean up
+    await runCommand(['close'], 30000);
 }
+
 
 // Test 5: Error handling
 async function testErrorHandling() {
@@ -177,16 +147,12 @@ async function testErrorHandling() {
     }
     
     // Navigate without launch
-    const batchFile = '/tmp/error-test.txt';
-    await fs.writeFile(batchFile, 'navigate https://example.com');
-    
-    try {
-        const result = await runCommand(['batch', batchFile]);
-        if (!result.stdout.includes('No browser session')) {
-            throw new Error('Should error when no browser is launched');
-        }
-    } finally {
-        await fs.unlink(batchFile).catch(() => {});
+    const result = await runCommand(['navigate', 'https://example.com']);
+    if (result.code === 0) {
+        throw new Error('Navigate without launch should fail');
+    }
+    if (!result.stderr.includes('No browser session')) {
+        throw new Error('Should error when no browser is launched');
     }
 }
 
@@ -195,8 +161,7 @@ async function runAllTests() {
     console.log(chalk.blue('Running selenium-cli integration tests...\n'));
     
     await runTest('Basic CLI functionality', testBasicCLI);
-    await runTest('Batch mode with real websites', testBatchMode);
-    await runTest('Concurrent batch execution', testConcurrentBatches);
+    await runTest('Single command execution', testSingleCommands);
     await runTest('Firefox profile usage', testFirefoxProfile);
     await runTest('Error handling', testErrorHandling);
     

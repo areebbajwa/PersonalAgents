@@ -432,3 +432,27 @@ export async function uploadFile(by, value, filePath, timeout) {
         status: 'File uploaded successfully'
     };
 }
+
+// Export HTML source
+export async function exportHtml(filePath) {
+    if (!driver) {
+        throw new Error('No browser session active. Launch browser first.');
+    }
+    
+    const html = await driver.getPageSource();
+    
+    if (filePath) {
+        await fs.writeFile(filePath, html, 'utf-8');
+        return {
+            path: filePath,
+            size: html.length,
+            status: 'HTML exported successfully'
+        };
+    } else {
+        return {
+            html: html,
+            size: html.length,
+            status: 'HTML retrieved successfully'
+        };
+    }
+}

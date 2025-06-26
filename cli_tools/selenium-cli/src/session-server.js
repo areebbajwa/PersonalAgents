@@ -103,6 +103,10 @@ const server = http.createServer(async (req, res) => {
                         result = await browserManager.takeScreenshot(path);
                         break;
                         
+                    case 'export-html':
+                        result = await browserManager.exportHtml(command.path);
+                        break;
+                        
                     case 'key':
                         result = await browserManager.pressKey(command.key);
                         break;
