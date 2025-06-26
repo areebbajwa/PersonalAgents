@@ -1,0 +1,22 @@
+{
+  "name": "ai-manager-cli",
+  "version": "1.0.0",
+  "description": "AI Manager CLI for monitoring workflow compliance and providing guidance",
+  "main": "src/index.js",
+  "dependencies": {
+    "commander": "^9.5.0",
+    "yaml": "^2.3.4"
+  },
+  "bin": {
+    "ai-manager-cli": "./ai-manager-cli"
+  },
+  "keywords": [
+    "ai",
+    "workflow",
+    "monitoring",
+    "gemini",
+    "compliance"
+  ],
+  "author": "PersonalAgents",
+  "license": "MIT"
+}

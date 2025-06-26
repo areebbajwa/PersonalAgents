@@ -75,6 +75,28 @@ class WorkflowManager:
         
         return workflow
     
+    def auto_start_ai_manager_if_needed(self, mode: str, step: int, project: str) -> None:
+        """Automatically start AI Manager on step 1 if not already running"""
+        if step == 1:
+            # Check if AI Manager is already running
+            status = self.get_ai_manager_status(project)
+            if status.get('status') != 'running':
+                result = self.start_ai_manager(project, mode)
+                if result.get('status') == 'started':
+                    print(f"🤖 AI Manager auto-started for project '{project}'")
+                elif 'error' in result and 'screen session' in result['error']:
+                    print(f"ℹ️  AI Manager not started (not in screen session)")
+                else:
+                    print(f"⚠️  Could not start AI Manager: {result.get('error', 'Unknown error')}")
+
+    def auto_stop_ai_manager_if_needed(self, project: str) -> None:
+        """Automatically stop AI Manager when workflow is complete or cleaned"""
+        status = self.get_ai_manager_status(project)
+        if status.get('status') == 'running':
+            result = self.stop_ai_manager(project)
+            if result.get('status') == 'stopped':
+                print(f"🤖 AI Manager auto-stopped for project '{project}'")
+
     def get_workflow_rules(self, mode: str, step: Optional[int] = None, workflow_file: Optional[Path] = None) -> Dict:
         """Get relevant rules for current mode and step"""
         # Update current state
@@ -216,6 +238,12 @@ class WorkflowManager:
         
         self.current_state["current_step"] = next_step
         self._save_state()
+        
+        # Auto-start AI Manager on step 1
+        project_name = self.state_file.stem.replace('workflow_state_', '')
+        if project_name != 'default':
+            self.auto_start_ai_manager_if_needed(mode, next_step, project_name)
+        
         return self.get_workflow_rules(mode, self.current_state["current_step"], workflow_file=workflow_file)
     
     def set_step(self, mode: str, step: int, workflow_file: Optional[Path] = None) -> Dict:
@@ -223,6 +251,12 @@ class WorkflowManager:
         self.current_state["current_mode"] = mode
         self.current_state["current_step"] = step
         self._save_state()
+        
+        # Auto-start AI Manager on step 1
+        project_name = self.state_file.stem.replace('workflow_state_', '')
+        if project_name != 'default':
+            self.auto_start_ai_manager_if_needed(mode, step, project_name)
+        
         return self.get_workflow_rules(mode, step, workflow_file=workflow_file)
     
     def track_test(self, test_name: str, status: str) -> Dict:
@@ -258,7 +292,13 @@ class WorkflowManager:
         return {"status": "reset", "mode": mode}
     
     def clean_project_state(self) -> Dict:
-        """Delete project state file completely"""
+        """Delete project state file completely and stop AI Manager"""
+        project_name = self.state_file.stem.replace('workflow_state_', '')
+        
+        # Auto-stop AI Manager before cleaning
+        if project_name != 'default':
+            self.auto_stop_ai_manager_if_needed(project_name)
+        
         if self.state_file.exists():
             self.state_file.unlink()
             return {"status": "cleaned", "message": "Project state deleted successfully"}
@@ -299,6 +339,131 @@ Check your todo list. If tasks remain, continue working. If all done, use --next
         }
         
         return response
+    
+    def start_ai_manager(self, project: str, mode: str) -> Dict:
+        """Start AI Manager monitoring for the project"""
+        import subprocess
+        import os
+        
+        # Find ai-manager-cli
+        script_dir = Path(__file__).resolve().parent
+        ai_manager_cli = script_dir.parent / 'ai-manager-cli' / 'ai-manager-cli'
+        
+        if not ai_manager_cli.exists():
+            return {"error": f"AI Manager CLI not found at {ai_manager_cli}"}
+        
+        # Get current screen session
+        screen_session = os.environ.get('STY')
+        if not screen_session:
+            return {"error": "Not running in a screen session. AI Manager requires screen for keypress injection."}
+        
+        try:
+            # Start AI Manager in background
+            cmd = [
+                'node', str(ai_manager_cli), 'monitor',
+                '--project', project,
+                '--mode', mode,
+                '--screen-session', screen_session,
+                '--log-path', '/tmp/screen_output.log',
+                '--interval', '60'  # Check every minute
+            ]
+            
+            # Start in background and save PID
+            process = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            
+            # Save PID to state
+            pid_file = self.state_file.parent / f"ai_manager_pid_{project}.txt"
+            with open(pid_file, 'w') as f:
+                f.write(str(process.pid))
+            
+            return {
+                "status": "started",
+                "project": project,
+                "mode": mode,
+                "screen_session": screen_session,
+                "pid": process.pid,
+                "message": f"AI Manager started for project '{project}' in {mode} mode"
+            }
+            
+        except Exception as e:
+            return {"error": f"Failed to start AI Manager: {str(e)}"}
+    
+    def stop_ai_manager(self, project: str) -> Dict:
+        """Stop AI Manager monitoring for the project"""
+        import os
+        import signal
+        
+        # Find PID file
+        pid_file = self.state_file.parent / f"ai_manager_pid_{project}.txt"
+        
+        if not pid_file.exists():
+            return {"error": f"AI Manager not running for project '{project}' (no PID file found)"}
+        
+        try:
+            with open(pid_file, 'r') as f:
+                pid = int(f.read().strip())
+            
+            # Try to kill the process
+            os.kill(pid, signal.SIGTERM)
+            
+            # Remove PID file
+            pid_file.unlink()
+            
+            return {
+                "status": "stopped",
+                "project": project,
+                "pid": pid,
+                "message": f"AI Manager stopped for project '{project}'"
+            }
+            
+        except ProcessLookupError:
+            # Process already dead, just clean up PID file
+            pid_file.unlink()
+            return {
+                "status": "stopped",
+                "project": project,
+                "message": f"AI Manager was not running for project '{project}' (cleaned up PID file)"
+            }
+        except Exception as e:
+            return {"error": f"Failed to stop AI Manager: {str(e)}"}
+    
+    def get_ai_manager_status(self, project: str) -> Dict:
+        """Get AI Manager status for the project"""
+        import os
+        
+        pid_file = self.state_file.parent / f"ai_manager_pid_{project}.txt"
+        
+        if not pid_file.exists():
+            return {
+                "status": "stopped",
+                "project": project,
+                "message": "AI Manager is not running"
+            }
+        
+        try:
+            with open(pid_file, 'r') as f:
+                pid = int(f.read().strip())
+            
+            # Check if process is still running
+            os.kill(pid, 0)  # This will raise an exception if process doesn't exist
+            
+            return {
+                "status": "running",
+                "project": project,
+                "pid": pid,
+                "message": f"AI Manager is running for project '{project}'"
+            }
+            
+        except ProcessLookupError:
+            # Process is dead, clean up PID file
+            pid_file.unlink()
+            return {
+                "status": "stopped", 
+                "project": project,
+                "message": "AI Manager was not running (cleaned up stale PID file)"
+            }
+        except Exception as e:
+            return {"error": f"Failed to check AI Manager status: {str(e)}"}
 
 
 def main():
@@ -310,6 +475,12 @@ def main():
     parser.add_argument('--next', action='store_true', help='Advance to next step')
     parser.add_argument('--sub-task-next', action='store_true', 
                        help='Show global rules and remind about task completion')
+    parser.add_argument('--remind-rules', action='store_true', 
+                       help='Alias for --sub-task-next: Show global rules and remind about task completion')
+    parser.add_argument('--start-ai-manager', action='store_true',
+                       help='Start AI Manager monitoring for this project')
+    parser.add_argument('--stop-ai-manager', action='store_true',
+                       help='Stop AI Manager monitoring for this project')
     parser.add_argument('--set-step', type=int, help='Jump to specific step')
     parser.add_argument('--track-test', nargs=2, metavar=('NAME', 'STATUS'),
                        help='Track test execution (name and status)')
@@ -343,8 +514,15 @@ def main():
         result = manager.clean_project_state()
     elif args.track_test:
         result = manager.track_test(args.track_test[0], args.track_test[1])
-    elif args.sub_task_next:
-        # Handle sub-task-next command
+    elif args.start_ai_manager:
+        project_name = args.project or "default"
+        mode = args.mode or manager.current_state.get("current_mode") or "dev"
+        result = manager.start_ai_manager(project_name, mode)
+    elif args.stop_ai_manager:
+        project_name = args.project or "default"
+        result = manager.stop_ai_manager(project_name)
+    elif args.sub_task_next or args.remind_rules:
+        # Handle sub-task-next and remind-rules commands (they're identical)
         if args.workflow:
             mode = args.workflow.stem
             result = manager.get_sub_task_reminder(mode, workflow_file=args.workflow)
