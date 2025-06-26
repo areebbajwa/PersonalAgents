@@ -15,11 +15,14 @@ steps:
       If continuing work on existing todo file in `todos/YYYYMMDD-[project]-todo.md`, skip to step 4 and update existing todo list to match the todo list structure (if needed).
       
       **For new work, execute git setup IMMEDIATELY:**
-      1. Create branch:
+      1. Create worktree with new branch:
          ```
-         git checkout -b [project-name]-YYYYMMDD
+         mkdir -p worktrees
+         git worktree add worktrees/[project-name]-YYYYMMDD -b [project-name]-YYYYMMDD
+         cd worktrees/[project-name]-YYYYMMDD
          git push -u origin [project-name]-YYYYMMDD
          ```
+      2. Copy config/.env over to new worktree folder because it's in .gitignore.
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
@@ -144,12 +147,7 @@ steps:
   - number: 6
     title: "Clean Up Environment"
     content: |
-      Before final commits, clean up temporary files:
-      1. Delete test logs: `rm -f *.log test.log`
-      2. Remove temporary files: `rm -f temp_* tmp_*`
-      3. Clean up debug files: `rm -f debug_* *.debug`
-      4. Remove unneeded test artifacts
-      5. Verify only necessary files remain
+      Before final commits, clean up temporary/unneeded files by looking at git status. Make sure .gitignore is up-to-date.
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
@@ -158,10 +156,11 @@ steps:
     title: "Final Verification"
     content: |
       Execute these final steps before marking complete:
-      1. Run full test suite ONCE
-      2. Verify all tests pass
-      3. Update todo file with final status
-      4. Final commit and push
+      1. Run the application in production mode (non-test mode) exactly as end users would
+      2. Manually verify ALL functionality works in the production environment
+      3. Test critical user workflows end-to-end in production mode. Make sure not to use any mocks and use live API endpoints. Just make sure to reverse any changes that would affect production data.
+      4. Update todo file with final status
+      5. Final commit and push
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
@@ -195,7 +194,12 @@ steps:
     content: |
       Final cleanup step:
       
-      Clean project state: `workflow-cli --project [project-name] --clean`
+      1. Clean project state: `workflow-cli --project [project-name] --clean`
+      2. Remove worktree:
+         ```
+         cd ../..
+         git worktree remove worktrees/[project-name]-YYYYMMDD
+         ```
       
       **Workflow Complete:** Project finished and state cleaned up
     mandatory: true

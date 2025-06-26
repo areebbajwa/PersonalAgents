@@ -152,7 +152,9 @@ class RecordCLI:
         api_key = os.environ.get('GEMINI_API_KEY')
         if not api_key:
             # Try to load from config/.env
-            config_path = Path(__file__).parent.parent.parent / 'config' / '.env'
+            # Resolve the real path in case we're running from a symlink
+            real_path = Path(os.path.realpath(__file__))
+            config_path = real_path.parent.parent.parent / 'config' / '.env'
             if config_path.exists():
                 with open(config_path) as f:
                     for line in f:
@@ -190,7 +192,7 @@ class RecordCLI:
             }
         
         # Prepare API request
-        model_id = "gemini-2.5-pro-preview-05-06"
+        model_id = "gemini-1.5-flash"
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_id}:generateContent?key={api_key}"
         
         prompt = """Analyze this screen recording and provide a detailed description of what happens in the video. 
@@ -223,6 +225,7 @@ class RecordCLI:
         
         # Send request
         print("[Upload] Sending to Gemini API...")
+        print(f"[Upload] Using model: {model_id}")
         print("[Upload] This may take a moment for large videos...")
         try:
             response = requests.post(
@@ -239,21 +242,21 @@ class RecordCLI:
                     "message": f"Gemini API error {response.status_code}: {error_text}"
                 }
             
+            # Handle response
             result = response.json()
             
-            # Extract response
-            if result.get('candidates') and len(result['candidates']) > 0:
+            if 'candidates' in result and len(result['candidates']) > 0:
                 content = result['candidates'][0].get('content', {})
-                if content.get('parts') and len(content['parts']) > 0:
+                if 'parts' in content and len(content['parts']) > 0:
                     description = content['parts'][0].get('text', '').strip()
-                    
-                    print("[Upload] Analysis complete!")
-                    return {
-                        "status": "success",
-                        "description": description,
-                        "model": model_id,
-                        "video_size_mb": file_size_mb
-                    }
+                    if description:
+                        print("[Upload] Analysis complete!")
+                        return {
+                            "status": "success",
+                            "description": description,
+                            "model": model_id,
+                            "video_size_mb": file_size_mb
+                        }
             
             return {
                 "status": "error",

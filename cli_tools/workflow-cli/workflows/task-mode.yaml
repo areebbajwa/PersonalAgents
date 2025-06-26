@@ -15,9 +15,11 @@ steps:
       If continuing work on existing todo file in `todos/`, skip to step 4 and update existing todo list to match the todo list structure (if needed).
       
       **For new work, execute git setup IMMEDIATELY:**
-      1. Create branch:
+      1. Create worktree with new branch:
          ```
-         git checkout -b [project-name]-YYYYMMDD
+         mkdir -p worktrees
+         git worktree add worktrees/[project-name]-YYYYMMDD -b [project-name]-YYYYMMDD
+         cd worktrees/[project-name]-YYYYMMDD
          git push -u origin [project-name]-YYYYMMDD
          ```
       
@@ -167,7 +169,12 @@ steps:
     content: |
       Final cleanup step:
       
-      Clean project state: `workflow-cli --project [project-name] --clean`
+      1. Clean project state: `workflow-cli --project [project-name] --clean`
+      2. Remove worktree:
+         ```
+         cd ../..
+         git worktree remove worktrees/[project-name]-YYYYMMDD
+         ```
       
       **Workflow Complete:** Task finished and state cleaned up
     mandatory: true
