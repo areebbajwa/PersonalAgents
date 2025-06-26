@@ -4,10 +4,26 @@
 
 SESSION_NAME="main"
 
+# Ensure log directory exists
+mkdir -p ~/.screen-logs
+
 if ! screen -list | grep -q "\.${SESSION_NAME}"; then
     # No session - create it
     echo "📺 Creating new screen session '${SESSION_NAME}'..."
-    screen -S ${SESSION_NAME}
+    
+    # Create temporary screenrc for logging
+    TEMP_RC="/tmp/.screenrc-${SESSION_NAME}-$$"
+    cat > "$TEMP_RC" << EOF
+# Include user's main screenrc
+source $HOME/.screenrc
+
+# Override settings for this session
+logfile $HOME/.screen-logs/screenlog-${SESSION_NAME}-%Y%m%d-%n.log
+logfile flush 1
+deflog on
+EOF
+    
+    screen -c "$TEMP_RC" -S ${SESSION_NAME}
 else
     # Session exists - show options
     echo "📺 Screen session '${SESSION_NAME}' exists"

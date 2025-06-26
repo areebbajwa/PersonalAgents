@@ -34,10 +34,20 @@ STARTUP_DIR="$PWD"
 # Create a minimal screenrc that sets the directory
 TEMP_RC="/tmp/.screenrc-${SESSION_NAME}-$$"
 cat > "$TEMP_RC" << EOF
-# Minimal screenrc for directory preservation
+# Include user's main screenrc
+source $HOME/.screenrc
+
+# Override settings for this session
 shell zsh
 chdir $STARTUP_DIR
+# Enable logging with session-based filename
+logfile $HOME/.screen-logs/screenlog-${SESSION_NAME}-%Y%m%d-%n.log
+logfile flush 1
+deflog on
 EOF
+
+# Ensure log directory exists
+mkdir -p ~/.screen-logs
 
 # Start screen with the custom config
 exec screen -c "$TEMP_RC" -S "${SESSION_NAME}"

@@ -1,0 +1,46 @@
+#!/bin/bash
+# Clean up old screen log files
+
+LOG_DIR="$HOME/.screen-logs"
+DAYS_TO_KEEP=${1:-30}
+
+if [ ! -d "$LOG_DIR" ]; then
+    echo "❌ No screen logs directory found at $LOG_DIR"
+    exit 1
+fi
+
+echo "🧹 Cleaning screen logs older than $DAYS_TO_KEEP days..."
+
+# Count files before cleanup
+BEFORE_COUNT=$(find "$LOG_DIR" -name "*.log" -type f 2>/dev/null | wc -l)
+
+# Find and remove old log files
+DELETED_COUNT=$(find "$LOG_DIR" -name "*.log" -type f -mtime +$DAYS_TO_KEEP -print -delete 2>/dev/null | wc -l)
+
+# Count files after cleanup
+AFTER_COUNT=$(find "$LOG_DIR" -name "*.log" -type f 2>/dev/null | wc -l)
+
+echo "📊 Cleanup complete:"
+echo "   Files before: $BEFORE_COUNT"
+echo "   Files deleted: $DELETED_COUNT"
+echo "   Files remaining: $AFTER_COUNT"
+
+# Show disk space saved
+if [ $DELETED_COUNT -gt 0 ]; then
+    echo ""
+    echo "💾 Disk space freed: check with 'du -sh $LOG_DIR'"
+fi
+
+# Optional: compress logs older than 7 days but newer than deletion threshold
+echo ""
+read -p "Compress logs older than 7 days? [y/N] " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    COMPRESSED=0
+    find "$LOG_DIR" -name "*.log" -type f -mtime +7 -mtime -$DAYS_TO_KEEP | while read -r logfile; do
+        if gzip "$logfile"; then
+            ((COMPRESSED++))
+        fi
+    done
+    echo "📦 Compressed $COMPRESSED log files"
+fi

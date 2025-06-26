@@ -41,12 +41,22 @@ OTHER USEFUL COMMANDS
   Ctrl-a M      Toggle activity monitoring
   Ctrl-a F      Fit window to terminal
 
+LOGGING & HISTORY
+  screen-log-view       View screen session logs
+  screen-log-view -f    Follow latest log in real-time
+  screen-log-view -l    List all available logs
+  screen-log-cleanup    Clean up old log files
+  
+  Auto-logging: Enabled by default in ~/.screen-logs/
+  Format: screenlog-[session]-[date]-[window].log
+
 TIPS
 - Detach before closing SSH: Ctrl-a d
 - Session persists after disconnect
 - Access from any device via SSH
 - Run 'man screen' for full documentation
 - Config file: ~/.screenrc
+- Logs auto-saved to ~/.screen-logs/
 
 For full workflow guide: cat ~/bin/SCREEN_WORKFLOW.md
 EOF

@@ -1,0 +1,56 @@
+#!/bin/bash
+# View screen session logs
+
+LOG_DIR="$HOME/.screen-logs"
+
+if [ ! -d "$LOG_DIR" ]; then
+    echo "❌ No screen logs directory found at $LOG_DIR"
+    exit 1
+fi
+
+if [ $# -eq 0 ]; then
+    # No arguments - show recent logs
+    echo "📋 Recent screen logs:"
+    echo ""
+    ls -lt "$LOG_DIR" 2>/dev/null | grep -v "^total" | head -20
+    echo ""
+    echo "Usage: $(basename $0) [session-name|log-file]"
+    echo "       $(basename $0) -f  # follow latest log"
+    echo "       $(basename $0) -l  # list all logs"
+else
+    case "$1" in
+        -f|--follow)
+            # Follow the most recent log
+            LATEST=$(ls -t "$LOG_DIR"/*.log 2>/dev/null | head -1)
+            if [ -z "$LATEST" ]; then
+                echo "❌ No log files found"
+                exit 1
+            fi
+            echo "📺 Following: $(basename "$LATEST")"
+            tail -f "$LATEST"
+            ;;
+        -l|--list)
+            # List all logs with sizes
+            echo "📋 All screen logs:"
+            ls -lh "$LOG_DIR"/*.log 2>/dev/null | awk '{print $9, $5}'
+            ;;
+        *)
+            # Look for specific session or file
+            if [ -f "$LOG_DIR/$1" ]; then
+                # Exact filename provided
+                less "$LOG_DIR/$1"
+            elif [ -f "$LOG_DIR/screenlog-$1"*.log ]; then
+                # Session name provided - show most recent
+                MATCHING=$(ls -t "$LOG_DIR/screenlog-$1"*.log 2>/dev/null | head -1)
+                echo "📺 Viewing: $(basename "$MATCHING")"
+                less "$MATCHING"
+            else
+                echo "❌ No logs found for '$1'"
+                echo ""
+                echo "Available sessions:"
+                ls "$LOG_DIR" | sed 's/screenlog-//' | sed 's/-[0-9]\{8\}.*//' | sort -u
+                exit 1
+            fi
+            ;;
+    esac
+fi
