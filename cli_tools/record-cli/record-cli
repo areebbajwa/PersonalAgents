@@ -1,0 +1,548 @@
+#!/usr/bin/env python3
+"""
+Record CLI Tool for macOS
+A command-line interface for recording the screen and getting AI-powered video descriptions.
+"""
+
+import argparse
+import subprocess
+import sys
+import os
+import time
+import tempfile
+import json
+import base64
+from datetime import datetime
+import signal
+import requests
+from pathlib import Path
+
+
+class RecordCLI:
+    def __init__(self):
+        self.temp_dir = tempfile.gettempdir()
+        self.recording_process = None
+        self.output_file = None
+        self.pid_file = os.path.join(self.temp_dir, '.record_cli.pid')
+        self.recording_file = os.path.join(self.temp_dir, '.record_cli.recording')
+        
+    def generate_filename(self, prefix="recording", ext="mov"):
+        """Generate a timestamped filename."""
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        return f"{prefix}_{timestamp}.{ext}"
+    
+    def start_fullscreen_recording(self, output_path, duration=None):
+        """Start recording the entire screen."""
+        print("[Recording] Starting fullscreen recording...")
+        
+        cmd = ["screencapture"]
+        
+        if duration:
+            print(f"[Recording] Recording for {duration} seconds...")
+            cmd.extend(["-V", str(duration)])
+        elif not os.environ.get('RECORD_CLI_TEST_MODE'):
+            print("[Recording] Press Ctrl+C to stop recording")
+            cmd.append("-v")
+        else:
+            print("[Recording] Test mode: 2-second recording")
+            cmd.extend(["-V", "2"])
+        
+        cmd.append(output_path)
+        return self._start_recording(cmd)
+    
+    def start_window_recording(self, output_path, duration=None):
+        """Start recording a specific window interactively."""
+        print("[Recording] Note: Window-specific recording not available, using fullscreen")
+        return self.start_fullscreen_recording(output_path, duration)
+    
+    def _start_recording(self, cmd):
+        """Start the recording process."""
+        try:
+            # For testing, we'll use a timed recording instead of waiting for Ctrl+C
+            # This is because screencapture -v might require screen recording permissions
+            # and we need to ensure the file is created properly
+            
+            # Test mode is now handled in the calling functions
+            
+            self.recording_process = subprocess.Popen(
+                cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE
+            )
+            
+            # Only set up signal handler if not in test mode
+            if not os.environ.get('RECORD_CLI_TEST_MODE'):
+                signal.signal(signal.SIGINT, self._handle_stop_recording)
+            
+            # Wait for recording to finish
+            stdout, stderr = self.recording_process.communicate()
+            
+            if self.recording_process.returncode != 0:
+                print(f"[Error] Recording failed: {stderr.decode()}")
+                return False
+            
+            return True
+            
+        except subprocess.CalledProcessError as e:
+            print(f"Error starting recording: {e}")
+            return False
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+            return False
+    
+    def _handle_stop_recording(self, signum, frame):
+        """Handle stop recording signal."""
+        print("\n[Recording] Stopping recording...")
+        if self.recording_process:
+            self.recording_process.terminate()
+        sys.exit(0)
+    
+    def compress_video(self, input_path, output_path, resolution="1080p"):
+        """Compress video using FFmpeg."""
+        # Resolution presets
+        resolutions = {
+            "480p": "854:480",
+            "720p": "1280:720",
+            "1080p": "1920:1080"
+        }
+        
+        scale = resolutions.get(resolution, "1920:1080")
+        print(f"[Compression] Compressing video to {resolution}...")
+        
+        # Get input file size
+        input_size_mb = os.path.getsize(input_path) / (1024 * 1024)
+        print(f"[Compression] Input size: {input_size_mb:.1f} MB")
+        
+        cmd = [
+            "ffmpeg",
+            "-i", input_path,
+            "-vf", f"scale={scale}",
+            "-c:v", "libx264",
+            "-crf", "28",
+            "-preset", "faster",
+            "-c:a", "aac",
+            "-b:a", "96k",
+            "-y",  # Overwrite output file
+            output_path
+        ]
+        
+        try:
+            result = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                check=True
+            )
+            # Get output file size
+            output_size_mb = os.path.getsize(output_path) / (1024 * 1024)
+            compression_ratio = (1 - output_size_mb / input_size_mb) * 100
+            print(f"[Compression] Success! Output size: {output_size_mb:.1f} MB (reduced by {compression_ratio:.0f}%)")
+            return True
+        except subprocess.CalledProcessError as e:
+            print(f"[Error] FFmpeg compression failed: {e.stderr}")
+            return False
+        except FileNotFoundError:
+            print("[Warning] FFmpeg not found. Please install FFmpeg first.")
+            print("[Warning] You can install it using: brew install ffmpeg")
+            return False
+    
+    def upload_to_gemini(self, video_path):
+        """Upload video to Gemini and get timestamped description."""
+        # Get API key from environment
+        api_key = os.environ.get('GEMINI_API_KEY')
+        if not api_key:
+            # Try to load from config/.env
+            config_path = Path(__file__).parent.parent.parent / 'config' / '.env'
+            if config_path.exists():
+                with open(config_path) as f:
+                    for line in f:
+                        if line.startswith('GEMINI_API_KEY='):
+                            api_key = line.split('=', 1)[1].strip().strip('"')
+                            break
+        
+        if not api_key:
+            return {
+                "status": "error",
+                "message": "GEMINI_API_KEY not found in environment or config/.env"
+            }
+        
+        # Read video file
+        print("[Upload] Reading video file...")
+        try:
+            with open(video_path, 'rb') as f:
+                video_data = f.read()
+            
+            # Get file size in MB
+            file_size_mb = len(video_data) / (1024 * 1024)
+            print(f"[Upload] Video size: {file_size_mb:.1f} MB")
+            
+            if file_size_mb > 20:
+                print(f"[Warning] Video size exceeds 20 MB limit. Upload may fail.")
+            
+            # Encode to base64
+            print("[Upload] Encoding video for upload...")
+            base64_data = base64.b64encode(video_data).decode('utf-8')
+            
+        except Exception as e:
+            return {
+                "status": "error",
+                "message": f"Failed to read video file: {e}"
+            }
+        
+        # Prepare API request
+        model_id = "gemini-2.5-pro-preview-05-06"
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_id}:generateContent?key={api_key}"
+        
+        prompt = """Analyze this screen recording and provide a detailed description of what happens in the video. 
+        Include timestamps for significant events or changes.
+        Format your response with timestamps like [MM:SS] at the beginning of each observation.
+        Focus on user actions, UI changes, and any text or content visible on screen."""
+        
+        payload = {
+            "contents": [
+                {
+                    "role": "user",
+                    "parts": [
+                        {
+                            "inlineData": {
+                                "mimeType": "video/mp4",
+                                "data": base64_data
+                            }
+                        },
+                        {
+                            "text": prompt
+                        }
+                    ]
+                }
+            ],
+            "generationConfig": {
+                "temperature": 0,
+                "responseMimeType": "text/plain"
+            }
+        }
+        
+        # Send request
+        print("[Upload] Sending to Gemini API...")
+        print("[Upload] This may take a moment for large videos...")
+        try:
+            response = requests.post(
+                url,
+                json=payload,
+                headers={'Content-Type': 'application/json'},
+                timeout=120  # 2 minute timeout for large videos
+            )
+            
+            if response.status_code != 200:
+                error_text = response.text
+                return {
+                    "status": "error",
+                    "message": f"Gemini API error {response.status_code}: {error_text}"
+                }
+            
+            result = response.json()
+            
+            # Extract response
+            if result.get('candidates') and len(result['candidates']) > 0:
+                content = result['candidates'][0].get('content', {})
+                if content.get('parts') and len(content['parts']) > 0:
+                    description = content['parts'][0].get('text', '').strip()
+                    
+                    print("[Upload] Analysis complete!")
+                    return {
+                        "status": "success",
+                        "description": description,
+                        "model": model_id,
+                        "video_size_mb": file_size_mb
+                    }
+            
+            return {
+                "status": "error",
+                "message": "No content returned from Gemini API"
+            }
+            
+        except requests.exceptions.Timeout:
+            return {
+                "status": "error",
+                "message": "Request timed out - video may be too large"
+            }
+        except Exception as e:
+            return {
+                "status": "error",
+                "message": f"Failed to analyze video: {e}"
+            }
+    
+    def cleanup_temp_files(self, *files):
+        """Clean up temporary files."""
+        for file_path in files:
+            if file_path and os.path.exists(file_path):
+                try:
+                    os.remove(file_path)
+                    print(f"[Cleanup] Removed temporary file: {file_path}")
+                except Exception as e:
+                    print(f"[Warning] Could not remove {file_path}: {e}")
+    
+    def start_background_recording(self, output_path, window_mode=False, compress=True, skip_gemini=True):
+        """Start recording in background mode."""
+        # Check if already recording
+        if os.path.exists(self.pid_file):
+            print("[Error] Recording already in progress")
+            print("[Error] Use 'record-cli stop' to stop current recording")
+            return False
+        
+        # Ensure output directory exists
+        output_dir = os.path.dirname(output_path)
+        if output_dir:
+            os.makedirs(output_dir, exist_ok=True)
+        
+        # Save recording info
+        with open(self.recording_file, 'w') as f:
+            json.dump({
+                'output_path': output_path,
+                'compress': compress,
+                'skip_gemini': skip_gemini
+            }, f)
+        
+        # Start screencapture process directly
+        cmd = ["screencapture", "-v", output_path]
+        process = subprocess.Popen(
+            cmd,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            preexec_fn=os.setsid  # Create new process group
+        )
+        
+        # Save PID
+        with open(self.pid_file, 'w') as f:
+            f.write(str(process.pid))
+        
+        print(f"[Recording] Started recording in background (PID: {process.pid})")
+        print(f"[Recording] Output will be saved to: {output_path}")
+        print("[Recording] Use 'record-cli stop' to stop recording")
+        return True
+    
+    def stop_background_recording(self):
+        """Stop a background recording."""
+        if not os.path.exists(self.pid_file):
+            print("[Error] No active recording found")
+            return False
+        
+        try:
+            # Read PID
+            with open(self.pid_file, 'r') as f:
+                pid = int(f.read().strip())
+            
+            # Read recording info
+            recording_info = {}
+            if os.path.exists(self.recording_file):
+                with open(self.recording_file, 'r') as f:
+                    recording_info = json.load(f)
+            
+            output_path = recording_info.get('output_path', '')
+            compress = recording_info.get('compress', True)
+            skip_gemini = recording_info.get('skip_gemini', True)
+            
+            # Stop the screencapture process
+            try:
+                # Check if process is still running
+                os.kill(pid, 0)  # This doesn't kill, just checks if process exists
+                # If we get here, process is running
+                try:
+                    os.killpg(os.getpgid(pid), signal.SIGINT)
+                except:
+                    # Fallback to regular kill
+                    os.kill(pid, signal.SIGINT)
+            except OSError:
+                # Process already finished
+                print("[Recording] Recording process already finished")
+            
+            print(f"[Recording] Stopping recording (PID: {pid})...")
+            
+            # Wait for recording to finish
+            time.sleep(1)
+            
+            # Clean up PID files
+            if os.path.exists(self.pid_file):
+                os.remove(self.pid_file)
+            if os.path.exists(self.recording_file):
+                os.remove(self.recording_file)
+            
+            # Check if recording was saved
+            if output_path and os.path.exists(output_path):
+                file_size_mb = os.path.getsize(output_path) / (1024 * 1024)
+                print(f"[Recording] Saved to: {output_path} ({file_size_mb:.1f} MB)")
+                
+                # Handle compression if needed
+                if compress and output_path.endswith('.mov'):
+                    compressed_path = output_path.rsplit('.', 1)[0] + '.mp4'
+                    if self.compress_video(output_path, compressed_path, resolution="1080p"):
+                        # Remove original if compression succeeded
+                        os.remove(output_path)
+                        print(f"[Output] Final video saved to: {compressed_path}")
+                    else:
+                        print("[Warning] Compression failed, keeping original recording")
+            else:
+                print(f"[Error] Recording file not found: {output_path}")
+                return False
+            
+            return True
+            
+        except Exception as e:
+            print(f"[Error] Failed to stop recording: {e}")
+            # Clean up on error
+            if os.path.exists(self.pid_file):
+                os.remove(self.pid_file)
+            if os.path.exists(self.recording_file):
+                os.remove(self.recording_file)
+            return False
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Record screen and get AI-powered descriptions",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  %(prog)s                    # Record fullscreen (press Ctrl+C to stop)
+  %(prog)s -d 10              # Record for 10 seconds
+  %(prog)s start              # Start recording in background
+  %(prog)s stop               # Stop background recording
+  %(prog)s -w                 # Record specific window
+  %(prog)s -o recording.mp4   # Save to specific location
+  %(prog)s --no-compress      # Skip compression step
+  %(prog)s --keep-original    # Keep original recording file
+        """
+    )
+    
+    # Add subcommands for start/stop
+    parser.add_argument('command', nargs='?', choices=['start', 'stop'],
+                       help="Start or stop background recording")
+    
+    # Recording mode
+    parser.add_argument("-w", "--window", action="store_true",
+                       help="Record a specific window (interactive selection)")
+    
+    # Duration option
+    parser.add_argument("-d", "--duration", type=int,
+                       help="Duration in seconds for recording")
+    
+    # Output options
+    parser.add_argument("-o", "--output", type=str,
+                       help="Output file path for the recording")
+    
+    # Processing options
+    parser.add_argument("--no-compress", action="store_true",
+                       help="Skip video compression step")
+    parser.add_argument("--keep-original", action="store_true",
+                       help="Keep the original recording file")
+    parser.add_argument("--skip-gemini", action="store_true",
+                       help="Skip Gemini analysis")
+    
+    args = parser.parse_args()
+    
+    record_cli = RecordCLI()
+    
+    # Handle start/stop commands
+    if args.command == 'stop':
+        success = record_cli.stop_background_recording()
+        sys.exit(0 if success else 1)
+    
+    elif args.command == 'start':
+        # For start command, use default output or specified output
+        if args.output:
+            output_path = os.path.expanduser(args.output)
+        else:
+            # Default extension based on compression setting
+            ext = "mp4" if not args.no_compress else "mov"
+            filename = record_cli.generate_filename("recording", ext)
+            output_path = os.path.join(os.getcwd(), filename)
+        
+        # If output is .mp4 but no-compress is set, change to .mov
+        if args.no_compress and output_path.endswith('.mp4'):
+            output_path = output_path.rsplit('.', 1)[0] + '.mov'
+        # If output is .mov but compression is enabled, record to temp .mov
+        elif not args.no_compress and output_path.endswith('.mp4'):
+            temp_path = output_path.rsplit('.', 1)[0] + '_temp.mov'
+            success = record_cli.start_background_recording(
+                temp_path, args.window, 
+                compress=not args.no_compress,
+                skip_gemini=args.skip_gemini
+            )
+        else:
+            success = record_cli.start_background_recording(
+                output_path, args.window,
+                compress=not args.no_compress,
+                skip_gemini=args.skip_gemini
+            )
+        sys.exit(0 if success else 1)
+    
+    # Generate temporary filenames
+    temp_recording = os.path.join(
+        record_cli.temp_dir,
+        record_cli.generate_filename("temp_recording", "mov")
+    )
+    
+    temp_compressed = os.path.join(
+        record_cli.temp_dir,
+        record_cli.generate_filename("compressed", "mp4")
+    )
+    
+    # Start recording
+    success = False
+    if args.window:
+        success = record_cli.start_window_recording(temp_recording, args.duration)
+    else:
+        success = record_cli.start_fullscreen_recording(temp_recording, args.duration)
+    
+    if not success or not os.path.exists(temp_recording):
+        print("[Error] Recording failed or was cancelled")
+        sys.exit(1)
+    
+    recording_size_mb = os.path.getsize(temp_recording) / (1024 * 1024)
+    print(f"[Recording] Saved to: {temp_recording} ({recording_size_mb:.1f} MB)")
+    
+    # Compress video if requested
+    final_video = temp_recording
+    if not args.no_compress:
+        if record_cli.compress_video(temp_recording, temp_compressed):
+            final_video = temp_compressed
+        else:
+            print("[Warning] Compression failed, using original recording")
+    
+    # Save to output location if specified
+    if args.output:
+        output_path = os.path.expanduser(args.output)
+        os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
+        
+        try:
+            # Copy file to output location
+            subprocess.run(["cp", final_video, output_path], check=True)
+            final_size_mb = os.path.getsize(output_path) / (1024 * 1024)
+            print(f"[Output] Video saved to: {output_path} ({final_size_mb:.1f} MB)")
+        except Exception as e:
+            print(f"[Error] Failed to save to output location: {e}")
+    
+    # Upload to Gemini for analysis
+    if not args.skip_gemini:
+        result = record_cli.upload_to_gemini(final_video)
+        
+        if result['status'] == 'success':
+            print("\n" + "="*60)
+            print("Video Analysis Results:")
+            print("="*60)
+            print(result['description'])
+            print("\n" + "-"*60)
+            print(f"Model: {result['model']}")
+            print(f"Video size: {result['video_size_mb']:.1f} MB")
+        else:
+            print(f"\n[Error] {result['message']}")
+    
+    # Cleanup temporary files
+    if not args.keep_original:
+        files_to_clean = [temp_recording]
+        if final_video != temp_recording:
+            files_to_clean.append(temp_compressed)
+        record_cli.cleanup_temp_files(*files_to_clean)
+
+
+if __name__ == "__main__":
+    main()
