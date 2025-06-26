@@ -97,9 +97,17 @@ class RecordCLI:
             self.recording_process.terminate()
         sys.exit(0)
     
-    def compress_video(self, input_path, output_path):
-        """Compress video to 480p using FFmpeg."""
-        print("[Compression] Compressing video to 480p...")
+    def compress_video(self, input_path, output_path, resolution="1080p"):
+        """Compress video using FFmpeg."""
+        # Resolution presets
+        resolutions = {
+            "480p": "854:480",
+            "720p": "1280:720",
+            "1080p": "1920:1080"
+        }
+        
+        scale = resolutions.get(resolution, "1920:1080")
+        print(f"[Compression] Compressing video to {resolution}...")
         
         # Get input file size
         input_size_mb = os.path.getsize(input_path) / (1024 * 1024)
@@ -108,7 +116,7 @@ class RecordCLI:
         cmd = [
             "ffmpeg",
             "-i", input_path,
-            "-vf", "scale=854:480",
+            "-vf", f"scale={scale}",
             "-c:v", "libx264",
             "-crf", "28",
             "-preset", "faster",
@@ -366,8 +374,7 @@ class RecordCLI:
                 # Handle compression if needed
                 if compress and output_path.endswith('.mov'):
                     compressed_path = output_path.rsplit('.', 1)[0] + '.mp4'
-                    print("[Compression] Compressing video to 480p...")
-                    if self.compress_video(output_path, compressed_path):
+                    if self.compress_video(output_path, compressed_path, resolution="1080p"):
                         # Remove original if compression succeeded
                         os.remove(output_path)
                         print(f"[Output] Final video saved to: {compressed_path}")
