@@ -34,14 +34,15 @@ STARTUP_DIR="$PWD"
 # Create a minimal screenrc that sets the directory
 TEMP_RC="/tmp/.screenrc-${SESSION_NAME}-$$"
 cat > "$TEMP_RC" << EOF
-# Include user's main screenrc
-source $HOME/.screenrc
-
-# Override settings for this session
-# Override defshell to not use login shell (which changes to home)
-defshell zsh
+# Minimal config to preserve directory
 shell zsh
 chdir $STARTUP_DIR
+# Essential settings from .screenrc
+defutf8 on
+defscrollback 10000
+vbell off
+hardstatus alwayslastline
+hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m-%d %{W}%c %{g}]'
 # Enable logging with session-based filename
 logfile $HOME/.screen-logs/screenlog-${SESSION_NAME}-%Y%m%d-%n.log
 logfile flush 1
