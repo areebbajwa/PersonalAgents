@@ -23,36 +23,37 @@ class RecordCLI:
         self.temp_dir = tempfile.gettempdir()
         self.recording_process = None
         self.output_file = None
+        self.pid_file = os.path.join(self.temp_dir, '.record_cli.pid')
+        self.recording_file = os.path.join(self.temp_dir, '.record_cli.recording')
         
     def generate_filename(self, prefix="recording", ext="mov"):
         """Generate a timestamped filename."""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         return f"{prefix}_{timestamp}.{ext}"
     
-    def start_fullscreen_recording(self, output_path):
+    def start_fullscreen_recording(self, output_path, duration=None):
         """Start recording the entire screen."""
         print("[Recording] Starting fullscreen recording...")
-        if not os.environ.get('RECORD_CLI_TEST_MODE'):
+        
+        cmd = ["screencapture"]
+        
+        if duration:
+            print(f"[Recording] Recording for {duration} seconds...")
+            cmd.extend(["-V", str(duration)])
+        elif not os.environ.get('RECORD_CLI_TEST_MODE'):
             print("[Recording] Press Ctrl+C to stop recording")
+            cmd.append("-v")
         else:
             print("[Recording] Test mode: 2-second recording")
+            cmd.extend(["-V", "2"])
         
-        cmd = ["screencapture", "-v", output_path]
+        cmd.append(output_path)
         return self._start_recording(cmd)
     
-    def start_window_recording(self, output_path):
+    def start_window_recording(self, output_path, duration=None):
         """Start recording a specific window interactively."""
         print("[Recording] Note: Window-specific recording not available, using fullscreen")
-        print("[Recording] Starting fullscreen recording...")
-        if not os.environ.get('RECORD_CLI_TEST_MODE'):
-            print("[Recording] Press Ctrl+C to stop recording")
-        else:
-            print("[Recording] Test mode: 2-second recording")
-        
-        # Note: screencapture -v doesn't support window selection directly
-        # We'll use fullscreen recording with a note about this limitation
-        cmd = ["screencapture", "-v", output_path]
-        return self._start_recording(cmd)
+        return self.start_fullscreen_recording(output_path, duration)
     
     def _start_recording(self, cmd):
         """Start the recording process."""
@@ -61,12 +62,7 @@ class RecordCLI:
             # This is because screencapture -v might require screen recording permissions
             # and we need to ensure the file is created properly
             
-            # Check if we're in test mode (short recording)
-            if os.environ.get('RECORD_CLI_TEST_MODE'):
-                # Use -V for timed recording (2 seconds)
-                output_path = cmd[-1]
-                cmd = cmd[:-1]  # Remove output path
-                cmd.extend(["-V", "2", output_path])
+            # Test mode is now handled in the calling functions
             
             self.recording_process = subprocess.Popen(
                 cmd,
@@ -276,6 +272,121 @@ class RecordCLI:
                     print(f"[Cleanup] Removed temporary file: {file_path}")
                 except Exception as e:
                     print(f"[Warning] Could not remove {file_path}: {e}")
+    
+    def start_background_recording(self, output_path, window_mode=False, compress=True, skip_gemini=True):
+        """Start recording in background mode."""
+        # Check if already recording
+        if os.path.exists(self.pid_file):
+            print("[Error] Recording already in progress")
+            print("[Error] Use 'record-cli stop' to stop current recording")
+            return False
+        
+        # Ensure output directory exists
+        output_dir = os.path.dirname(output_path)
+        if output_dir:
+            os.makedirs(output_dir, exist_ok=True)
+        
+        # Save recording info
+        with open(self.recording_file, 'w') as f:
+            json.dump({
+                'output_path': output_path,
+                'compress': compress,
+                'skip_gemini': skip_gemini
+            }, f)
+        
+        # Start screencapture process directly
+        cmd = ["screencapture", "-v", output_path]
+        process = subprocess.Popen(
+            cmd,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            preexec_fn=os.setsid  # Create new process group
+        )
+        
+        # Save PID
+        with open(self.pid_file, 'w') as f:
+            f.write(str(process.pid))
+        
+        print(f"[Recording] Started recording in background (PID: {process.pid})")
+        print(f"[Recording] Output will be saved to: {output_path}")
+        print("[Recording] Use 'record-cli stop' to stop recording")
+        return True
+    
+    def stop_background_recording(self):
+        """Stop a background recording."""
+        if not os.path.exists(self.pid_file):
+            print("[Error] No active recording found")
+            return False
+        
+        try:
+            # Read PID
+            with open(self.pid_file, 'r') as f:
+                pid = int(f.read().strip())
+            
+            # Read recording info
+            recording_info = {}
+            if os.path.exists(self.recording_file):
+                with open(self.recording_file, 'r') as f:
+                    recording_info = json.load(f)
+            
+            output_path = recording_info.get('output_path', '')
+            compress = recording_info.get('compress', True)
+            skip_gemini = recording_info.get('skip_gemini', True)
+            
+            # Stop the screencapture process
+            try:
+                # Check if process is still running
+                os.kill(pid, 0)  # This doesn't kill, just checks if process exists
+                # If we get here, process is running
+                try:
+                    os.killpg(os.getpgid(pid), signal.SIGINT)
+                except:
+                    # Fallback to regular kill
+                    os.kill(pid, signal.SIGINT)
+            except OSError:
+                # Process already finished
+                print("[Recording] Recording process already finished")
+            
+            print(f"[Recording] Stopping recording (PID: {pid})...")
+            
+            # Wait for recording to finish
+            time.sleep(1)
+            
+            # Clean up PID files
+            if os.path.exists(self.pid_file):
+                os.remove(self.pid_file)
+            if os.path.exists(self.recording_file):
+                os.remove(self.recording_file)
+            
+            # Check if recording was saved
+            if output_path and os.path.exists(output_path):
+                file_size_mb = os.path.getsize(output_path) / (1024 * 1024)
+                print(f"[Recording] Saved to: {output_path} ({file_size_mb:.1f} MB)")
+                
+                # Handle compression if needed
+                if compress and output_path.endswith('.mov'):
+                    compressed_path = output_path.rsplit('.', 1)[0] + '.mp4'
+                    print("[Compression] Compressing video to 480p...")
+                    if self.compress_video(output_path, compressed_path):
+                        # Remove original if compression succeeded
+                        os.remove(output_path)
+                        print(f"[Output] Final video saved to: {compressed_path}")
+                    else:
+                        print("[Warning] Compression failed, keeping original recording")
+            else:
+                print(f"[Error] Recording file not found: {output_path}")
+                return False
+            
+            return True
+            
+        except Exception as e:
+            print(f"[Error] Failed to stop recording: {e}")
+            # Clean up on error
+            if os.path.exists(self.pid_file):
+                os.remove(self.pid_file)
+            if os.path.exists(self.recording_file):
+                os.remove(self.recording_file)
+            return False
 
 
 def main():
@@ -284,7 +395,10 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  %(prog)s                    # Record fullscreen
+  %(prog)s                    # Record fullscreen (press Ctrl+C to stop)
+  %(prog)s -d 10              # Record for 10 seconds
+  %(prog)s start              # Start recording in background
+  %(prog)s stop               # Stop background recording
   %(prog)s -w                 # Record specific window
   %(prog)s -o recording.mp4   # Save to specific location
   %(prog)s --no-compress      # Skip compression step
@@ -292,9 +406,17 @@ Examples:
         """
     )
     
+    # Add subcommands for start/stop
+    parser.add_argument('command', nargs='?', choices=['start', 'stop'],
+                       help="Start or stop background recording")
+    
     # Recording mode
     parser.add_argument("-w", "--window", action="store_true",
                        help="Record a specific window (interactive selection)")
+    
+    # Duration option
+    parser.add_argument("-d", "--duration", type=int,
+                       help="Duration in seconds for recording")
     
     # Output options
     parser.add_argument("-o", "--output", type=str,
@@ -312,6 +434,40 @@ Examples:
     
     record_cli = RecordCLI()
     
+    # Handle start/stop commands
+    if args.command == 'stop':
+        success = record_cli.stop_background_recording()
+        sys.exit(0 if success else 1)
+    
+    elif args.command == 'start':
+        # For start command, use default output or specified output
+        if args.output:
+            output_path = os.path.expanduser(args.output)
+        else:
+            # Default extension based on compression setting
+            ext = "mp4" if not args.no_compress else "mov"
+            filename = record_cli.generate_filename("recording", ext)
+            output_path = os.path.join(os.getcwd(), filename)
+        
+        # If output is .mp4 but no-compress is set, change to .mov
+        if args.no_compress and output_path.endswith('.mp4'):
+            output_path = output_path.rsplit('.', 1)[0] + '.mov'
+        # If output is .mov but compression is enabled, record to temp .mov
+        elif not args.no_compress and output_path.endswith('.mp4'):
+            temp_path = output_path.rsplit('.', 1)[0] + '_temp.mov'
+            success = record_cli.start_background_recording(
+                temp_path, args.window, 
+                compress=not args.no_compress,
+                skip_gemini=args.skip_gemini
+            )
+        else:
+            success = record_cli.start_background_recording(
+                output_path, args.window,
+                compress=not args.no_compress,
+                skip_gemini=args.skip_gemini
+            )
+        sys.exit(0 if success else 1)
+    
     # Generate temporary filenames
     temp_recording = os.path.join(
         record_cli.temp_dir,
@@ -326,9 +482,9 @@ Examples:
     # Start recording
     success = False
     if args.window:
-        success = record_cli.start_window_recording(temp_recording)
+        success = record_cli.start_window_recording(temp_recording, args.duration)
     else:
-        success = record_cli.start_fullscreen_recording(temp_recording)
+        success = record_cli.start_fullscreen_recording(temp_recording, args.duration)
     
     if not success or not os.path.exists(temp_recording):
         print("[Error] Recording failed or was cancelled")
