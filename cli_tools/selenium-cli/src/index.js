@@ -38,48 +38,45 @@ process.on('SIGTERM', async () => {
 // Main program setup
 program
     .name('selenium-cli')
-    .description('Command-line tool for browser automation using Selenium WebDriver')
+    .description('Command-line tool for browser automation with MCP-compatible commands')
     .version('1.0.0')
     .addHelpText('after', `
 Examples:
-  # Quick automation (browser stays open)
-  $ selenium-cli launch
+  # Basic browser automation
+  $ selenium-cli start_browser
   $ selenium-cli navigate https://example.com
-  $ selenium-cli screenshot
-  $ selenium-cli close  # Optional - browser stays open if not called
-
-  # Persistent sessions (better for multiple commands)
-  $ selenium-cli session create mysession
-  $ selenium-cli session send mysession navigate https://google.com
-  $ selenium-cli session send mysession click id=search-button
-  $ selenium-cli session send mysession type id=search-box "selenium automation"
-  $ selenium-cli session list
-  $ selenium-cli session close mysession
+  $ selenium-cli take_screenshot
+  $ selenium-cli close_session
 
   # Element interaction
-  $ selenium-cli click css=.submit-button
-  $ selenium-cli type id=username "john.doe@example.com"
-  $ selenium-cli text xpath=//h1[@class='title']
+  $ selenium-cli click_element --by css --value ".submit-button"
+  $ selenium-cli send_keys --by id --value "username" --text "john@example.com"
+  $ selenium-cli get_element_text --by xpath --value "//h1[@class='title']"
 
-Locator formats:
-  - id=element-id
-  - css=.class-name or css=#id
-  - xpath=//div[@class='example']
-  - name=input-name
-  - tag=h1
-  - class=class-name
+  # Advanced interactions
+  $ selenium-cli hover --by css --value ".menu-item"
+  $ selenium-cli drag_and_drop --by id --value "item1" --target-by id --target-value "item2"
+  $ selenium-cli double_click --by css --value ".file"
+  $ selenium-cli right_click --by id --value "context-menu"
+  $ selenium-cli press_key Enter
+
+Locator strategies (--by parameter):
+  - id: Find by element ID
+  - css: Find by CSS selector
+  - xpath: Find by XPath expression
+  - name: Find by element name attribute
+  - tag: Find by HTML tag name
+  - class: Find by CSS class name
 
 Features:
   - Firefox browser automation
   - Uses existing Firefox profile by default (for logged-in sessions)
-  - Automatic screenshots after actions
-  - Browser stays open after commands (no auto-close)
+  - Browser stays open between commands
   - Session isolation (multiple instances don't interfere)
-  - Persistent sessions for interactive automation
-  - HTML export for debugging element selectors
+  - MCP-compatible command structure
   
 Note: By default, selenium-cli uses your existing Firefox profile to maintain
-logged-in sessions. Use --no-profile to start with a fresh profile.
+logged-in sessions. Use --use-profile flag with start_browser.
 `);
 
 // Session command group
