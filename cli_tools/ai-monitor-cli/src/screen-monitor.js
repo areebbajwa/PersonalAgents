@@ -71,6 +71,13 @@ class ScreenMonitor {
             let parsedPrompt;
             try {
                 parsedPrompt = JSON.parse(prompt);
+                // Convert string fields to arrays for better readability in logs
+                if (parsedPrompt.terminal && typeof parsedPrompt.terminal === 'string') {
+                    parsedPrompt.terminal = parsedPrompt.terminal.split('\n');
+                }
+                if (parsedPrompt.rules && typeof parsedPrompt.rules === 'string') {
+                    parsedPrompt.rules = parsedPrompt.rules.split('\n');
+                }
             } catch (e) {
                 parsedPrompt = prompt; // Keep as string if not valid JSON
             }
@@ -392,7 +399,7 @@ class ScreenMonitor {
         const promptData = {
             instruction: "Check if AI is correctly following workflow rules. Rule violations must be strictly enforced. Only if AI seems extremely stuck (repeating same failed actions multiple times), suggest untried approaches, especially tools at our disposal that can give more insight (like screenshot-cli, record-cli etc). AI only knows global rules, not the full workflow steps. If it needs to jump to a specific workflow step, tell it explicitly which workflow command to run.",
             rules: workflowRules || 'ERROR: Could not load workflow rules file',
-            terminal: terminalOutput,
+            terminal: terminalOutput.split('\n'), // Store as array for better readability
             todo: todoContent || "No TODO file found",
             responseFormat: "Return only a short instruction text or empty string. No explanations, no formatting, just the instruction."
         };
