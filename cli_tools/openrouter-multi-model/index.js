@@ -6,13 +6,15 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import fs from 'fs/promises';
+import os from 'os';
 import { OpenRouterClient } from './openrouter-client.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Load environment variables
-dotenv.config({ path: path.join(__dirname, '../../config/.env') });
+// Use symlink from home directory for portability
+const MAIN_REPO_PATH = path.join(os.homedir(), 'PersonalAgents');
+dotenv.config({ path: path.join(MAIN_REPO_PATH, 'config', '.env') });
 
 const program = new Command();
 
@@ -35,7 +37,8 @@ program
     try {
       if (!process.env.OPENROUTER_API_KEY) {
         console.error('Error: OPENROUTER_API_KEY not found in environment variables');
-        console.error('Please add OPENROUTER_API_KEY to config/.env');
+        console.error(`Please add OPENROUTER_API_KEY to ${path.join(MAIN_REPO_PATH, 'config', '.env')}`);
+        console.error('Ensure ~/PersonalAgents symlink points to your PersonalAgents repository');
         process.exit(1);
       }
 

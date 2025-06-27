@@ -209,6 +209,55 @@ tool-name test-command
 - Provide sensible defaults
 - Document all configuration options
 
+### Path Resolution Best Practices
+
+**IMPORTANT**: CLI tools must work from ANY directory (main repo, worktrees, screen sessions, SSH, temp directories).
+
+#### ❌ DON'T Use Relative Paths
+```javascript
+// BAD - breaks in worktrees/other directories
+const config = require('../../../config/.env');
+const serviceAccount = require('../../config/firebase-service-account.json');
+```
+
+#### ❌ DON'T Use process.cwd()
+```javascript
+// BAD - depends on where user runs the command
+const configPath = path.join(process.cwd(), 'config', '.env');
+```
+
+#### ✅ DO Use Home Directory Symlink
+```javascript
+// GOOD - works from anywhere
+const os = require('os');
+const path = require('path');
+const MAIN_REPO_PATH = path.join(os.homedir(), 'PersonalAgents');
+const configPath = path.join(MAIN_REPO_PATH, 'config', '.env');
+```
+
+#### ✅ Python Example
+```python
+import os
+MAIN_REPO_PATH = os.path.join(os.path.expanduser('~'), 'PersonalAgents')
+config_path = os.path.join(MAIN_REPO_PATH, 'config', '.env')
+```
+
+#### Setup Requirement
+The `~/PersonalAgents` symlink must exist and point to the main repository:
+```bash
+ln -s /path/to/PersonalAgents ~/PersonalAgents
+```
+
+#### Error Messages
+When config files are not found, provide helpful error messages:
+```javascript
+if (!fs.existsSync(configPath)) {
+    console.error('Config file not found');
+    console.error(`Please ensure ~/PersonalAgents symlink points to your PersonalAgents repository`);
+    process.exit(1);
+}
+```
+
 ### Output Formats
 - Default to human-readable output
 - Support `--json` flag for machine-readable output

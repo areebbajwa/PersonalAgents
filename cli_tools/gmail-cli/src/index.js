@@ -27,14 +27,15 @@ class GmailCLI {
   }
 
   async initialize(profile = 'default') {
-    // Load environment variables based on profile
+    // Use symlink from home directory for portability
+    const MAIN_REPO_PATH = path.join(os.homedir(), 'PersonalAgents');
     const envPath =
       profile === 'default'
-        ? path.resolve(__dirname, '../../../config/.env')
-        : path.resolve(__dirname, `../../../config/.env.${profile}`);
+        ? path.join(MAIN_REPO_PATH, 'config', '.env')
+        : path.join(MAIN_REPO_PATH, 'config', `.env.${profile}`);
 
     if (!fs.existsSync(envPath)) {
-      throw new Error(`Profile configuration file not found: ${envPath}`);
+      throw new Error(`Profile configuration file not found: ${envPath}\nPlease ensure ~/PersonalAgents symlink points to your PersonalAgents repository`);
     }
     dotenv.config({ path: envPath, override: true });
 

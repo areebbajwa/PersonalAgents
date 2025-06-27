@@ -6,10 +6,12 @@ import path from 'path';
 import dotenv from 'dotenv';
 import chalk from 'chalk';
 import ora from 'ora';
+import os from 'os';
 import PDFProcessor from './pdfProcessor.js';
 
-// Load environment variables from hardcoded config path
-dotenv.config({ path: path.resolve(process.cwd(), '../../config/.env') });
+// Use symlink from home directory for portability
+const MAIN_REPO_PATH = path.join(os.homedir(), 'PersonalAgents');
+dotenv.config({ path: path.join(MAIN_REPO_PATH, 'config', '.env') });
 
 const program = new Command();
 
@@ -58,7 +60,8 @@ async function processSinglePDF(inputPath, outputPath, options) {
         const apiKey = process.env.GEMINI_API_KEY;
         if (!apiKey) {
             spinner.fail(chalk.red('GEMINI_API_KEY not found'));
-            console.log(chalk.yellow('Please ensure GEMINI_API_KEY is set in config/.env file'));
+            console.log(chalk.yellow(`Please ensure GEMINI_API_KEY is set in ${path.join(MAIN_REPO_PATH, 'config', '.env')}`));
+            console.log(chalk.yellow('Ensure ~/PersonalAgents symlink points to your PersonalAgents repository'));
             process.exit(1);
         }
 
@@ -132,7 +135,8 @@ async function processBatchPDFs(inputDir, outputDir, options) {
         const apiKey = process.env.GEMINI_API_KEY;
         if (!apiKey) {
             spinner.fail(chalk.red('GEMINI_API_KEY not found'));
-            console.log(chalk.yellow('Please ensure GEMINI_API_KEY is set in config/.env file'));
+            console.log(chalk.yellow(`Please ensure GEMINI_API_KEY is set in ${path.join(MAIN_REPO_PATH, 'config', '.env')}`));
+            console.log(chalk.yellow('Ensure ~/PersonalAgents symlink points to your PersonalAgents repository'));
             process.exit(1);
         }
 

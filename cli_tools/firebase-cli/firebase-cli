@@ -8,9 +8,12 @@ const chalk = require('chalk');
 const mime = require('mime-types');
 
 // Initialize Firebase Admin SDK
-const serviceAccountPath = path.join(__dirname, '../../config/firebase-service-account.json');
+// Use symlink from home directory for portability
+const MAIN_REPO_PATH = path.join(process.env.HOME, 'PersonalAgents');
+const serviceAccountPath = path.join(MAIN_REPO_PATH, 'config', 'firebase-service-account.json');
 if (!fs.existsSync(serviceAccountPath)) {
   console.error(chalk.red('Error: Firebase service account not found at', serviceAccountPath));
+  console.error(chalk.yellow('Please ensure ~/PersonalAgents symlink points to your PersonalAgents repository'));
   process.exit(1);
 }
 

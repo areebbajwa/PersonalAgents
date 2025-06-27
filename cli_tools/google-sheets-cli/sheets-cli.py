@@ -3,19 +3,26 @@
 import argparse
 import json
 import sys
+import os
 from datetime import datetime
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from tabulate import tabulate
 
-# Path to service account key file
-SERVICE_ACCOUNT_FILE = '/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/config/firebase-service-account.json'
+# Use symlink from home directory for portability
+MAIN_REPO_PATH = os.path.join(os.path.expanduser('~'), 'PersonalAgents')
+SERVICE_ACCOUNT_FILE = os.path.join(MAIN_REPO_PATH, 'config', 'firebase-service-account.json')
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 
 def get_service():
     """Create and return Google Sheets service using service account."""
     try:
+        if not os.path.exists(SERVICE_ACCOUNT_FILE):
+            print(f"Error: Service account file not found at {SERVICE_ACCOUNT_FILE}")
+            print("Please ensure ~/PersonalAgents symlink points to your PersonalAgents repository")
+            sys.exit(1)
+            
         creds = service_account.Credentials.from_service_account_file(
             SERVICE_ACCOUNT_FILE, scopes=SCOPES)
         service = build('sheets', 'v4', credentials=creds)
