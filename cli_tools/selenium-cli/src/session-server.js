@@ -25,6 +25,14 @@ await screenshotManager.ensureScreenshotDir();
 // Track if browser is launched
 let browserLaunched = false;
 
+// Helper to ensure browser is launched
+async function ensureBrowserLaunched(options = {}) {
+    if (!browserLaunched) {
+        await browserManager.launchBrowser(options);
+        browserLaunched = true;
+    }
+}
+
 // Create HTTP server
 const server = http.createServer(async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
@@ -58,6 +66,7 @@ const server = http.createServer(async (req, res) => {
                         break;
                         
                     case 'navigate':
+                        await ensureBrowserLaunched(command.options || {})
                         result = await browserManager.navigate(command.url);
                         // Take screenshot
                         const navScreenshot = screenshotManager.getScreenshotPath(
@@ -68,6 +77,7 @@ const server = http.createServer(async (req, res) => {
                         break;
                         
                     case 'click':
+                        await ensureBrowserLaunched();
                         result = await browserManager.clickElement(command.by, command.value, command.timeout);
                         // Take screenshot
                         const clickScreenshot = screenshotManager.getScreenshotPath(
@@ -78,6 +88,7 @@ const server = http.createServer(async (req, res) => {
                         break;
                         
                     case 'type':
+                        await ensureBrowserLaunched();
                         result = await browserManager.sendKeys(
                             command.by, 
                             command.value, 
@@ -93,10 +104,12 @@ const server = http.createServer(async (req, res) => {
                         break;
                         
                     case 'text':
+                        await ensureBrowserLaunched();
                         result = await browserManager.getElementText(command.by, command.value, command.timeout);
                         break;
                         
                     case 'screenshot':
+                        await ensureBrowserLaunched();
                         const path = command.path || screenshotManager.getScreenshotPath(
                             screenshotManager.generateScreenshotFilename('manual')
                         );
@@ -104,14 +117,17 @@ const server = http.createServer(async (req, res) => {
                         break;
                         
                     case 'export-html':
+                        await ensureBrowserLaunched();
                         result = await browserManager.exportHtml(command.path);
                         break;
                         
                     case 'key':
+                        await ensureBrowserLaunched();
                         result = await browserManager.pressKey(command.key);
                         break;
                         
                     case 'hover':
+                        await ensureBrowserLaunched();
                         result = await browserManager.hoverElement(command.by, command.value, command.timeout);
                         // Take screenshot
                         const hoverScreenshot = screenshotManager.getScreenshotPath(
@@ -122,14 +138,17 @@ const server = http.createServer(async (req, res) => {
                         break;
                         
                     case 'double-click':
+                        await ensureBrowserLaunched();
                         result = await browserManager.doubleClickElement(command.by, command.value, command.timeout);
                         break;
                         
                     case 'right-click':
+                        await ensureBrowserLaunched();
                         result = await browserManager.rightClickElement(command.by, command.value, command.timeout);
                         break;
                         
                     case 'upload':
+                        await ensureBrowserLaunched();
                         result = await browserManager.uploadFile(command.by, command.value, command.filePath, command.timeout);
                         break;
                         

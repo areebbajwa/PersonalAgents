@@ -5,7 +5,6 @@ import chalk from 'chalk';
 import ora from 'ora';
 import * as browserManager from './browser-manager.js';
 import * as screenshotManager from './screenshot-manager.js';
-import { takeScreenshot } from './browser-manager.js';
 import * as persistentSession from './persistent-session.js';
 import * as defaultSession from './default-session.js';
 import { spawn } from 'child_process';
@@ -17,23 +16,16 @@ const __dirname = path.dirname(__filename);
 
 // Initialize screenshot manager
 await screenshotManager.ensureScreenshotDir();
-// Only start periodic cleanup if not in test mode
-if (!process.env.SELENIUM_CLI_TEST) {
-    screenshotManager.startPeriodicCleanup();
+// Don't start periodic cleanup - it keeps the process alive
+// Cleanup will happen when commands are run
+
+// Clean up handlers removed - let process exit naturally
+
+// Helper function to exit process after command completion
+function exitAfterCommand() {
+    // Small delay to ensure all output is flushed
+    setTimeout(() => process.exit(0), 100);
 }
-
-// Clean up on exit - only stop screenshot cleanup, don't close browser
-process.on('SIGINT', async () => {
-    screenshotManager.stopPeriodicCleanup();
-    // Don't close browser on exit - user must use 'close' command
-    process.exit(0);
-});
-
-process.on('SIGTERM', async () => {
-    screenshotManager.stopPeriodicCleanup();
-    // Don't close browser on exit - user must use 'close' command
-    process.exit(0);
-});
 
 // Main program setup
 program
@@ -43,40 +35,46 @@ program
     .addHelpText('after', `
 Examples:
   # Basic browser automation
-  $ selenium-cli start_browser
+  $ selenium-cli launch
   $ selenium-cli navigate https://example.com
-  $ selenium-cli take_screenshot
-  $ selenium-cli close_session
+  $ selenium-cli screenshot
+  $ selenium-cli close
 
   # Element interaction
-  $ selenium-cli click_element --by css --value ".submit-button"
-  $ selenium-cli send_keys --by id --value "username" --text "john@example.com"
-  $ selenium-cli get_element_text --by xpath --value "//h1[@class='title']"
+  $ selenium-cli click "css=.submit-button"
+  $ selenium-cli type "id=username" "john@example.com"
+  $ selenium-cli text "xpath=//h1[@class='title']"
 
   # Advanced interactions
-  $ selenium-cli hover --by css --value ".menu-item"
-  $ selenium-cli drag_and_drop --by id --value "item1" --target-by id --target-value "item2"
-  $ selenium-cli double_click --by css --value ".file"
-  $ selenium-cli right_click --by id --value "context-menu"
-  $ selenium-cli press_key Enter
+  $ selenium-cli hover "css=.menu-item"
+  $ selenium-cli double-click "css=.file"
+  $ selenium-cli right-click "id=context-menu"
+  $ selenium-cli key Enter
+  $ selenium-cli upload "id=file-input" "/path/to/file.pdf"
 
-Locator strategies (--by parameter):
-  - id: Find by element ID
-  - css: Find by CSS selector
-  - xpath: Find by XPath expression
-  - name: Find by element name attribute
-  - tag: Find by HTML tag name
-  - class: Find by CSS class name
+  # Session management
+  $ selenium-cli session create my-session
+  $ selenium-cli session send my-session navigate https://example.com
+  $ selenium-cli session list
+  $ selenium-cli session close my-session
+
+Locator format: strategy=value
+  - id=element-id
+  - css=.selector
+  - xpath=//xpath/expression
+  - name=element-name
+  - tag=tagname
+  - class=classname
 
 Features:
   - Firefox browser automation
   - Uses existing Firefox profile by default (for logged-in sessions)
   - Browser stays open between commands
+  - Commands exit immediately after execution
   - Session isolation (multiple instances don't interfere)
-  - MCP-compatible command structure
   
 Note: By default, selenium-cli uses your existing Firefox profile to maintain
-logged-in sessions. Use --use-profile flag with start_browser.
+logged-in sessions. Use --no-profile flag with launch command to use a clean profile.
 `);
 
 // Session command group
@@ -147,6 +145,7 @@ session
             
             console.log(chalk.green('Browser launched in session'));
             console.log(chalk.gray(`Use 'selenium-cli session send ${name} <command>' to control the browser`));
+            exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to create session: ${error.message}`));
             process.exit(1);
@@ -227,6 +226,7 @@ session
                 await persistentSession.deleteSessionInfo(name);
                 console.log(chalk.gray(`Session '${name}' closed and removed`));
             }
+            exitAfterCommand();
         } catch (error) {
             console.error(chalk.red(`Failed to send command: ${error.message}`));
             process.exit(1);
@@ -257,6 +257,7 @@ session
                 console.log(chalk.gray(`  Created: ${session.created}`));
                 console.log();
             }
+            exitAfterCommand();
         } catch (error) {
             console.error(chalk.red(`Failed to list sessions: ${error.message}`));
             process.exit(1);
@@ -286,6 +287,7 @@ session
             await persistentSession.deleteSessionInfo(name);
             
             spinner.succeed(chalk.green(`Session '${name}' closed`));
+            exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to close session: ${error.message}`));
             process.exit(1);
@@ -317,6 +319,7 @@ program
             if (result.screenshot) {
                 console.log(chalk.gray(`Screenshot: ${result.screenshot}`));
             }
+            exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to launch browser: ${error.message}`));
             process.exit(1);
@@ -339,6 +342,7 @@ program
             if (result.screenshot) {
                 console.log(chalk.gray(`Screenshot: ${result.screenshot}`));
             }
+            exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to navigate: ${error.message}`));
             process.exit(1);
@@ -361,15 +365,18 @@ program
         
         const spinner = ora(`Clicking element: ${locator}`).start();
         try {
-            await browserManager.clickElement(by, value, parseInt(options.timeout));
+            const result = await defaultSession.sendToDefaultSession({
+                action: 'click',
+                by,
+                value,
+                timeout: parseInt(options.timeout)
+            });
             spinner.succeed(chalk.green('Click successful'));
             
-            // Take screenshot after click
-            const screenshotPath = screenshotManager.getScreenshotPath(
-                screenshotManager.generateScreenshotFilename('click')
-            );
-            await takeScreenshot(screenshotPath);
-            console.log(chalk.gray(`Screenshot: ${screenshotPath}`));
+            if (result.screenshot) {
+                console.log(chalk.gray(`Screenshot: ${result.screenshot}`));
+            }
+            exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to click: ${error.message}`));
             process.exit(1);
@@ -394,19 +401,21 @@ program
         
         const spinner = ora(`Typing into element: ${locator}`).start();
         try {
-            await browserManager.sendKeys(by, value, text, {
+            const result = await defaultSession.sendToDefaultSession({
+                action: 'type',
+                by,
+                value,
+                text,
                 timeout: parseInt(options.timeout),
                 clear: options.clear,
                 pressEnter: options.enter
             });
             spinner.succeed(chalk.green('Text entered successfully'));
             
-            // Take screenshot after typing
-            const screenshotPath = screenshotManager.getScreenshotPath(
-                screenshotManager.generateScreenshotFilename('type')
-            );
-            await takeScreenshot(screenshotPath);
-            console.log(chalk.gray(`Screenshot: ${screenshotPath}`));
+            if (result.screenshot) {
+                console.log(chalk.gray(`Screenshot: ${result.screenshot}`));
+            }
+            exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to type: ${error.message}`));
             process.exit(1);
@@ -429,9 +438,15 @@ program
         
         const spinner = ora(`Getting text from element: ${locator}`).start();
         try {
-            const result = await browserManager.getElementText(by, value, parseInt(options.timeout));
+            const result = await defaultSession.sendToDefaultSession({
+                action: 'text',
+                by,
+                value,
+                timeout: parseInt(options.timeout)
+            });
             spinner.succeed(chalk.green('Text retrieved successfully'));
             console.log(chalk.blue('Text:'), result.text);
+            exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to get text: ${error.message}`));
             process.exit(1);
@@ -453,6 +468,7 @@ program
             if (result.path) {
                 console.log(chalk.gray(`Path: ${result.path}`));
             }
+            exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to take screenshot: ${error.message}`));
             process.exit(1);
@@ -476,6 +492,7 @@ program
             spinner.succeed(chalk.green('HTML exported'));
             console.log(chalk.gray(`Path: ${result.path}`));
             console.log(chalk.gray(`Size: ${result.size} characters`));
+            exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to export HTML: ${error.message}`));
             process.exit(1);
@@ -489,8 +506,12 @@ program
     .action(async (key) => {
         const spinner = ora(`Pressing key: ${key}`).start();
         try {
-            await browserManager.pressKey(key);
+            const result = await defaultSession.sendToDefaultSession({
+                action: 'key',
+                key
+            });
             spinner.succeed(chalk.green('Key pressed successfully'));
+            exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to press key: ${error.message}`));
             process.exit(1);
@@ -513,15 +534,18 @@ program
         
         const spinner = ora(`Hovering over element: ${locator}`).start();
         try {
-            await browserManager.hoverElement(by, value, parseInt(options.timeout));
+            const result = await defaultSession.sendToDefaultSession({
+                action: 'hover',
+                by,
+                value,
+                timeout: parseInt(options.timeout)
+            });
             spinner.succeed(chalk.green('Hover successful'));
             
-            // Take screenshot after hover
-            const screenshotPath = screenshotManager.getScreenshotPath(
-                screenshotManager.generateScreenshotFilename('hover')
-            );
-            await takeScreenshot(screenshotPath);
-            console.log(chalk.gray(`Screenshot: ${screenshotPath}`));
+            if (result.screenshot) {
+                console.log(chalk.gray(`Screenshot: ${result.screenshot}`));
+            }
+            exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to hover: ${error.message}`));
             process.exit(1);
@@ -544,15 +568,18 @@ program
         
         const spinner = ora(`Double-clicking element: ${locator}`).start();
         try {
-            await browserManager.doubleClickElement(by, value, parseInt(options.timeout));
+            const result = await defaultSession.sendToDefaultSession({
+                action: 'double-click',
+                by,
+                value,
+                timeout: parseInt(options.timeout)
+            });
             spinner.succeed(chalk.green('Double-click successful'));
             
-            // Take screenshot
-            const screenshotPath = screenshotManager.getScreenshotPath(
-                screenshotManager.generateScreenshotFilename('double-click')
-            );
-            await takeScreenshot(screenshotPath);
-            console.log(chalk.gray(`Screenshot: ${screenshotPath}`));
+            if (result.screenshot) {
+                console.log(chalk.gray(`Screenshot: ${result.screenshot}`));
+            }
+            exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to double-click: ${error.message}`));
             process.exit(1);
@@ -575,15 +602,18 @@ program
         
         const spinner = ora(`Right-clicking element: ${locator}`).start();
         try {
-            await browserManager.rightClickElement(by, value, parseInt(options.timeout));
+            const result = await defaultSession.sendToDefaultSession({
+                action: 'right-click',
+                by,
+                value,
+                timeout: parseInt(options.timeout)
+            });
             spinner.succeed(chalk.green('Right-click successful'));
             
-            // Take screenshot
-            const screenshotPath = screenshotManager.getScreenshotPath(
-                screenshotManager.generateScreenshotFilename('right-click')
-            );
-            await takeScreenshot(screenshotPath);
-            console.log(chalk.gray(`Screenshot: ${screenshotPath}`));
+            if (result.screenshot) {
+                console.log(chalk.gray(`Screenshot: ${result.screenshot}`));
+            }
+            exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to right-click: ${error.message}`));
             process.exit(1);
@@ -606,8 +636,15 @@ program
         
         const spinner = ora(`Uploading file to element: ${locator}`).start();
         try {
-            await browserManager.uploadFile(by, value, filePath, parseInt(options.timeout));
+            const result = await defaultSession.sendToDefaultSession({
+                action: 'upload',
+                by,
+                value,
+                filePath,
+                timeout: parseInt(options.timeout)
+            });
             spinner.succeed(chalk.green('File uploaded successfully'));
+            exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to upload file: ${error.message}`));
             process.exit(1);
@@ -627,8 +664,10 @@ program
             } else {
                 console.log(chalk.yellow('No active browser session'));
             }
+            exitAfterCommand();
         } catch (error) {
             console.log(chalk.yellow('No active browser session'));
+            exitAfterCommand();
         }
     });
 
@@ -644,8 +683,10 @@ program
                 await persistentSession.sendCommandToSession(sessionInfo, { action: 'close' });
                 await persistentSession.deleteSessionInfo('__default__');
                 spinner.succeed(chalk.green('Browser closed successfully'));
+                exitAfterCommand();
             } else {
                 spinner.succeed(chalk.yellow('No active browser session to close'));
+                exitAfterCommand();
             }
         } catch (error) {
             spinner.fail(chalk.red(`Failed to close browser: ${error.message}`));
