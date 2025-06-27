@@ -27,11 +27,18 @@ class ScreenMonitor {
         this.workflowMode = options.workflowMode || 'dev';
         this.enableGuidance = options.enableGuidance !== false;
         this.lastRemindRulesTime = 0;
-        this.remindRulesIntervalMs = 600000; // 10 minutes for remind-rules
+        this.remindRulesIntervalMs = options.remindRulesIntervalMs || 600000; // 10 minutes default for remind-rules
         this.alertLevel = options.alertLevel || 'WARNING';
         this.onCheckResult = options.onCheckResult || null; // Callback for check results
         this.lastStatus = 'COMPLIANT'; // Track last status to detect state changes
-        this.geminiLogsDir = options.geminiLogsDir || path.join(__dirname, '..', 'logs', 'gemini');
+        // Always use absolute path for gemini logs directory
+        if (options.geminiLogsDir) {
+            this.geminiLogsDir = path.resolve(options.geminiLogsDir);
+        } else {
+            // Use the CLI tool's directory regardless of where it's called from
+            const cliToolDir = path.resolve(__dirname, '..');
+            this.geminiLogsDir = path.join(cliToolDir, 'logs', 'gemini');
+        }
         this.ensureGeminiLogsDir();
     }
 
@@ -110,9 +117,20 @@ class ScreenMonitor {
         
         // Try to load from config/.env file
         try {
-            const envPath = path.resolve(__dirname, '../../../config/.env');
-            if (fs.existsSync(envPath)) {
-                const envContent = fs.readFileSync(envPath, 'utf8');
+            // First try the script's location
+            const scriptEnvPath = path.resolve(__dirname, '../../../config/.env');
+            if (fs.existsSync(scriptEnvPath)) {
+                const envContent = fs.readFileSync(scriptEnvPath, 'utf8');
+                const match = envContent.match(/GEMINI_API_KEY=(.+)/);
+                if (match) {
+                    return match[1].trim().replace(/['"]/g, '');
+                }
+            }
+            
+            // Also try current working directory
+            const cwdEnvPath = path.resolve(process.cwd(), '.env');
+            if (fs.existsSync(cwdEnvPath)) {
+                const envContent = fs.readFileSync(cwdEnvPath, 'utf8');
                 const match = envContent.match(/GEMINI_API_KEY=(.+)/);
                 if (match) {
                     return match[1].trim().replace(/['"]/g, '');
@@ -316,9 +334,32 @@ class ScreenMonitor {
         // Clean the response - remove any formatting
         let instruction = geminiAnalysis.trim();
         
+        // Check if response is JSON with a "response" field
+        try {
+            // First try to extract from code block
+            if (instruction.includes('```json')) {
+                const match = instruction.match(/```json\s*\n?([\s\S]*?)\n?```/);
+                if (match) {
+                    const jsonStr = match[1].trim();
+                    const parsed = JSON.parse(jsonStr);
+                    if (parsed.response !== undefined) {
+                        instruction = parsed.response;
+                    }
+                }
+            } else {
+                // Try parsing as direct JSON
+                const parsed = JSON.parse(instruction);
+                if (parsed.response !== undefined) {
+                    instruction = parsed.response;
+                }
+            }
+        } catch (e) {
+            // Not JSON, continue with string processing
+        }
+        
         // Remove code block markers if present
-        if (instruction.includes('```')) {
-            const match = instruction.match(/```(?:yaml|json|text)?\s*\n?([\s\S]*?)\n?```/);
+        if (instruction.includes('```') && !instruction.includes('```json')) {
+            const match = instruction.match(/```(?:yaml|text)?\s*\n?([\s\S]*?)\n?```/);
             if (match) {
                 instruction = match[1].trim();
             }
@@ -476,10 +517,14 @@ class ScreenMonitor {
             if (this.enableGuidance && this.screenSessionName) {
                 console.log('⏰ Sending 10-minute remind-rules command...');
                 await this.sendGuidanceToScreen(remindCommand);
+                return true;
             } else {
                 console.log(`⏰ Would send remind-rules command: ${remindCommand}`);
+                // Still return true to indicate the timer triggered
+                return true;
             }
         }
+        return false;
     }
 
     /**
