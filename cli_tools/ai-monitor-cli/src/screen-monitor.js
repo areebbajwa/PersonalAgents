@@ -149,7 +149,12 @@ class ScreenMonitor {
             
             // Clean terminal escape sequences
             const cleanContent = this.cleanTerminalOutput(last200Lines);
-            return cleanContent.trim();
+            
+            // Add timestamp header to show when this content was processed
+            const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 19);
+            const timestampedContent = `[AI Monitor processed at ${timestamp}]\n${cleanContent.trim()}`;
+            
+            return timestampedContent;
 
         } catch (error) {
             console.error('Error reading screen log:', error.message);
