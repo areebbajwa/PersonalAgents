@@ -30,6 +30,14 @@
       "allowedTools": [],
       "history": [
         {
+          "display": "why are the gemini logs not inside ai-manager-cli?",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
+        {
           "display": "check git status and clean up and commit",
           "pastedContents": {}
         },
@@ -419,14 +427,6 @@
         },
         {
           "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "update todo list file",
-          "pastedContents": {}
-        },
-        {
-          "display": "commit and push",
           "pastedContents": {}
         }
       ],

@@ -24,7 +24,7 @@ class ScreenMonitor {
         this.alertLevel = options.alertLevel || 'WARNING';
         this.onCheckResult = options.onCheckResult || null; // Callback for check results
         this.lastStatus = 'COMPLIANT'; // Track last status to detect state changes
-        this.geminiLogsDir = options.geminiLogsDir || path.join(process.cwd(), 'ai-manager-gemini-logs');
+        this.geminiLogsDir = options.geminiLogsDir || path.join(__dirname, '..', 'logs', 'gemini');
         this.ensureGeminiLogsDir();
     }
     
