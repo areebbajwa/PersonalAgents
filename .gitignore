@@ -42,3 +42,4 @@ worktrees/
 # AI Monitor
 cli_tools/workflow-cli/state/ai_monitor_pid_*.txt
 cli_tools/ai-monitor-cli/logs/
+cli_tools/selenium-cli/html-exports/*

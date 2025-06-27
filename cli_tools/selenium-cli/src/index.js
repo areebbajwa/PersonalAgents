@@ -27,6 +27,48 @@ function exitAfterCommand() {
     setTimeout(() => process.exit(0), 100);
 }
 
+// Helper function to display action results
+function displayActionResult(result) {
+    // Debug log
+    console.error('[DEBUG] Result:', JSON.stringify(result, null, 2));
+    
+    if (result.screenshot) {
+        console.log(chalk.gray(`Screenshot: ${result.screenshot}`));
+    }
+    if (result.html) {
+        console.log(chalk.gray(`HTML: ${result.html}`));
+    }
+    if (result.htmlDiff) {
+        const diff = result.htmlDiff;
+        
+        // Show text changes
+        if (diff.textAdded > 0 || diff.textRemoved > 0) {
+            console.log(chalk.cyan('HTML changes:'));
+            if (diff.textAdded > 0) {
+                console.log(chalk.green(`  + ${diff.textAdded} chars added`));
+            }
+            if (diff.textRemoved > 0) {
+                console.log(chalk.red(`  - ${diff.textRemoved} chars removed`));
+            }
+            
+            // Show specific changes
+            if (diff.changedSections.length > 0) {
+                console.log(chalk.cyan('  Changed content:'));
+                diff.changedSections.forEach(change => {
+                    if (change.startsWith('+')) {
+                        console.log(chalk.green(`    ${change}`));
+                    } else {
+                        console.log(chalk.red(`    ${change}`));
+                    }
+                });
+                if (diff.totalChanges > diff.changedSections.length) {
+                    console.log(chalk.gray(`    ... and ${diff.totalChanges - diff.changedSections.length} more changes`));
+                }
+            }
+        }
+    }
+}
+
 // Main program setup
 program
     .name('selenium-cli')
@@ -218,9 +260,7 @@ session
             if (result.text !== undefined) {
                 console.log(chalk.blue('Text:'), result.text);
             }
-            if (result.screenshot) {
-                console.log(chalk.gray(`Screenshot: ${result.screenshot}`));
-            }
+            displayActionResult(result);
             
             if (command === 'close') {
                 await persistentSession.deleteSessionInfo(name);
@@ -338,13 +378,12 @@ program
                 url: url
             });
             spinner.succeed(chalk.green('Navigation successful'));
-            
-            if (result.screenshot) {
-                console.log(chalk.gray(`Screenshot: ${result.screenshot}`));
-            }
+            displayActionResult(result);
             exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to navigate: ${error.message}`));
+            if (error.screenshot) console.log(chalk.gray(`Error screenshot: ${error.screenshot}`));
+            if (error.html) console.log(chalk.gray(`Error HTML: ${error.html}`));
             process.exit(1);
         }
     });
@@ -372,13 +411,12 @@ program
                 timeout: parseInt(options.timeout)
             });
             spinner.succeed(chalk.green('Click successful'));
-            
-            if (result.screenshot) {
-                console.log(chalk.gray(`Screenshot: ${result.screenshot}`));
-            }
+            displayActionResult(result);
             exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to click: ${error.message}`));
+            if (error.screenshot) console.log(chalk.gray(`Error screenshot: ${error.screenshot}`));
+            if (error.html) console.log(chalk.gray(`Error HTML: ${error.html}`));
             process.exit(1);
         }
     });
@@ -411,13 +449,12 @@ program
                 pressEnter: options.enter
             });
             spinner.succeed(chalk.green('Text entered successfully'));
-            
-            if (result.screenshot) {
-                console.log(chalk.gray(`Screenshot: ${result.screenshot}`));
-            }
+            displayActionResult(result);
             exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to type: ${error.message}`));
+            if (error.screenshot) console.log(chalk.gray(`Error screenshot: ${error.screenshot}`));
+            if (error.html) console.log(chalk.gray(`Error HTML: ${error.html}`));
             process.exit(1);
         }
     });
@@ -511,6 +548,7 @@ program
                 key
             });
             spinner.succeed(chalk.green('Key pressed successfully'));
+            displayActionResult(result);
             exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to press key: ${error.message}`));
@@ -541,10 +579,7 @@ program
                 timeout: parseInt(options.timeout)
             });
             spinner.succeed(chalk.green('Hover successful'));
-            
-            if (result.screenshot) {
-                console.log(chalk.gray(`Screenshot: ${result.screenshot}`));
-            }
+            displayActionResult(result);
             exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to hover: ${error.message}`));
@@ -575,10 +610,7 @@ program
                 timeout: parseInt(options.timeout)
             });
             spinner.succeed(chalk.green('Double-click successful'));
-            
-            if (result.screenshot) {
-                console.log(chalk.gray(`Screenshot: ${result.screenshot}`));
-            }
+            displayActionResult(result);
             exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to double-click: ${error.message}`));
@@ -609,10 +641,7 @@ program
                 timeout: parseInt(options.timeout)
             });
             spinner.succeed(chalk.green('Right-click successful'));
-            
-            if (result.screenshot) {
-                console.log(chalk.gray(`Screenshot: ${result.screenshot}`));
-            }
+            displayActionResult(result);
             exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to right-click: ${error.message}`));

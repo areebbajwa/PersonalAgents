@@ -1,12 +1,12 @@
 {
-  "numStartups": 69,
+  "numStartups": 72,
   "installMethod": "local",
   "autoUpdates": true,
   "theme": "dark-ansi",
   "tipsHistory": {
     "ide-hotkey": 61,
     "new-user-warmup": 5,
-    "shift-enter": 51,
+    "shift-enter": 72,
     "memory-command": 38,
     "theme-command": 49,
     "prompt-queue": 44,
@@ -23,12 +23,156 @@
     "git-worktrees": 52
   },
   "memoryUsageCount": 1,
-  "promptQueueUseCount": 78,
+  "promptQueueUseCount": 96,
   "mcpServers": {},
   "projects": {
     "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents": {
       "allowedTools": [],
       "history": [
+        {
+          "display": "seems like when ai-monitor starts inside a worktree inside a screen, it doesn't have access to the required path. the path should be accessible in every case regardless of which branch/worktree/screen session it's starting in.",
+          "pastedContents": {}
+        },
+        {
+          "display": "keep going",
+          "pastedContents": {}
+        },
+        {
+          "display": "updatetodo",
+          "pastedContents": {}
+        },
+        {
+          "display": "it is still sending the --remind-rules command without the ai-monitor: prefix at the 1 min mark. is that normal?",
+          "pastedContents": {}
+        },
+        {
+          "display": "what was the problem?",
+          "pastedContents": {}
+        },
+        {
+          "display": "find a way to make the scroll wheel scroll up in the screen session that gets auto-started with each terminal. entering copy mode first and then doing it takes a lot of keystrokes. if that's impossible, create an easy keyboard shortcut (only 2 key combination - not reserved for macOS) that goes page up and down. first start devmode workflow",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
+        {
+          "display": "merged to main?",
+          "pastedContents": {}
+        },
+        {
+          "display": "follow workflow guidance",
+          "pastedContents": {}
+        },
+        {
+          "display": "run --next",
+          "pastedContents": {}
+        },
+        {
+          "display": "stop ai monitor for this workflow",
+          "pastedContents": {}
+        },
+        {
+          "display": "ai-monitor-cli doesn't seem to work properly. it just keeps sending --remind-rules command and doesn't log to gemini log file. i think it's struggling to read screen log file from different paths when starting with a brand new screen. do thorough testing of this and make sure it works from any path and succeeds in all edge cases. also test various scenarios with different terminal outputs and make sure it catches violations properly, and just as importantly, doesn't say there are violations when there aren't any. i want very detailed testing of this tool as this will be the foundation of a lot of things to come. start devmode workflow",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "workflow-cli --remind-rules --project cli-tools-global-setup --mode dev",
+          "pastedContents": {}
+        },
+        {
+          "display": "workflow-cli --remind-rules --project cli-tools-global-setup --mode devworkflow-cli --remind-rules --project cli-tools-global-setup --mode dev",
+          "pastedContents": {}
+        },
+        {
+          "display": "did we verify it though?",
+          "pastedContents": {}
+        },
+        {
+          "display": "the cli_tools seem to work fine from current directory. make sure they're setup so that they'll work from any directory. test by running from home directory. start devmode",
+          "pastedContents": {}
+        },
+        {
+          "display": "the cli_tools seem to work fine from current directory. make sure they're setup so that they'll work from any directory. test by running from home directory. devmode",
+          "pastedContents": {}
+        },
+        {
+          "display": "seems like i need to right click and force close on the close command",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
+        {
+          "display": "update dev mode rules to use github libraries wherever appropriate instead of re-inventing the wheel",
+          "pastedContents": {}
+        },
+        {
+          "display": "after each action it should output rendered page html to a file just like it does with the screenshot. make sure it's rendered page html, not source html. then test it",
+          "pastedContents": {}
+        },
+        {
+          "display": "how does it know which element to type into? does the cli tool share the html elements?",
+          "pastedContents": {}
+        },
+        {
+          "display": "now run the selenium cli tool. get it to navigate to gmail.com and search for \"salah\"",
+          "pastedContents": {}
+        },
+        {
+          "display": "too verbose. put on 1-2 lines",
+          "pastedContents": {}
+        },
+        {
+          "display": "delete worktree if already merged. also openrouter worktree can be removed too",
+          "pastedContents": {}
+        },
+        {
+          "display": "in step 7, move the instructions about testing in production etc to step 4 where the task list is made. add into example task list",
+          "pastedContents": {}
+        },
+        {
+          "display": "for step 8 in both dev mode and task mode, don't ask to merge with main, just do it",
+          "pastedContents": {}
+        },
+        {
+          "display": "ok merge it. check the rest of the branches as well and tell me of any important changes",
+          "pastedContents": {}
+        },
+        {
+          "display": "are there any selenium cli fixes not merged to main branch?",
+          "pastedContents": {}
+        },
+        {
+          "display": "which branches are currently open?",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "stop monitor",
+          "pastedContents": {}
+        },
+        {
+          "display": "continue this suno todo list using taskmode. step 1",
+          "pastedContents": {}
+        },
+        {
+          "display": "continue this todo list using taskmode. step 1",
+          "pastedContents": {}
+        },
         {
           "display": "[Pasted text #1 +21 lines]",
           "pastedContents": {
@@ -289,150 +433,6 @@
         },
         {
           "display": "this screen isn't in a workflow i don't think",
-          "pastedContents": {}
-        },
-        {
-          "display": "test it",
-          "pastedContents": {}
-        },
-        {
-          "display": "i dont think the launch command is accurate for selenium-cli",
-          "pastedContents": {}
-        },
-        {
-          "display": "it should auto start it on any step if it's not currently running",
-          "pastedContents": {}
-        },
-        {
-          "display": "VIOLATION DETECTED! You committed with failing tests and exceeded the maximum sleep time. This is a critical violation. You must not implement code until Step 5. Undo the invalid commit immediately with 'git reset --hard HEAD~1'. Then, re-examine the workflow. You are in the research phase (Step 2), do not write or commit code.",
-          "pastedContents": {}
-        },
-        {
-          "display": "run in backgroundworkflow-cli --remind-rules --project openrouter-multi-model --mode dev",
-          "pastedContents": {}
-        },
-        {
-          "display": "run in background",
-          "pastedContents": {}
-        },
-        {
-          "display": "its for the project openrouter-multi-model",
-          "pastedContents": {}
-        },
-        {
-          "display": "no i want to know why it didn't auto start",
-          "pastedContents": {}
-        },
-        {
-          "display": "i have an active workflow going right now but monitor-all says no active manager processes? ",
-          "pastedContents": {}
-        },
-        {
-          "display": "run this todo list with a devmode workflow",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "task mode too",
-          "pastedContents": {}
-        },
-        {
-          "display": "in dev mode and task mode automation tools section mention being able to use record-cli to record the screen and send it to AI for analysis if screenshots don't suffice to make sense of what's on screen. add just one line",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "in the final dev mode step it should run the global cli tool setup command after merging to main, if we created a cli tool",
-          "pastedContents": {}
-        },
-        {
-          "display": "run global cli setup command ",
-          "pastedContents": {}
-        },
-        {
-          "display": "yes",
-          "pastedContents": {}
-        },
-        {
-          "display": "run step 6 for clean up",
-          "pastedContents": {}
-        },
-        {
-          "display": "did we merge to main",
-          "pastedContents": {}
-        },
-        {
-          "display": "ok run --next",
-          "pastedContents": {}
-        },
-        {
-          "display": "make the ai-manager detect whether the workflow is complete or waiting for user input and stop sending auto keypresses. just ask in the gemini prompt",
-          "pastedContents": {}
-        },
-        {
-          "display": "the text instruction is sent as keypresses to the appropriate screen with enter at the end?",
-          "pastedContents": {}
-        },
-        {
-          "display": "is that real gemini output or sample? i want to run the real api call",
-          "pastedContents": {}
-        },
-        {
-          "display": "show me some sample gemini output with a real sample workflow",
-          "pastedContents": {}
-        },
-        {
-          "display": "wrap the various sections in xml tags so it doesn't confuse the AI",
-          "pastedContents": {}
-        },
-        {
-          "display": "show me the full prompt, don't cut it off",
-          "pastedContents": {}
-        },
-        {
-          "display": "doesn't seem like it's sending the full dev mode and task mode yaml file. don't try to send the rules separately, just instruct it to make sure all the rules mentioned in the file are followed strictly",
-          "pastedContents": {}
-        },
-        {
-          "display": "add an ai-manager-cli monitor command that shows live output across all projects and screens",
-          "pastedContents": {}
-        },
-        {
-          "display": "where can i see ai manager logs?",
-          "pastedContents": {}
-        },
-        {
-          "display": "no no just link to the cli design tool guide",
-          "pastedContents": {}
-        },
-        {
-          "display": "change all mentions of selenium to selenium-cli. \\\nin step 4 when creating the todo list, if it's a CLI tool make sure the todo list contains steps from the cli tool design guide. /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/CLI_TOOL_DESIGN_GUIDE.md",
-          "pastedContents": {}
-        },
-        {
-          "display": "in step 3 of dev mode, make sure anything mentioned in non-negotiables is not violated when simplifying",
-          "pastedContents": {}
-        },
-        {
-          "display": "i shouldn't have to start and stop ai manager manually. it should start and stop with the workflow. start on step 1, clean up at the end",
-          "pastedContents": {}
-        },
-        {
-          "display": "is this implemented into workflow-cli? explain ",
-          "pastedContents": {}
-        },
-        {
-          "display": "in the final verification step make sure the non-negotiables are reviewed. ensure that all requirements are met. if not, update todo list file and go back to step 4",
-          "pastedContents": {}
-        },
-        {
-          "display": "keystrokes came through but it gave new lines instead of enter key",
           "pastedContents": {}
         }
       ],

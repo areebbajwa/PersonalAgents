@@ -48,6 +48,38 @@
 - [X] **Nasheed #20:** "The Scholar" (Aisha) (Cinematic Pop) - Theme: The intelligence and legacy of Aisha bint Abi Bakr.
 - [X] **Nasheed #21:** "The Lady of Light" (Fatima) (Dream Pop) - Theme: The life and status of Fatima, the Prophet's daughter.
 - 🕒 [23:29] **Nasheed #22:** "The Ansar's Welcome" (Folk Anthem) - Theme: The selflessness and brotherhood of the Ansar of Madinah.
+
+## Task Plan for Remaining 29 Nasheeds (22-50)
+
+### Non-Negotiable User Requirements: "continue this suno todo list using taskmode"
+
+### Context Discovery
+- Previous successful completion: todos/completed/suno_liked_nasheed_generation_20240602_130000_todo.md
+- Existing automation tool: cli_tools/selenium-cli/ 
+- 21/50 nasheeds already complete with proven workflow
+- Browser automation pattern established and working
+
+### Grouped Task Execution Plan
+
+#### Phase 1: Browser Setup & Navigation (Single Setup)
+🕒 [23:32] Launch selenium-cli browser automation
+🕒 Navigate to Suno and verify login status
+🕒 Take screenshot to confirm correct page state
+
+#### Phase 2: Batch Generation (Nasheeds 22-50 in groups of 5-7)
+🕒 **Batch A (Nasheeds 22-28):** Generate 7 nasheeds consecutively
+🕒 **Batch B (Nasheeds 29-35):** Generate 7 nasheeds consecutively  
+🕒 **Batch C (Nasheeds 36-42):** Generate 7 nasheeds consecutively
+🕒 **Batch D (Nasheeds 43-50):** Generate final 8 nasheeds consecutively
+
+#### Phase 3: Completion & Archive
+🕒 Update final progress to 50/50 complete
+🕒 Move todo file to todos/completed/ directory
+🕒 Take final screenshot of completed library
+🕒 Run workflow-cli --project suno_nasheed_generation_part2 --next
+
+### Notes
+🔥 INSIGHT: Batching generations prevents browser session timeouts and reduces setup overhead
 - [ ] **Nasheed #23:** "The Three Left Behind" (Indie Folk) - Theme: The story of Ka'b ibn Malik and the test of repentance.
 - [ ] **Nasheed #24:** "Surah Ar-Rahman" (Epic Orchestral) - Theme: A lyrical reflection on the refrain "Which of the favors of your Lord will you deny?".
 - [ ] **Nasheed #25:** "The Shaking Earth" (Film Score) - Theme: The imagery of the Day of Judgment from Surah Az-Zalzalah.

@@ -102,7 +102,11 @@ export async function sendCommandToSession(sessionInfo, command) {
                     if (response.success) {
                         resolve(response.result);
                     } else {
-                        reject(new Error(response.error));
+                        // Create error with additional properties
+                        const error = new Error(response.error);
+                        if (response.screenshot) error.screenshot = response.screenshot;
+                        if (response.html) error.html = response.html;
+                        reject(error);
                     }
                 } catch (error) {
                     reject(error);

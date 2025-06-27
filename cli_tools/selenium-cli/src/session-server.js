@@ -3,7 +3,10 @@
 import http from 'http';
 import * as browserManager from './browser-manager.js';
 import * as screenshotManager from './screenshot-manager.js';
+import * as htmlManager from './html-manager.js';
 import { promises as fs } from 'fs';
+import * as Diff from 'diff';
+import * as cheerio from 'cheerio';
 
 // Parse command line arguments
 const sessionName = process.argv[2];
@@ -19,17 +22,109 @@ if (process.env.SELENIUM_CLI_TEST) {
     process.env.SELENIUM_CLI_TEST = 'true';
 }
 
-// Initialize screenshot manager
+// Initialize screenshot and HTML managers
 await screenshotManager.ensureScreenshotDir();
+await htmlManager.ensureHtmlDir();
+
+// Schedule periodic cleanup of old files
+const cleanupInterval = setInterval(async () => {
+    await screenshotManager.cleanupOldScreenshots();
+    await htmlManager.cleanupOldHtmlFiles();
+}, 60 * 60 * 1000); // Run every hour
 
 // Track if browser is launched
 let browserLaunched = false;
+
+// Track previous HTML for diff
+let previousHtml = null;
 
 // Helper to ensure browser is launched
 async function ensureBrowserLaunched(options = {}) {
     if (!browserLaunched) {
         await browserManager.launchBrowser(options);
         browserLaunched = true;
+    }
+}
+
+// Helper to extract text content from HTML for better diff
+function extractTextContent(html) {
+    try {
+        const $ = cheerio.load(html);
+        // Remove script and style tags
+        $('script, style').remove();
+        // Get text content
+        return $('body').text().replace(/\s+/g, ' ').trim();
+    } catch (error) {
+        return html; // Fallback to raw HTML if parsing fails
+    }
+}
+
+// Helper to save rendered HTML after an action and calculate diff
+async function saveActionHtml(action) {
+    try {
+        const htmlFilename = htmlManager.generateHtmlFilename(action);
+        const htmlPath = htmlManager.getHtmlPath(htmlFilename);
+        const htmlResult = await browserManager.exportHtml(htmlPath);
+        
+        // Get current HTML for diff
+        const currentHtml = await browserManager.exportHtml(null);
+        let htmlDiff = null;
+        
+        console.error('[DEBUG saveActionHtml] previousHtml exists:', !!previousHtml);
+        console.error('[DEBUG saveActionHtml] currentHtml.data exists:', !!currentHtml.data);
+        
+        if (previousHtml && currentHtml.data) {
+            // Extract text content for meaningful diff
+            const prevText = extractTextContent(previousHtml);
+            const currText = extractTextContent(currentHtml.data);
+            
+            // Calculate text diff
+            const textChanges = Diff.diffWords(prevText, currText);
+            
+            // Count added/removed text
+            let addedChars = 0;
+            let removedChars = 0;
+            let changedSections = [];
+            
+            textChanges.forEach(change => {
+                if (change.added) {
+                    addedChars += change.value.length;
+                    if (change.value.trim().length > 0) {
+                        changedSections.push(`+"${change.value.trim().substring(0, 50)}${change.value.trim().length > 50 ? '...' : ''}"`);
+                    }
+                } else if (change.removed) {
+                    removedChars += change.value.length;
+                    if (change.value.trim().length > 0) {
+                        changedSections.push(`-"${change.value.trim().substring(0, 50)}${change.value.trim().length > 50 ? '...' : ''}"`);
+                    }
+                }
+            });
+            
+            // Calculate HTML structure diff
+            const prevLength = previousHtml.length;
+            const currLength = currentHtml.data.length;
+            
+            htmlDiff = {
+                htmlSizeDiff: currLength - prevLength,
+                textAdded: addedChars,
+                textRemoved: removedChars,
+                changedSections: changedSections.slice(0, 3), // Show first 3 changes
+                totalChanges: changedSections.length
+            };
+            
+            console.error(`[HTML Diff] Action: ${action}, Added: ${addedChars}, Removed: ${removedChars}, Changes: ${changedSections.length}`);
+            console.error('[DEBUG] Previous HTML length:', previousHtml ? previousHtml.length : 'null');
+            console.error('[DEBUG] Current HTML length:', currentHtml.data ? currentHtml.data.length : 'null');
+        }
+        
+        // Update previous HTML
+        previousHtml = currentHtml.data;
+        console.error('[DEBUG saveActionHtml] Updated previousHtml, length:', previousHtml ? previousHtml.length : 'null');
+        
+        return { path: htmlPath, diff: htmlDiff };
+    } catch (error) {
+        console.error(`Error saving HTML for ${action}:`, error);
+        return null;
     }
 }
 
@@ -74,6 +169,13 @@ const server = http.createServer(async (req, res) => {
                         );
                         await browserManager.takeScreenshot(navScreenshot);
                         result.screenshot = navScreenshot;
+                        // Save HTML
+                        const navHtmlResult = await saveActionHtml('navigate');
+                        if (navHtmlResult) {
+                            result.html = navHtmlResult.path;
+                            result.htmlDiff = navHtmlResult.diff;
+                            console.error('[DEBUG] Navigate htmlDiff:', JSON.stringify(navHtmlResult.diff));
+                        }
                         break;
                         
                     case 'click':
@@ -85,6 +187,12 @@ const server = http.createServer(async (req, res) => {
                         );
                         await browserManager.takeScreenshot(clickScreenshot);
                         result.screenshot = clickScreenshot;
+                        // Save HTML
+                        const clickHtmlResult = await saveActionHtml('click');
+                        if (clickHtmlResult) {
+                            result.html = clickHtmlResult.path;
+                            result.htmlDiff = clickHtmlResult.diff;
+                        }
                         break;
                         
                     case 'type':
@@ -101,6 +209,12 @@ const server = http.createServer(async (req, res) => {
                         );
                         await browserManager.takeScreenshot(typeScreenshot);
                         result.screenshot = typeScreenshot;
+                        // Save HTML
+                        const typeHtmlResult = await saveActionHtml('type');
+                        if (typeHtmlResult) {
+                            result.html = typeHtmlResult.path;
+                            result.htmlDiff = typeHtmlResult.diff;
+                        }
                         break;
                         
                     case 'text':
@@ -124,6 +238,18 @@ const server = http.createServer(async (req, res) => {
                     case 'key':
                         await ensureBrowserLaunched();
                         result = await browserManager.pressKey(command.key);
+                        // Take screenshot
+                        const keyScreenshot = screenshotManager.getScreenshotPath(
+                            screenshotManager.generateScreenshotFilename('key')
+                        );
+                        await browserManager.takeScreenshot(keyScreenshot);
+                        result.screenshot = keyScreenshot;
+                        // Save HTML after key press
+                        const keyHtmlResult = await saveActionHtml('key');
+                        if (keyHtmlResult) {
+                            result.html = keyHtmlResult.path;
+                            result.htmlDiff = keyHtmlResult.diff;
+                        }
                         break;
                         
                     case 'hover':
@@ -135,6 +261,12 @@ const server = http.createServer(async (req, res) => {
                         );
                         await browserManager.takeScreenshot(hoverScreenshot);
                         result.screenshot = hoverScreenshot;
+                        // Save HTML
+                        const hoverHtmlResult = await saveActionHtml('hover');
+                        if (hoverHtmlResult) {
+                            result.html = hoverHtmlResult.path;
+                            result.htmlDiff = hoverHtmlResult.diff;
+                        }
                         break;
                         
                     case 'double-click':
@@ -181,8 +313,33 @@ const server = http.createServer(async (req, res) => {
                 res.writeHead(200);
                 res.end(JSON.stringify({ success: true, result }));
             } catch (error) {
+                // Try to save error state HTML and screenshot
+                let errorData = { success: false, error: error.message };
+                
+                // Only save error artifacts for actions that interact with the page
+                const interactionActions = ['navigate', 'click', 'type', 'hover', 'double-click', 'right-click', 'upload', 'drag-drop', 'key'];
+                if (browserLaunched && interactionActions.includes(command.action)) {
+                    try {
+                        // Save error screenshot
+                        const errorScreenshot = screenshotManager.getScreenshotPath(
+                            screenshotManager.generateScreenshotFilename(`error-${command.action}`)
+                        );
+                        await browserManager.takeScreenshot(errorScreenshot);
+                        errorData.screenshot = errorScreenshot;
+                        
+                        // Save error HTML
+                        const errorHtmlResult = await saveActionHtml(`error-${command.action}`);
+                        if (errorHtmlResult) {
+                            errorData.html = errorHtmlResult.path;
+                            errorData.htmlDiff = errorHtmlResult.diff;
+                        }
+                    } catch (captureError) {
+                        console.error('Error capturing error state:', captureError);
+                    }
+                }
+                
                 res.writeHead(200);
-                res.end(JSON.stringify({ success: false, error: error.message }));
+                res.end(JSON.stringify(errorData));
             }
         });
     } else {
@@ -201,28 +358,21 @@ server.listen(port, () => {
 });
 
 // Cleanup on exit
-process.on('SIGTERM', async () => {
+const cleanup = async () => {
+    clearInterval(cleanupInterval);
     try {
         const status = browserManager.getSessionStatus();
         if (status.hasSession) {
             await browserManager.closeBrowser();
         }
     } catch (error) {
-        // Ignore errors during cleanup
+        console.error('Cleanup error:', error);
     }
-    server.close();
     process.exit(0);
-});
+};
 
-process.on('SIGINT', async () => {
-    try {
-        const status = browserManager.getSessionStatus();
-        if (status.hasSession) {
-            await browserManager.closeBrowser();
-        }
-    } catch (error) {
-        // Ignore errors during cleanup
-    }
-    server.close();
-    process.exit(0);
+process.on('SIGTERM', cleanup);
+process.on('SIGINT', cleanup);
+process.on('exit', () => {
+    clearInterval(cleanupInterval);
 });

@@ -32,13 +32,16 @@ class ScreenMonitor {
         this.alertLevel = options.alertLevel || 'WARNING';
         this.onCheckResult = options.onCheckResult || null; // Callback for check results
         this.lastStatus = 'COMPLIANT'; // Track last status to detect state changes
+        
+        // Use symlink from home directory for portability
+        const MAIN_REPO_PATH = path.join(process.env.HOME, 'PersonalAgents');
+        
         // Always use absolute path for gemini logs directory
         if (options.geminiLogsDir) {
             this.geminiLogsDir = path.resolve(options.geminiLogsDir);
         } else {
-            // Use the CLI tool's directory regardless of where it's called from
-            const cliToolDir = path.resolve(__dirname, '..');
-            this.geminiLogsDir = path.join(cliToolDir, 'logs', 'gemini');
+            // Use hardcoded path to ensure consistency across worktrees
+            this.geminiLogsDir = path.join(MAIN_REPO_PATH, 'cli_tools', 'ai-monitor-cli', 'logs', 'gemini');
         }
         this.ensureGeminiLogsDir();
     }
@@ -118,17 +121,19 @@ class ScreenMonitor {
         
         // Try to load from config/.env file
         try {
-            // First try the script's location
-            const scriptEnvPath = path.resolve(__dirname, '../../../config/.env');
-            if (fs.existsSync(scriptEnvPath)) {
-                const envContent = fs.readFileSync(scriptEnvPath, 'utf8');
+            // Use symlink from home directory for portability
+            const MAIN_REPO_PATH = path.join(process.env.HOME, 'PersonalAgents');
+            const mainConfigPath = path.join(MAIN_REPO_PATH, 'config', '.env');
+            
+            if (fs.existsSync(mainConfigPath)) {
+                const envContent = fs.readFileSync(mainConfigPath, 'utf8');
                 const match = envContent.match(/GEMINI_API_KEY=(.+)/);
                 if (match) {
                     return match[1].trim().replace(/['"]/g, '');
                 }
             }
             
-            // Also try current working directory
+            // Also try current working directory (for worktrees)
             const cwdEnvPath = path.resolve(process.cwd(), '.env');
             if (fs.existsSync(cwdEnvPath)) {
                 const envContent = fs.readFileSync(cwdEnvPath, 'utf8');
@@ -415,8 +420,9 @@ class ScreenMonitor {
      */
     readWorkflowRules() {
         try {
-            // Determine workflow file path
-            const workflowDir = path.resolve(__dirname, '../../workflow-cli/workflows');
+            // Use symlink from home directory for portability
+            const MAIN_REPO_PATH = path.join(process.env.HOME, 'PersonalAgents');
+            const workflowDir = path.join(MAIN_REPO_PATH, 'cli_tools', 'workflow-cli', 'workflows');
             const workflowFile = this.workflowMode === 'task' 
                 ? path.join(workflowDir, 'task-mode.yaml')
                 : path.join(workflowDir, 'dev-mode.yaml');

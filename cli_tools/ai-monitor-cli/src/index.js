@@ -393,7 +393,9 @@ program
 
 function checkConfigForApiKey() {
   try {
-    const envPath = path.resolve(__dirname, '../../../config/.env');
+    // Use symlink from home directory for portability
+    const MAIN_REPO_PATH = path.join(process.env.HOME, 'PersonalAgents');
+    const envPath = path.join(MAIN_REPO_PATH, 'config', '.env');
     if (fs.existsSync(envPath)) {
       const envContent = fs.readFileSync(envPath, 'utf8');
       return envContent.includes('GEMINI_API_KEY=');

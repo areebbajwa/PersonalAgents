@@ -150,25 +150,21 @@ steps:
     mandatory: true
 
   - number: 7
-    title: "Branch Management Decision"
+    title: "Branch Management - Auto Merge"
     content: |
-      **WAIT FOR USER INSTRUCTION** before proceeding:
+      **Automatically merge to main branch:**
       
       First identify the main branch:
       1. `git branch -r --sort=-committerdate | head -5` (find most active branch)
       2. Usually main, master, or develop
       
-      Ask user: "Should I merge this branch into [main-branch] and delete the task branch?"
-      
-      If YES:
+      Execute merge automatically:
       1. `git checkout [main-branch]`
       2. `git pull origin [main-branch]`
       3. `git merge [task-branch]`
       4. `git push origin [main-branch]`
       5. `git branch -d [task-branch]`
       6. `git push origin --delete [task-branch]`
-      
-      If NO: Leave branch as-is for manual review
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
