@@ -13,7 +13,7 @@ const fs = require('fs');
 
 program
   .name('ai-monitor-cli')
-  .description('AI Manager for monitoring workflow compliance and providing guidance')
+  .description('AI Monitor for monitoring workflow compliance and providing guidance')
   .version('1.0.0');
 
 // Monitor command - Main functionality
@@ -47,7 +47,7 @@ program
       }
     });
 
-    console.log(`🤖 AI Manager monitoring started`);
+    console.log(`🤖 AI Monitor monitoring started`);
     console.log(`   Project: ${options.project}`);
     console.log(`   Mode: ${options.mode}`);
     console.log(`   Log: ${options.logPath}`);
@@ -80,13 +80,13 @@ program
 
     // Handle graceful shutdown
     process.on('SIGINT', () => {
-      console.log('\n🛑 Shutting down AI Manager...');
+      console.log('\n🛑 Shutting down AI Monitor...');
       monitor.stop();
       process.exit(0);
     });
 
     process.on('SIGTERM', () => {
-      console.log('\n🛑 Shutting down AI Manager...');
+      console.log('\n🛑 Shutting down AI Monitor...');
       monitor.stop();
       process.exit(0);
     });
@@ -149,9 +149,9 @@ program
 // Status command
 program
   .command('status')
-  .description('Show AI Manager status and configuration')
+  .description('Show AI Monitor status and configuration')
   .action(() => {
-    console.log('🤖 AI Manager CLI Status');
+    console.log('🤖 AI Monitor CLI Status');
     console.log('=' .repeat(30));
     
     // Check Gemini API key
@@ -199,10 +199,10 @@ program
 // Test command
 program
   .command('test')
-  .description('Test AI Manager functionality')
+  .description('Test AI Monitor functionality')
   .option('-s, --screen-session <name>', 'Screen session to test with')
   .action(async (options) => {
-    console.log('🧪 Testing AI Manager functionality...');
+    console.log('🧪 Testing AI Monitor functionality...');
     
     const monitor = new ScreenMonitor({
       projectName: 'test',
@@ -220,7 +220,7 @@ program
     if (options.screenSession) {
       console.log('2. Testing screen command...');
       try {
-        await monitor.sendGuidanceToScreen('echo "AI Manager test successful"');
+        await monitor.sendGuidanceToScreen('echo "AI Monitor test successful"');
         console.log('   ✅ Screen command sent');
       } catch (error) {
         console.log(`   ❌ Screen command failed: ${error.message}`);
@@ -232,20 +232,20 @@ program
     // Test 3: Notification system
     console.log('3. Testing notification system...');
     const notificationManager = new NotificationManager();
-    notificationManager.notify('INFO', 'AI Manager test notification', {
+    notificationManager.notify('INFO', 'AI Monitor test notification', {
       project: 'test',
       mode: 'dev'
     });
     console.log('   ✅ Notification system working');
     
     console.log('');
-    console.log('🎉 AI Manager test completed');
+    console.log('🎉 AI Monitor test completed');
   });
 
 // Monitor-all command - Monitor all active projects
 program
   .command('monitor-all')
-  .description('Monitor all active AI Manager processes and show live output')
+  .description('Monitor all active AI Monitor processes and show live output')
   .option('-r, --refresh <seconds>', 'Refresh interval in seconds', '5')
   .option('--log-file <path>', 'Path to notification log file')
   .action(async (options) => {
@@ -253,7 +253,7 @@ program
       logFile: options.logFile
     });
     
-    console.log('🤖 AI Manager Live Monitor - All Projects');
+    console.log('🤖 AI Monitor Live Monitor - All Projects');
     console.log('=' .repeat(50));
     console.log('Press Ctrl+C to exit\n');
     
@@ -264,12 +264,12 @@ program
       // Clear screen and reset cursor
       process.stdout.write('\x1b[2J\x1b[H');
       
-      console.log('🤖 AI Manager Live Monitor - All Projects');
+      console.log('🤖 AI Monitor Live Monitor - All Projects');
       console.log('=' .repeat(50));
       console.log(`Last refresh: ${new Date().toLocaleTimeString()}`);
       console.log('');
       
-      // Check for active AI Manager processes
+      // Check for active AI Monitor processes
       const stateDir = path.resolve(__dirname, '../../workflow-cli/state');
       let activeProjects = [];
       
@@ -340,7 +340,7 @@ program
         });
         console.log('');
       } else {
-        console.log('ℹ️  No active AI Manager processes\n');
+        console.log('ℹ️  No active AI Monitor processes\n');
       }
       
       // Get recent notifications since last check
