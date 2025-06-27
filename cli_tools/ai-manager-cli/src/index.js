@@ -297,11 +297,46 @@ program
         console.error('Error checking active projects:', error.message);
       }
       
-      // Display active projects
+      // Get all notifications for history
+      const allHistory = notificationManager.getRecentNotifications(100);
+      
+      // Display active projects with their activity feeds
       if (activeProjects.length > 0) {
-        console.log('📊 Active Projects:');
+        console.log('📊 Active Projects with Activity Feed:');
+        console.log('=' .repeat(50));
+        
         activeProjects.forEach(({ project, pid }) => {
-          console.log(`   • ${project} (PID: ${pid})`);
+          console.log(`\n🟢 ${project} (PID: ${pid})`);
+          console.log('-' .repeat(50));
+          
+          // Get notifications for this project
+          const projectNotifications = allHistory.filter(n => n.project === project).slice(0, 5);
+          
+          if (projectNotifications.length === 0) {
+            console.log('   No activity recorded for this project');
+          } else {
+            projectNotifications.forEach(notif => {
+              const time = new Date(notif.timestamp).toLocaleTimeString();
+              const date = new Date(notif.timestamp).toLocaleDateString();
+              const icon = {
+                'INFO': 'ℹ️ ',
+                'WARNING': '⚠️ ',
+                'VIOLATION': '🚨'
+              }[notif.level] || '📢';
+              
+              console.log(`   ${date} ${time} ${icon}${notif.message}`);
+              
+              if (notif.guidanceSent) {
+                console.log(`      ↳ Sent: "${notif.guidanceSent}"`);
+              }
+              
+              if (notif.actions && notif.actions.length > 0) {
+                notif.actions.forEach(action => {
+                  console.log(`      • ${action}`);
+                });
+              }
+            });
+          }
         });
         console.log('');
       } else {
@@ -309,13 +344,12 @@ program
       }
       
       // Get recent notifications since last check
-      const allNotifications = notificationManager.getRecentNotifications(50);
-      const newNotifications = allNotifications.filter(n => 
+      const newNotifications = allHistory.filter(n => 
         new Date(n.timestamp) > lastShownTimestamp
       );
       
       if (newNotifications.length > 0) {
-        console.log(`📋 Recent Activity (${newNotifications.length} new events):`);
+        console.log(`\n📢 New Activity Since Last Check (${newNotifications.length} events):`);
         console.log('-' .repeat(50));
         
         newNotifications.forEach(notif => {
@@ -331,51 +365,16 @@ program
           if (notif.guidanceSent) {
             console.log(`         ↳ Sent: "${notif.guidanceSent}"`);
           }
-          
-          if (notif.actions && notif.actions.length > 0) {
-            notif.actions.forEach(action => {
-              console.log(`         • ${action}`);
-            });
-          }
         });
         
         // Update last shown timestamp
         if (newNotifications.length > 0) {
           lastShownTimestamp = new Date(newNotifications[0].timestamp);
         }
-      } else {
-        console.log('📭 No new activity\n');
       }
       
-      // Show screen output samples
-      console.log('\n📺 Screen Output Samples:');
-      console.log('-' .repeat(50));
       
-      activeProjects.forEach(({ project }) => {
-        console.log(`\n[${project}]:`);
-        
-        // Try to read last few lines of screen output
-        const screenLogPath = '/tmp/screen_output.log';
-        if (fs.existsSync(screenLogPath)) {
-          try {
-            const content = fs.readFileSync(screenLogPath, 'utf8');
-            const lines = content.split('\n').filter(line => line.trim());
-            const lastLines = lines.slice(-3).join('\n');
-            
-            if (lastLines) {
-              console.log(lastLines.split('\n').map(line => '   ' + line).join('\n'));
-            } else {
-              console.log('   (no recent output)');
-            }
-          } catch (error) {
-            console.log('   (unable to read screen output)');
-          }
-        } else {
-          console.log('   (screen log not found)');
-        }
-      });
-      
-      console.log('\n\nPress Ctrl+C to exit');
+      console.log('\nPress Ctrl+C to exit');
     };
     
     // Initial display

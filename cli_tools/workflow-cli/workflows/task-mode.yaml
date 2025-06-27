@@ -219,6 +219,7 @@ global_rules:
       - PDF processing: pdf-ai-cli for extraction and analysis
       - Database queries: sqlite3 CLI with direct SQL
       - Take screenshots when curious/stuck: screenshot-cli tool
+      - Use record-cli to record screen and send to AI for analysis if screenshots don't suffice
       - Last resort for GUI tasks: desktop-automation-cli
 
   - title: "AI Integration for New Tools/Scripts"

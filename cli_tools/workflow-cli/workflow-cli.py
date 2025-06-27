@@ -76,18 +76,17 @@ class WorkflowManager:
         return workflow
     
     def auto_start_ai_manager_if_needed(self, mode: str, step: int, project: str) -> None:
-        """Automatically start AI Manager on step 1 if not already running"""
-        if step == 1:
-            # Check if AI Manager is already running
-            status = self.get_ai_manager_status(project)
-            if status.get('status') != 'running':
-                result = self.start_ai_manager(project, mode)
-                if result.get('status') == 'started':
-                    print(f"🤖 AI Manager auto-started for project '{project}'")
-                elif 'error' in result and 'screen session' in result['error']:
-                    print(f"ℹ️  AI Manager not started (not in screen session)")
-                else:
-                    print(f"⚠️  Could not start AI Manager: {result.get('error', 'Unknown error')}")
+        """Automatically start AI Manager on any step if not already running"""
+        # Always check if AI Manager should be running
+        status = self.get_ai_manager_status(project)
+        if status.get('status') != 'running':
+            result = self.start_ai_manager(project, mode)
+            if result.get('status') == 'started':
+                print(f"🤖 AI Manager auto-started for project '{project}'")
+            elif 'error' in result and 'screen session' in result['error']:
+                print(f"ℹ️  AI Manager not started (not in screen session)")
+            else:
+                print(f"⚠️  Could not start AI Manager: {result.get('error', 'Unknown error')}")
 
     def auto_stop_ai_manager_if_needed(self, project: str) -> None:
         """Automatically stop AI Manager when workflow is complete or cleaned"""
@@ -360,7 +359,7 @@ Check your todo list. If tasks remain, continue working. If all done, use --next
         try:
             # Start AI Manager in background
             cmd = [
-                'node', str(ai_manager_cli), 'monitor',
+                str(ai_manager_cli), 'monitor',
                 '--project', project,
                 '--mode', mode,
                 '--screen-session', screen_session,

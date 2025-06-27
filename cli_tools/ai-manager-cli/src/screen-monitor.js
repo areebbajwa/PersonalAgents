@@ -20,14 +20,61 @@ class ScreenMonitor {
         this.enableGuidance = options.enableGuidance !== false;
         this.screenSessionName = options.screenSessionName;
         this.lastRemindRulesTime = 0;
-        this.remindRulesIntervalMs = 300000; // 5 minutes for remind-rules
+        this.remindRulesIntervalMs = 600000; // 10 minutes for remind-rules
         this.alertLevel = options.alertLevel || 'WARNING';
         this.onCheckResult = options.onCheckResult || null; // Callback for check results
-        this.contentBuffer = ''; // Buffer to store recent content for context
-        this.maxBufferLines = 100; // Keep last 100 lines for context
         this.lastStatus = 'COMPLIANT'; // Track last status to detect state changes
+        this.geminiLogsDir = options.geminiLogsDir || path.join(process.cwd(), 'ai-manager-gemini-logs');
+        this.ensureGeminiLogsDir();
     }
     
+    /**
+     * Ensure Gemini logs directory exists
+     */
+    ensureGeminiLogsDir() {
+        try {
+            if (!fs.existsSync(this.geminiLogsDir)) {
+                fs.mkdirSync(this.geminiLogsDir, { recursive: true });
+            }
+        } catch (error) {
+            console.error('Failed to create Gemini logs directory:', error.message);
+        }
+    }
+
+    /**
+     * Save Gemini prompt and response to file
+     */
+    saveGeminiInteraction(prompt, response) {
+        try {
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+            const filename = `gemini-${this.projectName}-${timestamp}.json`;
+            const filepath = path.join(this.geminiLogsDir, filename);
+            
+            // Parse the prompt JSON to make it readable in the log
+            let parsedPrompt;
+            try {
+                parsedPrompt = JSON.parse(prompt);
+            } catch (e) {
+                parsedPrompt = prompt; // Keep as string if not valid JSON
+            }
+            
+            const data = {
+                timestamp: new Date().toISOString(),
+                project: this.projectName,
+                mode: this.workflowMode,
+                prompt: parsedPrompt, // Store as parsed object instead of escaped string
+                response: response,
+                promptLength: prompt.length,
+                responseLength: response.length
+            };
+            
+            fs.writeFileSync(filepath, JSON.stringify(data, null, 2));
+            console.log(`💾 Saved Gemini interaction to: ${filename}`);
+        } catch (error) {
+            console.error('Failed to save Gemini interaction:', error.message);
+        }
+    }
+
     /**
      * Load Gemini API key from environment or config file
      */
@@ -55,53 +102,30 @@ class ScreenMonitor {
     }
 
     /**
-     * Update content buffer with new content
+     * Read last 200 lines from screen log file
      */
-    updateContentBuffer(newContent) {
-        if (!newContent) return;
-        
-        // Add new content to buffer
-        this.contentBuffer += '\n' + newContent;
-        
-        // Keep only the last N lines
-        const lines = this.contentBuffer.split('\n');
-        if (lines.length > this.maxBufferLines) {
-            this.contentBuffer = lines.slice(-this.maxBufferLines).join('\n');
-        }
-    }
-    
-    /**
-     * Read new content from screen log file since last check
-     */
-    readNewContent() {
+    readLast200Lines() {
         try {
             if (!fs.existsSync(this.screenLogPath)) {
                 return null;
             }
 
-            const stats = fs.statSync(this.screenLogPath);
-            const currentSize = stats.size;
-
-            if (currentSize < this.lastPosition) {
-                this.lastPosition = 0;
-            }
-
-            if (currentSize === this.lastPosition) {
+            const content = fs.readFileSync(this.screenLogPath, 'utf8');
+            const lines = content.split('\n');
+            
+            // Get last 200 lines
+            const last200Lines = lines.slice(-200).join('\n');
+            
+            if (last200Lines.trim().length === 0) {
                 return null;
             }
-
-            const buffer = Buffer.alloc(currentSize - this.lastPosition);
-            const fd = fs.openSync(this.screenLogPath, 'r');
-            const bytesRead = fs.readSync(fd, buffer, 0, buffer.length, this.lastPosition);
-            fs.closeSync(fd);
-
-            this.lastPosition = currentSize;
-            let content = buffer.toString('utf8');
-            content = this.cleanTerminalOutput(content);
-            return content.trim();
+            
+            // Clean terminal escape sequences
+            const cleanContent = this.cleanTerminalOutput(last200Lines);
+            return cleanContent.trim();
 
         } catch (error) {
-            console.error('Error reading screen log file:', error.message);
+            console.error('Error reading screen log:', error.message);
             return null;
         }
     }
@@ -138,7 +162,7 @@ class ScreenMonitor {
             contents: [{ parts: [{ text: prompt }] }],
             generationConfig: {
                 temperature: 0.1,
-                maxOutputTokens: 1000,
+                maxOutputTokens: 65536,
                 topP: 0.8
             }
         };
@@ -166,13 +190,16 @@ class ScreenMonitor {
                             reject(new Error(`Gemini API error: ${response.error.message}`));
                             return;
                         }
-                        if (response.candidates && response.candidates[0] && response.candidates[0].content) {
+                        if (response.candidates && response.candidates[0] && response.candidates[0].content && response.candidates[0].content.parts && response.candidates[0].content.parts[0]) {
                             const text = response.candidates[0].content.parts[0].text;
                             resolve(text);
                         } else {
-                            reject(new Error('Unexpected Gemini API response structure'));
+                            // Log the actual response structure for debugging
+                            console.error('Gemini API response structure:', JSON.stringify(response, null, 2));
+                            reject(new Error(`Unexpected Gemini API response structure. Response: ${JSON.stringify(response)}`));
                         }
                     } catch (error) {
+                        console.error('Raw response data:', responseData);
                         reject(new Error(`Failed to parse Gemini API response: ${error.message}`));
                     }
                 });
@@ -247,38 +274,31 @@ class ScreenMonitor {
     extractGuidanceInstruction(geminiAnalysis) {
         if (!geminiAnalysis) return null;
         
-        try {
-            // Remove code block markers if present
-            let cleanResponse = geminiAnalysis;
-            if (cleanResponse.includes('```')) {
-                // Extract content between code blocks
-                const match = cleanResponse.match(/```(?:yaml|yml)?\s*\n([\s\S]*?)\n```/);
-                if (match) {
-                    cleanResponse = match[1];
-                }
+        // Clean the response - remove any formatting
+        let instruction = geminiAnalysis.trim();
+        
+        // Remove code block markers if present
+        if (instruction.includes('```')) {
+            const match = instruction.match(/```(?:yaml|json|text)?\s*\n?([\s\S]*?)\n?```/);
+            if (match) {
+                instruction = match[1].trim();
             }
-            
-            // Parse YAML response
-            const parsed = yaml.parse(cleanResponse);
-            
-            // Extract action field
-            if (parsed && parsed.action) {
-                // Check if it's null or "null" string
-                if (parsed.action === null || 
-                    parsed.action === 'null' || 
-                    parsed.action.toLowerCase() === 'none') {
-                    return null;
-                }
-                
-                // Return the action if it's valid
-                const action = String(parsed.action).trim();
-                if (action.length > 5 && action.length < 500) {
-                    return action;
-                }
-            }
-        } catch (error) {
-            // If YAML parsing fails, log error and return null
-            console.error('Failed to parse Gemini YAML response:', error.message);
+        }
+        
+        // Remove quotes if the entire response is quoted
+        if ((instruction.startsWith('"') && instruction.endsWith('"')) ||
+            (instruction.startsWith("'") && instruction.endsWith("'"))) {
+            instruction = instruction.slice(1, -1).trim();
+        }
+        
+        // If empty string or just whitespace, return null (don't send anything)
+        if (instruction.length === 0) {
+            return null;
+        }
+        
+        // If it's a reasonable length instruction, return it
+        if (instruction.length > 0 && instruction.length < 2000) {
+            return instruction;
         }
         
         return null;
@@ -334,84 +354,25 @@ class ScreenMonitor {
     /**
      * Generate workflow compliance analysis prompt
      */
-    generateCompliancePrompt(newContent, contextContent, todoContent = null) {
+    generateCompliancePrompt(terminalOutput, todoContent = null) {
         const workflowRules = this.readWorkflowRules();
         
-        let prompt = `You are an AI manager monitoring workflow compliance. The AI assistant must follow ALL rules in the workflow file STRICTLY.
-
-<metadata>
-WORKFLOW MODE: ${this.workflowMode}
-PROJECT: ${this.projectName}
-</metadata>
-
-<workflow_rules>
-${workflowRules || 'ERROR: Could not load workflow rules file'}
-</workflow_rules>
-
-<new_screen_output>
-${newContent}
-</new_screen_output>
-
-<previous_context>
-${contextContent || 'No previous output'}
-</previous_context>`;
-
-        if (todoContent) {
-            prompt += `\n\n<todo_list>\n${todoContent}\n</todo_list>`;
-        }
+        const promptData = {
+            instruction: "Check if AI is correctly following workflow rules. Rule violations must be strictly enforced. Only if AI seems extremely stuck (repeating same failed actions multiple times), suggest untried approaches, especially tools at our disposal that can give more insight (like screenshot-cli, record-cli etc). AI only knows global rules, not the full workflow steps. If it needs to jump to a specific workflow step, tell it explicitly which workflow command to run.",
+            rules: workflowRules || 'ERROR: Could not load workflow rules file',
+            terminal: terminalOutput,
+            todo: todoContent || "No TODO file found",
+            responseFormat: "Return only a short instruction text or empty string. No explanations, no formatting, just the instruction."
+        };
         
-        prompt += `\n\n<instructions>
-ANALYSIS REQUIRED:
-Check if the AI is following ALL rules mentioned in the workflow file above. 
-
-CRITICAL: First determine if the AI is in one of these states:
-1. WAITING FOR USER - The AI has asked the user a question and is waiting for a response
-2. WORKFLOW COMPLETE - The workflow has finished (e.g., after cleanup step or merge decision)
-3. ACTIVE WORK - The AI is actively working on tasks
-
-Pay special attention to:
-- Questions directed at the user (e.g., "Should I merge this branch?")
-- Workflow completion indicators (e.g., "Workflow Complete", "--clean" executed)
-- Global rules that apply at all times
-- Step-specific rules if you can identify the current step
-- Any violations of the workflow process
-- Signs of the AI getting stuck, confused, or going off-track
-
-Respond ONLY with this YAML structure (no other text):
-
-status: COMPLIANT or WARNING or VIOLATION or WAITING_FOR_USER or WORKFLOW_COMPLETE
-issues: Brief description of problems found or current state
-action: Text instruction to guide the AI (or null if none needed)
-
-IMPORTANT: If status is WAITING_FOR_USER or WORKFLOW_COMPLETE, the action MUST be null (no automated messages should be sent).
-
-Example responses:
-
-status: VIOLATION
-issues: Committed with failing tests. Todo not updated.
-action: VIOLATION DETECTED! You committed with failing tests. Please run 'git reset --soft HEAD~1' to undo the commit, then fix the failing tests by running 'npm test' to see the errors.
-
-status: WAITING_FOR_USER
-issues: AI asked user whether to merge branch into main
-action: null
-
-status: WORKFLOW_COMPLETE
-issues: Workflow cleanup completed successfully
-action: null
-
-status: COMPLIANT
-issues: Following workflow correctly, implementing features
-action: null
-</instructions>`;
-        
-        return prompt;
+        return JSON.stringify(promptData, null, 2);
     }
 
     /**
-     * Process new screen content
+     * Process terminal content
      */
-    async processNewContent(newContent, contextContent, todoContent = null) {
-        if (!newContent || newContent.length === 0) {
+    async processTerminalContent(terminalOutput, todoContent = null) {
+        if (!terminalOutput || terminalOutput.length === 0) {
             return null;
         }
 
@@ -420,60 +381,45 @@ action: null
         try {
             let geminiAnalysis = null;
             if (this.geminiApiKey) {
-                const prompt = this.generateCompliancePrompt(newContent, contextContent, todoContent);
+                const prompt = this.generateCompliancePrompt(terminalOutput, todoContent);
                 geminiAnalysis = await this.callGeminiAPI(prompt);
+                
+                // Save the interaction to file
+                this.saveGeminiInteraction(prompt, geminiAnalysis);
             }
 
             const logEntry = {
                 timestamp,
                 project: this.projectName,
                 mode: this.workflowMode,
-                newContentLength: newContent.length,
-                contextLength: contextContent ? contextContent.length : 0,
+                terminalOutputLength: terminalOutput.length,
                 hasTodoList: !!todoContent,
-                preview: newContent.substring(0, 200),
+                preview: terminalOutput.substring(0, 200),
                 geminiAnalysis: geminiAnalysis
             };
 
-            // Parse status from Gemini response
+            // Extract and send guidance if available
             if (geminiAnalysis) {
-                try {
-                    let cleanResponse = geminiAnalysis;
-                    if (cleanResponse.includes('```')) {
-                        const match = cleanResponse.match(/```(?:yaml|yml)?\s*\n([\s\S]*?)\n```/);
-                        if (match) {
-                            cleanResponse = match[1];
-                        }
-                    }
-                    const parsed = yaml.parse(cleanResponse);
-                    if (parsed && parsed.status) {
-                        this.lastStatus = parsed.status;
-                        logEntry.status = parsed.status;
-                    }
-                } catch (error) {
-                    // Ignore parsing errors for status tracking
-                }
-                
-                // Only send guidance if not waiting for user or workflow complete
                 const guidanceInstruction = this.extractGuidanceInstruction(geminiAnalysis);
                 if (guidanceInstruction) {
-                    await this.sendGuidanceToScreen(guidanceInstruction);
-                    logEntry.guidanceSent = guidanceInstruction;
+                    // Prefix with ai-monitor:
+                    const prefixedGuidance = `ai-monitor: ${guidanceInstruction}`;
+                    await this.sendGuidanceToScreen(prefixedGuidance);
+                    logEntry.guidanceSent = prefixedGuidance;
                 }
             }
             
             return logEntry;
 
         } catch (error) {
-            console.error('Error processing screen content:', error.message);
+            console.error('Error processing terminal content:', error.message);
             return {
                 timestamp,
                 project: this.projectName,
                 mode: this.workflowMode,
-                newContentLength: newContent.length,
-                contextLength: contextContent ? contextContent.length : 0,
+                terminalOutputLength: terminalOutput.length,
                 hasTodoList: !!todoContent,
-                preview: newContent.substring(0, 200),
+                preview: terminalOutput.substring(0, 200),
                 error: error.message
             };
         }
@@ -483,18 +429,13 @@ action: null
      * Send --remind-rules command every 5 minutes
      */
     async checkAndSendRemindRules() {
-        // Don't send remind-rules if waiting for user or workflow complete
-        if (this.lastStatus === 'WAITING_FOR_USER' || this.lastStatus === 'WORKFLOW_COMPLETE') {
-            return;
-        }
-        
         const now = Date.now();
         if (now - this.lastRemindRulesTime >= this.remindRulesIntervalMs) {
             this.lastRemindRulesTime = now;
             const remindCommand = `workflow-cli --remind-rules --project ${this.projectName} --mode ${this.workflowMode}`;
             
             if (this.enableGuidance && this.screenSessionName) {
-                console.log('⏰ Sending 5-minute remind-rules command...');
+                console.log('⏰ Sending 10-minute remind-rules command...');
                 await this.sendGuidanceToScreen(remindCommand);
             } else {
                 console.log(`⏰ Would send remind-rules command: ${remindCommand}`);
@@ -507,20 +448,17 @@ action: null
      */
     async check() {
         try {
-            // Check for remind-rules every cycle (every minute check for 5-minute intervals)
+            // Check for remind-rules every cycle (every minute check for 10-minute intervals)
             await this.checkAndSendRemindRules();
             
-            // Check for new screen content
-            const newContent = this.readNewContent();
-            if (newContent) {
-                // Update the content buffer
-                this.updateContentBuffer(newContent);
-                
+            // Read last 200 lines of terminal output
+            const terminalOutput = this.readLast200Lines();
+            if (terminalOutput) {
                 // Get todo content
                 const todoContent = this.readTodoList();
                 
-                // Process with new content, buffer for context, and todo list
-                const result = await this.processNewContent(newContent, this.contentBuffer, todoContent);
+                // Process terminal content and todo list
+                const result = await this.processTerminalContent(terminalOutput, todoContent);
                 
                 // Call the callback if provided
                 if (result && this.onCheckResult) {

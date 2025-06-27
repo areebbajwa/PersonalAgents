@@ -1,11 +1,20 @@
 # 20250625-openrouter-multi-model-todo.md
-Last updated: 2025-06-25 16:48:00
+Last updated: 2025-06-26 09:42:00
+
+## Non-Negotiable User Requirements: "run this todo list with a devmode workflow"
+
+## Context Discovery
+- Existing AI cache utils: ../../utils/ai_cache_utils.js
+- Similar CLI pattern: ../../cli_tools/pdf-ai-cli/pdf-ai-cli.js
+- Concurrent processing pattern: ../../finances/scripts/may_26_2025_process_transactions.js:65
+- OpenRouter API key placeholder exists in config/.env
+- Key insights: Can reuse SQLite caching, p-limit for concurrency, Commander.js for CLI
 
 ## Tasks
 ✅ [16:48] Set up project structure and git branch
-🕒 Create openrouter-multi-model CLI directory structure
-🕒 Set up package.json with minimal dependencies (axios, dotenv, commander)
-🕒 Add OPENROUTER_API_KEY to config/.env
+✅ [09:43] Create openrouter-multi-model CLI directory structure
+✅ [09:44] Set up package.json with minimal dependencies (axios, dotenv, commander)
+🕒 [09:45] Add OPENROUTER_API_KEY to config/.env
 🕒 Create main CLI entry point with command parsing
 🕒 Write E2E test for CLI initialization and help command
 🕒 TEST GATE → `workflow-cli --project openrouter-multi-model --sub-task-next`

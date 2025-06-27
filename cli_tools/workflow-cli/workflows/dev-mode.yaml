@@ -196,6 +196,7 @@ steps:
       4. `git push origin [main-branch]`
       5. `git branch -d [feature-branch]`
       6. `git push origin --delete [feature-branch]`
+      7. If created a CLI tool: `./scripts/setup-global-cli-tools.sh`
       
       If NO: Leave branch as-is for manual review
       
@@ -252,6 +253,7 @@ global_rules:
       - Use official APIs first, selenium-cli browser only for unsupported features
       - selenium-cli browser: unblock auth, get API keys, one-time setup tasks
       - Take screenshots when curious/stuck: screenshot-cli tool
+      - Use record-cli to record screen and send to AI for analysis if screenshots don't suffice
       - Last resort for GUI tasks: desktop-automation-cli
 
 

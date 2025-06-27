@@ -131,7 +131,8 @@ class NotificationManager {
             mode: logEntry.mode,
             contentPreview: logEntry.preview,
             geminiAnalysis: logEntry.geminiAnalysis,
-            actions: actions
+            actions: actions,
+            guidanceSent: logEntry.guidanceSent
         });
     }
 
