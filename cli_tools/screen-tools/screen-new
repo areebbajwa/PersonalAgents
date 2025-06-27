@@ -47,6 +47,10 @@ hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u
 logfile $HOME/.screen-logs/screenlog-${SESSION_NAME}-%Y%m%d-%n.log
 logfile flush 1
 deflog on
+# Enable timestamps in logs (after 30 seconds of inactivity)
+logtstamp on
+logtstamp after 30
+logtstamp string "[%Y-%m-%d %c] "
 EOF
 
 # Ensure log directory exists

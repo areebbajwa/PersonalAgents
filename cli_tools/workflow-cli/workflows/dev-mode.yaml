@@ -232,6 +232,7 @@ global_rules:
       9. Keep directory structure clean: place new files in appropriate directories (cli_tools/, tests/, docs/, data/, scripts/, etc.)
       10. ALWAYS read debug logs before attempting any fix - never make blind fixes
       11. If dealing with anything GUI related, take screenshots regularly to understand what's going on
+      12. NO FALLBACK CODE - Keep logic simple and direct, avoid complex fallback patterns
 
 
   - title: "Never Do"

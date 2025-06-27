@@ -356,6 +356,15 @@ Check your todo list. If tasks remain, continue working. If all done, use --next
         if not screen_session:
             return {"error": "Not running in a screen session. AI Monitor requires screen for keypress injection."}
         
+        # Store screen session with project state
+        current_state = self.current_state.copy()
+        current_state[f"{project}_screen_session"] = screen_session
+        self.current_state = current_state
+        self._save_state()
+        
+        # Use screen-specific log file path
+        screen_log_path = f'/tmp/screen_output_{screen_session}.log'
+        
         try:
             # Start AI Monitor in background
             cmd = [
@@ -363,7 +372,7 @@ Check your todo list. If tasks remain, continue working. If all done, use --next
                 '--project', project,
                 '--mode', mode,
                 '--screen-session', screen_session,
-                '--log-path', '/tmp/screen_output.log',
+                '--log-path', screen_log_path,
                 '--interval', '60'  # Check every minute
             ]
             
