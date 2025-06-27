@@ -506,7 +506,7 @@ class ScreenMonitor {
     }
 
     /**
-     * Send --remind-rules command every 5 minutes
+     * Send --remind-rules command every 10 minutes (configurable)
      */
     async checkAndSendRemindRules() {
         const now = Date.now();
@@ -516,7 +516,8 @@ class ScreenMonitor {
             
             if (this.enableGuidance && this.screenSessionName) {
                 console.log('⏰ Sending 10-minute remind-rules command...');
-                await this.sendGuidanceToScreen(remindCommand);
+                // Add ai-monitor: prefix to remind-rules command
+                await this.sendGuidanceToScreen(`ai-monitor: ${remindCommand}`);
                 return true;
             } else {
                 console.log(`⏰ Would send remind-rules command: ${remindCommand}`);
