@@ -20,7 +20,7 @@ program
 program
   .command('monitor')
   .description('Start monitoring screen output for workflow compliance')
-  .option('-l, --log-path <path>', 'Path to screen log file', '/tmp/screen_output.log')
+  .option('-l, --log-path <path>', 'Path to screen log file (auto-detects from screen session if not provided)')
   .option('-i, --interval <seconds>', 'Check interval in seconds', '60')
   .option('-p, --project <name>', 'Project name for context', 'unknown')
   .option('-m, --mode <mode>', 'Workflow mode (dev/task)', 'dev')
@@ -50,7 +50,7 @@ program
     console.log(`🤖 AI Monitor monitoring started`);
     console.log(`   Project: ${options.project}`);
     console.log(`   Mode: ${options.mode}`);
-    console.log(`   Log: ${options.logPath}`);
+    console.log(`   Log: ${monitor.screenLogPath}`);
     console.log(`   Interval: ${options.interval}s`);
     if (options.screenSession) {
       console.log(`   Screen session: ${options.screenSession}`);

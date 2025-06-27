@@ -10,7 +10,15 @@ const yaml = require('yaml');
 
 class ScreenMonitor {
     constructor(options = {}) {
-        this.screenLogPath = options.screenLogPath || '/tmp/screen_output.log';
+        this.screenSessionName = options.screenSessionName;
+        // Use provided log path, or auto-generate from screen session
+        if (options.screenLogPath) {
+            this.screenLogPath = options.screenLogPath;
+        } else if (this.screenSessionName) {
+            this.screenLogPath = `/tmp/screen_output_${this.screenSessionName}.log`;
+        } else {
+            throw new Error('Either screenLogPath or screenSessionName must be provided');
+        }
         this.lastPosition = 0;
         this.isRunning = false;
         this.intervalMs = options.intervalMs || 60000; // 1 minute default
@@ -18,7 +26,6 @@ class ScreenMonitor {
         this.projectName = options.projectName || 'unknown';
         this.workflowMode = options.workflowMode || 'dev';
         this.enableGuidance = options.enableGuidance !== false;
-        this.screenSessionName = options.screenSessionName;
         this.lastRemindRulesTime = 0;
         this.remindRulesIntervalMs = 600000; // 10 minutes for remind-rules
         this.alertLevel = options.alertLevel || 'WARNING';
@@ -26,6 +33,16 @@ class ScreenMonitor {
         this.lastStatus = 'COMPLIANT'; // Track last status to detect state changes
         this.geminiLogsDir = options.geminiLogsDir || path.join(__dirname, '..', 'logs', 'gemini');
         this.ensureGeminiLogsDir();
+    }
+
+    /**
+     * Get screen log path based on session name
+     */
+    getScreenLogPath() {
+        if (!this.screenSessionName) {
+            throw new Error('Screen session name is required');
+        }
+        return `/tmp/screen_output_${this.screenSessionName}.log`;
     }
     
     /**
@@ -107,6 +124,16 @@ class ScreenMonitor {
     readLast200Lines() {
         try {
             if (!fs.existsSync(this.screenLogPath)) {
+                return null;
+            }
+
+            // Check if log file is stale (older than 5 minutes)
+            const stats = fs.statSync(this.screenLogPath);
+            const fileAge = Date.now() - stats.mtime.getTime();
+            const maxAge = 5 * 60 * 1000; // 5 minutes in milliseconds
+            
+            if (fileAge > maxAge) {
+                console.log(`⚠️  Screen log file is stale (${Math.round(fileAge / 60000)} minutes old), skipping processing`);
                 return null;
             }
 
@@ -466,6 +493,13 @@ class ScreenMonitor {
                 }
                 
                 return result;
+            } else {
+                // Log why no terminal output was processed
+                if (!fs.existsSync(this.screenLogPath)) {
+                    console.log(`ℹ️  No screen log file found at: ${this.screenLogPath}`);
+                } else {
+                    console.log(`ℹ️  No recent terminal output to process (file may be stale or empty)`);
+                }
             }
             return null;
         } catch (error) {
