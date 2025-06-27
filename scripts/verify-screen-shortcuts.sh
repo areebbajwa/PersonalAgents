@@ -23,10 +23,14 @@ echo ""
 echo "Configured shortcuts in ~/.screenrc:"
 echo "-----------------------------------"
 grep -E "bindkey.*eval.*copy.*stuff" ~/.screenrc | grep -v "^#" | while read line; do
-    if echo "$line" | grep -q "1;9A.*Option.*Up"; then
-        echo "✓ Option+Up: Auto-enter copy mode + page up"
-    elif echo "$line" | grep -q "1;9B.*Option.*Down"; then
-        echo "✓ Option+Down: Auto-enter copy mode + page down"
+    if echo "$line" | grep -q "\\^K.*scroll up"; then
+        echo "✓ Ctrl+k: Scroll up with auto-exit"
+    elif echo "$line" | grep -q "\\^J.*scroll down"; then
+        echo "✓ Ctrl+j: Scroll down with auto-exit"
+    elif echo "$line" | grep -q "\\^P.*scroll up"; then
+        echo "✓ Ctrl+p: Alternative scroll up"
+    elif echo "$line" | grep -q "\\^N.*scroll down"; then
+        echo "✓ Ctrl+n: Alternative scroll down"
     elif echo "$line" | grep -q "1;6A.*Ctrl.*Shift.*Up"; then
         echo "✓ Ctrl+Shift+Up: Auto-enter copy mode + page up"
     elif echo "$line" | grep -q "1;6B.*Ctrl.*Shift.*Down"; then
@@ -45,11 +49,13 @@ echo -n "• Alternate screen: "
 grep "^altscreen" ~/.screenrc | awk '{print $2}'
 echo ""
 
-echo "How to use the new shortcuts:"
-echo "----------------------------"
-echo "1. Option+Up     : Scroll up by page and auto-exit copy mode"
-echo "2. Option+Down   : Scroll down by page and auto-exit copy mode"
-echo "3. No need to press ESC - automatically returns to normal mode!"
+echo "How to use the new shortcuts (SSH-compatible):"
+echo "----------------------------------------------"
+echo "1. Ctrl+k        : Scroll up by page and auto-exit copy mode"
+echo "2. Ctrl+j        : Scroll down by page and auto-exit copy mode"
+echo "3. Ctrl+p        : Alternative scroll up (previous)"
+echo "4. Ctrl+n        : Alternative scroll down (next)"
+echo "5. No need to press ESC - automatically returns to normal mode!"
 echo ""
 echo "Alternative shortcuts:"
 echo "• Ctrl+Shift+Up/Down : Also works for page scrolling"
@@ -61,7 +67,7 @@ echo "--------"
 echo "To test these shortcuts:"
 echo "1. Open a new terminal window (shortcuts require reload)"
 echo "2. Run: ./scripts/test-screen-scroll.sh"
-echo "3. Try the Option+Up/Down shortcuts"
+echo "3. Try the Ctrl+k/j shortcuts for scrolling"
 echo ""
 
 # Check if we need to reload screen config
