@@ -34,8 +34,23 @@ export async function ensureDefaultSession(options = {}) {
         env: { ...process.env }
     });
     
+    // Capture stdout/stderr for debugging
+    let stdout = '';
+    let stderr = '';
+    
+    serverProcess.stdout.on('data', (data) => {
+        stdout += data.toString();
+    });
+    
+    serverProcess.stderr.on('data', (data) => {
+        stderr += data.toString();
+    });
+    
     return new Promise((resolve, reject) => {
+        let messageReceived = false;
+        
         serverProcess.on('message', async (msg) => {
+            messageReceived = true;
             if (msg.type === 'ready') {
                 // Save session info
                 await persistentSession.saveSessionInfo(DEFAULT_SESSION_NAME, {
@@ -47,24 +62,19 @@ export async function ensureDefaultSession(options = {}) {
                 
                 serverProcess.unref();
                 
-                // Launch browser in the session
-                const launchOptions = {
-                    headless: options.headless,
-                    useProfile: options.useProfile !== false
-                };
-                
-                const launchResult = await persistentSession.sendCommandToSession(
-                    { port: msg.port }, 
-                    { action: 'launch', options: launchOptions }
-                );
-                
                 resolve({ port: msg.port });
             }
         });
         
         serverProcess.on('error', reject);
         
-        setTimeout(() => reject(new Error('Default session server failed to start')), 10000);
+        setTimeout(() => {
+            if (!messageReceived) {
+                console.error('Session server stdout:', stdout);
+                console.error('Session server stderr:', stderr);
+            }
+            reject(new Error('Default session server failed to start'));
+        }, 10000);
     });
 }
 
