@@ -19,9 +19,9 @@ Never use sleep > 119 seconds
 ## AI Monitor (Auto Compliance Checking)
 
 ```bash
-workflow-cli --start-ai-manager --project [name] --mode [dev|task]  # start monitor
-workflow-cli --stop-ai-manager --project [name]                     # stop monitor
-ai-manager-cli monitor-all                                          # view all active monitors
+workflow-cli --start-ai-monitor --project [name] --mode [dev|task]  # start monitor
+workflow-cli --stop-ai-monitor --project [name]                     # stop monitor
+ai-monitor-cli monitor-all                                          # view all active monitors
 ```
 
 AI Monitor auto-starts with workflows and sends "ai-monitor:" prefixed guidance for violations.

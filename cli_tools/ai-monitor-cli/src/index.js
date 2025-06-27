@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * AI Manager CLI - Main entry point
+ * AI Monitor CLI - Main entry point
  * Monitors workflow compliance and provides guidance
  */
 
@@ -12,7 +12,7 @@ const path = require('path');
 const fs = require('fs');
 
 program
-  .name('ai-manager-cli')
+  .name('ai-monitor-cli')
   .description('AI Manager for monitoring workflow compliance and providing guidance')
   .version('1.0.0');
 

@@ -75,26 +75,26 @@ class WorkflowManager:
         
         return workflow
     
-    def auto_start_ai_manager_if_needed(self, mode: str, step: int, project: str) -> None:
-        """Automatically start AI Manager on any step if not already running"""
-        # Always check if AI Manager should be running
-        status = self.get_ai_manager_status(project)
+    def auto_start_ai_monitor_if_needed(self, mode: str, step: int, project: str) -> None:
+        """Automatically start AI Monitor on any step if not already running"""
+        # Always check if AI Monitor should be running
+        status = self.get_ai_monitor_status(project)
         if status.get('status') != 'running':
-            result = self.start_ai_manager(project, mode)
+            result = self.start_ai_monitor(project, mode)
             if result.get('status') == 'started':
-                print(f"🤖 AI Manager auto-started for project '{project}'")
+                print(f"🤖 AI Monitor auto-started for project '{project}'")
             elif 'error' in result and 'screen session' in result['error']:
-                print(f"ℹ️  AI Manager not started (not in screen session)")
+                print(f"ℹ️  AI Monitor not started (not in screen session)")
             else:
-                print(f"⚠️  Could not start AI Manager: {result.get('error', 'Unknown error')}")
+                print(f"⚠️  Could not start AI Monitor: {result.get('error', 'Unknown error')}")
 
-    def auto_stop_ai_manager_if_needed(self, project: str) -> None:
-        """Automatically stop AI Manager when workflow is complete or cleaned"""
-        status = self.get_ai_manager_status(project)
+    def auto_stop_ai_monitor_if_needed(self, project: str) -> None:
+        """Automatically stop AI Monitor when workflow is complete or cleaned"""
+        status = self.get_ai_monitor_status(project)
         if status.get('status') == 'running':
-            result = self.stop_ai_manager(project)
+            result = self.stop_ai_monitor(project)
             if result.get('status') == 'stopped':
-                print(f"🤖 AI Manager auto-stopped for project '{project}'")
+                print(f"🤖 AI Monitor auto-stopped for project '{project}'")
 
     def get_workflow_rules(self, mode: str, step: Optional[int] = None, workflow_file: Optional[Path] = None) -> Dict:
         """Get relevant rules for current mode and step"""
@@ -241,7 +241,7 @@ class WorkflowManager:
         # Auto-start AI Manager on step 1
         project_name = self.state_file.stem.replace('workflow_state_', '')
         if project_name != 'default':
-            self.auto_start_ai_manager_if_needed(mode, next_step, project_name)
+            self.auto_start_ai_monitor_if_needed(mode, next_step, project_name)
         
         return self.get_workflow_rules(mode, self.current_state["current_step"], workflow_file=workflow_file)
     
@@ -254,7 +254,7 @@ class WorkflowManager:
         # Auto-start AI Manager on step 1
         project_name = self.state_file.stem.replace('workflow_state_', '')
         if project_name != 'default':
-            self.auto_start_ai_manager_if_needed(mode, step, project_name)
+            self.auto_start_ai_monitor_if_needed(mode, step, project_name)
         
         return self.get_workflow_rules(mode, step, workflow_file=workflow_file)
     
@@ -296,7 +296,7 @@ class WorkflowManager:
         
         # Auto-stop AI Manager before cleaning
         if project_name != 'default':
-            self.auto_stop_ai_manager_if_needed(project_name)
+            self.auto_stop_ai_monitor_if_needed(project_name)
         
         if self.state_file.exists():
             self.state_file.unlink()
@@ -339,27 +339,27 @@ Check your todo list. If tasks remain, continue working. If all done, use --next
         
         return response
     
-    def start_ai_manager(self, project: str, mode: str) -> Dict:
-        """Start AI Manager monitoring for the project"""
+    def start_ai_monitor(self, project: str, mode: str) -> Dict:
+        """Start AI Monitor monitoring for the project"""
         import subprocess
         import os
         
-        # Find ai-manager-cli
+        # Find ai-monitor-cli
         script_dir = Path(__file__).resolve().parent
-        ai_manager_cli = script_dir.parent / 'ai-manager-cli' / 'ai-manager-cli'
+        ai_monitor_cli = script_dir.parent / 'ai-monitor-cli' / 'ai-monitor-cli'
         
-        if not ai_manager_cli.exists():
-            return {"error": f"AI Manager CLI not found at {ai_manager_cli}"}
+        if not ai_monitor_cli.exists():
+            return {"error": f"AI Monitor CLI not found at {ai_monitor_cli}"}
         
         # Get current screen session
         screen_session = os.environ.get('STY')
         if not screen_session:
-            return {"error": "Not running in a screen session. AI Manager requires screen for keypress injection."}
+            return {"error": "Not running in a screen session. AI Monitor requires screen for keypress injection."}
         
         try:
-            # Start AI Manager in background
+            # Start AI Monitor in background
             cmd = [
-                str(ai_manager_cli), 'monitor',
+                str(ai_monitor_cli), 'monitor',
                 '--project', project,
                 '--mode', mode,
                 '--screen-session', screen_session,
@@ -371,7 +371,7 @@ Check your todo list. If tasks remain, continue working. If all done, use --next
             process = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             
             # Save PID to state
-            pid_file = self.state_file.parent / f"ai_manager_pid_{project}.txt"
+            pid_file = self.state_file.parent / f"ai_monitor_pid_{project}.txt"
             with open(pid_file, 'w') as f:
                 f.write(str(process.pid))
             
@@ -385,18 +385,18 @@ Check your todo list. If tasks remain, continue working. If all done, use --next
             }
             
         except Exception as e:
-            return {"error": f"Failed to start AI Manager: {str(e)}"}
+            return {"error": f"Failed to start AI Monitor: {str(e)}"}
     
-    def stop_ai_manager(self, project: str) -> Dict:
-        """Stop AI Manager monitoring for the project"""
+    def stop_ai_monitor(self, project: str) -> Dict:
+        """Stop AI Monitor monitoring for the project"""
         import os
         import signal
         
         # Find PID file
-        pid_file = self.state_file.parent / f"ai_manager_pid_{project}.txt"
+        pid_file = self.state_file.parent / f"ai_monitor_pid_{project}.txt"
         
         if not pid_file.exists():
-            return {"error": f"AI Manager not running for project '{project}' (no PID file found)"}
+            return {"error": f"AI Monitor not running for project '{project}' (no PID file found)"}
         
         try:
             with open(pid_file, 'r') as f:
@@ -424,19 +424,19 @@ Check your todo list. If tasks remain, continue working. If all done, use --next
                 "message": f"AI Manager was not running for project '{project}' (cleaned up PID file)"
             }
         except Exception as e:
-            return {"error": f"Failed to stop AI Manager: {str(e)}"}
+            return {"error": f"Failed to stop AI Monitor: {str(e)}"}
     
-    def get_ai_manager_status(self, project: str) -> Dict:
-        """Get AI Manager status for the project"""
+    def get_ai_monitor_status(self, project: str) -> Dict:
+        """Get AI Monitor status for the project"""
         import os
         
-        pid_file = self.state_file.parent / f"ai_manager_pid_{project}.txt"
+        pid_file = self.state_file.parent / f"ai_monitor_pid_{project}.txt"
         
         if not pid_file.exists():
             return {
                 "status": "stopped",
                 "project": project,
-                "message": "AI Manager is not running"
+                "message": "AI Monitor is not running"
             }
         
         try:
@@ -450,7 +450,7 @@ Check your todo list. If tasks remain, continue working. If all done, use --next
                 "status": "running",
                 "project": project,
                 "pid": pid,
-                "message": f"AI Manager is running for project '{project}'"
+                "message": f"AI Monitor is running for project '{project}'"
             }
             
         except ProcessLookupError:
@@ -459,10 +459,10 @@ Check your todo list. If tasks remain, continue working. If all done, use --next
             return {
                 "status": "stopped", 
                 "project": project,
-                "message": "AI Manager was not running (cleaned up stale PID file)"
+                "message": "AI Monitor was not running (cleaned up stale PID file)"
             }
         except Exception as e:
-            return {"error": f"Failed to check AI Manager status: {str(e)}"}
+            return {"error": f"Failed to check AI Monitor status: {str(e)}"}
 
 
 def main():
@@ -476,10 +476,10 @@ def main():
                        help='Show global rules and remind about task completion')
     parser.add_argument('--remind-rules', action='store_true', 
                        help='Alias for --sub-task-next: Show global rules and remind about task completion')
-    parser.add_argument('--start-ai-manager', action='store_true',
-                       help='Start AI Manager monitoring for this project')
-    parser.add_argument('--stop-ai-manager', action='store_true',
-                       help='Stop AI Manager monitoring for this project')
+    parser.add_argument('--start-ai-monitor', action='store_true',
+                       help='Start AI Monitor monitoring for this project')
+    parser.add_argument('--stop-ai-monitor', action='store_true',
+                       help='Stop AI Monitor monitoring for this project')
     parser.add_argument('--set-step', type=int, help='Jump to specific step')
     parser.add_argument('--track-test', nargs=2, metavar=('NAME', 'STATUS'),
                        help='Track test execution (name and status)')
@@ -513,13 +513,13 @@ def main():
         result = manager.clean_project_state()
     elif args.track_test:
         result = manager.track_test(args.track_test[0], args.track_test[1])
-    elif args.start_ai_manager:
+    elif args.start_ai_monitor:
         project_name = args.project or "default"
         mode = args.mode or manager.current_state.get("current_mode") or "dev"
-        result = manager.start_ai_manager(project_name, mode)
-    elif args.stop_ai_manager:
+        result = manager.start_ai_monitor(project_name, mode)
+    elif args.stop_ai_monitor:
         project_name = args.project or "default"
-        result = manager.stop_ai_manager(project_name)
+        result = manager.stop_ai_monitor(project_name)
     elif args.sub_task_next or args.remind_rules:
         # Handle sub-task-next and remind-rules commands (they're identical)
         if args.workflow:

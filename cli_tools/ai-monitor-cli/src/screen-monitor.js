@@ -1,6 +1,6 @@
 /**
- * AI Manager Screen Monitor
- * Core functionality moved from scripts/ai-manager/
+ * AI Monitor Screen Monitor
+ * Core functionality moved from scripts/ai-monitor/
  */
 
 const fs = require('fs');

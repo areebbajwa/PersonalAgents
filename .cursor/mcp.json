@@ -1,5 +1,5 @@
 {
-  "numStartups": 68,
+  "numStartups": 69,
   "installMethod": "local",
   "autoUpdates": true,
   "theme": "dark-ansi",
@@ -23,12 +23,28 @@
     "git-worktrees": 52
   },
   "memoryUsageCount": 1,
-  "promptQueueUseCount": 71,
+  "promptQueueUseCount": 72,
   "mcpServers": {},
   "projects": {
     "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents": {
       "allowedTools": [],
       "history": [
+        {
+          "display": "continue this todo list. taskmode",
+          "pastedContents": {}
+        },
+        {
+          "display": "why is notifications log outside of cli directory?",
+          "pastedContents": {}
+        },
+        {
+          "display": "continue this todo list. taskmode",
+          "pastedContents": {}
+        },
+        {
+          "display": "ai-manager and ai-monitor are used interchangeably. that's confusing. just make it ai-monitor. change cli name too",
+          "pastedContents": {}
+        },
         {
           "display": "why are the gemini logs not inside ai-manager-cli?",
           "pastedContents": {}
@@ -411,22 +427,6 @@
         },
         {
           "display": "i need to see actual keypresses coming through. make it say \"yes please merge\"",
-          "pastedContents": {}
-        },
-        {
-          "display": "did the key presses come through in the screen test?",
-          "pastedContents": {}
-        },
-        {
-          "display": "in step 4 when creating the task list for both dev mode and task mode, make sure the user's exact words are saved at the top of the todo list as non-negotiable needs. also in the todo list it should mention any relevant context that was discovered during context discovery. link to the appropriate files instead of duplicating the info. then update claude.md and add a line that says that any new requirement/feedback/instruction should be added to this non-negotiable needs section whenever the user gives new instruction during a workflow.",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
           "pastedContents": {}
         }
       ],

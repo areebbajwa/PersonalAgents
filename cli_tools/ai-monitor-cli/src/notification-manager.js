@@ -1,5 +1,5 @@
 /**
- * AI Manager Notification System
+ * AI Monitor Notification System
  * Core functionality for notifications and alerts
  */
 
@@ -8,7 +8,7 @@ const path = require('path');
 
 class NotificationManager {
     constructor(options = {}) {
-        this.logFile = options.logFile || path.join(process.cwd(), 'ai-manager-notifications.log');
+        this.logFile = options.logFile || path.join(__dirname, '..', 'logs', 'notifications.log');
         this.alertLevel = options.alertLevel || 'WARNING';
         this.enableConsole = options.enableConsole !== false;
         this.enableFile = options.enableFile !== false;

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * AI Manager CLI - Main executable
+ * AI Monitor CLI - Main executable
  * Follows PersonalAgents CLI tool design standards
  */
 
@@ -13,8 +13,8 @@ if (process.argv.includes('-h') || process.argv.includes('--help')) {
 
 // Show help if no arguments provided
 if (process.argv.length <= 2) {
-    console.log('Usage: ai-manager-cli <command> [options]');
-    console.log('Run \'ai-manager-cli --help\' for more information');
+    console.log('Usage: ai-monitor-cli <command> [options]');
+    console.log('Run \'ai-monitor-cli --help\' for more information');
     process.exit(1);
 }
 

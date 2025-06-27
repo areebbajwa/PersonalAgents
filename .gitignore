@@ -39,7 +39,6 @@ cli_tools/gmail-cli/threads_cache.json
 mcp/chrome-cdp-mcp/.chrome-automation-profile/*
 worktrees/
 
-# AI Manager
-ai-manager-notifications.log
-cli_tools/workflow-cli/state/ai_manager_pid_*.txt
-cli_tools/ai-manager-cli/logs/
+# AI Monitor
+cli_tools/workflow-cli/state/ai_monitor_pid_*.txt
+cli_tools/ai-monitor-cli/logs/
