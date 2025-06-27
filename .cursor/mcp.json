@@ -1,5 +1,5 @@
 {
-  "numStartups": 72,
+  "numStartups": 76,
   "installMethod": "local",
   "autoUpdates": true,
   "theme": "dark-ansi",
@@ -12,7 +12,7 @@
     "prompt-queue": 44,
     "enter-to-steer-in-relatime": 53,
     "todo-list": 54,
-    "# for memory": 55,
+    "# for memory": 76,
     "install-github-app": 56,
     "permissions": 57,
     "drag-and-drop-images": 58,
@@ -23,12 +23,108 @@
     "git-worktrees": 52
   },
   "memoryUsageCount": 1,
-  "promptQueueUseCount": 96,
+  "promptQueueUseCount": 101,
   "mcpServers": {},
   "projects": {
     "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents": {
       "allowedTools": [],
       "history": [
+        {
+          "display": "let's name the steps too so we can jump to them by name. also update this claude.md file with clearer instructions. then do the same to task mode workflow",
+          "pastedContents": {}
+        },
+        {
+          "display": "stop monitor",
+          "pastedContents": {}
+        },
+        {
+          "display": "the if then logic in the workflow still isn't clear. maybe put it inside json/xml etc so it's clear? unless there's a better more readable way. i just don't want any ambiguity.",
+          "pastedContents": {}
+        },
+        {
+          "display": "still doesn't register that keystroke. can you somehow force the screen to absorb that key? updatetodo",
+          "pastedContents": {}
+        },
+        {
+          "display": "workflow-cli --remind-rules --project screen-scroll-config --mode dev",
+          "pastedContents": {}
+        },
+        {
+          "display": "@cli_tools/workflow-cli/workflows/dev-mode.yaml\n\n\nthere's a lot of branching logic happening because of the \"if this... then skip to this step\" that gets overlooked by the AI. remove any branching logic and just create new steps as needed. make sure the flow returns to the appropriate step when done. see the main rules file. when updatetodo is called, it should simply jump to the appropriate step instead of telling the AI to do lots of stuff. when you get to the step, the rest of the instructions will be provided.",
+          "pastedContents": {}
+        },
+        {
+          "display": "now do the same for the rest of the cli tools. make sure they can work from any directory whether inside a screen/worktree/ssh into terminal etc. test all the commands in all the cli tools. these will all be global tools and i don't want any setup failing. create a new devmode workflow for this",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "/resume ",
+          "pastedContents": {}
+        },
+        {
+          "display": "merge to main and delete branch",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
+        {
+          "display": "skip to step 4",
+          "pastedContents": {}
+        },
+        {
+          "display": "run taskmode workflow with this file",
+          "pastedContents": {}
+        },
+        {
+          "display": "keep going",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "option+up doesn't even register in the terminal. make sure it's a key combination that doesn't get passed to anything else when inside a screen inside a terminal inside ssh.",
+          "pastedContents": {}
+        },
+        {
+          "display": "/resume ",
+          "pastedContents": {}
+        },
+        {
+          "display": "check the code for the ai-monitor-cli again. are the corrected paths in there?",
+          "pastedContents": {}
+        },
+        {
+          "display": "which worktree are we in right now",
+          "pastedContents": {}
+        },
+        {
+          "display": "keep going",
+          "pastedContents": {}
+        },
+        {
+          "display": "run --next",
+          "pastedContents": {}
+        },
+        {
+          "display": "i can just press the same key combination to scroll up/down again. make it enter copy mode, scroll and exit right away. updatetodo",
+          "pastedContents": {}
+        },
+        {
+          "display": "do they exit copy mode as soon as it's done scrolling?",
+          "pastedContents": {}
+        },
         {
           "display": "seems like when ai-monitor starts inside a worktree inside a screen, it doesn't have access to the required path. the path should be accessible in every case regardless of which branch/worktree/screen session it's starting in.",
           "pastedContents": {}
@@ -337,102 +433,6 @@
         },
         {
           "display": "get rid of new screen output and previous context. just show the last 200 lines workflow-cli --remind-rules --project selenium-cli-fix --mode dev",
-          "pastedContents": {}
-        },
-        {
-          "display": "tell me everything that gets sent to gemini in the prompt",
-          "pastedContents": {}
-        },
-        {
-          "display": "workflow-cli --remind-rules --project selenium-cli-fix --mode dev",
-          "pastedContents": {}
-        },
-        {
-          "display": "Undo the last commit with 'git reset --soft HEAD~1'. Then, analyze the test failures from 'npm test' and fix the code so all tests pass before attempting to commit again. Adhere to the 'sleep < 120' rule.",
-          "pastedContents": {}
-        },
-        {
-          "display": "workflow-cli --remind-rules --project selenium-cli-fix --mode dev",
-          "pastedContents": {}
-        },
-        {
-          "display": "make it output the entire prompt and response from gemini into a new file each minute. also change the 5 min reminder to 10 mins",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "/resume 2",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "Undo the invalid commit immediately with 'git reset --hard HEAD~1'. You are in Step 2, which is for research only. Do not implement or commit. Analyze the test failures, then use search and read tools to understand the code before attempting any fixes in Step 5.",
-          "pastedContents": {}
-        },
-        {
-          "display": "go on",
-          "pastedContents": {}
-        },
-        {
-          "display": "don't send violation detected! just give instructions to the AI as to what it needs to do",
-          "pastedContents": {}
-        },
-        {
-          "display": "keeps saying no activity recorded",
-          "pastedContents": {}
-        },
-        {
-          "display": "restart the selenium cli fix monitor",
-          "pastedContents": {}
-        },
-        {
-          "display": "for each active project i want to see the feed at the top. inactive projects can be below that",
-          "pastedContents": {}
-        },
-        {
-          "display": "no, enter key is fine",
-          "pastedContents": {}
-        },
-        {
-          "display": "no i don't want executable commands. just human readable guidance explaining how rules were violated",
-          "pastedContents": {}
-        },
-        {
-          "display": "when workflow rule violation is detected, is it sending text based on gemini's output or just the remind rules? seems it's just the remind rules command",
-          "pastedContents": {}
-        },
-        {
-          "display": "go on",
-          "pastedContents": {}
-        },
-        {
-          "display": "these commands seem to run in foreground and make everything freeze! all commands should return right away after doing what they're supposed to. ",
-          "pastedContents": {}
-        },
-        {
-          "display": "also the live monitor doesn't seem to show all the feedback that was sent.. i don't care for screen output samples. just active projects and the feedback that was sent with timestamps",
-          "pastedContents": {}
-        },
-        {
-          "display": "i started a workflow but it didn't auto start manager. create test workflows yourself to test",
-          "pastedContents": {}
-        },
-        {
-          "display": "selenium cli has confusing help and some of the commands don't seem to work properly. test and make sure it passes for non-headless firefox with default profile. help should only mention the commands that actually exist and work. start devmode workflow",
-          "pastedContents": {}
-        },
-        {
-          "display": "this screen isn't in a workflow i don't think",
           "pastedContents": {}
         }
       ],

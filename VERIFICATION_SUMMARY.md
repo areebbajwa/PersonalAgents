@@ -2,9 +2,10 @@
 
 ## What Was Done
 
-1. **Added SSH-compatible shortcuts** to ~/.screenrc with auto-exit functionality
-   - Ctrl+k/j for primary scrolling (up/down)
-   - Ctrl+p/n as alternatives (previous/next)
+1. **Added screen command sequences** to ~/.screenrc with auto-exit functionality
+   - Ctrl-a k for scroll up
+   - Ctrl-a j for scroll down
+   - Also added Ctrl+Up/Down as alternatives
 2. **Created test scripts** to verify the configuration
 3. **Documented the solution** with troubleshooting guide
 
@@ -13,13 +14,14 @@
 ### In a NEW Terminal Window:
 1. The screen session will auto-start (as configured in .zshrc)
 2. Generate some output: `ls -la /usr/bin | head -100`
-3. Press **Ctrl+k** to scroll up - automatically returns to normal mode
-4. Press **Ctrl+j** to scroll down - automatically returns to normal mode
+3. Press **Ctrl-a** (release), then **k** to scroll up
+4. Press **Ctrl-a** (release), then **j** to scroll down
 5. No need to press ESC - shortcuts auto-exit copy mode!
 
 ### Works Through SSH:
-- These shortcuts work reliably even through SSH connections
+- These shortcuts use screen's command mode which always works
 - No issues with terminal interception or key mapping conflicts
+- Most reliable method for SSH sessions
 
 ### Test Scripts Available:
 - `./scripts/test-screen-scroll.sh` - Interactive test session

@@ -2,7 +2,8 @@ name: "Dev Mode"
 description: "Development workflow - simplified step-by-step process"
 steps:
   - number: 1
-    title: "Announce Dev Mode & Start Git Workflow"
+    name: "announce"
+    title: "Announce Dev Mode"
     content: |
       MANDATORY first response:
       ⚡ **DEV MODE ACTIVATED**
@@ -11,23 +12,37 @@ steps:
       
       **⚠️ IMPORTANT: DO NOT start implementation yet. This is the planning phase.**
       
-      **Check for existing todo:**
-      If continuing work on existing todo file in `todos/YYYYMMDD-[project]-todo.md`, skip to step 4 and update existing todo list to match the todo list structure (if needed).
-      
-      **For new work, execute git setup IMMEDIATELY:**
-      1. Create worktree with new branch:
-         ```
-         mkdir -p worktrees
-         git worktree add worktrees/[project-name]-YYYYMMDD -b [project-name]-YYYYMMDD
-         cd worktrees/[project-name]-YYYYMMDD
-         git push -u origin [project-name]-YYYYMMDD
-         ```
-      2. Copy config/.env over to new worktree folder because it's in .gitignore.
-      
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
 
   - number: 2
+    name: "setup"
+    title: "Check Todo Status & Git Setup"
+    content: |
+      **ACTION DECISION TREE:**
+      ```yaml
+      check_todo:
+        - action: "Look for todo file matching: todos/YYYYMMDD-[project]-todo.md"
+        - if_exists:
+            - action: "Read existing todo file"
+            - action: "Continue with existing work from current state"
+            - next: "Run workflow-cli --project [project-name] --next"
+        - if_not_exists:
+            - action: "Create new git worktree:"
+              commands:
+                - "mkdir -p worktrees"
+                - "git worktree add worktrees/[project-name]-YYYYMMDD -b [project-name]-YYYYMMDD"
+                - "cd worktrees/[project-name]-YYYYMMDD"
+                - "git push -u origin [project-name]-YYYYMMDD"
+            - action: "Copy config/.env to new worktree (it's in .gitignore)"
+            - next: "Run workflow-cli --project [project-name] --next"
+      ```
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 3
+    name: "research"
     title: "Consult Knowledge Base"
     content: |
       **⚠️ IMPORTANT: This is research phase - DO NOT implement anything yet.**
@@ -49,7 +64,8 @@ steps:
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
 
-  - number: 3
+  - number: 4
+    name: "simplify"
     title: "Apply Musk's 5-Step Process"
     content: |
       **⚠️ IMPORTANT: Still in planning phase - NO implementation yet.**
@@ -71,19 +87,30 @@ steps:
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
 
-  - number: 4
+  - number: 5
+    name: "plan"
     title: "Plan with Test Gates and Todo Management"
     content: |
       **⚠️ IMPORTANT: Final planning step - DO NOT implement yet!**
       
-      **CLI Tool Check:** If creating a CLI tool, include steps from: `/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/CLI_TOOL_DESIGN_GUIDE.md`
+      **CONDITIONAL CHECKS:**
+      ```yaml
+      cli_tool_check:
+        - condition: "Creating a CLI tool?"
+        - if_true: "Include steps from: /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/CLI_TOOL_DESIGN_GUIDE.md"
       
-      **API Keys Check:**
-      If any required API keys are missing from config/.env:
-      - Use selenium-cli browser automation to obtain them (login to service, navigate to API settings)
-      - Example: `selenium-cli start` → navigate to API dashboard → copy keys
+      api_keys_check:
+        - condition: "Required API keys missing from config/.env?"
+        - if_true:
+            - action: "Use selenium-cli browser automation"
+            - steps:
+                - "selenium-cli start"
+                - "Navigate to API dashboard"
+                - "Copy API keys"
+                - "Add to config/.env"
+      ```
       
-      Create this incremental plan structure:
+      **CREATE INCREMENTAL PLAN:**
       1. Build feature A
       2. Write E2E test for A
       3. TEST GATE: Run test - MUST PASS → `workflow-cli --project [project-name] --sub-task-next`
@@ -93,52 +120,32 @@ steps:
       7. TEST GATE: Run test - MUST PASS → `workflow-cli --project [project-name] --sub-task-next`
       8. Commit with test status
       
-      **Create Todo File:** `todos/YYYYMMDD-[project-name]-todo.md`
-      
-      **Todo List Structure Example:**
-      ```markdown
-      # YYYYMMDD-[project-name]-todo.md
-      Last updated: 2025-06-25 14:32:15
-      
-      ## Non-Negotiable User Requirements: "[exact user words preserved here]"
-      
-      ## Context Discovery
-      - Link to relevant existing code: [file_path:line number]
-      - Related todos/learnings: [link to relevant todo files]
-      - Key insights from codebase research: [brief summary with file links]
-      
-      ## Tasks
-      ✅ [14:15] Set up project structure and git branch
-      ✅ [14:22] Implement user authentication module
-      ✅ [14:25] Write E2E test for authentication
-      ✅ [14:26] TEST GATE PASSED → `workflow-cli --project [project-name] --sub-task-next`
-      🕒 [14:32] Add caching layer for API responses
-      🕒 Write E2E test for caching
-      🕒 TEST GATE → `workflow-cli --project [project-name] --sub-task-next`
-      🕒 Implement batch processing for data updates
-      🕒 Write E2E test for batch processing
-      🕒 TEST GATE → `workflow-cli --project [project-name] --sub-task-next`
-      🕒 Final production verification: test all features in production mode with live APIs
-      🕒 Final testing and cleanup
-      🕒 Run `workflow-cli --project [project-name] --next`
-      
-      ## Notes
-      🔥 BREAKTHROUGH [14:28]: Found we can use existing auth middleware instead of building from scratch
+      **TODO FILE MANAGEMENT:**
+      ```yaml
+      todo_file:
+        - action: "Create or update file"
+        - path: "todos/YYYYMMDD-[project-name]-todo.md"
+        - structure:
+            - "# YYYYMMDD-[project-name]-todo.md"
+            - "Last updated: [timestamp]"
+            - "## Non-Negotiable User Requirements: [exact user words]"
+            - "## Context Discovery"
+            - "## Tasks (with timestamps and status icons)"
+            - "## Notes (with breakthrough markers)"
+        - final_task: "🕒 Run workflow-cli --project [project-name] --next"
       ```
-      
-      **IMPORTANT:** The FINAL item in your todo list must be:
-      `🕒 Run workflow-cli --project [project-name] --next`
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
 
-  - number: 5
+  - number: 6
+    name: "implement"
     title: "Implement One Piece at a Time"
     content: |
       **NOW YOU CAN START IMPLEMENTATION!**
       
       Execute these implementation steps:
-      1. Work through your todo list from step 4
+      1. Work through your todo list from step 5
       2. Write one logical unit of functionality
       3. Write E2E test for that functionality
       4. Run test and verify it passes
@@ -156,7 +163,8 @@ steps:
       **Next Step:** Continue until all tasks complete, then run final `--next` from todo
     mandatory: true
 
-  - number: 6delete
+  - number: 7
+    name: "cleanup"
     title: "Clean Up Environment"
     content: |
       Before final commits, clean up temporary/unneeded files by looking at git status. Make sure .gitignore is up-to-date.
@@ -164,19 +172,29 @@ steps:
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
 
-  - number: 7
+  - number: 8
+    name: "verify"
     title: "Final Verification"
     content: |
-      Execute these final steps before marking complete:
-      1. **REVIEW NON-NEGOTIABLES:** Check todo file's "Non-Negotiable User Requirements" section - ensure ALL requirements are met
-      2. If any requirements not met: update todo list and `workflow-cli --project [project-name] --step 4`
-      3. Update todo file with final status
-      4. Final commit and push
+      **VERIFICATION DECISION TREE:**
+      ```yaml
+      verify_requirements:
+        - action: "Check todo file's Non-Negotiable User Requirements"
+        - if_all_met:
+            - action: "Update todo file with final status"
+            - action: "Final commit and push"
+            - next: "Run workflow-cli --project [project-name] --next"
+        - if_not_met:
+            - action: "Update todo list with missing requirements"
+            - action: "Jump back to step 6 (implementation)"
+            - command: "workflow-cli --project [project-name] --set-step 6"
+      ```
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
 
-  - number: 8
+  - number: 9
+    name: "merge"
     title: "Branch Management - Auto Merge"
     content: |
       **Automatically merge to main branch:**
@@ -197,7 +215,8 @@ steps:
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
 
-  - number: 9
+  - number: 10
+    name: "finish"
     title: "Clean Project State"
     content: |
       Final cleanup step:
@@ -228,6 +247,18 @@ global_rules:
       11. If dealing with anything GUI related, take screenshots regularly to understand what's going on
       12. NO FALLBACK CODE - Keep logic simple and direct, avoid complex fallback patterns
       13. Use GitHub/npm libraries instead of reinventing the wheel - search for existing solutions first
+
+  - title: "UpdateTodo Command Handler"
+    content: |
+      **WHEN USER SAYS "updatetodo":**
+      ```yaml
+      updatetodo_handler:
+        - action: "Add new requirement to Non-Negotiable User Requirements section of current todo file"
+        - action: "Save the updated todo file"
+        - action: "Jump to 'plan' step (step 5)"
+        - command: "workflow-cli --project [project-name] --set-step 5"
+        - reason: "The 'plan' step will re-evaluate the plan with the new requirements"
+      ```
 
 
   - title: "Never Do"

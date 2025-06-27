@@ -8,19 +8,22 @@ This guide documents the configuration changes made to enable easier scrolling i
 - Mouse wheel scrolling doesn't work by default within screen sessions
 - Native terminal scrolling (with `altscreen off`) scrolls terminal history, not screen content
 
-## Solution: SSH-Compatible 2-Key Shortcuts with Auto-Exit
+## Solution: Screen Command Sequences with Auto-Exit
 
 ### Primary Shortcuts (Added to ~/.screenrc)
-- **Ctrl+k**: Scroll up by page and automatically return to normal mode
-- **Ctrl+j**: Scroll down by page and automatically return to normal mode
-- **Ctrl+p**: Alternative - scroll up (previous)
-- **Ctrl+n**: Alternative - scroll down (next)
+- **Ctrl-a k**: Scroll up by page and automatically return to normal mode
+- **Ctrl-a j**: Scroll down by page and automatically return to normal mode
 - **No ESC needed**: Shortcuts automatically exit copy mode after scrolling
 
-### Why These Keys?
-- Work reliably through SSH/terminal/screen stack
-- Don't conflict with common terminal functions
-- Single modifier + letter (easy 2-key combination)
+### How to Use
+1. Press and release **Ctrl-a** (screen's command key)
+2. Press **k** to scroll up or **j** to scroll down
+3. Screen automatically enters copy mode, scrolls, and exits
+
+### Why This Approach Works
+- Uses screen's built-in command mode (always intercepted correctly)
+- Bypasses terminal and shell key processing
+- Works reliably through SSH connections
 - Similar to vim navigation (j/k for down/up)
 
 ### Other Shortcuts (Already configured)
@@ -37,13 +40,13 @@ This guide documents the configuration changes made to enable easier scrolling i
 The following lines were added to `~/.screenrc`:
 
 ```bash
-# Ctrl+j/k for SSH-compatible page scrolling with auto-exit
-bindkey "^K" eval "copy" "stuff ^B^["  # Ctrl+k = scroll up + auto-exit
-bindkey "^J" eval "copy" "stuff ^F^["  # Ctrl+j = scroll down + auto-exit
+# Screen command key bindings for scrolling (Ctrl-a followed by key)
+bind j eval "copy" "stuff ^F^["  # Ctrl-a j = scroll down + auto-exit
+bind k eval "copy" "stuff ^B^["  # Ctrl-a k = scroll up + auto-exit
 
-# Alternative: Ctrl+p/n (previous/next)
-bindkey "^P" eval "copy" "stuff ^B^["  # Ctrl+p = scroll up + auto-exit
-bindkey "^N" eval "copy" "stuff ^F^["  # Ctrl+n = scroll down + auto-exit
+# Alternative direct key bindings (if terminal supports)
+bindkey "^[[1;5A" eval "copy" "stuff ^B^["  # Ctrl+Up = scroll up + auto-exit
+bindkey "^[[1;5B" eval "copy" "stuff ^F^["  # Ctrl+Down = scroll down + auto-exit
 ```
 
 ## Terminal Compatibility
@@ -54,9 +57,10 @@ bindkey "^N" eval "copy" "stuff ^F^["  # Ctrl+n = scroll down + auto-exit
 - Most modern terminal emulators that support Option/Alt key modifiers
 
 ### Key Sequence Notes
-- `^K` and `^J` are standard control sequences that work across all terminals
-- These bypass terminal-specific key mappings and SSH interpretation
-- Work reliably even through multiple SSH hops or different terminal emulators
+- `bind j/k` uses screen's command mode (accessed via Ctrl-a)
+- This approach is most reliable as screen intercepts Ctrl-a before any other processing
+- Works consistently through SSH, different terminals, and shells
+- The `^F` and `^B` in the config represent page forward/backward commands
 
 ## Testing
 
@@ -75,8 +79,9 @@ Use the provided test scripts:
 
 ### Shortcuts Not Working
 1. Ensure you're in a new screen session (detach and create new)
-2. Check terminal emulator's Option/Alt key handling
+2. Remember to press and release Ctrl-a first, then press j or k
 3. Try the alternative Ctrl+Shift+Up/Down shortcuts
+4. If Ctrl-a j/k doesn't work, verify your screen command key (might be remapped)
 
 ### Mouse Wheel Still Not Working
 - Mouse wheel scrolling in screen is limited by design

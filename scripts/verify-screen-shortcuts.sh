@@ -22,15 +22,25 @@ echo ""
 
 echo "Configured shortcuts in ~/.screenrc:"
 echo "-----------------------------------"
+# Check bind commands (screen command mode)
+grep -E "^bind.*eval.*copy.*stuff" ~/.screenrc | grep -v "^#" | while read line; do
+    if echo "$line" | grep -q "bind k.*scroll up"; then
+        echo "✓ Ctrl-a k: Scroll up with auto-exit"
+    elif echo "$line" | grep -q "bind j.*scroll down"; then
+        echo "✓ Ctrl-a j: Scroll down with auto-exit"
+    elif echo "$line" | grep -q "bind K.*scroll up"; then
+        echo "✓ Ctrl-a K: Alternative scroll up"
+    elif echo "$line" | grep -q "bind J.*scroll down"; then
+        echo "✓ Ctrl-a J: Alternative scroll down"
+    fi
+done
+
+# Check bindkey commands (direct key bindings)
 grep -E "bindkey.*eval.*copy.*stuff" ~/.screenrc | grep -v "^#" | while read line; do
-    if echo "$line" | grep -q "\\^K.*scroll up"; then
-        echo "✓ Ctrl+k: Scroll up with auto-exit"
-    elif echo "$line" | grep -q "\\^J.*scroll down"; then
-        echo "✓ Ctrl+j: Scroll down with auto-exit"
-    elif echo "$line" | grep -q "\\^P.*scroll up"; then
-        echo "✓ Ctrl+p: Alternative scroll up"
-    elif echo "$line" | grep -q "\\^N.*scroll down"; then
-        echo "✓ Ctrl+n: Alternative scroll down"
+    if echo "$line" | grep -q "1;5A.*Ctrl.*Up"; then
+        echo "✓ Ctrl+Up: Direct scroll up"
+    elif echo "$line" | grep -q "1;5B.*Ctrl.*Down"; then
+        echo "✓ Ctrl+Down: Direct scroll down"
     elif echo "$line" | grep -q "1;6A.*Ctrl.*Shift.*Up"; then
         echo "✓ Ctrl+Shift+Up: Auto-enter copy mode + page up"
     elif echo "$line" | grep -q "1;6B.*Ctrl.*Shift.*Down"; then
@@ -49,13 +59,15 @@ echo -n "• Alternate screen: "
 grep "^altscreen" ~/.screenrc | awk '{print $2}'
 echo ""
 
-echo "How to use the new shortcuts (SSH-compatible):"
-echo "----------------------------------------------"
-echo "1. Ctrl+k        : Scroll up by page and auto-exit copy mode"
-echo "2. Ctrl+j        : Scroll down by page and auto-exit copy mode"
-echo "3. Ctrl+p        : Alternative scroll up (previous)"
-echo "4. Ctrl+n        : Alternative scroll down (next)"
-echo "5. No need to press ESC - automatically returns to normal mode!"
+echo "How to use the shortcuts (SSH-compatible):"
+echo "------------------------------------------"
+echo "1. Ctrl-a k      : Scroll up by page and auto-exit copy mode"
+echo "2. Ctrl-a j      : Scroll down by page and auto-exit copy mode"
+echo "3. Ctrl+Up/Down  : Direct scroll (if terminal supports)"
+echo "4. No need to press ESC - automatically returns to normal mode!"
+echo ""
+echo "Note: Ctrl-a is screen's command key. Press and release Ctrl-a,"
+echo "      then press j or k for scrolling."
 echo ""
 echo "Alternative shortcuts:"
 echo "• Ctrl+Shift+Up/Down : Also works for page scrolling"
