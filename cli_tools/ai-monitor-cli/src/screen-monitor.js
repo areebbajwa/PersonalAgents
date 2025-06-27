@@ -26,7 +26,8 @@ class ScreenMonitor {
         this.projectName = options.projectName || 'unknown';
         this.workflowMode = options.workflowMode || 'dev';
         this.enableGuidance = options.enableGuidance !== false;
-        this.lastRemindRulesTime = 0;
+        // Initialize to current time to prevent immediate remind-rules on startup
+        this.lastRemindRulesTime = Date.now();
         this.remindRulesIntervalMs = options.remindRulesIntervalMs || 600000; // 10 minutes default for remind-rules
         this.alertLevel = options.alertLevel || 'WARNING';
         this.onCheckResult = options.onCheckResult || null; // Callback for check results
