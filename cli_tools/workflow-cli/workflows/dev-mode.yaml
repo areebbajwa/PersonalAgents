@@ -34,7 +34,7 @@ steps:
                 - "git worktree add worktrees/[project-name]-YYYYMMDD -b [project-name]-YYYYMMDD"
                 - "cd worktrees/[project-name]-YYYYMMDD"
                 - "git push -u origin [project-name]-YYYYMMDD"
-            - action: "Copy config/.env to new worktree (it's in .gitignore)"
+            - action: "Note: .env file is not needed in worktrees - tools use ~/PersonalAgents symlink"
             - next: "Run workflow-cli --project [project-name] --next"
       ```
       
