@@ -276,10 +276,10 @@ program
       try {
         if (fs.existsSync(stateDir)) {
           const files = fs.readdirSync(stateDir);
-          const pidFiles = files.filter(f => f.startsWith('ai_manager_pid_') && f.endsWith('.txt'));
+          const pidFiles = files.filter(f => f.startsWith('ai_monitor_pid_') && f.endsWith('.txt'));
           
           pidFiles.forEach(pidFile => {
-            const projectName = pidFile.replace('ai_manager_pid_', '').replace('.txt', '');
+            const projectName = pidFile.replace('ai_monitor_pid_', '').replace('.txt', '');
             const pidPath = path.join(stateDir, pidFile);
             
             try {
