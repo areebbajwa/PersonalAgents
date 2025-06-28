@@ -264,7 +264,7 @@ program
       // Clear screen and reset cursor
       process.stdout.write('\x1b[2J\x1b[H');
       
-      console.log('🤖 AI Monitor Live Monitor - All Projects');
+      console.log('🤖 AI Monitor Feed - Live Updates');
       console.log('=' .repeat(50));
       console.log(`Last refresh: ${new Date().toLocaleTimeString()}`);
       console.log('');
@@ -297,82 +297,41 @@ program
         console.error('Error checking active projects:', error.message);
       }
       
-      // Get all notifications for history
+      // Display active projects list (one per line)
+      console.log('Active Projects:');
+      if (activeProjects.length > 0) {
+        activeProjects.forEach(({ project, pid }) => {
+          console.log(`  ${project} (PID: ${pid})`);
+        });
+      } else {
+        console.log('  None');
+      }
+      console.log('');
+      
+      // Get all notifications and display in chronological order
       const allHistory = notificationManager.getRecentNotifications(100);
       
-      // Display active projects with their activity feeds
-      if (activeProjects.length > 0) {
-        console.log('📊 Active Projects with Activity Feed:');
-        console.log('=' .repeat(50));
-        
-        activeProjects.forEach(({ project, pid }) => {
-          console.log(`\n🟢 ${project} (PID: ${pid})`);
-          console.log('-' .repeat(50));
-          
-          // Get notifications for this project
-          const projectNotifications = allHistory.filter(n => n.project === project).slice(0, 5);
-          
-          if (projectNotifications.length === 0) {
-            console.log('   No activity recorded for this project');
-          } else {
-            projectNotifications.forEach(notif => {
-              const time = new Date(notif.timestamp).toLocaleTimeString();
-              const date = new Date(notif.timestamp).toLocaleDateString();
-              const icon = {
-                'INFO': 'ℹ️ ',
-                'WARNING': '⚠️ ',
-                'VIOLATION': '🚨'
-              }[notif.level] || '📢';
-              
-              console.log(`   ${date} ${time} ${icon}${notif.message}`);
-              
-              if (notif.guidanceSent) {
-                console.log(`      ↳ Sent: "${notif.guidanceSent}"`);
-              }
-              
-              if (notif.actions && notif.actions.length > 0) {
-                notif.actions.forEach(action => {
-                  console.log(`      • ${action}`);
-                });
-              }
-            });
-          }
-        });
-        console.log('');
+      console.log('Feed (newest first):');
+      console.log('-' .repeat(50));
+      
+      if (allHistory.length === 0) {
+        console.log('No activity recorded');
       } else {
-        console.log('ℹ️  No active AI Monitor processes\n');
-      }
-      
-      // Get recent notifications since last check
-      const newNotifications = allHistory.filter(n => 
-        new Date(n.timestamp) > lastShownTimestamp
-      );
-      
-      if (newNotifications.length > 0) {
-        console.log(`\n📢 New Activity Since Last Check (${newNotifications.length} events):`);
-        console.log('-' .repeat(50));
-        
-        newNotifications.forEach(notif => {
-          const time = new Date(notif.timestamp).toLocaleTimeString();
-          const icon = {
-            'INFO': 'ℹ️ ',
-            'WARNING': '⚠️ ',
-            'VIOLATION': '🚨'
-          }[notif.level] || '📢';
+        allHistory.forEach(notif => {
+          const time = new Date(notif.timestamp).toLocaleTimeString('en-US', { 
+            hour12: false, 
+            hour: '2-digit', 
+            minute: '2-digit', 
+            second: '2-digit' 
+          });
           
-          console.log(`${time} ${icon}[${notif.project}] ${notif.message}`);
+          // Format the issue and feedback
+          const issue = notif.message || 'No issue';
+          const feedback = notif.guidanceSent || 'No feedback';
           
-          if (notif.guidanceSent) {
-            console.log(`         ↳ Sent: "${notif.guidanceSent}"`);
-          }
+          console.log(`[${time}] [${notif.project}] Issue: ${issue} | Feedback: ${feedback}`);
         });
-        
-        // Update last shown timestamp
-        if (newNotifications.length > 0) {
-          lastShownTimestamp = new Date(newNotifications[0].timestamp);
-        }
       }
-      
       
       console.log('\nPress Ctrl+C to exit');
     };
