@@ -281,6 +281,34 @@ if (!fs.existsSync(configPath)) {
 - ✅ State management
 - ✅ Multiple output formats (--json)
 
+## Test Scripts and Dependencies
+
+### Test Script Requirements
+**IMPORTANT**: Test scripts MUST use the main PersonalAgents directory for all CLI tools.
+
+```bash
+# Always define this at the top of test scripts
+MAIN_REPO_DIR="$HOME/PersonalAgents"
+
+# Use this for all tool paths
+local tool_path="$MAIN_REPO_DIR/cli_tools/$tool/$tool"
+```
+
+### Dependency Management
+1. **Install dependencies only in main repository**
+   - Never install npm dependencies in worktrees
+   - All tools reference the main ~/PersonalAgents directory
+
+2. **Avoid native module dependencies**
+   - Native modules like sqlite3 can cause cross-platform issues
+   - Consider pure JavaScript alternatives when possible
+
+3. **Test from multiple directories**
+   - Main repository
+   - Home directory  
+   - Temp directory
+   - Worktrees
+
 ## Checklist for New Tools
 
 - [ ] Directory name matches executable name
@@ -291,5 +319,7 @@ if (!fs.existsSync(configPath)) {
 - [ ] Has clear, helpful error messages
 - [ ] Includes examples in help text
 - [ ] Works from any directory after global setup
+- [ ] Uses ~/PersonalAgents for all config/dependency paths
 - [ ] Tested with basic test cases
+- [ ] Test script uses MAIN_REPO_DIR="$HOME/PersonalAgents"
 - [ ] Run `./scripts/setup-global-cli-tools.sh` to install globally

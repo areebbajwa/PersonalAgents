@@ -14,6 +14,9 @@ echo ""
 # Save current directory
 ORIGINAL_DIR=$(pwd)
 
+# Always use the main PersonalAgents directory for CLI tools
+MAIN_REPO_DIR="$HOME/PersonalAgents"
+
 # List of all CLI tools to test
 CLI_TOOLS=(
     "ai-monitor-cli"
@@ -50,7 +53,7 @@ test_tool() {
     TOTAL_TESTS=$((TOTAL_TESTS + 1))
     
     # Check if tool exists
-    local tool_path="$ORIGINAL_DIR/cli_tools/$tool/$tool"
+    local tool_path="$MAIN_REPO_DIR/cli_tools/$tool/$tool"
     if [ ! -f "$tool_path" ]; then
         echo -e "${RED}✗${NC} $tool not found at $tool_path"
         FAILED_TESTS=$((FAILED_TESTS + 1))
@@ -142,7 +145,7 @@ check_path_resolution() {
     local found_correct_path=false
     
     for pattern in "${file_patterns[@]}"; do
-        local files=$(find "$ORIGINAL_DIR/cli_tools/$tool" -name "$pattern" 2>/dev/null)
+        local files=$(find "$MAIN_REPO_DIR/cli_tools/$tool" -name "$pattern" 2>/dev/null)
         for file in $files; do
             if [ -f "$file" ]; then
                 if grep -q "~/PersonalAgents\|homedir()\|HOME.*PersonalAgents" "$file" 2>/dev/null; then
@@ -157,8 +160,8 @@ check_path_resolution() {
         echo -e "${GREEN}✓${NC} $tool uses ~/PersonalAgents symlink"
     else
         # Check if it's a bash-only tool or doesn't need config
-        if [ -f "$ORIGINAL_DIR/cli_tools/$tool/$tool" ] && file "$ORIGINAL_DIR/cli_tools/$tool/$tool" | grep -q "shell script"; then
-            local script_content=$(cat "$ORIGINAL_DIR/cli_tools/$tool/$tool")
+        if [ -f "$MAIN_REPO_DIR/cli_tools/$tool/$tool" ] && file "$MAIN_REPO_DIR/cli_tools/$tool/$tool" | grep -q "shell script"; then
+            local script_content=$(cat "$MAIN_REPO_DIR/cli_tools/$tool/$tool")
             if ! echo "$script_content" | grep -qE "config|\.env"; then
                 echo -e "${YELLOW}⚠${NC}  $tool is a shell script without config dependencies"
             else
