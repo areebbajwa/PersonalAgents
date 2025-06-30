@@ -30,7 +30,7 @@ export async function ensureDefaultSession(options = {}) {
     const serverPath = path.join(__dirname, 'session-server.js');
     const serverProcess = spawn('node', [serverPath, DEFAULT_SESSION_NAME, port.toString()], {
         detached: true,
-        stdio: ['ignore', 'pipe', 'inherit', 'ipc'],
+        stdio: ['ignore', 'pipe', 'pipe', 'ipc'],
         env: { ...process.env }
     });
     

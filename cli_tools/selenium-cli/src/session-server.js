@@ -38,6 +38,9 @@ let browserLaunched = false;
 // Track previous HTML for diff
 let previousHtml = null;
 
+// Track if we're in startup phase (IPC channel is available)
+let isStartupPhase = true;
+
 // Helper to ensure browser is launched
 async function ensureBrowserLaunched(options = {}) {
     if (!browserLaunched) {
@@ -351,10 +354,19 @@ const server = http.createServer(async (req, res) => {
 // Start server
 server.listen(port, () => {
     console.log(`Session server '${sessionName}' listening on port ${port}`);
-    // Send ready signal to parent process
-    if (process.send) {
-        process.send({ type: 'ready', port });
+    // Send ready signal to parent process only during startup
+    if (process.send && process.connected && isStartupPhase) {
+        process.send({ type: 'ready', port }, (error) => {
+            if (error) {
+                // IPC channel might be closed, this is normal
+                console.log('IPC channel not available, continuing without it');
+            }
+        });
     }
+    // After initial startup, we no longer have IPC
+    setTimeout(() => {
+        isStartupPhase = false;
+    }, 1000);
 });
 
 // Cleanup on exit

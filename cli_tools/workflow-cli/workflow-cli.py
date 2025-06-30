@@ -362,17 +362,14 @@ Check your todo list. If tasks remain, continue working. If all done, use --next
         self.current_state = current_state
         self._save_state()
         
-        # Use screen-specific log file path
-        screen_log_path = f'/tmp/screen_output_{screen_session}.log'
-        
         try:
             # Start AI Monitor in background
+            # Don't specify log-path to allow auto-detection of terminal logs
             cmd = [
                 str(ai_monitor_cli), 'monitor',
                 '--project', project,
                 '--mode', mode,
                 '--screen-session', screen_session,
-                '--log-path', screen_log_path,
                 '--interval', '60'  # Check every minute
             ]
             

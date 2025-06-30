@@ -11,11 +11,17 @@ const yaml = require('yaml');
 class ScreenMonitor {
     constructor(options = {}) {
         this.screenSessionName = options.screenSessionName;
-        // Use provided log path, or auto-generate from screen session
+        // Use provided log path, or auto-detect from screen session
         if (options.screenLogPath) {
             this.screenLogPath = options.screenLogPath;
         } else if (this.screenSessionName) {
-            this.screenLogPath = `/tmp/screen_output_${this.screenSessionName}.log`;
+            // Try to auto-detect the actual screen log file
+            this.screenLogPath = this.findScreenLogFile(this.screenSessionName);
+            if (!this.screenLogPath) {
+                // Fallback to old /tmp path if not found
+                this.screenLogPath = `/tmp/screen_output_${this.screenSessionName}.log`;
+                console.warn(`Screen log not found in ~/.screen-logs/, falling back to: ${this.screenLogPath}`);
+            }
         } else {
             throw new Error('Either screenLogPath or screenSessionName must be provided');
         }
@@ -47,13 +53,137 @@ class ScreenMonitor {
     }
 
     /**
+     * Find the actual log file - first try terminal logs, then screen logs
+     * Terminal logs: ~/.terminal-logs/latest-{session-name}.log
+     * Screen logs: ~/.screen-logs/screenlog-{date}-{session-name}-{window}.log
+     */
+    findScreenLogFile(sessionName) {
+        // First, try to find terminal output log (preferred)
+        const terminalLog = this.findTerminalLogFile(sessionName);
+        if (terminalLog) {
+            return terminalLog;
+        }
+        
+        // Fallback to screen logs
+        const screenLogsDir = path.join(process.env.HOME, '.screen-logs');
+        
+        if (!fs.existsSync(screenLogsDir)) {
+            return null;
+        }
+        
+        try {
+            // Extract just the session name part (after the PID)
+            // e.g., "57001.PersonalAgents-5951" -> "PersonalAgents-5951"
+            const sessionParts = sessionName.split('.');
+            const nameOnly = sessionParts.length > 1 ? sessionParts.slice(1).join('.') : sessionName;
+            
+            // Get today's date in YYYYMMDD format
+            const today = new Date();
+            const dateStr = today.getFullYear() + 
+                           String(today.getMonth() + 1).padStart(2, '0') + 
+                           String(today.getDate()).padStart(2, '0');
+            
+            // Look for files matching the pattern
+            const files = fs.readdirSync(screenLogsDir);
+            
+            // Screen log pattern: screenlog-YYYYMMDD-{window-title}-{window-num}.log
+            // Try to find exact match first
+            const exactMatch = `screenlog-${dateStr}-${nameOnly}-0.log`;
+            if (files.includes(exactMatch)) {
+                const fullPath = path.join(screenLogsDir, exactMatch);
+                console.log(`Found screen log: ${fullPath}`);
+                return fullPath;
+            }
+            
+            // If no exact match, look for partial matches with the session name
+            const candidates = files.filter(f => 
+                f.startsWith('screenlog-') && 
+                f.includes(nameOnly) && 
+                f.endsWith('.log')
+            );
+            
+            if (candidates.length > 0) {
+                // Sort by modification time and pick the most recent
+                const sorted = candidates
+                    .map(f => ({
+                        name: f,
+                        path: path.join(screenLogsDir, f),
+                        mtime: fs.statSync(path.join(screenLogsDir, f)).mtime
+                    }))
+                    .sort((a, b) => b.mtime - a.mtime);
+                
+                console.log(`Found screen log: ${sorted[0].path}`);
+                return sorted[0].path;
+            }
+            
+            return null;
+        } catch (error) {
+            console.error('Error finding screen log file:', error.message);
+            return null;
+        }
+    }
+
+    /**
+     * Find terminal output log file
+     * Terminal logs: ~/.terminal-logs/latest-{session-name}.log (symlink)
+     * or ~/.terminal-logs/terminal-{session-name}-{timestamp}.log
+     */
+    findTerminalLogFile(sessionName) {
+        const terminalLogsDir = path.join(process.env.HOME, '.terminal-logs');
+        
+        if (!fs.existsSync(terminalLogsDir)) {
+            return null;
+        }
+        
+        try {
+            // Extract session name
+            const sessionParts = sessionName.split('.');
+            const nameOnly = sessionParts.length > 1 ? sessionParts.slice(1).join('.') : sessionName;
+            
+            // First try the symlink to latest log
+            const latestLink = path.join(terminalLogsDir, `latest-${nameOnly}.log`);
+            if (fs.existsSync(latestLink)) {
+                console.log(`Found terminal log (symlink): ${latestLink}`);
+                return latestLink;
+            }
+            
+            // Otherwise look for most recent terminal log file
+            const files = fs.readdirSync(terminalLogsDir);
+            const candidates = files.filter(f => 
+                f.startsWith('terminal-') && 
+                f.includes(nameOnly) && 
+                f.endsWith('.log')
+            );
+            
+            if (candidates.length > 0) {
+                // Sort by modification time and pick the most recent
+                const sorted = candidates
+                    .map(f => ({
+                        name: f,
+                        path: path.join(terminalLogsDir, f),
+                        mtime: fs.statSync(path.join(terminalLogsDir, f)).mtime
+                    }))
+                    .sort((a, b) => b.mtime - a.mtime);
+                
+                console.log(`Found terminal log: ${sorted[0].path}`);
+                return sorted[0].path;
+            }
+            
+            return null;
+        } catch (error) {
+            console.error('Error finding terminal log file:', error.message);
+            return null;
+        }
+    }
+
+    /**
      * Get screen log path based on session name
      */
     getScreenLogPath() {
         if (!this.screenSessionName) {
             throw new Error('Screen session name is required');
         }
-        return `/tmp/screen_output_${this.screenSessionName}.log`;
+        return this.screenLogPath;
     }
     
     /**
@@ -155,6 +285,9 @@ class ScreenMonitor {
     readLast200Lines() {
         try {
             if (!fs.existsSync(this.screenLogPath)) {
+                console.log(`⚠️  Log file not found: ${this.screenLogPath}`);
+                console.log(`   Looking for terminal logs in: ${path.join(process.env.HOME, '.terminal-logs/')}`);
+                console.log(`   Looking for screen logs in: ${path.join(process.env.HOME, '.screen-logs/')}`);
                 return null;
             }
 
