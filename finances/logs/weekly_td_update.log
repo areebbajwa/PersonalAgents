@@ -1,8 +1,0 @@
-2025-06-22 02:00:04,025 - INFO - === Weekly TD Bank Data Update Started ===
-2025-06-22 02:00:04,031 - INFO - Update time: 2025-06-22 02:00:04
-2025-06-22 02:00:04,692 - INFO - Initial TD transaction count: 16947
-2025-06-22 02:00:04,693 - INFO - Fetching account data from Google Sheets...
-2025-06-22 02:00:04,820 - ERROR - Error fetching accounts: Command '['python3', '/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/google-sheets-cli/sheets-cli.py', 'read', '1xhSXVcMg4rhrC-PzxcebSdbfbzq7HOns7zuRO3AJcDE', 'Accounts!A:E', '--json']' returned non-zero exit status 1.
-2025-06-22 02:00:04,821 - INFO - Fetching transaction data from Google Sheets...
-2025-06-22 02:00:04,913 - ERROR - Error fetching transactions: Command '['python3', '/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/google-sheets-cli/sheets-cli.py', 'read', '1xhSXVcMg4rhrC-PzxcebSdbfbzq7HOns7zuRO3AJcDE', 'Transactions!A:H', '--json']' returned non-zero exit status 1.
-2025-06-22 02:00:04,913 - ERROR - No transactions fetched. Exiting.
