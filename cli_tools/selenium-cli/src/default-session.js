@@ -72,9 +72,9 @@ export async function ensureDefaultSession(options = {}) {
             if (!messageReceived) {
                 console.error('Session server stdout:', stdout);
                 console.error('Session server stderr:', stderr);
+                reject(new Error('Default session server failed to start'));
             }
-            reject(new Error('Default session server failed to start'));
-        }, 10000);
+        }, 30000); // Increased timeout to 30 seconds for profile copying
     });
 }
 

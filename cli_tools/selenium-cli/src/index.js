@@ -29,21 +29,18 @@ function exitAfterCommand() {
 
 // Helper function to display action results
 function displayActionResult(result) {
-    // Debug log
-    console.error('[DEBUG] Result:', JSON.stringify(result, null, 2));
-    
     if (result.screenshot) {
-        console.log(chalk.gray(`Screenshot: ${result.screenshot}`));
+        console.log(`Screenshot: ${result.screenshot}`);
     }
     if (result.html) {
-        console.log(chalk.gray(`HTML: ${result.html}`));
+        console.log(`HTML: ${result.html}`);
     }
     if (result.htmlDiff) {
         const diff = result.htmlDiff;
         
         // Show text changes
         if (diff.textAdded > 0 || diff.textRemoved > 0) {
-            console.log(chalk.cyan('HTML changes:'));
+            console.log(chalk.cyan('HTML Diff:'));
             if (diff.textAdded > 0) {
                 console.log(chalk.green(`  + ${diff.textAdded} chars added`));
             }
@@ -52,7 +49,7 @@ function displayActionResult(result) {
             }
             
             // Show specific changes
-            if (diff.changedSections.length > 0) {
+            if (diff.changedSections && diff.changedSections.length > 0) {
                 console.log(chalk.cyan('  Changed content:'));
                 diff.changedSections.forEach(change => {
                     if (change.startsWith('+')) {
@@ -65,6 +62,8 @@ function displayActionResult(result) {
                     console.log(chalk.gray(`    ... and ${diff.totalChanges - diff.changedSections.length} more changes`));
                 }
             }
+        } else {
+            console.log(chalk.gray('HTML Diff: No changes detected'));
         }
     }
 }
@@ -77,7 +76,6 @@ program
     .addHelpText('after', `
 Examples:
   # Basic browser automation
-  $ selenium-cli launch
   $ selenium-cli navigate https://example.com
   $ selenium-cli screenshot
   $ selenium-cli close

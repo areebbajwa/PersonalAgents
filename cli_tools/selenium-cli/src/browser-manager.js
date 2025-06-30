@@ -116,8 +116,50 @@ export async function launchBrowser(options = {}) {
     if (options.useProfile !== false) {
         const profilePath = process.env.FIREFOX_PROFILE_PATH || await findFirefoxDefaultProfile();
         if (profilePath) {
-            firefoxOptions.setProfile(profilePath);
-            console.log(`Using Firefox profile: ${profilePath}`);
+            // Create a temporary copy of the profile
+            const tempProfilePath = path.join(os.tmpdir(), `selenium-profile-${Date.now()}`);
+            try {
+                await fs.mkdir(tempProfilePath, { recursive: true });
+                
+                // Copy only essential profile files for logged-in sessions
+                const essentialFiles = [
+                    'cookies.sqlite',
+                    'cookies.sqlite-wal',
+                    'places.sqlite',
+                    'formhistory.sqlite',
+                    'key4.db',
+                    'logins.json',
+                    'prefs.js',
+                    'permissions.sqlite',
+                    'content-prefs.sqlite',
+                    'sessionstore.jsonlz4'
+                ];
+                
+                // Copy essential files only
+                for (const file of essentialFiles) {
+                    const srcPath = path.join(profilePath, file);
+                    const destPath = path.join(tempProfilePath, file);
+                    try {
+                        await fs.copyFile(srcPath, destPath);
+                    } catch (e) {
+                        // File might not exist, that's ok
+                    }
+                }
+                
+                // Copy storage directory for localStorage/sessionStorage
+                try {
+                    const storageSrc = path.join(profilePath, 'storage');
+                    const storageDest = path.join(tempProfilePath, 'storage');
+                    await fs.cp(storageSrc, storageDest, { recursive: true });
+                } catch (e) {
+                    // Storage might not exist, that's ok
+                }
+                
+                firefoxOptions.setProfile(tempProfilePath);
+            } catch (error) {
+                console.error(`Failed to copy Firefox profile: ${error.message}`);
+                // Fall back to no profile
+            }
         }
     }
     

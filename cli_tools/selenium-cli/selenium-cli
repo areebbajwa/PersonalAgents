@@ -1,13 +1,264 @@
-#!/bin/bash
+#!/usr/bin/env node
 
-# Get the directory where this script is located
-SCRIPT_PATH="${BASH_SOURCE[0]}"
-while [ -L "$SCRIPT_PATH" ]; do
-    SCRIPT_DIR="$(cd -P "$(dirname "$SCRIPT_PATH")" && pwd)"
-    SCRIPT_PATH="$(readlink "$SCRIPT_PATH")"
-    [[ $SCRIPT_PATH != /* ]] && SCRIPT_PATH="$SCRIPT_DIR/$SCRIPT_PATH"
-done
-SCRIPT_DIR="$(cd -P "$(dirname "$SCRIPT_PATH")" && pwd)"
+import { spawn } from 'child_process';
+import { promises as fs } from 'fs';
+import path from 'path';
+import os from 'os';
 
-# Run the Node.js CLI tool
-cd "$SCRIPT_DIR" && node "src/index.js" "$@"
+const SESSION_SERVER_PORT = 3001;
+const SESSION_PIDFILE = path.join(os.tmpdir(), 'selenium-session.pid');
+
+// Use ~/PersonalAgents as per CLI design guide
+const MAIN_REPO_PATH = path.join(os.homedir(), 'PersonalAgents');
+
+// Check if session server is running
+async function isSessionServerRunning() {
+    try {
+        const response = await fetch(`http://localhost:${SESSION_SERVER_PORT}/status`);
+        return response.ok;
+    } catch (e) {
+        return false;
+    }
+}
+
+// Start session server if not running
+async function ensureSessionServer() {
+    if (await isSessionServerRunning()) {
+        return;
+    }
+    
+    console.log('Starting session server...');
+    
+    // Use absolute path to session server in main repo
+    const serverPath = path.join(MAIN_REPO_PATH, 'cli_tools', 'selenium-cli', 'session-server.mjs');
+    
+    // Check if session server exists
+    try {
+        await fs.access(serverPath);
+    } catch (error) {
+        console.error('Session server not found');
+        console.error(`Please ensure ~/PersonalAgents symlink points to your PersonalAgents repository`);
+        console.error(`Expected path: ${serverPath}`);
+        process.exit(1);
+    }
+    
+    const serverProcess = spawn('node', [serverPath], {
+        detached: true,
+        stdio: 'ignore'
+    });
+    
+    serverProcess.unref();
+    
+    // Save PID
+    await fs.writeFile(SESSION_PIDFILE, serverProcess.pid.toString());
+    
+    // Wait for server to start
+    let attempts = 0;
+    while (attempts < 20) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        if (await isSessionServerRunning()) {
+            console.log('✓ Session server started');
+            return;
+        }
+        attempts++;
+    }
+    
+    throw new Error('Failed to start session server');
+}
+
+// Make HTTP request to session server
+async function makeRequest(endpoint, data = {}) {
+    await ensureSessionServer();
+    
+    const response = await fetch(`http://localhost:${SESSION_SERVER_PORT}${endpoint}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+    
+    return await response.json();
+}
+
+// Display action results
+function displayActionResult(result) {
+    if (result.screenshot) {
+        console.log(`Screenshot: ${result.screenshot}`);
+    }
+    if (result.html) {
+        console.log(`HTML: ${result.html}`);
+    }
+    if (result.htmlDiff) {
+        console.log(`HTML Diff: ${result.htmlDiff.summary}`);
+        
+        if (result.htmlDiff.hasDiff) {
+            if (result.htmlDiff.newButtons && result.htmlDiff.newButtons.length > 0) {
+                console.log(`New Buttons Found:`);
+                result.htmlDiff.newButtons.forEach((button, i) => {
+                    console.log(`  ${i + 1}. "${button.text}" (${button.tagName})`);
+                    if (button.classes) console.log(`     Classes: ${button.classes}`);
+                    if (button.id) console.log(`     ID: ${button.id}`);
+                });
+            }
+            
+            if (result.htmlDiff.elementDiff !== 0) {
+                console.log(`Element Count: ${result.htmlDiff.totalPreviousElements} → ${result.htmlDiff.totalCurrentElements} (${result.htmlDiff.elementDiff > 0 ? '+' : ''}${result.htmlDiff.elementDiff})`);
+            }
+        }
+    }
+    if (result.url) {
+        console.log(`URL: ${result.url}`);
+    }
+    if (result.title) {
+        console.log(`Title: ${result.title}`);
+    }
+}
+
+// Main command handler
+async function main() {
+    const args = process.argv.slice(2);
+    const command = args[0];
+    
+    // Show help if no arguments or help requested
+    if (!command || command === 'help' || command === '-h' || command === '--help') {
+        console.log('Selenium CLI - Browser automation tool');
+        console.log('');
+        console.log('Usage: selenium-cli <command> [options]');
+        console.log('');
+        console.log('Commands:');
+        console.log('  navigate <url>              - Navigate to URL');
+        console.log('  click <selector>            - Click element');
+        console.log('  type <selector> <text>      - Type text');
+        console.log('  screenshot                  - Take screenshot');
+        console.log('  status                      - Check browser status');
+        console.log('  close                       - Close browser');
+        console.log('');
+        console.log('Selectors:');
+        console.log('  css=.class                  - CSS selector');
+        console.log('  id=element-id               - ID selector');
+        console.log('  xpath=//div[@class="x"]     - XPath selector');
+        console.log('  name=field-name             - Name attribute');
+        console.log('  class=class-name            - Class name');
+        console.log('  tag=div                     - Tag name');
+        console.log('');
+        console.log('Examples:');
+        console.log('  selenium-cli navigate https://example.com');
+        console.log('  selenium-cli click "css=button.submit"');
+        console.log('  selenium-cli type "id=search" "hello world"');
+        console.log('  selenium-cli screenshot');
+        return;
+    }
+    
+    try {
+        switch (command) {
+            case 'navigate': {
+                const url = args[1];
+                if (!url) {
+                    console.error('Usage: selenium-cli navigate <url>');
+                    process.exit(1);
+                }
+                console.log(`Navigating to ${url}...`);
+                
+                const result = await makeRequest('/navigate', { url });
+                if (result.success) {
+                    console.log('✓ Navigation complete');
+                    displayActionResult(result);
+                } else {
+                    console.error(`✗ Navigation failed: ${result.error}`);
+                    process.exit(1);
+                }
+                break;
+            }
+                
+            case 'click': {
+                const selector = args[1];
+                if (!selector) {
+                    console.error('Usage: selenium-cli click <selector>');
+                    process.exit(1);
+                }
+                console.log(`Clicking ${selector}...`);
+                
+                const result = await makeRequest('/click', { selector });
+                if (result.success) {
+                    console.log('✓ Click complete');
+                    displayActionResult(result);
+                } else {
+                    console.error(`✗ Click failed: ${result.error}`);
+                    process.exit(1);
+                }
+                break;
+            }
+                
+            case 'type': {
+                const selector = args[1];
+                const text = args.slice(2).join(' ');
+                if (!selector || !text) {
+                    console.error('Usage: selenium-cli type <selector> <text>');
+                    process.exit(1);
+                }
+                console.log(`Typing "${text}" into ${selector}...`);
+                
+                const result = await makeRequest('/type', { selector, text });
+                if (result.success) {
+                    console.log('✓ Type complete');
+                    displayActionResult(result);
+                } else {
+                    console.error(`✗ Type failed: ${result.error}`);
+                    process.exit(1);
+                }
+                break;
+            }
+                
+            case 'screenshot': {
+                const result = await makeRequest('/screenshot');
+                if (result.success) {
+                    console.log(`✓ Screenshot saved: ${result.screenshot}`);
+                } else {
+                    console.error(`✗ Screenshot failed: ${result.error}`);
+                    process.exit(1);
+                }
+                break;
+            }
+                
+            case 'status': {
+                try {
+                    const response = await fetch(`http://localhost:${SESSION_SERVER_PORT}/status`);
+                    const result = await response.json();
+                    
+                    if (result.status === 'active') {
+                        console.log('✓ Browser session is active');
+                        console.log(`Title: ${result.title}`);
+                        console.log(`URL: ${result.url}`);
+                        console.log(`Firefox processes: ${result.processes}`);
+                    } else {
+                        console.log('✗ No active browser session');
+                    }
+                } catch (error) {
+                    console.log('✗ No active browser session');
+                }
+                break;
+            }
+                
+            case 'close': {
+                const result = await makeRequest('/close');
+                if (result.success) {
+                    console.log('✓ Browser closed');
+                } else {
+                    console.error(`✗ Close failed: ${result.error}`);
+                }
+                break;
+            }
+                
+            default:
+                console.error(`Unknown command: ${command}`);
+                console.error('Run "selenium-cli --help" for usage');
+                process.exit(1);
+        }
+    } catch (error) {
+        console.error(`✗ Error: ${error.message}`);
+        process.exit(1);
+    }
+}
+
+main().catch(console.error);

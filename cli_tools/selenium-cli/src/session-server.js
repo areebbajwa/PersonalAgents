@@ -38,15 +38,16 @@ const healthCheckInterval = setInterval(async () => {
         try {
             const status = await browserManager.getSessionStatus();
             if (!status.hasSession) {
-                console.error('Browser session lost during health check');
-                process.exit(1);
+                console.error('Browser session lost during health check - will restart on next command');
+                browserLaunched = false;
+                // Don't exit - just mark browser as not launched
             }
         } catch (error) {
-            console.error('Health check failed:', error);
-            process.exit(1);
+            console.error('Health check failed:', error.message);
+            // Don't exit - browser might just be busy
         }
     }
-}, 5000); // Check every 5 seconds
+}, 30000); // Check every 30 seconds (less aggressive)
 
 // Track if browser is launched
 let browserLaunched = false;
@@ -60,7 +61,12 @@ let isStartupPhase = true;
 // Helper to ensure browser is launched
 async function ensureBrowserLaunched(options = {}) {
     if (!browserLaunched) {
-        await browserManager.launchBrowser(options);
+        // Default to using Firefox profile unless explicitly disabled
+        const launchOptions = {
+            useProfile: true,
+            ...options
+        };
+        await browserManager.launchBrowser(launchOptions);
         browserLaunched = true;
     }
 }
@@ -89,8 +95,6 @@ async function saveActionHtml(action) {
         const currentHtml = await browserManager.exportHtml(null);
         let htmlDiff = null;
         
-        console.error('[DEBUG saveActionHtml] previousHtml exists:', !!previousHtml);
-        console.error('[DEBUG saveActionHtml] currentHtml.data exists:', !!currentHtml.data);
         
         if (previousHtml && currentHtml.data) {
             // Extract text content for meaningful diff
@@ -131,14 +135,10 @@ async function saveActionHtml(action) {
                 totalChanges: changedSections.length
             };
             
-            console.error(`[HTML Diff] Action: ${action}, Added: ${addedChars}, Removed: ${removedChars}, Changes: ${changedSections.length}`);
-            console.error('[DEBUG] Previous HTML length:', previousHtml ? previousHtml.length : 'null');
-            console.error('[DEBUG] Current HTML length:', currentHtml.data ? currentHtml.data.length : 'null');
         }
         
         // Update previous HTML
         previousHtml = currentHtml.data;
-        console.error('[DEBUG saveActionHtml] Updated previousHtml, length:', previousHtml ? previousHtml.length : 'null');
         
         return { path: htmlPath, diff: htmlDiff };
     } catch (error) {
@@ -193,7 +193,6 @@ const server = http.createServer(async (req, res) => {
                         if (navHtmlResult) {
                             result.html = navHtmlResult.path;
                             result.htmlDiff = navHtmlResult.diff;
-                            console.error('[DEBUG] Navigate htmlDiff:', JSON.stringify(navHtmlResult.diff));
                         }
                         break;
                         
@@ -220,7 +219,11 @@ const server = http.createServer(async (req, res) => {
                             command.by, 
                             command.value, 
                             command.text, 
-                            command.options || {}
+                            {
+                                timeout: command.timeout,
+                                clear: command.clear,
+                                pressEnter: command.pressEnter
+                            }
                         );
                         // Take screenshot
                         const typeScreenshot = screenshotManager.getScreenshotPath(
