@@ -10,7 +10,7 @@ LOG_FILE="$LOG_DIR/weekly_td_update.log"
 mkdir -p "$LOG_DIR"
 
 # Cron job to run every Sunday at 2:00 AM
-CRON_JOB="0 2 * * 0 /usr/bin/python3 $SCRIPT_PATH >> $LOG_FILE 2>&1"
+CRON_JOB="0 2 * * 0 /usr/local/bin/python3 $SCRIPT_PATH >> $LOG_FILE 2>&1"
 
 # Check if cron job already exists
 if crontab -l 2>/dev/null | grep -q "$SCRIPT_PATH"; then
