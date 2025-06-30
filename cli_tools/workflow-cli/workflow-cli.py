@@ -8,8 +8,9 @@ from typing import Dict, List, Optional, Tuple
 import yaml
 
 class WorkflowManager:
-    def __init__(self, rules_dir: Path, project: Optional[str] = None, workflow_file: Optional[Path] = None):
+    def __init__(self, rules_dir: Path, project: Optional[str] = None, workflow_file: Optional[Path] = None, no_auto_monitor: bool = False):
         self.rules_dir = rules_dir
+        self.project = project  # Store the project name
         # Store state in workflow-cli's state directory
         # Resolve to get the actual script location (handles symlinks)
         cli_dir = Path(__file__).resolve().parent
@@ -29,6 +30,7 @@ class WorkflowManager:
             self.state_file = state_dir / "workflow_state_default.json"
         
         self.current_state = self._load_state()
+        self.no_auto_monitor = no_auto_monitor
     
     def _load_state(self) -> Dict:
         """Load current workflow state from disk"""
@@ -75,8 +77,12 @@ class WorkflowManager:
         
         return workflow
     
-    def auto_start_ai_monitor_if_needed(self, mode: str, step: int, project: str) -> None:
+    def auto_start_ai_monitor_if_needed(self, mode: str, step: int, project: str, no_auto_monitor: bool = False) -> None:
         """Automatically start AI Monitor on any step if not already running"""
+        # Skip if auto-monitor is disabled
+        if no_auto_monitor:
+            return
+            
         # Always check if AI Monitor should be running
         status = self.get_ai_monitor_status(project)
         if status.get('status') != 'running':
@@ -241,7 +247,7 @@ class WorkflowManager:
         # Auto-start AI Manager on step 1
         project_name = self.state_file.stem.replace('workflow_state_', '')
         if project_name != 'default':
-            self.auto_start_ai_monitor_if_needed(mode, next_step, project_name)
+            self.auto_start_ai_monitor_if_needed(mode, next_step, project_name, self.no_auto_monitor)
         
         return self.get_workflow_rules(mode, self.current_state["current_step"], workflow_file=workflow_file)
     
@@ -339,10 +345,16 @@ Check your todo list. If tasks remain, continue working. If all done, use --next
         
         return response
     
-    def start_ai_monitor(self, project: str, mode: str) -> Dict:
+    def start_ai_monitor(self, project: str = None, mode: str = None) -> Dict:
         """Start AI Monitor monitoring for the project"""
         import subprocess
         import os
+        
+        # Auto-detect project and mode from current state
+        if not project:
+            project = self.project or self.state_file.stem.replace('workflow_state_', '') or "unknown"
+        if not mode:
+            mode = self.current_state.get("current_mode") or "dev"
         
         # Find ai-monitor-cli
         script_dir = Path(__file__).resolve().parent
@@ -351,25 +363,35 @@ Check your todo list. If tasks remain, continue working. If all done, use --next
         if not ai_monitor_cli.exists():
             return {"error": f"AI Monitor CLI not found at {ai_monitor_cli}"}
         
-        # Get current screen session
-        screen_session = os.environ.get('STY')
-        if not screen_session:
-            return {"error": "Not running in a screen session. AI Monitor requires screen for keypress injection."}
+        # Get current tmux session
+        tmux_session = os.environ.get('TMUX_PANE')
+        if tmux_session:
+            # We're in tmux, get the session name
+            try:
+                result = subprocess.run(['tmux', 'display-message', '-p', '#S'], 
+                                     capture_output=True, text=True)
+                if result.returncode == 0:
+                    tmux_session_name = result.stdout.strip()
+                else:
+                    return {"error": "Could not get tmux session name"}
+            except:
+                return {"error": "Failed to get tmux session info"}
+        else:
+            return {"error": "Not running in a tmux session. AI Monitor requires tmux."}
         
-        # Store screen session with project state
+        # Store tmux session with project state
         current_state = self.current_state.copy()
-        current_state[f"{project}_screen_session"] = screen_session
+        current_state[f"{project}_tmux_session"] = tmux_session_name
         self.current_state = current_state
         self._save_state()
         
         try:
             # Start AI Monitor in background
-            # Don't specify log-path to allow auto-detection of terminal logs
             cmd = [
                 str(ai_monitor_cli), 'monitor',
                 '--project', project,
                 '--mode', mode,
-                '--screen-session', screen_session,
+                '--session', tmux_session_name,
                 '--interval', '60'  # Check every minute
             ]
             
@@ -385,18 +407,22 @@ Check your todo list. If tasks remain, continue working. If all done, use --next
                 "status": "started",
                 "project": project,
                 "mode": mode,
-                "screen_session": screen_session,
+                "tmux_session": tmux_session_name,
                 "pid": process.pid,
-                "message": f"AI Manager started for project '{project}' in {mode} mode"
+                "message": f"AI Monitor started for project '{project}' in {mode} mode"
             }
             
         except Exception as e:
             return {"error": f"Failed to start AI Monitor: {str(e)}"}
     
-    def stop_ai_monitor(self, project: str) -> Dict:
+    def stop_ai_monitor(self, project: str = None) -> Dict:
         """Stop AI Monitor monitoring for the project"""
         import os
         import signal
+        
+        # Auto-detect project from current state
+        if not project:
+            project = self.project or self.state_file.stem.replace('workflow_state_', '') or "unknown"
         
         # Find PID file
         pid_file = self.state_file.parent / f"ai_monitor_pid_{project}.txt"
@@ -418,7 +444,7 @@ Check your todo list. If tasks remain, continue working. If all done, use --next
                 "status": "stopped",
                 "project": project,
                 "pid": pid,
-                "message": f"AI Manager stopped for project '{project}'"
+                "message": f"AI Monitor stopped for project '{project}'"
             }
             
         except ProcessLookupError:
@@ -427,7 +453,7 @@ Check your todo list. If tasks remain, continue working. If all done, use --next
             return {
                 "status": "stopped",
                 "project": project,
-                "message": f"AI Manager was not running for project '{project}' (cleaned up PID file)"
+                "message": f"AI Monitor was not running for project '{project}' (cleaned up PID file)"
             }
         except Exception as e:
             return {"error": f"Failed to stop AI Monitor: {str(e)}"}
@@ -486,6 +512,9 @@ def main():
                        help='Start AI Monitor monitoring for this project')
     parser.add_argument('--stop-ai-monitor', action='store_true',
                        help='Stop AI Monitor monitoring for this project')
+    parser.add_argument('--no-auto-monitor', action='store_true',
+                       default=True,
+                       help='Disable automatic AI Monitor startup (default: enabled)')
     parser.add_argument('--set-step', type=int, help='Jump to specific step')
     parser.add_argument('--track-test', nargs=2, metavar=('NAME', 'STATUS'),
                        help='Track test execution (name and status)')
@@ -507,8 +536,25 @@ def main():
         script_path = Path(__file__).resolve()
         rules_dir = script_path.parent / 'workflows'
     
+    # For AI monitor commands without project, try to detect from most recent state file
+    if (args.start_ai_monitor or args.stop_ai_monitor) and not args.project:
+        cli_dir = Path(__file__).resolve().parent
+        state_dir = cli_dir / 'state'
+        if state_dir.exists():
+            # Find most recently modified workflow state file
+            state_files = list(state_dir.glob('workflow_state_*.json'))
+            if state_files:
+                # Filter out default state file
+                state_files = [f for f in state_files if f.stem != 'workflow_state_default']
+                if state_files:
+                    # Sort by modification time
+                    most_recent = max(state_files, key=lambda f: f.stat().st_mtime)
+                    # Extract project name from filename
+                    project_name = most_recent.stem.replace('workflow_state_', '')
+                    args.project = project_name
+    
     # Initialize workflow manager
-    manager = WorkflowManager(rules_dir, project=args.project, workflow_file=args.workflow)
+    manager = WorkflowManager(rules_dir, project=args.project, workflow_file=args.workflow, no_auto_monitor=args.no_auto_monitor)
     
     # Handle commands
     result = {}
@@ -520,12 +566,11 @@ def main():
     elif args.track_test:
         result = manager.track_test(args.track_test[0], args.track_test[1])
     elif args.start_ai_monitor:
-        project_name = args.project or "default"
-        mode = args.mode or manager.current_state.get("current_mode") or "dev"
-        result = manager.start_ai_monitor(project_name, mode)
+        # Auto-detect everything from current state
+        result = manager.start_ai_monitor()
     elif args.stop_ai_monitor:
-        project_name = args.project or "default"
-        result = manager.stop_ai_monitor(project_name)
+        # Auto-detect project from current state
+        result = manager.stop_ai_monitor()
     elif args.sub_task_next or args.remind_rules:
         # Handle sub-task-next and remind-rules commands (they're identical)
         if args.workflow:

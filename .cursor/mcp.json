@@ -1,5 +1,5 @@
 {
-  "numStartups": 84,
+  "numStartups": 89,
   "installMethod": "local",
   "autoUpdates": true,
   "theme": "dark-ansi",
@@ -23,12 +23,92 @@
     "git-worktrees": 84
   },
   "memoryUsageCount": 1,
-  "promptQueueUseCount": 116,
+  "promptQueueUseCount": 126,
   "mcpServers": {},
   "projects": {
     "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents": {
       "allowedTools": [],
       "history": [
+        {
+          "display": "you've tested everything?",
+          "pastedContents": {}
+        },
+        {
+          "display": "did you test the auto-detection?",
+          "pastedContents": {}
+        },
+        {
+          "display": "no don't add new details, just update what was outdated",
+          "pastedContents": {}
+        },
+        {
+          "display": "update CLAUDE.md /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/.cursor/rules/CLAUDE.md",
+          "pastedContents": {}
+        },
+        {
+          "display": "i should be able to run the start-ai-monitor command without specifying anything and it should find the current tmux/project/mode setup. same with stop-ai-monitor",
+          "pastedContents": {}
+        },
+        {
+          "display": "update docs and tell me how to use this",
+          "pastedContents": {}
+        },
+        {
+          "display": "i dont want any fallbacks. make claude logs and tmux the only option. i don't want special flags",
+          "pastedContents": {}
+        },
+        {
+          "display": "go ahead and install it and run the commands to test fully!",
+          "pastedContents": {}
+        },
+        {
+          "display": "no, no theoretical testing. t",
+          "pastedContents": {}
+        },
+        {
+          "display": "did you test it",
+          "pastedContents": {}
+        },
+        {
+          "display": "go ahead",
+          "pastedContents": {}
+        },
+        {
+          "display": "i only want one solution, not a backup solution. the first option is good. i guess we need to add a final step in dev mode or task mode to clean up after once we change yolo alias? or does it already clean up properly?",
+          "pastedContents": {}
+        },
+        {
+          "display": "My current workflow is this. I start a new terminal session which automatically starts the screen. Then I type the alias YOLO to get into claude code. Then I'll start a workflow using the workflow CLI with dev mode or task mode. That normally starts an AI monitor, but I have temporarily disabled that to auto start. The whole idea behind this is that as claude code runs, the AI monitor script is essentially checking whether it is on the right track and following the steps outlined in the dev mode or task mode workflow, as well as the to-do list that it's currently working on. It seems like the automatic logging of terminal output that is supposed to happen is not working properly. I'm not sure if it's because the screen is not logging properly or the terminal is not logging properly or both. But it seems like whatever is being sent to Gemini to figure out whether the AI is still on track using the AI monitor is not recording terminal sessions properly. you can look at some of the Gemini logs and see how it seems to be simply recording the UI of claude code instead of the actual terminal output. I did some research online. It says to use TMUX instead of screen, and the logging for that seems to be better. Another problem with screen was that you'd have to enter copy mode to be able to scroll up. But that's a lot of key combinations. And when remotely SSH-ing into the terminal session from my iphone, pressing all those key combinations to just scroll up and down is quite cumbersome. So, apparently TMUX makes scrolling easier. Also, some suggestions were to use claude Code's own internal logging because that's cleaner and doesn't include terminal control characters etc. Although that seems to happen on a per project basis. So, if you can't customize exactly when to start and stop logging for claude Code, it simply logs it for that project in that file. So, if we wanted to do a log for each workflow separately, we would need create a work tree first, which currently gets created in step 2 of the Dev Mode and Task Mode workflow. I guess we can change the YOLO alias to create the work tree first so that the log file from claude Code is in the place we want it to be and doesn't get overwritten by other projects. Because I'll be running lots of workflows starting from the same directory, I'm expecting these workflows to run in their own work tree to avoid conflicts with everything else. Can you research all this and tell me what the best solution is? ",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
+        {
+          "display": "add a flag to disable auto starting of monitor and turn it on for now",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
+        {
+          "display": "stop ai monitor",
+          "pastedContents": {}
+        },
+        {
+          "display": "ai-monitor: You seem to be stuck in a research loop. It's time to synthesize your findings and move to the next step. Run `workflow-cli --project [project-name] --next` to continue.ai-monitor: You are stuck in a research loop. Run `workflow-cli --project [project-name] --next` to proceed to the next step.",
+          "pastedContents": {}
+        },
+        {
+          "display": "start devmode. get rid of multi-session support from selenium-cli. ",
+          "pastedContents": {}
+        },
         {
           "display": "/exit ",
           "pastedContents": {}
@@ -348,86 +428,6 @@
         {
           "display": "did we verify it though?",
           "pastedContents": {}
-        },
-        {
-          "display": "the cli_tools seem to work fine from current directory. make sure they're setup so that they'll work from any directory. test by running from home directory. start devmode",
-          "pastedContents": {}
-        },
-        {
-          "display": "the cli_tools seem to work fine from current directory. make sure they're setup so that they'll work from any directory. test by running from home directory. devmode",
-          "pastedContents": {}
-        },
-        {
-          "display": "seems like i need to right click and force close on the close command",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "update dev mode rules to use github libraries wherever appropriate instead of re-inventing the wheel",
-          "pastedContents": {}
-        },
-        {
-          "display": "after each action it should output rendered page html to a file just like it does with the screenshot. make sure it's rendered page html, not source html. then test it",
-          "pastedContents": {}
-        },
-        {
-          "display": "how does it know which element to type into? does the cli tool share the html elements?",
-          "pastedContents": {}
-        },
-        {
-          "display": "now run the selenium cli tool. get it to navigate to gmail.com and search for \"salah\"",
-          "pastedContents": {}
-        },
-        {
-          "display": "too verbose. put on 1-2 lines",
-          "pastedContents": {}
-        },
-        {
-          "display": "delete worktree if already merged. also openrouter worktree can be removed too",
-          "pastedContents": {}
-        },
-        {
-          "display": "in step 7, move the instructions about testing in production etc to step 4 where the task list is made. add into example task list",
-          "pastedContents": {}
-        },
-        {
-          "display": "for step 8 in both dev mode and task mode, don't ask to merge with main, just do it",
-          "pastedContents": {}
-        },
-        {
-          "display": "ok merge it. check the rest of the branches as well and tell me of any important changes",
-          "pastedContents": {}
-        },
-        {
-          "display": "are there any selenium cli fixes not merged to main branch?",
-          "pastedContents": {}
-        },
-        {
-          "display": "which branches are currently open?",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "stop monitor",
-          "pastedContents": {}
-        },
-        {
-          "display": "continue this suno todo list using taskmode. step 1",
-          "pastedContents": {}
-        },
-        {
-          "display": "continue this todo list using taskmode. step 1",
-          "pastedContents": {}
         }
       ],
       "mcpContextUris": [],
@@ -446,17 +446,7 @@
         "task-mode.mdc"
       ],
       "exampleFilesGeneratedAt": 1750788818336,
-      "hasCompletedProjectOnboarding": true,
-      "lastCost": 3.905947649999996,
-      "lastAPIDuration": 638882,
-      "lastDuration": 1472653,
-      "lastLinesAdded": 1,
-      "lastLinesRemoved": 4,
-      "lastTotalInputTokens": 63165,
-      "lastTotalOutputTokens": 11779,
-      "lastTotalCacheCreationInputTokens": 50481,
-      "lastTotalCacheReadInputTokens": 1467493,
-      "lastSessionId": "c3a2006b-e696-47be-8b97-8a5e6a6fc742"
+      "hasCompletedProjectOnboarding": true
     },
     "/Volumes/ExtremeSSD/Kalaam": {
       "allowedTools": [],
@@ -728,6 +718,70 @@
       "allowedTools": [],
       "history": [
         {
+          "display": "show me the draft and yuno's email with it again. remove mention of internal ticket numbers. we already have a way to turn transliteration off btw in profile tab",
+          "pastedContents": {}
+        },
+        {
+          "display": "update md with this instruction",
+          "pastedContents": {}
+        },
+        {
+          "display": "dont communicate with anyone - staff or customer - without getting explicit approval first",
+          "pastedContents": {}
+        },
+        {
+          "display": "update the customer support md file to auto-retrieve ticket updates for any emails that come in about unresolved issues that we said we already created tickets for. add commands how to retrieve the ticket. add search command in kalaam-cli for codebase if needed",
+          "pastedContents": {}
+        },
+        {
+          "display": "check codebase and tell me updates to the ticket we created for this last time using kalaam-cli with codebase commands",
+          "pastedContents": {}
+        },
+        {
+          "display": "check codebase and tell me updates to the ticket we created for this last time using codebase-cli",
+          "pastedContents": {}
+        },
+        {
+          "display": "check codebase and tell me updates to the ticket we created for this last time",
+          "pastedContents": {}
+        },
+        {
+          "display": "no, find a way to get the thread and update md file once you figure it out",
+          "pastedContents": {}
+        },
+        {
+          "display": "i want to see the thread  before seeing each draft response. update md file if that's not clear ",
+          "pastedContents": {}
+        },
+        {
+          "display": "yes go ahead and follow instructions",
+          "pastedContents": {}
+        },
+        {
+          "display": "run /Volumes/ExtremeSSD/KalaamParent/KalaamAI/workflows/customer-support.md",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
+        {
+          "display": "run customer support md",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
+        {
+          "display": "run this workflow",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
           "display": "why is it not starting properly?",
           "pastedContents": {}
         },
@@ -893,7 +947,6 @@
       "enabledMcpjsonServers": [],
       "disabledMcpjsonServers": [],
       "hasTrustDialogAccepted": false,
-      "ignorePatterns": [],
       "projectOnboardingSeenCount": 12,
       "hasClaudeMdExternalIncludesApproved": false,
       "hasClaudeMdExternalIncludesWarningShown": false
@@ -913,6 +966,14 @@
     "/Volumes/ExtremeSSD/TheNeuron/TheNeuron": {
       "allowedTools": [],
       "history": [
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "stop selenium-fix ai monitor\n",
+          "pastedContents": {}
+        },
         {
           "display": "why does selenium-cli start a new browser session to take screenshot? there was already one running. investigate and fix",
           "pastedContents": {}
@@ -955,7 +1016,7 @@
       "enabledMcpjsonServers": [],
       "disabledMcpjsonServers": [],
       "hasTrustDialogAccepted": false,
-      "projectOnboardingSeenCount": 2,
+      "projectOnboardingSeenCount": 6,
       "hasClaudeMdExternalIncludesApproved": false,
       "hasClaudeMdExternalIncludesWarningShown": false,
       "exampleFiles": [

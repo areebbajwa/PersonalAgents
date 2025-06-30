@@ -20,13 +20,12 @@ program
 program
   .command('monitor')
   .description('Start monitoring screen output for workflow compliance')
-  .option('-l, --log-path <path>', 'Path to screen log file (auto-detects from screen session if not provided)')
   .option('-i, --interval <seconds>', 'Check interval in seconds', '60')
   .option('-p, --project <name>', 'Project name for context', 'unknown')
   .option('-m, --mode <mode>', 'Workflow mode (dev/task)', 'dev')
-  .option('-s, --screen-session <name>', 'Screen session name to send guidance to')
+  .option('-s, --session <name>', 'Tmux session name (required)')
   .option('-a, --alert-level <level>', 'Notification level (INFO/WARNING/VIOLATION)', 'WARNING')
-  .option('--no-guidance', 'Disable sending guidance instructions to screen')
+  .option('--no-guidance', 'Disable sending guidance instructions to tmux')
   .option('--once', 'Run once and exit (don\'t start continuous monitoring)')
   .action(async (options) => {
     const notificationManager = new NotificationManager({
@@ -34,11 +33,10 @@ program
     });
 
     const monitor = new ScreenMonitor({
-      screenLogPath: options.logPath,
       intervalMs: parseInt(options.interval) * 1000,
       projectName: options.project,
       workflowMode: options.mode,
-      screenSessionName: options.screenSession,
+      session: options.session,
       enableGuidance: options.guidance,
       alertLevel: options.alertLevel,
       onCheckResult: (result) => {
@@ -47,14 +45,11 @@ program
       }
     });
 
-    console.log(`🤖 AI Monitor monitoring started`);
+    console.log(`🤖 AI Monitor started`);
     console.log(`   Project: ${options.project}`);
     console.log(`   Mode: ${options.mode}`);
-    console.log(`   Log: ${monitor.screenLogPath}`);
+    console.log(`   Tmux session: ${options.session}`);
     console.log(`   Interval: ${options.interval}s`);
-    if (options.screenSession) {
-      console.log(`   Screen session: ${options.screenSession}`);
-    }
     console.log('');
 
     if (options.once) {

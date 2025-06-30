@@ -28,14 +28,20 @@ steps:
             - action: "Continue with existing work from current state"
             - next: "Run workflow-cli --project [project-name] --next"
         - if_not_exists:
-            - action: "Create new git worktree:"
-              commands:
-                - "mkdir -p worktrees"
-                - "git worktree add worktrees/[project-name]-YYYYMMDD -b [project-name]-YYYYMMDD"
-                - "cd worktrees/[project-name]-YYYYMMDD"
-                - "git push -u origin [project-name]-YYYYMMDD"
-            - action: "Note: .env file is not needed in worktrees - tools use ~/PersonalAgents symlink"
-            - next: "Run workflow-cli --project [project-name] --next"
+            - check_worktree:
+                - action: "Check if already in a worktree (path contains /worktrees/)"
+                - if_in_worktree:
+                    - action: "Use existing worktree (created by yolo command)"
+                    - next: "Run workflow-cli --project [project-name] --next"
+                - if_not_in_worktree:
+                    - action: "Create new git worktree:"
+                      commands:
+                        - "mkdir -p worktrees"
+                        - "git worktree add worktrees/[project-name]-YYYYMMDD -b [project-name]-YYYYMMDD"
+                        - "cd worktrees/[project-name]-YYYYMMDD"
+                        - "git push -u origin [project-name]-YYYYMMDD"
+                    - action: "Note: .env file is not needed in worktrees - tools use ~/PersonalAgents symlink"
+                    - next: "Run workflow-cli --project [project-name] --next"
       ```
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue

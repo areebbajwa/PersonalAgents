@@ -14,8 +14,11 @@ steps:
       **Check for existing todo:**
       If continuing work on existing todo file in `todos/`, skip to step 4 and update existing todo list to match the todo list structure (if needed).
       
-      **For new work, execute git setup IMMEDIATELY:**
-      1. Create worktree with new branch:
+      **For new work, check worktree status:**
+      1. If already in a worktree (path contains /worktrees/):
+         - Use existing worktree (created by yolo command)
+      2. If not in a worktree:
+         - Create worktree with new branch:
          ```
          mkdir -p worktrees
          git worktree add worktrees/[project-name]-YYYYMMDD -b [project-name]-YYYYMMDD

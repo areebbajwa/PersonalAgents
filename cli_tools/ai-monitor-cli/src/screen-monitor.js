@@ -1,6 +1,6 @@
 /**
- * AI Monitor Screen Monitor
- * Core functionality moved from scripts/ai-monitor/
+ * AI Monitor - Tmux + Claude Code Logs
+ * Monitors Claude Code JSONL logs and sends guidance via tmux
  */
 
 const fs = require('fs');
@@ -10,22 +10,12 @@ const yaml = require('yaml');
 
 class ScreenMonitor {
     constructor(options = {}) {
-        this.screenSessionName = options.screenSessionName;
-        // Use provided log path, or auto-detect from screen session
-        if (options.screenLogPath) {
-            this.screenLogPath = options.screenLogPath;
-        } else if (this.screenSessionName) {
-            // Try to auto-detect the actual screen log file
-            this.screenLogPath = this.findScreenLogFile(this.screenSessionName);
-            if (!this.screenLogPath) {
-                // Fallback to old /tmp path if not found
-                this.screenLogPath = `/tmp/screen_output_${this.screenSessionName}.log`;
-                console.warn(`Screen log not found in ~/.screen-logs/, falling back to: ${this.screenLogPath}`);
-            }
-        } else {
-            throw new Error('Either screenLogPath or screenSessionName must be provided');
+        this.tmuxSessionName = options.tmuxSessionName || options.session;
+        if (!this.tmuxSessionName) {
+            throw new Error('Tmux session name is required (--session)');
         }
-        this.lastPosition = 0;
+        
+        this.lastClaudeLogTimestamp = null; // Track last processed Claude log entry
         this.isRunning = false;
         this.intervalMs = options.intervalMs || 60000; // 1 minute default
         this.geminiApiKey = options.geminiApiKey || this.loadGeminiApiKey();
@@ -347,6 +337,138 @@ class ScreenMonitor {
     }
 
     /**
+     * Find Claude Code log directory for current working directory
+     */
+    findClaudeLogDir() {
+        const claudeProjectsDir = path.join(process.env.HOME, '.claude', 'projects');
+        
+        // Get current working directory and encode it for Claude's format
+        const cwd = process.cwd();
+        const encodedPath = cwd.replace(/\//g, '-');
+        
+        const projectLogDir = path.join(claudeProjectsDir, encodedPath);
+        
+        if (fs.existsSync(projectLogDir)) {
+            return projectLogDir;
+        }
+        
+        // Try without leading slash encoding
+        const altEncodedPath = cwd.substring(1).replace(/\//g, '-');
+        const altProjectLogDir = path.join(claudeProjectsDir, altEncodedPath);
+        
+        if (fs.existsSync(altProjectLogDir)) {
+            return altProjectLogDir;
+        }
+        
+        return null;
+    }
+
+    /**
+     * Read recent Claude Code JSONL logs
+     */
+    readClaudeLogs() {
+        try {
+            const logDir = this.findClaudeLogDir();
+            if (!logDir) {
+                console.log('⚠️  Claude Code log directory not found for current project');
+                return null;
+            }
+
+            // Get all JSONL files in the directory
+            const files = fs.readdirSync(logDir)
+                .filter(f => f.endsWith('.jsonl'))
+                .map(f => ({
+                    name: f,
+                    path: path.join(logDir, f),
+                    mtime: fs.statSync(path.join(logDir, f)).mtime
+                }))
+                .sort((a, b) => b.mtime - a.mtime);
+
+            if (files.length === 0) {
+                console.log('⚠️  No Claude Code log files found');
+                return null;
+            }
+
+            // Read the most recent log file
+            const recentLog = files[0];
+            const content = fs.readFileSync(recentLog.path, 'utf8');
+            const lines = content.trim().split('\n');
+
+            // Parse JSONL and extract recent conversation
+            const entries = [];
+            for (const line of lines) {
+                try {
+                    const entry = JSON.parse(line);
+                    entries.push(entry);
+                } catch (e) {
+                    // Skip malformed lines
+                }
+            }
+
+            // Get last 20 entries or entries since last check
+            let recentEntries = entries.slice(-20);
+            
+            if (this.lastClaudeLogTimestamp) {
+                const lastIndex = entries.findIndex(e => 
+                    e.timestamp && new Date(e.timestamp) > new Date(this.lastClaudeLogTimestamp)
+                );
+                if (lastIndex >= 0) {
+                    recentEntries = entries.slice(lastIndex);
+                }
+            }
+
+            if (recentEntries.length === 0) {
+                return null;
+            }
+
+            // Update last timestamp
+            const lastEntry = recentEntries[recentEntries.length - 1];
+            if (lastEntry.timestamp) {
+                this.lastClaudeLogTimestamp = lastEntry.timestamp;
+            }
+
+            // Format entries for AI monitor
+            const formattedContent = this.formatClaudeLogsForMonitor(recentEntries);
+            
+            // Add timestamp header
+            const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 19);
+            return `[AI Monitor processed Claude logs at ${timestamp}]\n${formattedContent}`;
+
+        } catch (error) {
+            console.error('Error reading Claude logs:', error.message);
+            return null;
+        }
+    }
+
+    /**
+     * Format Claude Code log entries for AI monitor
+     */
+    formatClaudeLogsForMonitor(entries) {
+        const lines = [];
+        
+        for (const entry of entries) {
+            if (entry.type === 'user') {
+                lines.push(`\n> ${entry.message || entry.content}`);
+            } else if (entry.type === 'assistant') {
+                const content = entry.message || entry.content || '';
+                // Truncate very long responses
+                const truncated = content.length > 500 ? 
+                    content.substring(0, 500) + '... [truncated]' : 
+                    content;
+                lines.push(`Assistant: ${truncated}`);
+            } else if (entry.type === 'tool_use') {
+                lines.push(`[Tool: ${entry.tool_name}]`);
+            } else if (entry.type === 'tool_result') {
+                // Show brief tool results
+                const result = JSON.stringify(entry.result || {}).substring(0, 100);
+                lines.push(`[Result: ${result}...]`);
+            }
+        }
+        
+        return lines.join('\n');
+    }
+
+    /**
      * Call Gemini 2.5 Pro API to analyze screen content
      */
     async callGeminiAPI(prompt) {
@@ -409,48 +531,40 @@ class ScreenMonitor {
     }
 
     /**
-     * Send guidance instruction to screen session
+     * Send guidance instruction to tmux session
      */
-    async sendGuidanceToScreen(instruction) {
+    async sendGuidanceToTmux(instruction) {
         if (!this.enableGuidance) {
             console.log(`Guidance disabled. Would send: ${instruction}`);
             return false;
         }
         
-        if (!this.screenSessionName) {
-            console.log(`No screen session specified. Would send: ${instruction}`);
-            return false;
-        }
-        
         try {
-            // Use proper Enter key (\015) for command execution
-            // Send command and Enter key separately to avoid shell escaping issues
             const { spawn } = require('child_process');
             
-            // First send the instruction
-            const stuffCmd = spawn('screen', ['-S', this.screenSessionName, '-p', '0', '-X', 'stuff', instruction]);
+            // Use tmux send-keys
+            const sendCmd = spawn('tmux', ['send-keys', '-t', this.tmuxSessionName, instruction]);
             
             await new Promise((resolve, reject) => {
-                stuffCmd.on('close', (code) => {
+                sendCmd.on('close', (code) => {
                     if (code !== 0) {
-                        reject(new Error(`Screen stuff command failed with code ${code}`));
+                        reject(new Error(`Tmux send-keys command failed with code ${code}`));
                     } else {
                         resolve();
                     }
                 });
-                stuffCmd.on('error', reject);
+                sendCmd.on('error', reject);
             });
             
-            // Then send the Enter key (carriage return)
-            const enterKey = String.fromCharCode(13); // ASCII 13 = carriage return
-            const enterCmd = spawn('screen', ['-S', this.screenSessionName, '-p', '0', '-X', 'stuff', enterKey]);
+            // Send Enter key
+            const enterCmd = spawn('tmux', ['send-keys', '-t', this.tmuxSessionName, 'Enter']);
             
             await new Promise((resolve, reject) => {
                 enterCmd.on('close', (code) => {
                     if (code !== 0) {
-                        reject(new Error(`Screen enter command failed with code ${code}`));
+                        reject(new Error(`Tmux enter command failed with code ${code}`));
                     } else {
-                        console.log(`✅ Sent guidance to screen session '${this.screenSessionName}': ${instruction}`);
+                        console.log(`✅ Sent guidance to tmux session '${this.tmuxSessionName}': ${instruction}`);
                         resolve();
                     }
                 });
@@ -459,7 +573,7 @@ class ScreenMonitor {
             
             return true;
         } catch (error) {
-            console.error(`Error sending guidance to screen: ${error.message}`);
+            console.error(`Error sending guidance to tmux: ${error.message}`);
             return false;
         }
     }
@@ -624,7 +738,7 @@ class ScreenMonitor {
                 if (guidanceInstruction) {
                     // Prefix with ai-monitor:
                     const prefixedGuidance = `ai-monitor: ${guidanceInstruction}`;
-                    await this.sendGuidanceToScreen(prefixedGuidance);
+                    await this.sendGuidanceToTmux(prefixedGuidance);
                     logEntry.guidanceSent = prefixedGuidance;
                 }
             }
@@ -654,10 +768,10 @@ class ScreenMonitor {
             this.lastRemindRulesTime = now;
             const remindCommand = `workflow-cli --remind-rules --project ${this.projectName} --mode ${this.workflowMode}`;
             
-            if (this.enableGuidance && this.screenSessionName) {
+            if (this.enableGuidance && this.tmuxSessionName) {
                 console.log('⏰ Sending 10-minute remind-rules command...');
                 // Add ai-monitor: prefix to remind-rules command
-                await this.sendGuidanceToScreen(`ai-monitor: ${remindCommand}`);
+                await this.sendGuidanceToTmux(`ai-monitor: ${remindCommand}`);
                 return true;
             } else {
                 console.log(`⏰ Would send remind-rules command: ${remindCommand}`);
@@ -676,30 +790,25 @@ class ScreenMonitor {
             // Check for remind-rules every cycle (every minute check for 10-minute intervals)
             await this.checkAndSendRemindRules();
             
-            // Read last 200 lines of terminal output
-            const terminalOutput = this.readLast200Lines();
-            if (terminalOutput) {
-                // Get todo content
-                const todoContent = this.readTodoList();
-                
-                // Process terminal content and todo list
-                const result = await this.processTerminalContent(terminalOutput, todoContent);
-                
-                // Call the callback if provided
-                if (result && this.onCheckResult) {
-                    this.onCheckResult(result);
-                }
-                
-                return result;
-            } else {
-                // Log why no terminal output was processed
-                if (!fs.existsSync(this.screenLogPath)) {
-                    console.log(`ℹ️  No screen log file found at: ${this.screenLogPath}`);
-                } else {
-                    console.log(`ℹ️  No recent terminal output to process (file may be stale or empty)`);
-                }
+            // Read from Claude Code JSONL logs
+            const terminalOutput = this.readClaudeLogs();
+            if (!terminalOutput) {
+                console.log('ℹ️  No recent Claude Code logs to process');
+                return null;
             }
-            return null;
+            
+            // Get todo content
+            const todoContent = this.readTodoList();
+            
+            // Process terminal content and todo list
+            const result = await this.processTerminalContent(terminalOutput, todoContent);
+            
+            // Call the callback if provided
+            if (result && this.onCheckResult) {
+                this.onCheckResult(result);
+            }
+            
+            return result;
         } catch (error) {
             console.error('Error during check cycle:', error.message);
             return null;
