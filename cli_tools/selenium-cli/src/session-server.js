@@ -32,6 +32,22 @@ const cleanupInterval = setInterval(async () => {
     await htmlManager.cleanupOldHtmlFiles();
 }, 60 * 60 * 1000); // Run every hour
 
+// Schedule periodic health checks
+const healthCheckInterval = setInterval(async () => {
+    if (browserLaunched) {
+        try {
+            const status = await browserManager.getSessionStatus();
+            if (!status.hasSession) {
+                console.error('Browser session lost during health check');
+                process.exit(1);
+            }
+        } catch (error) {
+            console.error('Health check failed:', error);
+            process.exit(1);
+        }
+    }
+}, 5000); // Check every 5 seconds
+
 // Track if browser is launched
 let browserLaunched = false;
 
@@ -136,7 +152,7 @@ const server = http.createServer(async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     
     if (req.url === '/status') {
-        const status = browserManager.getSessionStatus();
+        const status = await browserManager.getSessionStatus();
         res.writeHead(200);
         res.end(JSON.stringify({ 
             success: true, 
@@ -296,7 +312,7 @@ const server = http.createServer(async (req, res) => {
                         break;
                         
                     case 'status':
-                        result = browserManager.getSessionStatus();
+                        result = await browserManager.getSessionStatus();
                         break;
                         
                     case 'close':
@@ -372,8 +388,9 @@ server.listen(port, () => {
 // Cleanup on exit
 const cleanup = async () => {
     clearInterval(cleanupInterval);
+    clearInterval(healthCheckInterval);
     try {
-        const status = browserManager.getSessionStatus();
+        const status = await browserManager.getSessionStatus();
         if (status.hasSession) {
             await browserManager.closeBrowser();
         }
@@ -387,4 +404,5 @@ process.on('SIGTERM', cleanup);
 process.on('SIGINT', cleanup);
 process.on('exit', () => {
     clearInterval(cleanupInterval);
+    clearInterval(healthCheckInterval);
 });

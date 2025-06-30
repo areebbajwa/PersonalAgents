@@ -1,5 +1,5 @@
 {
-  "numStartups": 89,
+  "numStartups": 90,
   "installMethod": "local",
   "autoUpdates": true,
   "theme": "dark-ansi",
@@ -8,7 +8,7 @@
     "new-user-warmup": 5,
     "shift-enter": 72,
     "memory-command": 38,
-    "theme-command": 49,
+    "theme-command": 90,
     "prompt-queue": 44,
     "enter-to-steer-in-relatime": 53,
     "todo-list": 54,
@@ -23,12 +23,44 @@
     "git-worktrees": 84
   },
   "memoryUsageCount": 1,
-  "promptQueueUseCount": 126,
+  "promptQueueUseCount": 130,
   "mcpServers": {},
   "projects": {
     "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents": {
       "allowedTools": [],
       "history": [
+        {
+          "display": "go ahead",
+          "pastedContents": {}
+        },
+        {
+          "display": "test it",
+          "pastedContents": {}
+        },
+        {
+          "display": "see the terminal being processed here: /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/ai-monitor-cli/logs/gemini/gemini-suno_nasheed_generation-2025-06-30T19-38-27-048Z.json\\\n\\\nseems to not be parsing the objects properly?",
+          "pastedContents": {}
+        },
+        {
+          "display": "fix selenium-cli as needed",
+          "pastedContents": {}
+        },
+        {
+          "display": "stop all running ai monitors",
+          "pastedContents": {}
+        },
+        {
+          "display": "stop ai monitor",
+          "pastedContents": {}
+        },
+        {
+          "display": "ai-monitor: Your first step is to output the 'Task Mode Activated' announcement.",
+          "pastedContents": {}
+        },
+        {
+          "display": "continue generating nasheeds as per /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/todos/suno_nasheed_generation_part2_20250615_000300_todo.md. start taskmode workflow",
+          "pastedContents": {}
+        },
         {
           "display": "you've tested everything?",
           "pastedContents": {}
@@ -396,38 +428,6 @@
         {
           "display": "merged to main?",
           "pastedContents": {}
-        },
-        {
-          "display": "follow workflow guidance",
-          "pastedContents": {}
-        },
-        {
-          "display": "run --next",
-          "pastedContents": {}
-        },
-        {
-          "display": "stop ai monitor for this workflow",
-          "pastedContents": {}
-        },
-        {
-          "display": "ai-monitor-cli doesn't seem to work properly. it just keeps sending --remind-rules command and doesn't log to gemini log file. i think it's struggling to read screen log file from different paths when starting with a brand new screen. do thorough testing of this and make sure it works from any path and succeeds in all edge cases. also test various scenarios with different terminal outputs and make sure it catches violations properly, and just as importantly, doesn't say there are violations when there aren't any. i want very detailed testing of this tool as this will be the foundation of a lot of things to come. start devmode workflow",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "workflow-cli --remind-rules --project cli-tools-global-setup --mode dev",
-          "pastedContents": {}
-        },
-        {
-          "display": "workflow-cli --remind-rules --project cli-tools-global-setup --mode devworkflow-cli --remind-rules --project cli-tools-global-setup --mode dev",
-          "pastedContents": {}
-        },
-        {
-          "display": "did we verify it though?",
-          "pastedContents": {}
         }
       ],
       "mcpContextUris": [],
@@ -717,6 +717,14 @@
     "/Volumes/ExtremeSSD/KalaamParent": {
       "allowedTools": [],
       "history": [
+        {
+          "display": "no, actually upload the attachment. if codebase tool doesn't support it, add support for it.",
+          "pastedContents": {}
+        },
+        {
+          "display": "add yuno's attachment to the appropriate ticket first",
+          "pastedContents": {}
+        },
         {
           "display": "show me the draft and yuno's email with it again. remove mention of internal ticket numbers. we already have a way to turn transliteration off btw in profile tab",
           "pastedContents": {}
@@ -1027,6 +1035,36 @@
         "TODO.md"
       ],
       "exampleFilesGeneratedAt": 1751255222709
+    },
+    "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/worktrees/parse-test-20250630": {
+      "allowedTools": [],
+      "history": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 1,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "workflow-cli.py",
+        "screen-monitor.js",
+        "index.js",
+        "categorize_db_transactions.py",
+        "screen-new"
+      ],
+      "exampleFilesGeneratedAt": 1751312899092,
+      "lastCost": 0.0008472,
+      "lastAPIDuration": 5571,
+      "lastDuration": 210036,
+      "lastLinesAdded": 0,
+      "lastLinesRemoved": 0,
+      "lastTotalInputTokens": 819,
+      "lastTotalOutputTokens": 48,
+      "lastTotalCacheCreationInputTokens": 0,
+      "lastTotalCacheReadInputTokens": 0,
+      "lastSessionId": "3f3bf76a-4df2-4d4f-bbba-62e386cf333d"
     }
   },
   "userID": "96200396462dc1a54dcd7bf4ed2806506483ec7ffab4ccd45f138f1896711cd6",

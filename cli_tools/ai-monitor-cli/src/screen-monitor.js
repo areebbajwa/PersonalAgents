@@ -448,20 +448,60 @@ class ScreenMonitor {
         
         for (const entry of entries) {
             if (entry.type === 'user') {
-                lines.push(`\n> ${entry.message || entry.content}`);
+                // Extract content from the message structure
+                let content = '';
+                if (entry.message && typeof entry.message === 'object') {
+                    if (entry.message.content) {
+                        if (Array.isArray(entry.message.content)) {
+                            // Handle array of content items
+                            content = entry.message.content.map(item => {
+                                if (typeof item === 'string') return item;
+                                if (item.type === 'text') return item.text;
+                                if (item.type === 'tool_result') return `[Tool Result: ${item.content}]`;
+                                return JSON.stringify(item);
+                            }).join(' ');
+                        } else if (typeof entry.message.content === 'string') {
+                            content = entry.message.content;
+                        }
+                    }
+                } else if (typeof entry.message === 'string') {
+                    content = entry.message;
+                }
+                lines.push(`\n> ${content || '[empty message]'}`);
             } else if (entry.type === 'assistant') {
-                const content = entry.message || entry.content || '';
+                // Extract content from assistant messages
+                let content = '';
+                if (entry.message && typeof entry.message === 'object') {
+                    if (entry.message.content) {
+                        if (Array.isArray(entry.message.content)) {
+                            content = entry.message.content.map(item => {
+                                if (typeof item === 'string') return item;
+                                if (item.type === 'text') return item.text;
+                                if (item.type === 'tool_use') return `[Using tool: ${item.name}]`;
+                                return '';
+                            }).filter(Boolean).join(' ');
+                        } else if (typeof entry.message.content === 'string') {
+                            content = entry.message.content;
+                        }
+                    }
+                } else if (typeof entry.message === 'string') {
+                    content = entry.message;
+                }
                 // Truncate very long responses
                 const truncated = content.length > 500 ? 
                     content.substring(0, 500) + '... [truncated]' : 
                     content;
-                lines.push(`Assistant: ${truncated}`);
-            } else if (entry.type === 'tool_use') {
-                lines.push(`[Tool: ${entry.tool_name}]`);
-            } else if (entry.type === 'tool_result') {
-                // Show brief tool results
-                const result = JSON.stringify(entry.result || {}).substring(0, 100);
-                lines.push(`[Result: ${result}...]`);
+                lines.push(`Assistant: ${truncated || '[empty response]'}`);
+            } else if (entry.toolUse) {
+                // Handle tool use entries
+                lines.push(`[Tool: ${entry.toolUse.name || 'unknown'}]`);
+            } else if (entry.toolUseResult) {
+                // Handle tool result entries
+                const result = entry.toolUseResult.stdout || entry.toolUseResult.stderr || '';
+                const truncated = result.length > 200 ? 
+                    result.substring(0, 200) + '... [truncated]' : 
+                    result;
+                lines.push(`[Result: ${truncated}]`);
             }
         }
         

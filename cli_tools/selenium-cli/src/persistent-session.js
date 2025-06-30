@@ -114,7 +114,23 @@ export async function sendCommandToSession(sessionInfo, command) {
             });
         });
         
-        req.on('error', reject);
+        // Add timeout handling
+        req.setTimeout(30000, () => {
+            req.destroy();
+            reject(new Error('Request timeout: Session server not responding'));
+        });
+        
+        req.on('error', (error) => {
+            // Better error messages for common socket issues
+            if (error.code === 'ECONNRESET' || error.code === 'EPIPE') {
+                reject(new Error('Browser session lost. Please restart with: selenium-cli close && selenium-cli launch'));
+            } else if (error.code === 'ECONNREFUSED') {
+                reject(new Error('Session server not running. Please restart with: selenium-cli launch'));
+            } else {
+                reject(error);
+            }
+        });
+        
         req.write(data);
         req.end();
     });

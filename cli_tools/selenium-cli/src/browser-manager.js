@@ -301,11 +301,30 @@ export async function closeBrowser() {
 }
 
 // Get current session status
-export function getSessionStatus() {
-    return {
-        hasSession: !!driver,
-        sessionId: sessionId
-    };
+export async function getSessionStatus() {
+    if (!driver) {
+        return {
+            hasSession: false,
+            sessionId: null
+        };
+    }
+    
+    // Try to validate the session is actually alive
+    try {
+        await driver.getTitle();
+        return {
+            hasSession: true,
+            sessionId: sessionId
+        };
+    } catch (error) {
+        // Session is dead
+        driver = null;
+        sessionId = null;
+        return {
+            hasSession: false,
+            sessionId: null
+        };
+    }
 }
 
 // Key mapping for press_key functionality
