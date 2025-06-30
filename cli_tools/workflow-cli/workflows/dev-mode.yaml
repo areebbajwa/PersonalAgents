@@ -22,7 +22,7 @@ steps:
       **ACTION DECISION TREE:**
       ```yaml
       check_todo:
-        - action: "Look for todo file matching: todos/YYYYMMDD-[project]-todo.md"
+        - action: "Look for todo file matching: ~/PersonalAgents/todos/YYYYMMDD-[project]-todo.md"
         - if_exists:
             - action: "Read existing todo file"
             - action: "Continue with existing work from current state"
@@ -59,7 +59,7 @@ steps:
       1. Search codebase for similar implementations
       2. Find existing code to reuse/extend (prioritize ai_cache_utils.js for AI calls)
       3. Check config/.env for existing API keys before asking user
-      4. Search todos/ directory for previous learnings
+      4. Search ~/PersonalAgents/todos/ directory for previous learnings
       
       **Web Context:**
       5. Search web for best practices on the technology/framework
@@ -130,7 +130,7 @@ steps:
       ```yaml
       todo_file:
         - action: "Create or update file"
-        - path: "todos/YYYYMMDD-[project-name]-todo.md"
+        - path: "~/PersonalAgents/todos/YYYYMMDD-[project-name]-todo.md"
         - structure:
             - "# YYYYMMDD-[project-name]-todo.md"
             - "Last updated: [timestamp]"
@@ -245,14 +245,18 @@ global_rules:
       3. Use batch APIs instead of loops
       4. Check existing code/todos first
       5. Ask before commits/final submissions
-      6. Update todos/YYYYMMDD-[project]-todo.md with timestamps in format: [HH:MM] using ✅🕒🔥
+      6. Update ~/PersonalAgents/todos/YYYYMMDD-[project]-todo.md with timestamps in format: [HH:MM] using ✅🕒🔥
       7. MUST complete entire todo list autonomously - never stop until done (only ask for help if stuck on 2FA)
-      8. Search the web as needed for documentation and solutions
-      9. Keep directory structure clean: place new files in appropriate directories (cli_tools/, tests/, docs/, data/, scripts/, etc.)
-      10. ALWAYS read debug logs before attempting any fix - never make blind fixes
-      11. If dealing with anything GUI related, take screenshots regularly to understand what's going on
-      12. NO FALLBACK CODE - Keep logic simple and direct, avoid complex fallback patterns
-      13. Use GitHub/npm libraries instead of reinventing the wheel - search for existing solutions first
+      8. NEVER take shortcuts when completing todo list - fix whatever is broken as needed so future tasks are easier
+      9. NEVER mark todo items complete hastily - if you realize you marked something complete prematurely, immediately undo it
+      10. Search the web as needed for documentation and solutions
+      11. Keep directory structure clean: place new files in appropriate directories (cli_tools/, tests/, docs/, data/, scripts/, etc.)
+      12. ALWAYS read debug logs before attempting any fix - never make blind fixes
+      13. If dealing with anything GUI related, take screenshots regularly to understand what's going on
+      14. NO FALLBACK CODE - Keep logic simple and direct, avoid complex fallback patterns
+      15. ALWAYS find root cause of issues and fix it - never add band-aid fixes or fallbacks
+      16. Use GitHub/npm libraries instead of reinventing the wheel - search for existing solutions first
+      17. If stuck after significant effort and things are messy - first search web for best practices, then simplify and rebuild from scratch instead of fixing broken code
 
   - title: "UpdateTodo Command Handler"
     content: |
@@ -271,8 +275,11 @@ global_rules:
     content: |
       - NEVER proceed with failing tests
       - NEVER mark complete without E2E testing
+      - NEVER mark todo items complete hastily - undo immediately if done prematurely
       - NEVER attempt fixes without reading debug logs first
       - NEVER try to fix GUI issues without taking screenshots
+      - NEVER add band-aid fixes or fallbacks - always find and fix root cause
+      - NEVER take shortcuts when completing todo list - fix problems properly
       - NEVER give up - find another way
 
   - title: "Terminal Command Limits"
@@ -292,8 +299,10 @@ global_rules:
 
 quick_reference:
   essential_commands:
+    - "workflow-cli --project [name] --mode dev --step 1"
     - "workflow-cli --project [name] --next"
     - "workflow-cli --project [name] --sub-task-next"
+    - "workflow-cli --project [name] --remind-rules"
     - "workflow-cli --project [name] --clean"
 
 emergency_procedures:
@@ -306,6 +315,6 @@ emergency_procedures:
     commands:
       - "git branch --show-current"
       - "git status"
-      - "Check todos/YYYYMMDD-[project]-todo.md for progress"
+      - "Check ~/PersonalAgents/todos/YYYYMMDD-[project]-todo.md for progress"
       - "Run tests"
       - "Continue with commits"
