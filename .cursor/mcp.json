@@ -1,5 +1,5 @@
 {
-  "numStartups": 102,
+  "numStartups": 103,
   "installMethod": "local",
   "autoUpdates": true,
   "theme": "dark-ansi",
@@ -17,7 +17,7 @@
     "permissions": 101,
     "drag-and-drop-images": 102,
     "double-esc": 98,
-    "continue": 80,
+    "continue": 103,
     "custom-commands": 84,
     "shift-tab": 82,
     "git-worktrees": 84,
@@ -30,6 +30,18 @@
     "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents": {
       "allowedTools": [],
       "history": [
+        {
+          "display": "read the file and write a few test cases at a time otherwise it times out",
+          "pastedContents": {}
+        },
+        {
+          "display": "start devmode first",
+          "pastedContents": {}
+        },
+        {
+          "display": "when you start yolo with a project name, starting a workflow-cli later doesn't use the same project name. start devmode",
+          "pastedContents": {}
+        },
         {
           "display": "go on",
           "pastedContents": {}
@@ -428,18 +440,6 @@
         },
         {
           "display": "will it automatically assign the terminal to the appropriate screen and project in ai-monitor?",
-          "pastedContents": {}
-        },
-        {
-          "display": "i want to set this up automatically for all new terminals and have ai-monitor use this instead",
-          "pastedContents": {}
-        },
-        {
-          "display": "how about we log terminal output, not screen output?",
-          "pastedContents": {}
-        },
-        {
-          "display": "stop and ignore ai monitor for this",
           "pastedContents": {}
         }
       ],
