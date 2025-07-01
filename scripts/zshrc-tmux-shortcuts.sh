@@ -2,6 +2,9 @@
 # This file contains the tmux shortcuts to be added to ~/.zshrc
 
 # Tmux shortcuts
+# ta - alias for tmux attach
+alias ta='tmux attach'
+
 # tr - attach to most recent tmux session
 tr() {
     # Get the most recently active tmux session
