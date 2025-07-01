@@ -28,15 +28,15 @@ class AIMonitorTestFramework {
             
             // Check if we have a mock response for this scenario
             for (const [key, response] of this.mockGeminiResponses) {
-                if (promptStr.includes(key)) {
+                if (promptStr.includes(key) || promptStr.includes('Test scenario ' + key)) {
                     console.log(`🎭 Using mock response for scenario: ${key}`);
                     return response;
                 }
             }
             
-            // Fall back to real API if no mock found
-            console.log('📡 Using real Gemini API');
-            return originalCallGeminiAPI(prompt);
+            // Return empty string if no mock found (no intervention)
+            console.log('🎭 No mock response - returning empty (no intervention)');
+            return '';
         };
     }
 
@@ -127,8 +127,9 @@ class AIMonitorTestFramework {
             return passed;
         } else {
             // Should intervene with specific message
-            const passed = actualIntervention.includes(expectedIntervention) || 
-                          actualIntervention.toLowerCase().includes(scenario.expectedKeywords?.toLowerCase() || '');
+            const passed = actualIntervention !== '' && 
+                          (actualIntervention.includes('ai-monitor:') || 
+                           actualIntervention.includes(expectedIntervention));
             console.log(passed ? '✅ Correctly intervened' : '❌ Failed to intervene correctly');
             if (!passed) {
                 console.log(`   Expected: "${expectedIntervention}"`);
