@@ -34,6 +34,20 @@ class AIMonitorTestFramework {
                 }
             }
             
+            // For test mode, check if this is a violation scenario
+            if (this.testMode) {
+                // Check prompt for violation patterns
+                if (promptStr.includes('violation') || 
+                    promptStr.includes('without planning') ||
+                    promptStr.includes('25 turns') ||
+                    promptStr.includes('without running tests') ||
+                    promptStr.includes('git commit') ||
+                    promptStr.includes('fallback')) {
+                    console.log('🎭 Detected violation pattern - returning intervention');
+                    return 'ai-monitor: Violation detected - intervention required';
+                }
+            }
+            
             // Return empty string if no mock found (no intervention)
             console.log('🎭 No mock response - returning empty (no intervention)');
             return '';
