@@ -42,3 +42,5 @@ workflow-cli --stop-ai-monitor      # stop monitor (auto-detects project)
 ```
 
 AI Monitor auto-starts with workflows and sends "ai-monitor:" prefixed guidance for violations.
+
+Note: If starting with `yolo [project-name]`, workflow-cli auto-detects project from worktree directory.

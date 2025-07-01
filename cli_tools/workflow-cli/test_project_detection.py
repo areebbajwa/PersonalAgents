@@ -42,13 +42,13 @@ def test_project_detection():
         finally:
             os.chdir(original_cwd)
         
-        # Test 2: Explicit project overrides auto-detection
-        print("\nTest 2: Explicit project overrides auto-detection")
+        # Test 2: Worktree project always takes precedence
+        print("\nTest 2: Worktree project always takes precedence")
         try:
             os.chdir(worktree_path)
             manager = workflow_cli.WorkflowManager(rules_dir, project="explicit-project")
-            assert manager.project == "explicit-project", f"Expected 'explicit-project', got '{manager.project}'"
-            print("✅ PASS: Explicit project name takes precedence")
+            assert manager.project == "test-project-20250101", f"Expected 'test-project-20250101', got '{manager.project}'"
+            print("✅ PASS: Worktree project overrides explicit project name")
         finally:
             os.chdir(original_cwd)
         
