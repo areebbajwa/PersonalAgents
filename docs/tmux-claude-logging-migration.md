@@ -74,6 +74,7 @@ yolo [project-name]
 ✅ **Better Scrolling** - Tmux supports mouse scrolling (great for SSH)  
 ✅ **Per-Project Isolation** - Each worktree gets separate logs  
 ✅ **Simple Commands** - No special flags or fallback options  
+✅ **Auto-Cleanup** - Old detached sessions (24+ hours) are automatically removed on shell startup  
 
 ## Common Commands
 
@@ -86,6 +87,12 @@ tmux ls
 ```bash
 tmux attach -t session-name
 ```
+
+### Quick attach to most recent session
+```bash
+tr
+```
+The `tr` shortcut automatically finds and attaches to your most recently used tmux session. If you're already in a tmux session, it will tell you how to switch instead.
 
 ### Split panes in tmux
 - Horizontal split: `Ctrl-b %`
