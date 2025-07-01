@@ -35,10 +35,10 @@ Revised daily cost with caching:
 ✅ [00:07] Design new prompt that defines "stuck" as 20+ turns without high-level progress
 ✅ [00:08] Create test framework for AI Monitor behavior
 ✅ [00:09] TEST GATE: Test framework must pass basic functionality test
-✅ [00:10] Mark test passed: workflow-cli --project ai-monitor-improvements --sub-task-next
-✅ [00:11] Create 20 test cases - 10 compliant, 10 violation scenarios
-✅ [00:12] Implement improved monitoring logic with new prompt
-✅ [00:13] TEST GATE: Run all 20 test cases - must detect violations correctly
+🕒 [00:10] Mark test passed: workflow-cli --project ai-monitor-improvements --sub-task-next
+🕒 [00:11] Create 20 test cases - 10 compliant, 10 violation scenarios
+🕒 [00:12] Implement improved monitoring logic with new prompt
+🕒 [00:13] TEST GATE: Run all 20 test cases - must detect violations correctly
 🕒 [00:14] Mark test passed: workflow-cli --project ai-monitor-improvements --sub-task-next
 🕒 [00:15] Add support for reading full Claude Code conversation history
 🕒 [00:16] TEST GATE: Verify caching reduces costs by >50%
@@ -75,6 +75,3 @@ Revised daily cost with caching:
   - Average JSONL entry: ~500 chars
   - Safe limit: ~7,000 entries (3.5M chars) to stay under 1M tokens
   - This represents many hours of conversation history
-[00:08] 🔥 BREAKTHROUGH: Test scenarios need proper workflow context to avoid false positives
-  - Must include workflow step announcements in test conversations
-  - Need to mock Gemini responses for consistent testing

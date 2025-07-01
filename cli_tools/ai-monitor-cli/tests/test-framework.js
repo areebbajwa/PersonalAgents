@@ -28,29 +28,15 @@ class AIMonitorTestFramework {
             
             // Check if we have a mock response for this scenario
             for (const [key, response] of this.mockGeminiResponses) {
-                if (promptStr.includes(key) || promptStr.includes('Test scenario ' + key)) {
+                if (promptStr.includes(key)) {
                     console.log(`🎭 Using mock response for scenario: ${key}`);
                     return response;
                 }
             }
             
-            // For test mode, check if this is a violation scenario
-            if (this.testMode) {
-                // Check prompt for violation patterns
-                if (promptStr.includes('violation') || 
-                    promptStr.includes('without planning') ||
-                    promptStr.includes('25 turns') ||
-                    promptStr.includes('without running tests') ||
-                    promptStr.includes('git commit') ||
-                    promptStr.includes('fallback')) {
-                    console.log('🎭 Detected violation pattern - returning intervention');
-                    return 'ai-monitor: Violation detected - intervention required';
-                }
-            }
-            
-            // Return empty string if no mock found (no intervention)
-            console.log('🎭 No mock response - returning empty (no intervention)');
-            return '';
+            // Fall back to real API if no mock found
+            console.log('📡 Using real Gemini API');
+            return originalCallGeminiAPI(prompt);
         };
     }
 
@@ -141,9 +127,8 @@ class AIMonitorTestFramework {
             return passed;
         } else {
             // Should intervene with specific message
-            const passed = actualIntervention !== '' && 
-                          (actualIntervention.includes('ai-monitor:') || 
-                           actualIntervention.includes(expectedIntervention));
+            const passed = actualIntervention.includes(expectedIntervention) || 
+                          actualIntervention.toLowerCase().includes(scenario.expectedKeywords?.toLowerCase() || '');
             console.log(passed ? '✅ Correctly intervened' : '❌ Failed to intervene correctly');
             if (!passed) {
                 console.log(`   Expected: "${expectedIntervention}"`);
