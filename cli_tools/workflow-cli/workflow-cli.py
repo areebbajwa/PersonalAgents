@@ -10,6 +10,20 @@ import yaml
 class WorkflowManager:
     def __init__(self, rules_dir: Path, project: Optional[str] = None, workflow_file: Optional[Path] = None, no_auto_monitor: bool = False):
         self.rules_dir = rules_dir
+        
+        # Auto-detect project from worktree directory if not provided
+        if not project and not workflow_file:
+            cwd = Path.cwd()
+            cwd_str = str(cwd)
+            if '/worktrees/' in cwd_str:
+                # Extract project name from worktree path
+                # Format: .../worktrees/[project-name]-YYYYMMDD/...
+                try:
+                    worktree_parent = cwd_str.split('/worktrees/')[1]
+                    project = worktree_parent.split('/')[0]
+                except IndexError:
+                    pass
+        
         self.project = project  # Store the project name
         # Store state in workflow-cli's state directory
         # Resolve to get the actual script location (handles symlinks)
