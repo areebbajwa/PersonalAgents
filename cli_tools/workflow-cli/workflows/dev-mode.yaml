@@ -39,6 +39,9 @@ steps:
                         - "mkdir -p worktrees"
                         - "git worktree add worktrees/[project-name]-YYYYMMDD -b [project-name]-YYYYMMDD"
                         - "cd worktrees/[project-name]-YYYYMMDD"
+                        - "rm -rf cli_tools todos"  # Remove directories from worktree
+                        - "ln -s ~/PersonalAgents/cli_tools cli_tools"  # Symlink to main cli_tools
+                        - "ln -s ~/PersonalAgents/todos todos"  # Symlink to main todos
                     - action: "Continue with existing work from todo"
                     - next: "Run workflow-cli --project [project-name] --next"
         - if_not_exists:
@@ -53,8 +56,11 @@ steps:
                         - "mkdir -p worktrees"
                         - "git worktree add worktrees/[project-name]-YYYYMMDD -b [project-name]-YYYYMMDD"
                         - "cd worktrees/[project-name]-YYYYMMDD"
+                        - "rm -rf cli_tools todos"  # Remove directories from worktree
+                        - "ln -s ~/PersonalAgents/cli_tools cli_tools"  # Symlink to main cli_tools
+                        - "ln -s ~/PersonalAgents/todos todos"  # Symlink to main todos
                         - "git push -u origin [project-name]-YYYYMMDD"
-                    - action: "Note: .env file is not needed in worktrees - tools use ~/PersonalAgents symlink"
+                    - action: "Note: cli_tools and todos are symlinked to main repo for centralized changes"
                     - next: "Run workflow-cli --project [project-name] --next"
       ```
       
@@ -252,9 +258,10 @@ steps:
       Final cleanup step:
       
       1. Clean project state: `workflow-cli --project [project-name] --clean`
-      2. Remove worktree AND folder:
+      2. Discard symlink changes and remove worktree:
          ```
          pwd  # Note current directory for cleanup
+         git checkout -- cli_tools todos  # Discard symlink changes
          cd ../..
          git worktree remove worktrees/[project-name]-YYYYMMDD
          rm -rf worktrees/[project-name]-YYYYMMDD  # Delete folder if still exists
