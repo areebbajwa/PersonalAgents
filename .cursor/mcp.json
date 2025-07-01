@@ -31,6 +31,10 @@
       "allowedTools": [],
       "history": [
         {
+          "display": "go on",
+          "pastedContents": {}
+        },
+        {
           "display": "/clear ",
           "pastedContents": {}
         },
@@ -436,10 +440,6 @@
         },
         {
           "display": "stop and ignore ai monitor for this",
-          "pastedContents": {}
-        },
-        {
-          "display": "no i want to log whatever claude shows just like i see with my eyes",
           "pastedContents": {}
         }
       ],
