@@ -131,8 +131,6 @@ steps:
       ```
       
       **CREATE INCREMENTAL PLAN:**
-      **Note:** After each test passes, you MUST run `workflow-cli --project [project-name] --sub-task-next`
-      
       1. Build feature A
       2. Write E2E test for A
       3. TEST GATE: Run test - MUST PASS
@@ -163,31 +161,19 @@ steps:
     mandatory: true
 
   - number: 6
-    name: "verify-plan"
-    title: "Verify Test-Gated Plan"
-    content: |
-      **STOP! Verify your plan from step 5:**
-      
-      Check each TEST GATE in your todo file has these 3 elements:
-      1. ✅ Test execution step
-      2. ✅ `workflow-cli --project [project-name] --sub-task-next` command
-      3. ✅ Commit with test count
-      
-      If any `--sub-task-next` commands are missing after test gates, go back and add them now.
-      
-      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
-    mandatory: true
-
-  - number: 7
     name: "implement"
     title: "Implement One Piece at a Time"
     content: |
       **NOW YOU CAN START IMPLEMENTATION!**
       
-      Execute the test-gated plan from step 5:
-      - Work through your todo list incrementally
-      - Update todo file with progress and timestamps
-      - Continue until all tasks complete
+      Execute these implementation steps:
+      1. Work through your todo list from step 5
+      2. Write one logical unit of functionality
+      3. Write E2E test for that functionality
+      4. Run test and verify it passes
+      5. After test passes → `workflow-cli --project [project-name] --sub-task-next`
+      6. Update todo file with progress and timestamps
+      7. ONLY if passed → Move to next feature
       
       **Remember:**
       - Update timestamps in format [HH:MM] for each task/note
@@ -199,7 +185,7 @@ steps:
       **Next Step:** Continue until all tasks complete, then run final `--next` from todo
     mandatory: true
 
-  - number: 8
+  - number: 7
     name: "cleanup"
     title: "Clean Up Environment"
     content: |
@@ -216,7 +202,7 @@ steps:
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
 
-  - number: 9
+  - number: 8
     name: "verify"
     title: "Final Verification"
     content: |
@@ -230,14 +216,14 @@ steps:
             - next: "Run workflow-cli --project [project-name] --next"
         - if_not_met:
             - action: "Update todo list with missing requirements"
-            - action: "Jump back to implementation step"
-            - command: "workflow-cli --project [project-name] --set-step implement"
+            - action: "Jump back to step 6 (implementation)"
+            - command: "workflow-cli --project [project-name] --set-step 6"
       ```
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
 
-  - number: 10
+  - number: 9
     name: "merge"
     title: "Branch Management - Auto Merge"
     content: |
@@ -259,7 +245,7 @@ steps:
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
 
-  - number: 11
+  - number: 10
     name: "finish"
     title: "Clean Project State"
     content: |

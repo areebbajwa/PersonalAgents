@@ -405,11 +405,17 @@ class ScreenMonitor {
                 }
             }
 
-            // Send ALL entries for full context (leverage Gemini caching)
-            // This allows Gemini to understand the full conversation history
-            // and accurately track if AI is stuck (20+ turns without progress)
-            // Limit to last 7000 entries to stay within 1M token limit (~3.5M chars)
-            const recentEntries = entries.slice(-7000);
+            // Get last 20 entries or entries since last check
+            let recentEntries = entries.slice(-20);
+            
+            if (this.lastClaudeLogTimestamp) {
+                const lastIndex = entries.findIndex(e => 
+                    e.timestamp && new Date(e.timestamp) > new Date(this.lastClaudeLogTimestamp)
+                );
+                if (lastIndex >= 0) {
+                    recentEntries = entries.slice(lastIndex);
+                }
+            }
 
             if (recentEntries.length === 0) {
                 return null;
@@ -439,9 +445,7 @@ class ScreenMonitor {
      */
     formatClaudeLogsForMonitor(entries) {
         const lines = [];
-        let turnCount = 0;
         
-        // Add turn counter to track conversation progress
         for (const entry of entries) {
             if (entry.type === 'user') {
                 // Extract content from the message structure
@@ -463,8 +467,7 @@ class ScreenMonitor {
                 } else if (typeof entry.message === 'string') {
                     content = entry.message;
                 }
-                turnCount++;
-                lines.push(`\n[Turn ${turnCount}] User: ${content || '[empty message]'}`);
+                lines.push(`\n> ${content || '[empty message]'}`);
             } else if (entry.type === 'assistant') {
                 // Extract content from assistant messages
                 let content = '';
@@ -484,21 +487,23 @@ class ScreenMonitor {
                 } else if (typeof entry.message === 'string') {
                     content = entry.message;
                 }
-                // Don't truncate - send full content for accurate analysis
-                lines.push(`Assistant: ${content || '[empty response]'}`);
+                // Truncate very long responses
+                const truncated = content.length > 500 ? 
+                    content.substring(0, 500) + '... [truncated]' : 
+                    content;
+                lines.push(`Assistant: ${truncated || '[empty response]'}`);
             } else if (entry.toolUse) {
                 // Handle tool use entries
                 lines.push(`[Tool: ${entry.toolUse.name || 'unknown'}]`);
             } else if (entry.toolUseResult) {
                 // Handle tool result entries
                 const result = entry.toolUseResult.stdout || entry.toolUseResult.stderr || '';
-                // Don't truncate tool results - send full content
-                lines.push(`[Result: ${result}]`);
+                const truncated = result.length > 200 ? 
+                    result.substring(0, 200) + '... [truncated]' : 
+                    result;
+                lines.push(`[Result: ${truncated}]`);
             }
         }
-        
-        // Add summary statistics at the end
-        lines.push(`\n[Total turns in conversation: ${turnCount}]`);
         
         return lines.join('\n');
     }
@@ -727,32 +732,11 @@ class ScreenMonitor {
         const workflowRules = this.readWorkflowRules();
         
         const promptData = {
-            instruction: `You are an AI Monitor managing another AI assistant's workflow compliance. Analyze the FULL conversation history provided.
-
-INTERVENTION CRITERIA:
-1. WORKFLOW VIOLATIONS: Intervene immediately if AI violates any workflow rules (e.g., implementing before planning, skipping test gates, not using todo list)
-2. STUCK DETECTION: AI is "stuck" when there are 20+ conversation turns without meaningful progress toward the high-level goal. Look for:
-   - Repeating the same failed actions without trying alternatives
-   - Going in circles without advancing the main objective
-   - Not making progress on todo items after many attempts
-   
-DO NOT intervene for:
-- Normal debugging (trying different approaches is healthy)
-- Waiting for tests, builds, or installations to complete
-- Reading/analyzing code (this takes time)
-- Working through complex problems methodically
-- Making steady progress even if slow
-
-When intervening, be specific:
-- For violations: State exact rule violated and correct action
-- For stuck situations: Suggest concrete alternative approaches or tools
-- Always prefix guidance with "ai-monitor:"
-
-IMPORTANT: "Compacting..." means conversation is being processed - wait for completion.`,
+            instruction: "Check if AI is correctly following workflow rules. Rule violations must be strictly enforced. Only if AI seems extremely stuck (repeating same failed actions multiple times), suggest untried approaches, especially tools at our disposal that can give more insight (like screenshot-cli, record-cli etc). AI only knows global rules, not the full workflow steps. If it needs to jump to a specific workflow step, tell it explicitly which workflow command to run. IMPORTANT: Conversations take a few minutes to compact. If it says 'Compacting...', then wait. Do not suggest any workflow steps until compacting is done.",
             rules: workflowRules || 'ERROR: Could not load workflow rules file',
-            conversation: terminalOutput.split('\n'), // Full conversation history with turn numbers
+            terminal: terminalOutput.split('\n'), // Store as array for better readability
             todo: todoContent || "No TODO file found",
-            responseFormat: "Return ONLY the intervention instruction (empty string if no intervention needed). No explanations, no JSON, just the instruction text or empty string."
+            responseFormat: "Return only a short instruction text or empty string. No explanations, no formatting, just the instruction."
         };
         
         return JSON.stringify(promptData, null, 2);

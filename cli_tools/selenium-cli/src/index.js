@@ -104,11 +104,6 @@ Examples:
   $ selenium-cli type "id=username" "john@example.com"
   $ selenium-cli text "xpath=//h1[@class='title']"
 
-  # Show interactive elements after actions
-  $ selenium-cli navigate https://example.com --show-elements
-  $ selenium-cli click "id=submit" --show-elements
-  $ selenium-cli type "id=search" "query" --show-elements
-
   # Advanced interactions
   $ selenium-cli hover "css=.menu-item"
   $ selenium-cli double-click "css=.file"
@@ -136,13 +131,6 @@ Features:
   - Browser stays open between commands
   - Commands exit immediately after execution
   - Session isolation (multiple instances don't interfere)
-  - Interactive element discovery (--show-elements flag)
-  - HTML diff tracking after each action
-  
-New: Element Discovery
-  Use --show-elements with navigate, click, or type commands to see all
-  interactive elements on the page. Returns element details including:
-  tag, text, id, class, href, and CSS selectors.
   
 Note: By default, selenium-cli uses your existing Firefox profile to maintain
 logged-in sessions. Use --no-profile flag with launch command to use a clean profile.
