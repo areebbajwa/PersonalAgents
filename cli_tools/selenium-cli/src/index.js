@@ -28,7 +28,7 @@ function exitAfterCommand() {
 }
 
 // Helper function to display action results
-function displayActionResult(result) {
+function displayActionResult(result, options = {}) {
     if (result.screenshot) {
         console.log(`Screenshot: ${result.screenshot}`);
     }
@@ -64,6 +64,25 @@ function displayActionResult(result) {
             }
         } else {
             console.log(chalk.gray('HTML Diff: No changes detected'));
+        }
+    }
+    
+    // Show interactive elements if requested
+    if (options.showElements && result.elements) {
+        console.log(chalk.cyan(`\nInteractive Elements: ${result.elements.count} found`));
+        if (result.elements.items && result.elements.items.length > 0) {
+            const maxToShow = options.maxElements || 10;
+            const elementsToShow = result.elements.items.slice(0, maxToShow);
+            
+            elementsToShow.forEach((el, index) => {
+                const label = el.text || el.ariaLabel || el.placeholder || el.id || el.name || '(no label)';
+                const truncatedLabel = label.length > 50 ? label.substring(0, 47) + '...' : label;
+                console.log(chalk.gray(`  ${index + 1}. ${el.tag}${el.id ? '#' + el.id : ''} - "${truncatedLabel}" [${el.cssSelector}]`));
+            });
+            
+            if (result.elements.count > maxToShow) {
+                console.log(chalk.gray(`  ... and ${result.elements.count - maxToShow} more elements`));
+            }
         }
     }
 }
@@ -368,7 +387,8 @@ program
 program
     .command('navigate <url>')
     .description('Navigate to a URL')
-    .action(async (url) => {
+    .option('-e, --show-elements', 'Show interactive elements on the page')
+    .action(async (url, options) => {
         const spinner = ora(`Navigating to ${url}...`).start();
         try {
             const result = await defaultSession.sendToDefaultSession({
@@ -376,7 +396,7 @@ program
                 url: url
             });
             spinner.succeed(chalk.green('Navigation successful'));
-            displayActionResult(result);
+            displayActionResult(result, { showElements: options.showElements });
             exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to navigate: ${error.message}`));
@@ -391,6 +411,7 @@ program
     .command('click <locator>')
     .description('Click an element (format: strategy=value, e.g., id=submit-button)')
     .option('-t, --timeout <ms>', 'Timeout in milliseconds', '10000')
+    .option('-e, --show-elements', 'Show interactive elements on the page after clicking')
     .action(async (locator, options) => {
         const [by, ...valueParts] = locator.split('=');
         const value = valueParts.join('=');
@@ -409,7 +430,7 @@ program
                 timeout: parseInt(options.timeout)
             });
             spinner.succeed(chalk.green('Click successful'));
-            displayActionResult(result);
+            displayActionResult(result, { showElements: options.showElements });
             exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to click: ${error.message}`));
@@ -426,6 +447,7 @@ program
     .option('-t, --timeout <ms>', 'Timeout in milliseconds', '10000')
     .option('--no-clear', 'Do not clear the field before typing')
     .option('--enter', 'Press Enter after typing')
+    .option('-e, --show-elements', 'Show interactive elements on the page after typing')
     .action(async (locator, text, options) => {
         const [by, ...valueParts] = locator.split('=');
         const value = valueParts.join('=');
@@ -447,7 +469,7 @@ program
                 pressEnter: options.enter
             });
             spinner.succeed(chalk.green('Text entered successfully'));
-            displayActionResult(result);
+            displayActionResult(result, { showElements: options.showElements });
             exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to type: ${error.message}`));

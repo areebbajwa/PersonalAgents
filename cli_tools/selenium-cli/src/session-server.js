@@ -140,7 +140,20 @@ async function saveActionHtml(action) {
         // Update previous HTML
         previousHtml = currentHtml.data;
         
-        return { path: htmlPath, diff: htmlDiff };
+        // Get interactive elements
+        let elements = null;
+        try {
+            const elementsResult = await browserManager.getInteractiveElements();
+            elements = {
+                count: elementsResult.count,
+                // Limit to first 50 elements to avoid huge responses
+                items: elementsResult.elements.slice(0, 50)
+            };
+        } catch (elemError) {
+            console.error(`Error getting interactive elements for ${action}:`, elemError);
+        }
+        
+        return { path: htmlPath, diff: htmlDiff, elements: elements };
     } catch (error) {
         console.error(`Error saving HTML for ${action}:`, error);
         return null;
@@ -193,6 +206,7 @@ const server = http.createServer(async (req, res) => {
                         if (navHtmlResult) {
                             result.html = navHtmlResult.path;
                             result.htmlDiff = navHtmlResult.diff;
+                            result.elements = navHtmlResult.elements;
                         }
                         break;
                         
@@ -210,6 +224,7 @@ const server = http.createServer(async (req, res) => {
                         if (clickHtmlResult) {
                             result.html = clickHtmlResult.path;
                             result.htmlDiff = clickHtmlResult.diff;
+                            result.elements = clickHtmlResult.elements;
                         }
                         break;
                         
@@ -236,6 +251,7 @@ const server = http.createServer(async (req, res) => {
                         if (typeHtmlResult) {
                             result.html = typeHtmlResult.path;
                             result.htmlDiff = typeHtmlResult.diff;
+                            result.elements = typeHtmlResult.elements;
                         }
                         break;
                         

@@ -517,3 +517,103 @@ export async function exportHtml(filePath) {
         };
     }
 }
+
+// Get all interactive elements on the page
+export async function getInteractiveElements() {
+    if (!driver) {
+        throw new Error('No browser session active. Launch browser first.');
+    }
+    
+    // Define selectors for interactive elements
+    const interactiveSelectors = [
+        'a[href]',
+        'button',
+        'input:not([type="hidden"])',
+        'select',
+        'textarea',
+        '[role="button"]',
+        '[role="link"]',
+        '[onclick]',
+        '[tabindex]:not([tabindex="-1"])'
+    ];
+    
+    const elements = [];
+    
+    try {
+        // Find all interactive elements
+        for (const selector of interactiveSelectors) {
+            const foundElements = await driver.findElements(By.css(selector));
+            
+            for (const element of foundElements) {
+                try {
+                    // Check if element is displayed and enabled
+                    const isDisplayed = await element.isDisplayed();
+                    const isEnabled = await element.isEnabled();
+                    
+                    if (!isDisplayed || !isEnabled) {
+                        continue;
+                    }
+                    
+                    // Get element attributes
+                    const tagName = await element.getTagName();
+                    const text = await element.getText();
+                    const id = await element.getAttribute('id');
+                    const className = await element.getAttribute('class');
+                    const name = await element.getAttribute('name');
+                    const href = await element.getAttribute('href');
+                    const type = await element.getAttribute('type');
+                    const role = await element.getAttribute('role');
+                    const ariaLabel = await element.getAttribute('aria-label');
+                    const placeholder = await element.getAttribute('placeholder');
+                    
+                    // Generate CSS selector for the element
+                    let cssSelector = tagName;
+                    if (id) {
+                        cssSelector = `#${id}`;
+                    } else if (className) {
+                        const classes = className.split(' ').filter(c => c.trim());
+                        if (classes.length > 0) {
+                            cssSelector += '.' + classes.join('.');
+                        }
+                    }
+                    
+                    // Create element info object
+                    const elementInfo = {
+                        tag: tagName,
+                        text: text ? text.substring(0, 100) : '', // Limit text length
+                        id: id || '',
+                        class: className || '',
+                        name: name || '',
+                        href: href || '',
+                        type: type || '',
+                        role: role || '',
+                        ariaLabel: ariaLabel || '',
+                        placeholder: placeholder || '',
+                        cssSelector: cssSelector
+                    };
+                    
+                    // Avoid duplicates based on cssSelector and text
+                    const isDuplicate = elements.some(el => 
+                        el.cssSelector === elementInfo.cssSelector && 
+                        el.text === elementInfo.text
+                    );
+                    
+                    if (!isDuplicate) {
+                        elements.push(elementInfo);
+                    }
+                } catch (elementError) {
+                    // Skip elements that cause errors (stale references, etc.)
+                    continue;
+                }
+            }
+        }
+        
+        return {
+            count: elements.length,
+            elements: elements,
+            status: 'Interactive elements retrieved successfully'
+        };
+    } catch (error) {
+        throw new Error(`Failed to get interactive elements: ${error.message}`);
+    }
+}
