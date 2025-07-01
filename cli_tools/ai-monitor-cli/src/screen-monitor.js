@@ -732,7 +732,7 @@ class ScreenMonitor {
         const workflowRules = this.readWorkflowRules();
         
         const promptData = {
-            instruction: "Check if AI is correctly following workflow rules. Rule violations must be strictly enforced. Only if AI seems extremely stuck (repeating same failed actions multiple times), suggest untried approaches, especially tools at our disposal that can give more insight (like screenshot-cli, record-cli etc). AI only knows global rules, not the full workflow steps. If it needs to jump to a specific workflow step, tell it explicitly which workflow command to run.",
+            instruction: "Check if AI is correctly following workflow rules. Rule violations must be strictly enforced. Only if AI seems extremely stuck (repeating same failed actions multiple times), suggest untried approaches, especially tools at our disposal that can give more insight (like screenshot-cli, record-cli etc). AI only knows global rules, not the full workflow steps. If it needs to jump to a specific workflow step, tell it explicitly which workflow command to run. IMPORTANT: Conversations take a few minutes to compact. If it says 'Compacting...', then wait. Do not suggest any workflow steps until compacting is done.",
             rules: workflowRules || 'ERROR: Could not load workflow rules file',
             terminal: terminalOutput.split('\n'), // Store as array for better readability
             todo: todoContent || "No TODO file found",
@@ -806,7 +806,7 @@ class ScreenMonitor {
         const now = Date.now();
         if (now - this.lastRemindRulesTime >= this.remindRulesIntervalMs) {
             this.lastRemindRulesTime = now;
-            const remindCommand = `workflow-cli --remind-rules --project ${this.projectName} --mode ${this.workflowMode}`;
+            const remindCommand = `run workflow-cli --remind-rules --project ${this.projectName} --mode ${this.workflowMode}`;
             
             if (this.enableGuidance && this.tmuxSessionName) {
                 console.log('⏰ Sending 10-minute remind-rules command...');

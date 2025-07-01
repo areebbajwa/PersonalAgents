@@ -109,6 +109,14 @@ class WorkflowManager:
         if step is not None:
             self.current_state["current_step"] = step
         self._save_state()
+        
+        # Rename tmux session on step 1
+        if step == 1 and self.project and self.project != 'default':
+            rename_result = self.rename_tmux_session(self.project)
+            if rename_result.get("error"):
+                print(f"Warning: {rename_result['error']}", file=sys.stderr)
+            elif rename_result.get("status") == "renamed":
+                print(f"✓ {rename_result['message']}", file=sys.stderr)
         if workflow_file:
             # Use custom workflow file
             if not workflow_file.exists():
@@ -257,8 +265,18 @@ class WorkflowManager:
         self.current_state["current_step"] = step
         self._save_state()
         
-        # Auto-start AI Manager on step 1
+        # Get project name
         project_name = self.state_file.stem.replace('workflow_state_', '')
+        
+        # Rename tmux session on step 1
+        if step == 1 and project_name != 'default':
+            rename_result = self.rename_tmux_session(project_name)
+            if rename_result.get("error"):
+                print(f"Warning: {rename_result['error']}", file=sys.stderr)
+            elif rename_result.get("status") == "renamed":
+                print(f"✓ {rename_result['message']}", file=sys.stderr)
+        
+        # Auto-start AI Manager on step 1
         if project_name != 'default':
             self.auto_start_ai_monitor_if_needed(mode, step, project_name)
         
@@ -344,6 +362,48 @@ Check your todo list. If tasks remain, continue working. If all done, use --next
         }
         
         return response
+    
+    def rename_tmux_session(self, project: str) -> Dict:
+        """Rename current tmux session to match project name"""
+        import subprocess
+        import os
+        
+        # Check if we're in a tmux session
+        tmux_pane = os.environ.get('TMUX_PANE')
+        if not tmux_pane:
+            return {"warning": "Not running in a tmux session, skipping rename"}
+        
+        try:
+            # Get current session name
+            result = subprocess.run(['tmux', 'display-message', '-p', '#S'], 
+                                 capture_output=True, text=True)
+            if result.returncode != 0:
+                return {"error": "Could not get current tmux session name"}
+            
+            current_session = result.stdout.strip()
+            
+            # Create new session name based on project
+            new_session_name = f"{project}-workflow"
+            
+            # Don't rename if already has the right name
+            if current_session == new_session_name:
+                return {"status": "unchanged", "session": new_session_name}
+            
+            # Rename the session
+            result = subprocess.run(['tmux', 'rename-session', new_session_name],
+                                 capture_output=True, text=True)
+            if result.returncode != 0:
+                return {"error": f"Failed to rename tmux session: {result.stderr}"}
+            
+            return {
+                "status": "renamed",
+                "old_session": current_session,
+                "new_session": new_session_name,
+                "message": f"Renamed tmux session from '{current_session}' to '{new_session_name}'"
+            }
+            
+        except Exception as e:
+            return {"error": f"Failed to rename tmux session: {str(e)}"}
     
     def start_ai_monitor(self, project: str = None, mode: str = None) -> Dict:
         """Start AI Monitor monitoring for the project"""

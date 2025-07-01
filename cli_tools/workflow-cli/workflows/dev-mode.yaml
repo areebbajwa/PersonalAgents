@@ -25,8 +25,22 @@ steps:
         - action: "Look for todo file matching: ~/PersonalAgents/todos/YYYYMMDD-[project]-todo.md"
         - if_exists:
             - action: "Read existing todo file"
-            - action: "Continue with existing work from current state"
-            - next: "Run workflow-cli --project [project-name] --next"
+            - check_worktree:
+                - action: "Check if corresponding worktree exists: worktrees/[project-name]-YYYYMMDD"
+                - if_worktree_exists:
+                    - action: "Switch to existing worktree:"
+                      commands:
+                        - "cd worktrees/[project-name]-YYYYMMDD"
+                    - action: "Continue with existing work from current state"
+                    - next: "Run workflow-cli --project [project-name] --next"
+                - if_worktree_not_exists:
+                    - action: "Recreate worktree for continuing work:"
+                      commands:
+                        - "mkdir -p worktrees"
+                        - "git worktree add worktrees/[project-name]-YYYYMMDD -b [project-name]-YYYYMMDD"
+                        - "cd worktrees/[project-name]-YYYYMMDD"
+                    - action: "Continue with existing work from todo"
+                    - next: "Run workflow-cli --project [project-name] --next"
         - if_not_exists:
             - check_worktree:
                 - action: "Check if already in a worktree (path contains /worktrees/)"
@@ -119,12 +133,14 @@ steps:
       **CREATE INCREMENTAL PLAN:**
       1. Build feature A
       2. Write E2E test for A
-      3. TEST GATE: Run test - MUST PASS → `workflow-cli --project [project-name] --sub-task-next`
-      4. Commit with test status: `git commit -m "feat: add X - tests: 5/5 passed"`
-      5. Only then: Build feature B
-      6. Write E2E test for B
-      7. TEST GATE: Run test - MUST PASS → `workflow-cli --project [project-name] --sub-task-next`
-      8. Commit with test status
+      3. TEST GATE: Run test - MUST PASS
+      4. Mark test passed: `workflow-cli --project [project-name] --sub-task-next`
+      5. Commit with test status: `git commit -m "feat: add X - tests: 5/5 passed"`
+      6. Only then: Build feature B
+      7. Write E2E test for B
+      8. TEST GATE: Run test - MUST PASS
+      9. Mark test passed: `workflow-cli --project [project-name] --sub-task-next`
+      10. Commit with test status
       
       **TODO FILE MANAGEMENT:**
       ```yaml
@@ -173,7 +189,15 @@ steps:
     name: "cleanup"
     title: "Clean Up Environment"
     content: |
-      Before final commits, clean up temporary/unneeded files by looking at git status. Make sure .gitignore is up-to-date.
+      **Git Status Cleanup:**
+      1. Run `git status` and review all changes
+      2. Check Non-Negotiable User Requirements from todo file
+      3. Remove any code/tools/scripts/tests NOT relevant to requirements:
+         - Unneeded helper scripts
+         - Test files for removed features
+         - Documentation for deleted functionality
+      4. Update/delete conflicting docs/references in other files based on changes
+      5. Ensure .gitignore is up-to-date
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
@@ -228,10 +252,12 @@ steps:
       Final cleanup step:
       
       1. Clean project state: `workflow-cli --project [project-name] --clean`
-      2. Remove worktree:
+      2. Remove worktree AND folder:
          ```
+         pwd  # Note current directory for cleanup
          cd ../..
          git worktree remove worktrees/[project-name]-YYYYMMDD
+         rm -rf worktrees/[project-name]-YYYYMMDD  # Delete folder if still exists
          ```
       
       **Workflow Complete:** Project finished and state cleaned up

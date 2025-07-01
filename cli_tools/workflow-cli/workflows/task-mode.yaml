@@ -12,7 +12,19 @@ steps:
       **⚠️ IMPORTANT: DO NOT start implementation yet. This is the planning phase.**
       
       **Check for existing todo:**
-      If continuing work on existing todo file in `todos/`, skip to step 4 and update existing todo list to match the todo list structure (if needed).
+      If continuing work on existing todo file in `todos/`:
+      1. Check if corresponding worktree exists: worktrees/[project-name]-YYYYMMDD
+      2. If worktree exists:
+         - Switch to it: `cd worktrees/[project-name]-YYYYMMDD`
+         - Skip to step 4 and update existing todo list to match the todo list structure (if needed)
+      3. If worktree doesn't exist but todo exists:
+         - Recreate worktree: 
+         ```
+         mkdir -p worktrees
+         git worktree add worktrees/[project-name]-YYYYMMDD -b [project-name]-YYYYMMDD
+         cd worktrees/[project-name]-YYYYMMDD
+         ```
+         - Skip to step 4 and continue with existing todo
       
       **For new work, check worktree status:**
       1. If already in a worktree (path contains /worktrees/):
@@ -139,9 +151,18 @@ steps:
     mandatory: true
 
   - number: 6
-    title: "Final Verification"
+    title: "Clean Up Environment & Final Verification"
     content: |
-      Execute these final steps before marking complete:
+      **Git Status Cleanup:**
+      1. Run `git status` and review all changes
+      2. Check Non-Negotiable User Requirements from todo file
+      3. Keep tools/scripts that will make the task faster next time:
+         - Document them in todo file under "Helpful Tools Created"
+         - Only remove code NOT relevant to requirements
+      4. Update/delete conflicting docs/references in other files based on changes
+      5. Ensure .gitignore is up-to-date
+      
+      **Final Verification:**
       1. **REVIEW NON-NEGOTIABLES:** Check todo file's "Non-Negotiable User Requirements" section - ensure ALL requirements are met
       2. If any requirements not met: update todo list and `workflow-cli --project [project-name] --step 4`
       3. Verify all tasks completed successfully
@@ -178,10 +199,12 @@ steps:
       Final cleanup step:
       
       1. Clean project state: `workflow-cli --project [project-name] --clean`
-      2. Remove worktree:
+      2. Remove worktree AND folder:
          ```
+         pwd  # Note current directory for cleanup
          cd ../..
          git worktree remove worktrees/[project-name]-YYYYMMDD
+         rm -rf worktrees/[project-name]-YYYYMMDD  # Delete folder if still exists
          ```
       
       **Workflow Complete:** Task finished and state cleaned up
