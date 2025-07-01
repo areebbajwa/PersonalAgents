@@ -15,7 +15,7 @@ class ScreenMonitor {
             throw new Error('Tmux session name is required (--session)');
         }
         
-        this.lastClaudeLogTimestamp = null; // Track last processed Claude log entry
+        // No longer tracking last timestamp - sending full logs each time for better caching
         this.isRunning = false;
         this.intervalMs = options.intervalMs || 60000; // 1 minute default
         this.geminiApiKey = options.geminiApiKey || this.loadGeminiApiKey();
@@ -28,6 +28,7 @@ class ScreenMonitor {
         this.alertLevel = options.alertLevel || 'WARNING';
         this.onCheckResult = options.onCheckResult || null; // Callback for check results
         this.lastStatus = 'COMPLIANT'; // Track last status to detect state changes
+        this.lastCheckTime = null; // Track when we last performed a check
         
         // Use symlink from home directory for portability
         const MAIN_REPO_PATH = path.join(process.env.HOME, 'PersonalAgents');
@@ -40,6 +41,7 @@ class ScreenMonitor {
             this.geminiLogsDir = path.join(MAIN_REPO_PATH, 'cli_tools', 'ai-monitor-cli', 'logs', 'gemini');
         }
         this.ensureGeminiLogsDir();
+        this.ensureMonitorStateDir();
     }
 
     /**
@@ -190,6 +192,41 @@ class ScreenMonitor {
     }
 
     /**
+     * Ensure monitor state directory exists
+     */
+    ensureMonitorStateDir() {
+        try {
+            const stateDir = path.join(__dirname, '..', 'state');
+            if (!fs.existsSync(stateDir)) {
+                fs.mkdirSync(stateDir, { recursive: true });
+            }
+        } catch (error) {
+            console.error('Failed to create monitor state directory:', error.message);
+        }
+    }
+
+    /**
+     * Update last check timestamp in state file
+     */
+    updateLastCheckTime() {
+        try {
+            this.lastCheckTime = Date.now();
+            const stateFile = path.join(__dirname, '..', 'state', `monitor-${this.projectName}.json`);
+            const state = {
+                project: this.projectName,
+                lastCheck: this.lastCheckTime,
+                interval: this.intervalMs,
+                nextCheck: this.lastCheckTime + this.intervalMs,
+                pid: process.pid,
+                session: this.tmuxSessionName
+            };
+            fs.writeFileSync(stateFile, JSON.stringify(state, null, 2));
+        } catch (error) {
+            console.error('Failed to update monitor state:', error.message);
+        }
+    }
+
+    /**
      * Save Gemini prompt and response to file
      */
     saveGeminiInteraction(prompt, response) {
@@ -270,9 +307,9 @@ class ScreenMonitor {
     }
 
     /**
-     * Read last 200 lines from screen log file
+     * Read screen log file content
      */
-    readLast200Lines() {
+    readScreenLog() {
         try {
             if (!fs.existsSync(this.screenLogPath)) {
                 console.log(`⚠️  Log file not found: ${this.screenLogPath}`);
@@ -292,17 +329,13 @@ class ScreenMonitor {
             }
 
             const content = fs.readFileSync(this.screenLogPath, 'utf8');
-            const lines = content.split('\n');
             
-            // Get last 200 lines
-            const last200Lines = lines.slice(-200).join('\n');
-            
-            if (last200Lines.trim().length === 0) {
+            if (content.trim().length === 0) {
                 return null;
             }
             
             // Clean terminal escape sequences
-            const cleanContent = this.cleanTerminalOutput(last200Lines);
+            const cleanContent = this.cleanTerminalOutput(content);
             
             // Add timestamp header to show when this content was processed
             const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 19);
@@ -405,30 +438,13 @@ class ScreenMonitor {
                 }
             }
 
-            // Get last 20 entries or entries since last check
-            let recentEntries = entries.slice(-20);
-            
-            if (this.lastClaudeLogTimestamp) {
-                const lastIndex = entries.findIndex(e => 
-                    e.timestamp && new Date(e.timestamp) > new Date(this.lastClaudeLogTimestamp)
-                );
-                if (lastIndex >= 0) {
-                    recentEntries = entries.slice(lastIndex);
-                }
-            }
-
-            if (recentEntries.length === 0) {
+            // Always send all entries - let Gemini's caching handle repeated content
+            if (entries.length === 0) {
                 return null;
             }
 
-            // Update last timestamp
-            const lastEntry = recentEntries[recentEntries.length - 1];
-            if (lastEntry.timestamp) {
-                this.lastClaudeLogTimestamp = lastEntry.timestamp;
-            }
-
             // Format entries for AI monitor
-            const formattedContent = this.formatClaudeLogsForMonitor(recentEntries);
+            const formattedContent = this.formatClaudeLogsForMonitor(entries);
             
             // Add timestamp header
             const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 19);
@@ -444,9 +460,13 @@ class ScreenMonitor {
      * Format Claude Code log entries for AI monitor
      */
     formatClaudeLogsForMonitor(entries) {
-        const lines = [];
+        const MAX_TOTAL_CHARS = 3000000; // 3M character limit
+        const allLines = [];
         
+        // First pass: collect all formatted lines
         for (const entry of entries) {
+            let lineContent = '';
+            
             if (entry.type === 'user') {
                 // Extract content from the message structure
                 let content = '';
@@ -467,7 +487,7 @@ class ScreenMonitor {
                 } else if (typeof entry.message === 'string') {
                     content = entry.message;
                 }
-                lines.push(`\n> ${content || '[empty message]'}`);
+                lineContent = `\n> ${content || '[empty message]'}`;
             } else if (entry.type === 'assistant') {
                 // Extract content from assistant messages
                 let content = '';
@@ -487,25 +507,38 @@ class ScreenMonitor {
                 } else if (typeof entry.message === 'string') {
                     content = entry.message;
                 }
-                // Truncate very long responses
-                const truncated = content.length > 500 ? 
-                    content.substring(0, 500) + '... [truncated]' : 
-                    content;
-                lines.push(`Assistant: ${truncated || '[empty response]'}`);
+                lineContent = `Assistant: ${content || '[empty response]'}`;
             } else if (entry.toolUse) {
                 // Handle tool use entries
-                lines.push(`[Tool: ${entry.toolUse.name || 'unknown'}]`);
+                lineContent = `[Tool: ${entry.toolUse.name || 'unknown'}]`;
             } else if (entry.toolUseResult) {
                 // Handle tool result entries
                 const result = entry.toolUseResult.stdout || entry.toolUseResult.stderr || '';
-                const truncated = result.length > 200 ? 
-                    result.substring(0, 200) + '... [truncated]' : 
-                    result;
-                lines.push(`[Result: ${truncated}]`);
+                lineContent = `[Result: ${result}]`;
+            }
+            
+            if (lineContent) {
+                allLines.push(lineContent);
             }
         }
         
-        return lines.join('\n');
+        // Second pass: keep only the most recent lines that fit within the limit
+        let totalChars = 0;
+        const finalLines = [];
+        
+        // Process lines in reverse order (most recent first)
+        for (let i = allLines.length - 1; i >= 0; i--) {
+            const line = allLines[i];
+            if (totalChars + line.length > MAX_TOTAL_CHARS) {
+                // We've reached the limit, add truncation notice at the beginning
+                finalLines.unshift(`[Earlier output truncated - showing most recent ${MAX_TOTAL_CHARS} characters]\n`);
+                break;
+            }
+            finalLines.unshift(line);
+            totalChars += line.length;
+        }
+        
+        return finalLines.join('\n');
     }
 
     /**
@@ -731,15 +764,30 @@ class ScreenMonitor {
     generateCompliancePrompt(terminalOutput, todoContent = null) {
         const workflowRules = this.readWorkflowRules();
         
-        const promptData = {
-            instruction: "Check if AI is correctly following workflow rules. Rule violations must be strictly enforced. Only if AI seems extremely stuck (repeating same failed actions multiple times), suggest untried approaches, especially tools at our disposal that can give more insight (like screenshot-cli, record-cli etc). AI only knows global rules, not the full workflow steps. If it needs to jump to a specific workflow step, tell it explicitly which workflow command to run. IMPORTANT: Conversations take a few minutes to compact. If it says 'Compacting...', then wait. Do not suggest any workflow steps until compacting is done.",
-            rules: workflowRules || 'ERROR: Could not load workflow rules file',
-            terminal: terminalOutput.split('\n'), // Store as array for better readability
-            todo: todoContent || "No TODO file found",
-            responseFormat: "Return only a short instruction text or empty string. No explanations, no formatting, just the instruction."
+        // Structure prompt for optimal Gemini 2.5 implicit caching
+        // Static content at the beginning for cache hits
+        const staticPromptPrefix = {
+            systemRole: "You are an AI workflow compliance monitor acting like a hands-off engineering manager. Only intervene when absolutely necessary - let the AI work autonomously unless there's a critical issue.",
+            stuckDefinition: "An AI is considered STUCK when it exhibits any of these patterns over 20+ conversation turns:\n1. Repeating the same failed command or action 3+ times without trying alternatives\n2. Making no meaningful progress towards the goal stated in the TODO file\n3. Cycling through the same set of actions without advancing the task\n4. Spending 20+ turns on debugging/fixing errors without resolving them\n5. Unable to find files/functions that should exist based on the TODO requirements\n\nMeaningful progress means: completing subtasks, writing new code, passing tests, or getting closer to the stated goal.",
+            interventionCriteria: "ONLY intervene if:\n1. The AI is stuck according to the above definition\n2. The AI is violating critical workflow rules that will cause problems\n3. The AI is about to do something destructive or dangerous\n\nDO NOT intervene for:\n- Minor inefficiencies\n- Style preferences\n- Alternative approaches (unless current approach is failing)\n- Progress that's slow but steady",
+            generalInstructions: "Act like a good manager - trust the AI to do its job. Only speak up when intervention is truly needed. When you do intervene, be concise and specific. If the AI is making progress (even slowly), stay silent. If AI is stuck, suggest specific untried approaches or tools (like screenshot-cli, record-cli etc). AI only knows global rules, not the full workflow steps. If it needs to jump to a specific workflow step, tell it explicitly which workflow command to run. IMPORTANT: If conversations are compacting, wait - do not intervene during compaction.",
+            responseFormat: "Return empty string unless intervention is necessary. If intervening, return only a short, specific instruction. No explanations, no formatting."
         };
         
-        return JSON.stringify(promptData, null, 2);
+        // Variable content at the end for dynamic data
+        const variableContent = {
+            workflowRules: workflowRules || 'ERROR: Could not load workflow rules file',
+            currentTodo: todoContent || "No TODO file found",
+            terminalOutput: terminalOutput.split('\n') // Store as array for better readability
+        };
+        
+        // Combine static prefix (for caching) with variable content
+        const fullPrompt = {
+            ...staticPromptPrefix,
+            ...variableContent
+        };
+        
+        return JSON.stringify(fullPrompt, null, 2);
     }
 
     /**
@@ -827,6 +875,9 @@ class ScreenMonitor {
      */
     async check() {
         try {
+            // Update state to show we're checking now
+            this.updateLastCheckTime();
+            
             // Check for remind-rules every cycle (every minute check for 10-minute intervals)
             await this.checkAndSendRemindRules();
             
@@ -884,6 +935,17 @@ class ScreenMonitor {
             clearInterval(this.intervalId);
             this.intervalId = null;
         }
+        
+        // Clean up state file
+        try {
+            const stateFile = path.join(__dirname, '..', 'state', `monitor-${this.projectName}.json`);
+            if (fs.existsSync(stateFile)) {
+                fs.unlinkSync(stateFile);
+            }
+        } catch (error) {
+            console.error('Failed to clean up monitor state:', error.message);
+        }
+        
         return true;
     }
 }

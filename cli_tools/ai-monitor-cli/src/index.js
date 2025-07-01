@@ -265,26 +265,49 @@ program
       console.log('');
       
       // Check for active AI Monitor processes
-      const stateDir = path.resolve(__dirname, '../../workflow-cli/state');
+      const workflowStateDir = path.resolve(__dirname, '../../workflow-cli/state');
+      const monitorStateDir = path.resolve(__dirname, '../state');
       let activeProjects = [];
       
       try {
-        if (fs.existsSync(stateDir)) {
-          const files = fs.readdirSync(stateDir);
+        if (fs.existsSync(workflowStateDir)) {
+          const files = fs.readdirSync(workflowStateDir);
           const pidFiles = files.filter(f => f.startsWith('ai_monitor_pid_') && f.endsWith('.txt'));
           
           pidFiles.forEach(pidFile => {
             const projectName = pidFile.replace('ai_monitor_pid_', '').replace('.txt', '');
-            const pidPath = path.join(stateDir, pidFile);
+            const pidPath = path.join(workflowStateDir, pidFile);
             
             try {
               const pid = fs.readFileSync(pidPath, 'utf8').trim();
               // Check if process is running
               process.kill(parseInt(pid), 0);
-              activeProjects.push({ project: projectName, pid: parseInt(pid) });
+              
+              // Try to read monitor state for timing info
+              let monitorState = null;
+              const stateFile = path.join(monitorStateDir, `monitor-${projectName}.json`);
+              if (fs.existsSync(stateFile)) {
+                try {
+                  monitorState = JSON.parse(fs.readFileSync(stateFile, 'utf8'));
+                } catch (e) {
+                  // Ignore parse errors
+                }
+              }
+              
+              activeProjects.push({ 
+                project: projectName, 
+                pid: parseInt(pid),
+                state: monitorState
+              });
             } catch (error) {
               // Process not running, remove stale PID file
               fs.unlinkSync(pidPath);
+              
+              // Also clean up monitor state file
+              const stateFile = path.join(monitorStateDir, `monitor-${projectName}.json`);
+              if (fs.existsSync(stateFile)) {
+                fs.unlinkSync(stateFile);
+              }
             }
           });
         }
@@ -292,11 +315,30 @@ program
         console.error('Error checking active projects:', error.message);
       }
       
-      // Display active projects list (one per line)
+      // Display active projects list with countdown timers
       console.log('Active Projects:');
       if (activeProjects.length > 0) {
-        activeProjects.forEach(({ project, pid }) => {
-          console.log(`  ${project} (PID: ${pid})`);
+        const now = Date.now();
+        activeProjects.forEach(({ project, pid, state }) => {
+          let statusInfo = `PID: ${pid}`;
+          
+          if (state && state.lastCheck && state.interval) {
+            const nextCheck = state.lastCheck + state.interval;
+            const secondsUntilNext = Math.max(0, Math.floor((nextCheck - now) / 1000));
+            
+            if (secondsUntilNext > 0) {
+              const minutes = Math.floor(secondsUntilNext / 60);
+              const seconds = secondsUntilNext % 60;
+              const timeStr = minutes > 0 ? `${minutes}m ${seconds}s` : `${seconds}s`;
+              statusInfo += ` | Next check in: ${timeStr}`;
+            } else {
+              statusInfo += ' | Checking now...';
+            }
+          } else {
+            statusInfo += ' | Waiting for first check...';
+          }
+          
+          console.log(`  ${project} (${statusInfo})`);
         });
       } else {
         console.log('  None');

@@ -14,7 +14,7 @@
     "todo-list": 95,
     "# for memory": 97,
     "install-github-app": 100,
-    "permissions": 101,
+    "permissions": 104,
     "drag-and-drop-images": 103,
     "double-esc": 98,
     "continue": 103,
@@ -24,12 +24,76 @@
     "vscode-command-install": 99
   },
   "memoryUsageCount": 2,
-  "promptQueueUseCount": 151,
+  "promptQueueUseCount": 157,
   "mcpServers": {},
   "projects": {
     "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents": {
       "allowedTools": [],
       "history": [
+        {
+          "display": "delete all worktrees",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
+        {
+          "display": "stop and restart monitor then to test it",
+          "pastedContents": {}
+        },
+        {
+          "display": "ai-monitor: run workflow-cli --remind-rules --project ai-monitor-improvements --mode dev",
+          "pastedContents": {}
+        },
+        {
+          "display": "in monitor-all, show a count-down to next check beside each project",
+          "pastedContents": {}
+        },
+        {
+          "display": "why do we have analysisRequest that repeats a lot of what the static prompt repeats? and some conflicts?",
+          "pastedContents": {}
+        },
+        {
+          "display": "test the changes",
+          "pastedContents": {}
+        },
+        {
+          "display": "no, don't bother with \"entries since last check\". just send the full logs each time. caching will take care of repeated text",
+          "pastedContents": {}
+        },
+        {
+          "display": "ai-monitor: run workflow-cli --remind-rules --project ai-monitor-improvements --mode dev",
+          "pastedContents": {}
+        },
+        {
+          "display": "i think there are other places still truncating",
+          "pastedContents": {}
+        },
+        {
+          "display": "don't limit anything except the 3M limit",
+          "pastedContents": {}
+        },
+        {
+          "display": "there's a .substring(0, 200) restriction on terminal output. what's that for",
+          "pastedContents": {}
+        },
+        {
+          "display": "it should not interfere or provide any guidance unless it needs to - just like a human manager. let the AI work unless an intervention is needed. \\\n\\\nalso is \"head\" correct? i want most recent terminal output included. should it be tail?",
+          "pastedContents": {}
+        },
+        {
+          "display": "ai-monitor: run workflow-cli --remind-rules --project ai-monitor-improvements --mode dev",
+          "pastedContents": {}
+        },
+        {
+          "display": "modify ai-monitor to restrict terminal output to 3M chars (head, not tail) when sending to gemini. also define clear stuck criteria in the gemini prompt: stuck means 20+ turns without meaningful progress towards the overall goal as mentioned in the todo file.",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
         {
           "display": "delete the readme",
           "pastedContents": {}
@@ -376,70 +440,6 @@
         },
         {
           "display": "did you test the auto-detection?",
-          "pastedContents": {}
-        },
-        {
-          "display": "no don't add new details, just update what was outdated",
-          "pastedContents": {}
-        },
-        {
-          "display": "update CLAUDE.md /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/.cursor/rules/CLAUDE.md",
-          "pastedContents": {}
-        },
-        {
-          "display": "i should be able to run the start-ai-monitor command without specifying anything and it should find the current tmux/project/mode setup. same with stop-ai-monitor",
-          "pastedContents": {}
-        },
-        {
-          "display": "update docs and tell me how to use this",
-          "pastedContents": {}
-        },
-        {
-          "display": "i dont want any fallbacks. make claude logs and tmux the only option. i don't want special flags",
-          "pastedContents": {}
-        },
-        {
-          "display": "go ahead and install it and run the commands to test fully!",
-          "pastedContents": {}
-        },
-        {
-          "display": "no, no theoretical testing. t",
-          "pastedContents": {}
-        },
-        {
-          "display": "did you test it",
-          "pastedContents": {}
-        },
-        {
-          "display": "go ahead",
-          "pastedContents": {}
-        },
-        {
-          "display": "i only want one solution, not a backup solution. the first option is good. i guess we need to add a final step in dev mode or task mode to clean up after once we change yolo alias? or does it already clean up properly?",
-          "pastedContents": {}
-        },
-        {
-          "display": "My current workflow is this. I start a new terminal session which automatically starts the screen. Then I type the alias YOLO to get into claude code. Then I'll start a workflow using the workflow CLI with dev mode or task mode. That normally starts an AI monitor, but I have temporarily disabled that to auto start. The whole idea behind this is that as claude code runs, the AI monitor script is essentially checking whether it is on the right track and following the steps outlined in the dev mode or task mode workflow, as well as the to-do list that it's currently working on. It seems like the automatic logging of terminal output that is supposed to happen is not working properly. I'm not sure if it's because the screen is not logging properly or the terminal is not logging properly or both. But it seems like whatever is being sent to Gemini to figure out whether the AI is still on track using the AI monitor is not recording terminal sessions properly. you can look at some of the Gemini logs and see how it seems to be simply recording the UI of claude code instead of the actual terminal output. I did some research online. It says to use TMUX instead of screen, and the logging for that seems to be better. Another problem with screen was that you'd have to enter copy mode to be able to scroll up. But that's a lot of key combinations. And when remotely SSH-ing into the terminal session from my iphone, pressing all those key combinations to just scroll up and down is quite cumbersome. So, apparently TMUX makes scrolling easier. Also, some suggestions were to use claude Code's own internal logging because that's cleaner and doesn't include terminal control characters etc. Although that seems to happen on a per project basis. So, if you can't customize exactly when to start and stop logging for claude Code, it simply logs it for that project in that file. So, if we wanted to do a log for each workflow separately, we would need create a work tree first, which currently gets created in step 2 of the Dev Mode and Task Mode workflow. I guess we can change the YOLO alias to create the work tree first so that the log file from claude Code is in the place we want it to be and doesn't get overwritten by other projects. Because I'll be running lots of workflows starting from the same directory, I'm expecting these workflows to run in their own work tree to avoid conflicts with everything else. Can you research all this and tell me what the best solution is? ",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "add a flag to disable auto starting of monitor and turn it on for now",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "stop ai monitor",
           "pastedContents": {}
         }
       ],

@@ -1,0 +1,5 @@
+node_modules/
+logs/notifications.log
+logs/gemini/*.json
+state/*.json
+.DS_Store
