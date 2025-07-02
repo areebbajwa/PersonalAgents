@@ -73,6 +73,26 @@ if "-h" in sys.argv or "--help" in sys.argv:
     sys.exit(0)
 ```
 
+### 5. Wrapper Script for Symlink Support
+When using a bash wrapper for Python/Node scripts, ensure it resolves symlinks correctly:
+```bash
+#!/bin/bash
+# Wrapper script that works with symlinks
+
+# Find the real location of this script (resolving symlinks)
+if [ -L "${BASH_SOURCE[0]}" ]; then
+    # It's a symlink, resolve it
+    SCRIPT_PATH="$(readlink "${BASH_SOURCE[0]}")"
+    SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
+else
+    # Not a symlink, use normal method
+    SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+fi
+
+# Execute the actual script with all arguments
+exec python3 "$SCRIPT_DIR/script_name.py" "$@"
+```
+
 ## Implementation Patterns
 
 ### Python Tools

@@ -187,8 +187,12 @@ steps:
       
       If any `--sub-task-next` commands are missing after test gates, go back and add them now.
       
-      **CLI Tool Check:**
-      If creating a CLI tool, ensure `./scripts/setup-global-cli-tools.sh` is the second last task (before final `workflow-cli --next`).
+      **CLI Tool vs Script Check:**
+      1. If creating a tool, verify it's truly general-purpose:
+         - ✅ Would other AI agents find this useful?
+         - ✅ Will this be used across different tasks?
+         - ❌ If task-specific, change plan to create a script in scripts/ instead
+      2. If creating a CLI tool, ensure `./scripts/setup-global-cli-tools.sh` is the second last task (before final `workflow-cli --next`).
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
@@ -365,6 +369,40 @@ global_rules:
       - Take screenshots when curious/stuck: screenshot-cli tool
       - Use record-cli to record screen and send to AI for analysis if screenshots don't suffice
       - Last resort for GUI tasks: desktop-automation-cli
+      
+  - title: "Spawning Workflows"
+    content: |
+      - Use spawn-cli to create independent workflows in separate tmux windows
+      - Spawn a dev workflow: `spawn-cli spawn project-name dev "task description"`
+      - Spawn a task workflow: `spawn-cli spawn project-name task "task description"`
+      - List active workflows: `spawn-cli list`
+      - Kill a workflow: `spawn-cli kill project-name`
+      - Spawned workflows run independently and auto-close when complete
+      
+  - title: "Creating New Tools"
+    content: |
+      - **IMPORTANT**: This is for SECONDARY tools only - not your main task!
+      - If your todo list's main task is to create a tool, do it in THIS workflow
+      - Only spawn new workflows for additional tools discovered during development
+      - Example: Building a web scraper (main task) but need a PDF parser? `spawn-cli spawn pdf-parser dev "create CLI tool to parse PDFs"`
+      - Example: Creating an API client (main task) but need a data validator? `spawn-cli spawn data-validator dev "create validation tool"`
+      - This ensures proper isolation and allows parallel development of secondary tools
+      - The spawned workflow will handle all setup, testing, and global installation
+      
+  - title: "CLI Tools vs Scripts"
+    content: |
+      - **CLI Tools (in cli_tools/)**: Only for GENERAL-PURPOSE tools that help build an AI agent
+        - ✅ pdf-ai-cli: Extracts data from ANY PDF
+        - ✅ selenium-cli: Automates ANY website
+        - ✅ gmail-cli: Manages ANY Gmail account
+        - ❌ invoice-processor: Too specific, make it a script instead
+        - ❌ company-x-api-client: Too specific, make it a script instead
+      - **Scripts (in scripts/)**: For task-specific automation
+        - One-time data processing
+        - Company-specific integrations
+        - Task-specific workflows
+        - Delete when no longer needed
+      - Ask yourself: "Would other AI agents find this useful?" If no, make it a script
 
 
 quick_reference:
