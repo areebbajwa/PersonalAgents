@@ -6,9 +6,13 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 import yaml
+try:
+    from jinja2 import Template
+except ImportError:
+    Template = None
 
 class WorkflowManager:
-    def __init__(self, rules_dir: Path, project: Optional[str] = None, workflow_file: Optional[Path] = None, no_auto_monitor: bool = False):
+    def __init__(self, rules_dir: Path, project: Optional[str] = None, workflow_file: Optional[Path] = None, no_auto_monitor: bool = False, spawned: bool = False, task: Optional[str] = None):
         self.rules_dir = rules_dir
         
         # Always use worktree project name if in a worktree directory
@@ -27,11 +31,12 @@ class WorkflowManager:
                 pass
         
         self.project = project  # Store the project name
+        self.spawned = spawned  # Store spawned flag
+        self.task = task  # Store task description
         # Store state in workflow-cli's state directory
-        # Resolve to get the actual script location (handles symlinks)
-        cli_dir = Path(__file__).resolve().parent
-        state_dir = cli_dir / 'state'
-        state_dir.mkdir(exist_ok=True)
+        # Always use the main PersonalAgents path, not relative to script
+        state_dir = Path.home() / 'PersonalAgents' / 'cli_tools' / 'workflow-cli' / 'state'
+        state_dir.mkdir(exist_ok=True, parents=True)
         
         # Determine state file name
         if workflow_file:
@@ -47,6 +52,13 @@ class WorkflowManager:
         
         self.current_state = self._load_state()
         self.no_auto_monitor = no_auto_monitor
+        
+    def _render_content(self, content: str) -> str:
+        """Render content with Jinja2 template variables"""
+        if Template and (self.task or self.spawned):
+            template = Template(content)
+            return template.render(task=self.task, spawned=self.spawned)
+        return content
     
     def _load_state(self) -> Dict:
         """Load current workflow state from disk"""
@@ -76,7 +88,8 @@ class WorkflowManager:
                 "name": data.get("name", ""),
                 "description": data.get("description", "")
             },
-            "global_rules": data.get("global_rules", []),
+            "global_rules": [{"title": rule.get("title", ""), "content": self._render_content(rule.get("content", ""))} 
+                           for rule in data.get("global_rules", [])],
             "steps": {},
             "quick_reference": data.get("quick_reference", {}),
             "emergency_procedures": data.get("emergency_procedures", {})
@@ -86,7 +99,7 @@ class WorkflowManager:
         for step in data.get("steps", []):
             workflow["steps"][step["number"]] = {
                 "title": step["title"],
-                "content": step["content"],
+                "content": self._render_content(step["content"]),
                 "mandatory": step.get("mandatory", False),
                 "rules": []
             }
@@ -597,6 +610,10 @@ def main():
     parser.add_argument('--reset', action='store_true', help='Reset workflow state')
     parser.add_argument('--clean', action='store_true', help='Delete project state completely')
     parser.add_argument('--project', type=str, help='Project/task name for state isolation')
+    parser.add_argument('--spawned', action='store_true', 
+                       help='Indicates workflow was spawned (exits Claude on completion)')
+    parser.add_argument('--task', type=str,
+                       help='Task description for the workflow')
     parser.add_argument('--rules-dir', type=Path, 
                        help='Directory containing workflow rules')
     parser.add_argument('--json', action='store_true', help='Output as JSON')
@@ -607,15 +624,12 @@ def main():
     if args.rules_dir:
         rules_dir = args.rules_dir
     else:
-        # Always use CLI tool's workflows directory
-        # Resolve symlinks to get the actual script location
-        script_path = Path(__file__).resolve()
-        rules_dir = script_path.parent / 'workflows'
+        # Always use the main PersonalAgents workflows directory
+        rules_dir = Path.home() / 'PersonalAgents' / 'cli_tools' / 'workflow-cli' / 'workflows'
     
     # For AI monitor commands without project, try to detect from most recent state file
     if (args.start_ai_monitor or args.stop_ai_monitor) and not args.project:
-        cli_dir = Path(__file__).resolve().parent
-        state_dir = cli_dir / 'state'
+        state_dir = Path.home() / 'PersonalAgents' / 'cli_tools' / 'workflow-cli' / 'state'
         if state_dir.exists():
             # Find most recently modified workflow state file
             state_files = list(state_dir.glob('workflow_state_*.json'))
@@ -630,7 +644,8 @@ def main():
                     args.project = project_name
     
     # Initialize workflow manager
-    manager = WorkflowManager(rules_dir, project=args.project, workflow_file=args.workflow, no_auto_monitor=args.no_auto_monitor)
+    manager = WorkflowManager(rules_dir, project=args.project, workflow_file=args.workflow, 
+                            no_auto_monitor=args.no_auto_monitor, spawned=args.spawned, task=args.task)
     
     # Handle commands
     result = {}

@@ -10,6 +10,10 @@ steps:
       
       I'm operating under DEV MODE rules: Simplify ruthlessly, test what matters, and create modern, maintainable code.
       
+      {% if task %}
+      **Task:** {{ task }}
+      {% endif %}
+      
       **⚠️ IMPORTANT: DO NOT start implementation yet. This is the planning phase.**
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
@@ -156,7 +160,7 @@ steps:
         - structure:
             - "# YYYYMMDD-[project-name]-todo.md"
             - "Last updated: [timestamp]"
-            - "## Non-Negotiable User Requirements: [exact user words]"
+            - "## Non-Negotiable User Requirements: {% if task %}{{ task }}{% else %}[exact user words]{% endif %}"
             - "## Context Discovery"
             - "## Tasks (with timestamps and status icons)"
             - "## Notes (with breakthrough markers)"
@@ -268,6 +272,15 @@ steps:
          ```
       
       **Workflow Complete:** Project finished and state cleaned up
+      
+      {% if spawned %}
+      **Spawned workflow complete. Exiting Claude...**
+      
+      Run this command to exit:
+      ```
+      exit
+      ```
+      {% endif %}
     mandatory: true
 
 global_rules:
@@ -290,6 +303,7 @@ global_rules:
       15. ALWAYS find root cause of issues and fix it - never add band-aid fixes or fallbacks
       16. Use GitHub/npm libraries instead of reinventing the wheel - search for existing solutions first
       17. If stuck after significant effort and things are messy - first search web for best practices, then simplify and rebuild from scratch instead of fixing broken code
+      18. Never duplicate any code or create any redundancy. Update/delete/refactor as needed.
 
   - title: "UpdateTodo Command Handler"
     content: |

@@ -9,6 +9,10 @@ steps:
       
       I will complete this task autonomously without asking for help (except for 2FA).
       
+      {% if task %}
+      **Task:** {{ task }}
+      {% endif %}
+      
       **⚠️ IMPORTANT: DO NOT start implementation yet. This is the planning phase.**
       
       **Check for existing todo:**
@@ -82,7 +86,7 @@ steps:
       ```markdown
       # YYYYMMDD-[project-name]-todo.md
       
-      ## Non-Negotiable User Requirements: "[exact user words preserved here]"
+      ## Non-Negotiable User Requirements: "{% if task %}{{ task }}{% else %}[exact user words preserved here]{% endif %}"
       
       ## Context Discovery
       - Link to relevant existing code: [file_path:line number]
@@ -208,6 +212,15 @@ steps:
          ```
       
       **Workflow Complete:** Task finished and state cleaned up
+      
+      {% if spawned %}
+      **Spawned workflow complete. Exiting Claude...**
+      
+      Run this command to exit:
+      ```
+      exit
+      ```
+      {% endif %}
     mandatory: true
 
 global_rules:

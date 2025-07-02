@@ -135,20 +135,153 @@ async function exportHtml() {
     return filepath;
 }
 
+// Generate selectors for an element following best practices
+function generateSelectors(el, $, displayText, classes, id, href, name) {
+    const selectors = [];
+    
+    // 1. ID selector (highest priority - unique and fastest)
+    if (id) {
+        selectors.push(`id=${id}`);
+    }
+    
+    // 2. Name attribute selector
+    if (name) {
+        selectors.push(`name=${name}`);
+    }
+    
+    // 3. CSS selectors (various strategies)
+    
+    // 3a. Class selector (simple and specific)
+    if (classes) {
+        const classList = classes.split(' ').filter(c => c);
+        if (classList.length === 1) {
+            selectors.push(`css=.${classList[0]}`);
+        } else if (classList.length > 1) {
+            // Use the most specific class or combine for uniqueness
+            selectors.push(`css=.${classList.join('.')}`);
+        }
+    }
+    
+    // 3b. Attribute selectors for specific element types
+    if (el.tagName.toLowerCase() === 'input' || el.tagName.toLowerCase() === 'button') {
+        const type = $(el).attr('type');
+        if (type) {
+            selectors.push(`css=${el.tagName.toLowerCase()}[type="${type}"]`);
+        }
+    }
+    
+    // 3c. Href attribute for links (partial matching for flexibility)
+    if (href && el.tagName.toLowerCase() === 'a') {
+        // Use partial match for dynamic URLs
+        const hrefPath = href.split('?')[0]; // Remove query params
+        if (hrefPath.length < 50) {
+            selectors.push(`css=a[href="${hrefPath}"]`);
+        } else {
+            // Use starts-with for long URLs
+            selectors.push(`css=a[href^="${hrefPath.substring(0, 30)}"]`);
+        }
+    }
+    
+    // 3d. Text-based selector using xpath (as last resort)
+    if (displayText && displayText !== `[${$(el).attr('type') || 'text'} input]`) {
+        const cleanText = displayText.replace(/"/g, '\\"').substring(0, 30);
+        // Note: contains() is XPath, not CSS - using xpath for text content
+        selectors.push(`xpath=//${el.tagName.toLowerCase()}[contains(text(), "${cleanText}")]`);
+    }
+    
+    return selectors.slice(0, 3); // Limit to 3 most specific selectors
+}
+
+// Extract interactive elements from HTML
+function extractInteractiveElements($) {
+    const interactiveSelector = 'button, input[type="button"], input[type="submit"], input[type="reset"], ' +
+                               '[role="button"], a[href], input[type="text"], input[type="password"], ' +
+                               'input[type="email"], input[type="search"], input[type="tel"], ' +
+                               'input[type="url"], input[type="number"], input[type="checkbox"], ' +
+                               'input[type="radio"], select, textarea, [onclick], [tabindex]:not([tabindex="-1"])';
+    
+    const elements = [];
+    $(interactiveSelector).each((i, el) => {
+        const text = $(el).text().trim() || $(el).val() || '';
+        const classes = $(el).attr('class') || '';
+        const id = $(el).attr('id') || '';
+        const href = $(el).attr('href') || '';
+        const placeholder = $(el).attr('placeholder') || '';
+        const name = $(el).attr('name') || '';
+        
+        // Create a display text that includes relevant info
+        let displayText = text;
+        if (!displayText && placeholder) displayText = `[${placeholder}]`;
+        if (!displayText && name) displayText = `[${name}]`;
+        if (!displayText && el.tagName.toLowerCase() === 'input') {
+            displayText = `[${$(el).attr('type') || 'text'} input]`;
+        }
+        
+        if (displayText || classes || id || href) {
+            elements.push({ 
+                text: displayText, 
+                classes, 
+                id, 
+                tagName: el.tagName.toLowerCase(),
+                href: href ? href.substring(0, 50) + (href.length > 50 ? '...' : '') : undefined,
+                selectors: generateSelectors(el, $, displayText, classes, id, href, name)
+            });
+        }
+    });
+    
+    return elements;
+}
+
+// Extract page text
+async function extractPageText() {
+    try {
+        // Use Selenium's native getText() method which preserves line breaks
+        const bodyElement = await driver.findElement(By.tagName('body'));
+        let text = await bodyElement.getText();
+        
+        // Clean up excessive whitespace while preserving line breaks
+        text = text.replace(/[ \t]+/g, ' ')  // Replace multiple spaces/tabs with single space
+                   .replace(/\n\s*\n\s*\n+/g, '\n\n')  // Replace multiple newlines with double newline
+                   .trim();
+        
+        return text;
+    } catch (error) {
+        // Fallback to executeScript method if getText fails
+        try {
+            const bodyElement = await driver.findElement(By.tagName('body'));
+            return await driver.executeScript('return arguments[0].innerText;', bodyElement);
+        } catch (fallbackError) {
+            // Final fallback to cheerio parsing
+            const html = await driver.getPageSource();
+            const $ = cheerio.load(html);
+            $('script').remove();
+            $('style').remove();
+            return $('body').text().replace(/\s+/g, ' ').trim();
+        }
+    }
+}
+
 // Calculate HTML diff
 function calculateHtmlDiff(currentHtml) {
+    const currentDoc = cheerio.load(currentHtml);
+    
     if (!previousHtml) {
+        // First page load - still find interactive elements
+        const currentButtons = extractInteractiveElements(currentDoc);
+        
         return { 
             hasDiff: false, 
-            summary: "First page load - no previous HTML to compare",
+            summary: `First page load - ${currentButtons.length} interactive elements found`,
             addedElements: [],
             removedElements: [],
-            changedElements: []
+            changedElements: [],
+            newButtons: currentButtons,
+            totalCurrentElements: currentDoc('*').length,
+            totalPreviousElements: 0
         };
     }
     
-    // Parse both HTML strings
-    const currentDoc = cheerio.load(currentHtml);
+    // Parse both HTML strings (already loaded currentDoc above)
     const previousDoc = cheerio.load(previousHtml);
     
     // Get text differences
@@ -171,26 +304,9 @@ function calculateHtmlDiff(currentHtml) {
     const previousElements = previousDoc('*').length;
     const elementDiff = currentElements - previousElements;
     
-    // Look for new buttons or interactive elements
-    const currentButtons = [];
-    currentDoc('button, input[type="button"], input[type="submit"], [role="button"]').each((i, el) => {
-        const text = currentDoc(el).text().trim();
-        const classes = currentDoc(el).attr('class') || '';
-        const id = currentDoc(el).attr('id') || '';
-        if (text || classes || id) {
-            currentButtons.push({ text, classes, id, tagName: el.tagName });
-        }
-    });
-    
-    const previousButtons = [];
-    previousDoc('button, input[type="button"], input[type="submit"], [role="button"]').each((i, el) => {
-        const text = previousDoc(el).text().trim();
-        const classes = previousDoc(el).attr('class') || '';
-        const id = previousDoc(el).attr('id') || '';
-        if (text || classes || id) {
-            previousButtons.push({ text, classes, id, tagName: el.tagName });
-        }
-    });
+    // Look for new interactive elements
+    const currentButtons = extractInteractiveElements(currentDoc);
+    const previousButtons = extractInteractiveElements(previousDoc);
     
     // Find new buttons
     const newButtons = currentButtons.filter(current => 
@@ -272,6 +388,29 @@ app.get('/status', async (req, res) => {
     }
 });
 
+app.get('/elements', async (req, res) => {
+    try {
+        if (!driver) {
+            res.json({ success: false, error: 'No browser session active' });
+            return;
+        }
+        
+        const html = await driver.getPageSource();
+        const $ = cheerio.load(html);
+        const elements = extractInteractiveElements($);
+        
+        res.json({ 
+            success: true, 
+            elements: elements,
+            count: elements.length,
+            url: await driver.getCurrentUrl(),
+            title: await driver.getTitle()
+        });
+    } catch (e) {
+        res.json({ success: false, error: e.message });
+    }
+});
+
 app.post('/navigate', async (req, res) => {
     try {
         await initBrowser();
@@ -284,6 +423,7 @@ app.post('/navigate', async (req, res) => {
         
         const screenshot = await takeScreenshot();
         const html = await exportHtml();
+        const text = await extractPageText();
         
         // Update previous HTML for next comparison
         previousHtml = currentHtml;
@@ -292,12 +432,34 @@ app.post('/navigate', async (req, res) => {
             success: true, 
             screenshot, 
             html,
+            text,
             htmlDiff,
             url: await driver.getCurrentUrl(),
             title: await driver.getTitle()
         });
     } catch (e) {
-        res.json({ success: false, error: e.message });
+        // Even on error, try to capture current page state for debugging
+        try {
+            const currentHtml = await driver.getPageSource();
+            const htmlDiff = calculateHtmlDiff(currentHtml);
+            const screenshot = await takeScreenshot();
+            const html = await exportHtml();
+            const text = await extractPageText();
+            
+            res.json({ 
+                success: false, 
+                error: e.message,
+                screenshot, 
+                html,
+                text,
+                htmlDiff,
+                url: await driver.getCurrentUrl(),
+                title: await driver.getTitle()
+            });
+        } catch (pageStateError) {
+            // If we can't get page state, just return the original error
+            res.json({ success: false, error: e.message });
+        }
     }
 });
 
@@ -315,6 +477,7 @@ app.post('/click', async (req, res) => {
         
         const screenshot = await takeScreenshot();
         const html = await exportHtml();
+        const text = await extractPageText();
         
         // Update previous HTML for next comparison
         previousHtml = currentHtml;
@@ -323,12 +486,34 @@ app.post('/click', async (req, res) => {
             success: true, 
             screenshot, 
             html,
+            text,
             htmlDiff,
             url: await driver.getCurrentUrl(),
             title: await driver.getTitle()
         });
     } catch (e) {
-        res.json({ success: false, error: e.message });
+        // Even on error, try to capture current page state for debugging
+        try {
+            const currentHtml = await driver.getPageSource();
+            const htmlDiff = calculateHtmlDiff(currentHtml);
+            const screenshot = await takeScreenshot();
+            const html = await exportHtml();
+            const text = await extractPageText();
+            
+            res.json({ 
+                success: false, 
+                error: e.message,
+                screenshot, 
+                html,
+                text,
+                htmlDiff,
+                url: await driver.getCurrentUrl(),
+                title: await driver.getTitle()
+            });
+        } catch (pageStateError) {
+            // If we can't get page state, just return the original error
+            res.json({ success: false, error: e.message });
+        }
     }
 });
 
@@ -348,6 +533,7 @@ app.post('/type', async (req, res) => {
         
         const screenshot = await takeScreenshot();
         const html = await exportHtml();
+        const pageText = await extractPageText();
         
         // Update previous HTML for next comparison
         previousHtml = currentHtml;
@@ -356,12 +542,34 @@ app.post('/type', async (req, res) => {
             success: true, 
             screenshot, 
             html,
+            text: pageText,
             htmlDiff,
             url: await driver.getCurrentUrl(),
             title: await driver.getTitle()
         });
     } catch (e) {
-        res.json({ success: false, error: e.message });
+        // Even on error, try to capture current page state for debugging
+        try {
+            const currentHtml = await driver.getPageSource();
+            const htmlDiff = calculateHtmlDiff(currentHtml);
+            const screenshot = await takeScreenshot();
+            const html = await exportHtml();
+            const text = await extractPageText();
+            
+            res.json({ 
+                success: false, 
+                error: e.message,
+                screenshot, 
+                html,
+                text,
+                htmlDiff,
+                url: await driver.getCurrentUrl(),
+                title: await driver.getTitle()
+            });
+        } catch (pageStateError) {
+            // If we can't get page state, just return the original error
+            res.json({ success: false, error: e.message });
+        }
     }
 });
 
@@ -370,7 +578,28 @@ app.post('/screenshot', async (req, res) => {
         const screenshot = await takeScreenshot();
         res.json({ success: true, screenshot });
     } catch (e) {
-        res.json({ success: false, error: e.message });
+        // Even on error, try to capture current page state for debugging
+        try {
+            const currentHtml = await driver.getPageSource();
+            const htmlDiff = calculateHtmlDiff(currentHtml);
+            const screenshot = await takeScreenshot();
+            const html = await exportHtml();
+            const text = await extractPageText();
+            
+            res.json({ 
+                success: false, 
+                error: e.message,
+                screenshot, 
+                html,
+                text,
+                htmlDiff,
+                url: await driver.getCurrentUrl(),
+                title: await driver.getTitle()
+            });
+        } catch (pageStateError) {
+            // If we can't get page state, just return the original error
+            res.json({ success: false, error: e.message });
+        }
     }
 });
 
@@ -382,7 +611,28 @@ app.post('/close', async (req, res) => {
         }
         res.json({ success: true });
     } catch (e) {
-        res.json({ success: false, error: e.message });
+        // Even on error, try to capture current page state for debugging
+        try {
+            const currentHtml = await driver.getPageSource();
+            const htmlDiff = calculateHtmlDiff(currentHtml);
+            const screenshot = await takeScreenshot();
+            const html = await exportHtml();
+            const text = await extractPageText();
+            
+            res.json({ 
+                success: false, 
+                error: e.message,
+                screenshot, 
+                html,
+                text,
+                htmlDiff,
+                url: await driver.getCurrentUrl(),
+                title: await driver.getTitle()
+            });
+        } catch (pageStateError) {
+            // If we can't get page state, just return the original error
+            res.json({ success: false, error: e.message });
+        }
     }
 });
 

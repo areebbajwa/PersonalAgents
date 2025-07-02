@@ -83,6 +83,12 @@ async function makeRequest(endpoint, data = {}) {
 
 // Display action results
 function displayActionResult(result) {
+    if (result.url) {
+        console.log(`URL: ${result.url}`);
+    }
+    if (result.title) {
+        console.log(`Title: ${result.title}`);
+    }
     if (result.screenshot) {
         console.log(`Screenshot: ${result.screenshot}`);
     }
@@ -92,26 +98,39 @@ function displayActionResult(result) {
     if (result.htmlDiff) {
         console.log(`HTML Diff: ${result.htmlDiff.summary}`);
         
-        if (result.htmlDiff.hasDiff) {
-            if (result.htmlDiff.newButtons && result.htmlDiff.newButtons.length > 0) {
-                console.log(`New Buttons Found:`);
-                result.htmlDiff.newButtons.forEach((button, i) => {
-                    console.log(`  ${i + 1}. "${button.text}" (${button.tagName})`);
-                    if (button.classes) console.log(`     Classes: ${button.classes}`);
-                    if (button.id) console.log(`     ID: ${button.id}`);
-                });
+        // Show interactive elements even if hasDiff is false (for first page load)
+        if (result.htmlDiff.newButtons && result.htmlDiff.newButtons.length > 0) {
+            console.log(`Interactive Elements Found:`);
+            // Limit to first 20 for readability
+            const elementsToShow = result.htmlDiff.newButtons.slice(0, 20);
+            elementsToShow.forEach((button, i) => {
+                console.log(`  ${i + 1}. "${button.text}" (${button.tagName})`);
+                if (button.selectors && button.selectors.length > 0) {
+                    console.log(`     Selector: ${button.selectors[0]}`);
+                    if (button.selectors.length > 1) {
+                        console.log(`     Alt: ${button.selectors.slice(1).join(', ')}`);
+                    }
+                }
+                if (button.href) console.log(`     Href: ${button.href}`);
+                if (button.classes) console.log(`     Classes: ${button.classes}`);
+                if (button.id) console.log(`     ID: ${button.id}`);
+            });
+            if (result.htmlDiff.newButtons.length > 20) {
+                console.log(`  ... and ${result.htmlDiff.newButtons.length - 20} more`);
+                console.log(`  (Use 'selenium-cli elements' to see complete list)`);
             }
+        }
+        
+        if (result.htmlDiff.hasDiff) {
             
             if (result.htmlDiff.elementDiff !== 0) {
                 console.log(`Element Count: ${result.htmlDiff.totalPreviousElements} → ${result.htmlDiff.totalCurrentElements} (${result.htmlDiff.elementDiff > 0 ? '+' : ''}${result.htmlDiff.elementDiff})`);
             }
         }
     }
-    if (result.url) {
-        console.log(`URL: ${result.url}`);
-    }
-    if (result.title) {
-        console.log(`Title: ${result.title}`);
+    if (result.text) {
+        console.log(`Text:`);
+        console.log(result.text);
     }
 }
 
@@ -131,6 +150,7 @@ async function main() {
         console.log('  click <selector>            - Click element');
         console.log('  type <selector> <text>      - Type text');
         console.log('  screenshot                  - Take screenshot');
+        console.log('  elements                    - List all interactive elements');
         console.log('  status                      - Check browser status');
         console.log('  close                       - Close browser');
         console.log('');
@@ -166,6 +186,8 @@ async function main() {
                     displayActionResult(result);
                 } else {
                     console.error(`✗ Navigation failed: ${result.error}`);
+                    // Still display page state on error for debugging
+                    displayActionResult(result);
                     process.exit(1);
                 }
                 break;
@@ -185,6 +207,8 @@ async function main() {
                     displayActionResult(result);
                 } else {
                     console.error(`✗ Click failed: ${result.error}`);
+                    // Still display page state on error for debugging
+                    displayActionResult(result);
                     process.exit(1);
                 }
                 break;
@@ -205,6 +229,8 @@ async function main() {
                     displayActionResult(result);
                 } else {
                     console.error(`✗ Type failed: ${result.error}`);
+                    // Still display page state on error for debugging
+                    displayActionResult(result);
                     process.exit(1);
                 }
                 break;
@@ -217,6 +243,39 @@ async function main() {
                 } else {
                     console.error(`✗ Screenshot failed: ${result.error}`);
                     process.exit(1);
+                }
+                break;
+            }
+                
+            case 'elements': {
+                try {
+                    const response = await fetch(`http://localhost:${SESSION_SERVER_PORT}/elements`);
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        console.log(`Interactive Elements on ${result.url}`);
+                        console.log(`Title: ${result.title}`);
+                        console.log(`Total elements: ${result.count}`);
+                        console.log('');
+                        
+                        result.elements.forEach((element, i) => {
+                            console.log(`${i + 1}. "${element.text}" (${element.tagName})`);
+                            if (element.selectors && element.selectors.length > 0) {
+                                console.log(`   Selector: ${element.selectors[0]}`);
+                                if (element.selectors.length > 1) {
+                                    console.log(`   Alt: ${element.selectors.slice(1).join(', ')}`);
+                                }
+                            }
+                            if (element.href) console.log(`   Href: ${element.href}`);
+                            if (element.classes) console.log(`   Classes: ${element.classes}`);
+                            if (element.id) console.log(`   ID: ${element.id}`);
+                            console.log('');
+                        });
+                    } else {
+                        console.error(`✗ Failed to get elements: ${result.error}`);
+                    }
+                } catch (error) {
+                    console.log('✗ No active browser session');
                 }
                 break;
             }

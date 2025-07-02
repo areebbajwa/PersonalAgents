@@ -7,6 +7,8 @@
 ### Quick Commands
 - **"taskmode"** → Start task mode workflow: `workflow-cli --project [name] --mode task --step 1`
 - **"devmode"** → Start dev mode workflow: `workflow-cli --project [name] --mode dev --step 1`
+- **"start taskmode with task: 'description'"** → Start with task: `workflow-cli --project [name] --mode task --step 1 --task "description"`
+- **"start devmode with task: 'description'"** → Start with task: `workflow-cli --project [name] --mode dev --step 1 --task "description"`
 - **"updatetodo"** → When user gives new requirements:
   1. Add to Non-Negotiable User Requirements section in todo file
   2. Jump to planning: `workflow-cli --project [name] --set-step 5`
@@ -44,3 +46,7 @@ workflow-cli --stop-ai-monitor      # stop monitor (auto-detects project)
 AI Monitor auto-starts with workflows and sends "ai-monitor:" prefixed guidance for violations.
 
 Note: If starting with `yolo [project-name]`, workflow-cli auto-detects project from worktree directory.
+
+## Coding Guidelines ##
+
+- Never duplicate any code or create any redundancy. Update/delete/refactor as needed.

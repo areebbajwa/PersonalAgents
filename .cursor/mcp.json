@@ -1,1148 +1,31 @@
 {
-  "numStartups": 104,
+  "numStartups": 118,
   "installMethod": "local",
   "autoUpdates": true,
   "theme": "dark-ansi",
   "tipsHistory": {
     "ide-hotkey": 81,
     "new-user-warmup": 5,
-    "shift-enter": 93,
+    "shift-enter": 114,
     "memory-command": 38,
     "theme-command": 90,
     "prompt-queue": 44,
     "enter-to-steer-in-relatime": 94,
     "todo-list": 95,
-    "# for memory": 97,
+    "# for memory": 118,
     "install-github-app": 100,
     "permissions": 104,
     "drag-and-drop-images": 103,
     "double-esc": 98,
     "continue": 103,
-    "custom-commands": 84,
+    "custom-commands": 115,
     "shift-tab": 104,
     "git-worktrees": 84,
-    "vscode-command-install": 99
+    "vscode-command-install": 117
   },
-  "memoryUsageCount": 2,
-  "promptQueueUseCount": 157,
+  "memoryUsageCount": 3,
+  "promptQueueUseCount": 172,
   "mcpServers": {},
-  "projects": {
-    "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents": {
-      "allowedTools": [],
-      "history": [
-        {
-          "display": "delete all worktrees",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "stop and restart monitor then to test it",
-          "pastedContents": {}
-        },
-        {
-          "display": "ai-monitor: run workflow-cli --remind-rules --project ai-monitor-improvements --mode dev",
-          "pastedContents": {}
-        },
-        {
-          "display": "in monitor-all, show a count-down to next check beside each project",
-          "pastedContents": {}
-        },
-        {
-          "display": "why do we have analysisRequest that repeats a lot of what the static prompt repeats? and some conflicts?",
-          "pastedContents": {}
-        },
-        {
-          "display": "test the changes",
-          "pastedContents": {}
-        },
-        {
-          "display": "no, don't bother with \"entries since last check\". just send the full logs each time. caching will take care of repeated text",
-          "pastedContents": {}
-        },
-        {
-          "display": "ai-monitor: run workflow-cli --remind-rules --project ai-monitor-improvements --mode dev",
-          "pastedContents": {}
-        },
-        {
-          "display": "i think there are other places still truncating",
-          "pastedContents": {}
-        },
-        {
-          "display": "don't limit anything except the 3M limit",
-          "pastedContents": {}
-        },
-        {
-          "display": "there's a .substring(0, 200) restriction on terminal output. what's that for",
-          "pastedContents": {}
-        },
-        {
-          "display": "it should not interfere or provide any guidance unless it needs to - just like a human manager. let the AI work unless an intervention is needed. \\\n\\\nalso is \"head\" correct? i want most recent terminal output included. should it be tail?",
-          "pastedContents": {}
-        },
-        {
-          "display": "ai-monitor: run workflow-cli --remind-rules --project ai-monitor-improvements --mode dev",
-          "pastedContents": {}
-        },
-        {
-          "display": "modify ai-monitor to restrict terminal output to 3M chars (head, not tail) when sending to gemini. also define clear stuck criteria in the gemini prompt: stuck means 20+ turns without meaningful progress towards the overall goal as mentioned in the todo file.",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "delete the readme",
-          "pastedContents": {}
-        },
-        {
-          "display": "ai-monitor: run workflow-cli --remind-rules --project ai-monitor-improvements --mode dev",
-          "pastedContents": {}
-        },
-        {
-          "display": "add any changes about selenium back",
-          "pastedContents": {}
-        },
-        {
-          "display": "hmm maybe we reversed an incorrect commit then. we want the selenium fixes. which commit was that",
-          "pastedContents": {}
-        },
-        {
-          "display": "anything other than ai monitor was affected?",
-          "pastedContents": {}
-        },
-        {
-          "display": "can we make that command run from time to time to keep all tmux sessions clean?",
-          "pastedContents": {}
-        },
-        {
-          "display": "reverse changes in these commits:\\\n\\\n345b3136f09bb6800f098ed6b83fd62511bce902\\\n1fe69606e9867c20c48ac21fe75d8c2bcb507b76\\\nc80f140e9a2342ba4753447ae231deeb033b2463",
-          "pastedContents": {}
-        },
-        {
-          "display": "ai-monitor: run workflow-cli --remind-rules --project ai-monitor-improvements --mode dev",
-          "pastedContents": {}
-        },
-        {
-          "display": "no don't add to .gitignore because then it'll stop tracking those files. just discard changes related to the symlinks",
-          "pastedContents": {}
-        },
-        {
-          "display": "don't remove symlinks just discard the changes related to those so it reverts to how it was. i don't want symlinks getting committed",
-          "pastedContents": {}
-        },
-        {
-          "display": "after creating worktree, create symlinks to ~/PersonalAgents/cli_tools and ~/PersonalAgents/todos to replace the cli_tools and todos directories in the worktree. in the clean up step these symlinks should be reversed. I want all changes to todos and cli_tools to happen in the original directory while working inside the worktree for the rest.",
-          "pastedContents": {}
-        },
-        {
-          "display": "actually modify workflow-cli that even if it's called with a new project name, it should use the one that it was started with, while it's in that worktree",
-          "pastedContents": {}
-        },
-        {
-          "display": "i don't want to have to restart everything though. i just want the screen buffer to fix while staying in current state. what should i use?",
-          "pastedContents": {}
-        },
-        {
-          "display": "ai-monitor: run workflow-cli --remind-rules --project ai-monitor-improvements --mode dev",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "no no it needs to specify the project if we didn't start with yolo + project name\\\n\\\nalso remove that final line you added",
-          "pastedContents": {}
-        },
-        {
-          "display": "ai-monitor: run workflow-cli --remind-rules --project ai-monitor-improvements --mode dev",
-          "pastedContents": {}
-        },
-        {
-          "display": "is there anything in the rules that encourages adding debug logs and finding the root cause of issues?",
-          "pastedContents": {}
-        },
-        {
-          "display": "don't make notes. fix it!",
-          "pastedContents": {}
-        },
-        {
-          "display": "**STOP! Verify all checked tasks:**\n       207 +\n       208 +        Review each ✅ in your todo list:\n       209 +        - Did the test actually pass?\n       210 +        - Was the feature fully implemented?\n       211 +        - Any skipped steps marked complete?\n       212 +\n       213 +        If any were marked prematurely, go back and fix them now.\n",
-          "pastedContents": {}
-        },
-        {
-          "display": "update claude.md with instructions. keep it minimal",
-          "pastedContents": {}
-        },
-        {
-          "display": "#add instructions about this - one line",
-          "pastedContents": {}
-        },
-        {
-          "display": "read the file and write a few test cases at a time otherwise it times out",
-          "pastedContents": {}
-        },
-        {
-          "display": "start devmode first",
-          "pastedContents": {}
-        },
-        {
-          "display": "when you start yolo with a project name, starting a workflow-cli later doesn't use the same project name. start devmode",
-          "pastedContents": {}
-        },
-        {
-          "display": "go on",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "look at our current tmux with claude code setup and research the correct way to do this. it seems like the screen buffer that claude code writes to gets messed up from time to time as you re-connect to the tmux session or lose focus/come back etc",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "go on",
-          "pastedContents": {}
-        },
-        {
-          "display": "/resume ",
-          "pastedContents": {}
-        },
-        {
-          "display": "where it says \"jump back to step 7\", make it say the name of the step instead. i don't want to hard code step numbers because they will change",
-          "pastedContents": {}
-        },
-        {
-          "display": "still seems to miss it from time to time. let's add a step after step 5 that asks the AI to check whether the --sub-task-next step exists after each test gate",
-          "pastedContents": {}
-        },
-        {
-          "display": "no. don't use heuristics to decide when to intervene. will make the system too dumb. i want to send the entire terminal output. note that gemini caching will come into play here so account for that. \\\n\\\nwhen i say \"stuck\" i mean let's say 20 turns without overall progress on the high level goal. \\\n\\\nupdatetodo",
-          "pastedContents": {}
-        },
-        {
-          "display": "start devmode first",
-          "pastedContents": {}
-        },
-        {
-          "display": "[Pasted text #1 +14 lines]",
-          "pastedContents": {
-            "1": {
-              "id": 1,
-              "type": "text",
-              "content": "@cli_tools/ai-monitor-cli/ai-monitor-cli this tool is supposed to help guide the AI back on track if it starts violating\n  any of the rules in either dev mode or task mode. @cli_tools/workflow-cli/workflows/dev-mode.yaml . It's also supposed to\n  help it if it gets stuck. It should have a really good reason to intervene though, otherwise it should let the AI continue\n  as it is without interfering - just like a human manager. \\\n  \\\n  Right now it seems like it's interfering a little too much and it thinks the AI is stuck when it's not really stuck. By\n  stuck I mean the AI is going around in circles for more than 20 turns without much progress. \\\n  \\\n  Gemini has a massive 1M token context window so we can pass a lot of the terminal output for analysis. But since we're\n  doing this every 60 seconds, it can get expensive. So we have to balance cost with performance. I'm not sure right now\n  we're passing enough of the terminal output for analysis and I think the gemini prompt needs adjustment to behave as I'd\n  like.\\\n  \\\n  Create lots of different real-life cases where it both violates the dev mode rules and stays compliant and make sure the\n  ai-monitor behaves as needed - intervening only when required. Create at least 20 such cases. start devmode workflow first."
-            }
-          }
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "start",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "@cli_tools/ai-monitor-cli/ai-monitor-cli this tool is supposed to help guide the AI back on track if it starts violating any of the rules in either dev mode or task mode. @cli_tools/workflow-cli/workflows/dev-mode.yaml . It's also supposed to help it if it gets stuck. It should have a really good reason to intervene though, otherwise it should let the AI continue as it is without interfering - just like a human manager. \\\n\\\nRight now it seems like it's interfering a little too much and it thinks the AI is stuck when it's not really stuck. By stuck I mean the AI is going around in circles for more than 20 turns without much progress. \\\n\\\nGemini has a massive 1M token context window so we can pass a lot of the terminal output for analysis. But since we're doing this every 60 seconds, it can get expensive. So we have to balance cost with performance. I'm not sure right now we're passing enough of the terminal output for analysis and I think the gemini prompt needs adjustment to behave as I'd like.\\\n\\\nCreate lots of different real-life cases where it both violates the dev mode rules and stays compliant and make sure the ai-monitor behaves as needed - intervening only when required. Create at least 20 such cases. start devmode workflow first.",
-          "pastedContents": {}
-        },
-        {
-          "display": "actually we don't need that note in step 4. add teh note in step 5",
-          "pastedContents": {}
-        },
-        {
-          "display": "get rid of implementation plan from step 6. keep it in step 5 only. and add the need for this step in step 4 as well",
-          "pastedContents": {}
-        },
-        {
-          "display": "too verbose. ",
-          "pastedContents": {}
-        },
-        {
-          "display": "ok yea i mean just dev mode then. right now it shows it in the sample plan but doesn't explicitly mention it so the AI tends to ignore it at times",
-          "pastedContents": {}
-        },
-        {
-          "display": "@cli_tools/workflow-cli/workflows/dev-mode.yaml @cli_tools/workflow-cli/workflows/task-mode.yaml explicitly mention adding the --sub-task-next command after each test gate, not just in the example plan",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "stop all ai monitors",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "continue /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/todos/suno_nasheed_generation_part2_20250615_000300_todo.md. start taskmode",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "[Pasted text #1 +22 lines] fix this",
-          "pastedContents": {
-            "1": {
-              "id": 1,
-              "type": "text",
-              "content": "Error: Cannot find module 'commander'\nRequire stack:\n- /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/worktrees/fix-selenium-20250630/cli_tools/ai-monitor-cli/src/index.js\n- /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/worktrees/fix-selenium-20250630/cli_tools/ai-monitor-cli/ai-monitor-cli\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)\n    at Function._load (node:internal/modules/cjs/loader:1211:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/worktrees/fix-selenium-20250630/cli_tools/ai-monitor-cli/src/index.js:8:21)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/worktrees/fix-selenium-20250630/cli_tools/ai-monitor-cli/src/index.js',\n    '/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/worktrees/fix-selenium-20250630/cli_tools/ai-monitor-cli/ai-monitor-cli'\n  ]\n}\n\nNode.js v22.15.1\n"
-            }
-          }
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "give it it's own number",
-          "pastedContents": {}
-        },
-        {
-          "display": "update the example todo list in /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/workflow-cli/workflows/dev-mode.yaml. after test gate passes, put the --sub-task-next on a separate line to avoid any confusion",
-          "pastedContents": {}
-        },
-        {
-          "display": "seems like that killed this running terminal!",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "update /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/workflow-cli/workflows/dev-mode.yaml and task mode. if continuing an existing todo list, it should switch to the appropriate worktree if it already exists. make minimal modifications",
-          "pastedContents": {}
-        },
-        {
-          "display": "continue /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/todos/suno_nasheed_generation_part2_20250615_000300_todo.md. start taskmode",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "delete any outdated docs",
-          "pastedContents": {}
-        },
-        {
-          "display": "see /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/docs/tmux-claude-logging-migration.md\\\n\\\nadd a shortcut \"tr\" to connect to the most recent tmux and \"ta\" as an alias for tmux attach. \\\n  also auto clean up detached tmux sessions that haven't had recent activity (let's say 24 hours)?\\\n\\\nstart devmode now",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "isn't there other code in ai-monitor-cli and workflow-cli that depends on tmux session name. make sure nothing needs to be updated",
-          "pastedContents": {}
-        },
-        {
-          "display": "see /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/docs/tmux-claude-logging-migration.md\\\n\\\nif we start a workflow project, it should rename the tmux session after the project name",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "in task mode, keep anything that will make the task faster next time, just make sure it's referenced in the todo file",
-          "pastedContents": {}
-        },
-        {
-          "display": "just need to tell the AI in the gemini prompt, don't need to detect it",
-          "pastedContents": {}
-        },
-        {
-          "display": "modify /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/workflow-cli/workflows/dev-mode.yaml\\\n\\\nwhen checking git status, look at non-negotiable requirements and make sure only code relevant to that is kept and any unnecessary code/tools/scripts/tests are deleted\\\nin the final clean up step, don't just delete the worktree in git but also delete the folder (check pwd)\\\nalso delete/update any conflicting docs/references in other files based on our changes\\\n\\\nmake minimal updates to the yaml file. and make the last 2 updates in task-mode.yaml too",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "update ai-monitor-cli. it should not send any guidance when the conversation is compacting",
-          "pastedContents": {}
-        },
-        {
-          "display": "/resume ",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "go ahead",
-          "pastedContents": {}
-        },
-        {
-          "display": "test it",
-          "pastedContents": {}
-        },
-        {
-          "display": "see the terminal being processed here: /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/ai-monitor-cli/logs/gemini/gemini-suno_nasheed_generation-2025-06-30T19-38-27-048Z.json\\\n\\\nseems to not be parsing the objects properly?",
-          "pastedContents": {}
-        },
-        {
-          "display": "fix selenium-cli as needed",
-          "pastedContents": {}
-        },
-        {
-          "display": "stop all running ai monitors",
-          "pastedContents": {}
-        },
-        {
-          "display": "stop ai monitor",
-          "pastedContents": {}
-        },
-        {
-          "display": "ai-monitor: Your first step is to output the 'Task Mode Activated' announcement.",
-          "pastedContents": {}
-        },
-        {
-          "display": "continue generating nasheeds as per /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/todos/suno_nasheed_generation_part2_20250615_000300_todo.md. start taskmode workflow",
-          "pastedContents": {}
-        },
-        {
-          "display": "you've tested everything?",
-          "pastedContents": {}
-        },
-        {
-          "display": "did you test the auto-detection?",
-          "pastedContents": {}
-        }
-      ],
-      "mcpContextUris": [],
-      "mcpServers": {},
-      "enabledMcpjsonServers": [],
-      "disabledMcpjsonServers": [],
-      "hasTrustDialogAccepted": false,
-      "projectOnboardingSeenCount": 4,
-      "hasClaudeMdExternalIncludesApproved": false,
-      "hasClaudeMdExternalIncludesWarningShown": false,
-      "exampleFiles": [
-        "workflow-cli.py",
-        "screen-monitor.js",
-        "session-server.js",
-        "index.js",
-        "categorize_db_transactions.py"
-      ],
-      "exampleFilesGeneratedAt": 1751395514417,
-      "hasCompletedProjectOnboarding": true,
-      "lastTotalWebSearchRequests": 0
-    },
-    "/Volumes/ExtremeSSD/Kalaam": {
-      "allowedTools": [],
-      "history": [
-        {
-          "display": "merge to origin/development",
-          "pastedContents": {}
-        },
-        {
-          "display": "which branch are we on?",
-          "pastedContents": {}
-        },
-        {
-          "display": "run --next",
-          "pastedContents": {}
-        },
-        {
-          "display": "in the e2e folder add instructions for how to run the test suite",
-          "pastedContents": {}
-        },
-        {
-          "display": "run --next",
-          "pastedContents": {}
-        },
-        {
-          "display": "the test files should not be gitignored right?",
-          "pastedContents": {}
-        },
-        {
-          "display": "lets delete old non enhanced phase files and then run --next",
-          "pastedContents": {}
-        },
-        {
-          "display": "ok i logged out run the launcher again",
-          "pastedContents": {}
-        },
-        {
-          "display": "ok forget clearState. it should just detect whether in logged in or logged out state to decide whether to start with phase 0 or phase 1",
-          "pastedContents": {}
-        },
-        {
-          "display": "do cleanState at the beginning of phase 0 to force logged out state once",
-          "pastedContents": {}
-        },
-        {
-          "display": "make it go through the whole test and onboarding process until we get to the study tab. can continue as guest instead of entering an email address",
-          "pastedContents": {}
-        },
-        {
-          "display": "actually no i want to test placement test and account creation as well",
-          "pastedContents": {}
-        },
-        {
-          "display": "i mean new devmode workflow",
-          "pastedContents": {}
-        },
-        {
-          "display": "its on sign in screen now, not in logged in state. let's add a new phase that works in logged out state and goes through the entire on boarding as per /Volumes/ExtremeSSD/Kalaam/e2e/maestro/kalaam-app-e2e-test-sequence.md. once you get through everything, you can stop and then phase 1 can take over from there. start new taskmode workflow",
-          "pastedContents": {}
-        },
-        {
-          "display": "i have logged out now manually. make sure it works with logged out state",
-          "pastedContents": {}
-        },
-        {
-          "display": "no. still logged in. i think you might be tapping it too quickly",
-          "pastedContents": {}
-        },
-        {
-          "display": "can you test it with logged out state?",
-          "pastedContents": {}
-        },
-        {
-          "display": "will it also work if we start from a logged out state?",
-          "pastedContents": {}
-        },
-        {
-          "display": "i think it worked initially because we had clearState. Maybe we need a clearState right at the beginning of phase 1 only",
-          "pastedContents": {}
-        },
-        {
-          "display": "it's in the logged in state so it's just swiping up and down the profile tab",
-          "pastedContents": {}
-        },
-        {
-          "display": "no, see screenshots. it seems to keep swiping up on study tab instead of profile tab in the first step looking for logout button",
-          "pastedContents": {}
-        },
-        {
-          "display": "run --next",
-          "pastedContents": {}
-        },
-        {
-          "display": "no! stop simplifying it! find a way to get it done",
-          "pastedContents": {}
-        },
-        {
-          "display": "now begin. call --next",
-          "pastedContents": {}
-        },
-        {
-          "display": "read the updated todo file and make the rest of the phases like 1 and 2",
-          "pastedContents": {}
-        },
-        {
-          "display": "no skip to step 4",
-          "pastedContents": {}
-        },
-        {
-          "display": "now update the todo list as per devmode workflow",
-          "pastedContents": {}
-        },
-        {
-          "display": "no delete that todo list and create a new one with learnings and only what's left. make the todo list extremely detailed based on /Volumes/ExtremeSSD/Kalaam/e2e/maestro/kalaam-app-e2e-test-sequence.md. modify things as needed based on what we've learned",
-          "pastedContents": {}
-        },
-        {
-          "display": "no just update todo list and delete anything no longer used",
-          "pastedContents": {}
-        },
-        {
-          "display": "so can we now make the phases more comprehensive based on the @kalaam-app-e2e-test-sequence.md file. update everything based on learnings, i just want comprehensive tests, no matter how you do it. ",
-          "pastedContents": {}
-        },
-        {
-          "display": "save all learnings into LEARNINGS.md and delete todos",
-          "pastedContents": {}
-        },
-        {
-          "display": "delete all unnecessary files from e2e/maestro",
-          "pastedContents": {}
-        },
-        {
-          "display": "update todo list",
-          "pastedContents": {}
-        },
-        {
-          "display": "no! follow the test gating strictly. also don't skip any phases!",
-          "pastedContents": {}
-        },
-        {
-          "display": "need to clear state to get to onboarding",
-          "pastedContents": {}
-        },
-        {
-          "display": "seems like it's not even running the test. don't you have to stop current app so the test can start?",
-          "pastedContents": {}
-        },
-        {
-          "display": "implement @kalaam-app-e2e-test-sequence.md . start a new taskmode workflow. this is a description of what needs to be done, not a todo list",
-          "pastedContents": {}
-        },
-        {
-          "display": "commit and push",
-          "pastedContents": {}
-        },
-        {
-          "display": "you deleted the scripts again",
-          "pastedContents": {}
-        },
-        {
-          "display": "looks like e2e/maestro has a sub-folder with e2e/maestro!",
-          "pastedContents": {}
-        },
-        {
-          "display": "for example /Volumes/ExtremeSSD/Kalaam/e2e/maestro/E2E_TESTING_GUIDE.md",
-          "pastedContents": {}
-        },
-        {
-          "display": "no i see many others",
-          "pastedContents": {}
-        },
-        {
-          "display": "too many md files just keep the ones i told you about",
-          "pastedContents": {}
-        },
-        {
-          "display": "clean up the e2e/maestro directory. there's too much in the root ",
-          "pastedContents": {}
-        },
-        {
-          "display": "e2e/maestro is really messy. and seems you deleted kalaam-app-e2e-test-sequence.md? i need that along with learnings.md",
-          "pastedContents": {}
-        },
-        {
-          "display": "yea don't touch those",
-          "pastedContents": {}
-        },
-        {
-          "display": "whats up with the scripts in the git changes like extract_logs.sh. what was modified there?",
-          "pastedContents": {}
-        },
-        {
-          "display": "too many unnecessary files in git that should be in gitignore",
-          "pastedContents": {}
-        },
-        {
-          "display": "don't create any new directories in the root. inside one specific e2e/maestro folder is fine",
-          "pastedContents": {}
-        },
-        {
-          "display": "recent commits by Areeb have messed up the directory structure for Kalaam and added lots of files in wrong places and messed up the directory structure. started after 928c37b1171c7d2e8507b5b14f1913b0b6460ce9. clean it up. remove temp/unnecessary files.",
-          "pastedContents": {}
-        }
-      ],
-      "mcpContextUris": [],
-      "mcpServers": {},
-      "enabledMcpjsonServers": [],
-      "disabledMcpjsonServers": [],
-      "hasTrustDialogAccepted": false,
-      "projectOnboardingSeenCount": 6,
-      "hasClaudeMdExternalIncludesApproved": false,
-      "hasClaudeMdExternalIncludesWarningShown": false,
-      "exampleFiles": [
-        "FlashCardScreen.js",
-        "StudyScreen.js",
-        "App.js",
-        "ProfileTab.js",
-        "arabic.js"
-      ],
-      "exampleFilesGeneratedAt": 1750789740701,
-      "lastCost": 144.01469289999952,
-      "lastAPIDuration": 11323296,
-      "lastDuration": 92572788,
-      "lastLinesAdded": 7149,
-      "lastLinesRemoved": 2322,
-      "lastTotalInputTokens": 685485,
-      "lastTotalOutputTokens": 276711,
-      "lastTotalCacheCreationInputTokens": 2455596,
-      "lastTotalCacheReadInputTokens": 69224995,
-      "lastSessionId": "b13f0432-35b9-40ca-861e-e374605063b2"
-    },
-    "/Users/areeb2": {
-      "allowedTools": [],
-      "history": [
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "where is that todo file saved?",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        }
-      ],
-      "mcpContextUris": [],
-      "mcpServers": {},
-      "enabledMcpjsonServers": [],
-      "disabledMcpjsonServers": [],
-      "hasTrustDialogAccepted": false,
-      "projectOnboardingSeenCount": 2,
-      "hasClaudeMdExternalIncludesApproved": false,
-      "hasClaudeMdExternalIncludesWarningShown": false,
-      "lastCost": 0.0018616000000000001,
-      "lastAPIDuration": 5159,
-      "lastDuration": 8740,
-      "lastLinesAdded": 0,
-      "lastLinesRemoved": 0,
-      "lastTotalInputTokens": 2147,
-      "lastTotalOutputTokens": 36,
-      "lastTotalCacheCreationInputTokens": 0,
-      "lastTotalCacheReadInputTokens": 0,
-      "lastSessionId": "b65d751c-78e9-4575-a286-212a43d08b0b"
-    },
-    "/Volumes/ExtremeSSD/KalaamParent": {
-      "allowedTools": [],
-      "history": [
-        {
-          "display": "no, actually upload the attachment. if codebase tool doesn't support it, add support for it.",
-          "pastedContents": {}
-        },
-        {
-          "display": "add yuno's attachment to the appropriate ticket first",
-          "pastedContents": {}
-        },
-        {
-          "display": "show me the draft and yuno's email with it again. remove mention of internal ticket numbers. we already have a way to turn transliteration off btw in profile tab",
-          "pastedContents": {}
-        },
-        {
-          "display": "update md with this instruction",
-          "pastedContents": {}
-        },
-        {
-          "display": "dont communicate with anyone - staff or customer - without getting explicit approval first",
-          "pastedContents": {}
-        },
-        {
-          "display": "update the customer support md file to auto-retrieve ticket updates for any emails that come in about unresolved issues that we said we already created tickets for. add commands how to retrieve the ticket. add search command in kalaam-cli for codebase if needed",
-          "pastedContents": {}
-        },
-        {
-          "display": "check codebase and tell me updates to the ticket we created for this last time using kalaam-cli with codebase commands",
-          "pastedContents": {}
-        },
-        {
-          "display": "check codebase and tell me updates to the ticket we created for this last time using codebase-cli",
-          "pastedContents": {}
-        },
-        {
-          "display": "check codebase and tell me updates to the ticket we created for this last time",
-          "pastedContents": {}
-        },
-        {
-          "display": "no, find a way to get the thread and update md file once you figure it out",
-          "pastedContents": {}
-        },
-        {
-          "display": "i want to see the thread  before seeing each draft response. update md file if that's not clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "yes go ahead and follow instructions",
-          "pastedContents": {}
-        },
-        {
-          "display": "run /Volumes/ExtremeSSD/KalaamParent/KalaamAI/workflows/customer-support.md",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "run customer support md",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "run this workflow",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "why is it not starting properly?",
-          "pastedContents": {}
-        },
-        {
-          "display": "no it should work from any directory. tell me why it's not",
-          "pastedContents": {}
-        },
-        {
-          "display": "no. what's the issue with selenium? it works from ~/PersonalAgents directory",
-          "pastedContents": {}
-        },
-        {
-          "display": "use selenium-cli. update workflow",
-          "pastedContents": {}
-        },
-        {
-          "display": "yes",
-          "pastedContents": {}
-        },
-        {
-          "display": "ask them for examples and screenshots",
-          "pastedContents": {}
-        },
-        {
-          "display": "create a ticket for areeb and say we're investigating this. how bad are the translations? look at screenshot and tell me",
-          "pastedContents": {}
-        },
-        {
-          "display": "no just update the ticket we made for salah earlier about a similar issue today and say we're investigating this",
-          "pastedContents": {}
-        },
-        {
-          "display": "yes",
-          "pastedContents": {}
-        },
-        {
-          "display": "go ahead",
-          "pastedContents": {}
-        },
-        {
-          "display": "re-generate the response for reyhan it should mention how to cancel using the chargebee portal too",
-          "pastedContents": {}
-        },
-        {
-          "display": "don't use firebase-cli, only use api endpoints",
-          "pastedContents": {}
-        },
-        {
-          "display": "no i mean by calling those same endpoints as needed for both upgrades and streak fixes",
-          "pastedContents": {}
-        },
-        {
-          "display": "only keep this method and re-upgrade user",
-          "pastedContents": {}
-        },
-        {
-          "display": "which final api does customer-support-service call? ",
-          "pastedContents": {}
-        },
-        {
-          "display": "it's private repo. i can login if needed but should be logged in alrfeady to git",
-          "pastedContents": {}
-        },
-        {
-          "display": "no check that repo not locally",
-          "pastedContents": {}
-        },
-        {
-          "display": "first let's check how this repo does upgrades: https://github.com/areebbajwa/customer-support-service",
-          "pastedContents": {}
-        },
-        {
-          "display": "go ahead",
-          "pastedContents": {}
-        },
-        {
-          "display": "use firebase-cli",
-          "pastedContents": {}
-        },
-        {
-          "display": "upgrade him first and tell me if it succeeded",
-          "pastedContents": {}
-        },
-        {
-          "display": "yes don't ask for spam emails",
-          "pastedContents": {}
-        },
-        {
-          "display": "create a normal-high for salah and yes respond",
-          "pastedContents": {}
-        },
-        {
-          "display": "use codebase-cli to just list recent tickets",
-          "pastedContents": {}
-        },
-        {
-          "display": "first check codebase. have there been any tickets related to this since the email came?",
-          "pastedContents": {}
-        },
-        {
-          "display": "no, not using the read tool. launch using the default system image viewer",
-          "pastedContents": {}
-        },
-        {
-          "display": "always open all attachments in an image viewer so i can review them. update workflow file",
-          "pastedContents": {}
-        },
-        {
-          "display": "show me the full most recent email from the user. update workflow md file about this rule",
-          "pastedContents": {}
-        },
-        {
-          "display": "yes",
-          "pastedContents": {}
-        },
-        {
-          "display": "yea create a normal-high ticket for Salah. tell him it might have to do with saudi arabia. another friend reported a similar issue when in saudi arabia. generate another draft explaining this to the user too",
-          "pastedContents": {}
-        },
-        {
-          "display": "always show the full email so i can see exactly what the user said. update workflow first",
-          "pastedContents": {}
-        },
-        {
-          "display": "run a command to open the image viewer to show them to me!",
-          "pastedContents": {}
-        },
-        {
-          "display": "show them to me",
-          "pastedContents": {}
-        },
-        {
-          "display": "open the screenshots",
-          "pastedContents": {}
-        },
-        {
-          "display": "yes",
-          "pastedContents": {}
-        },
-        {
-          "display": "run this workflow and stop and wait for approval as asked",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "actually just make them as unread again (the ones you auto handled) and stop",
-          "pastedContents": {}
-        },
-        {
-          "display": "not remaining. re-do the ones you auto-handled",
-          "pastedContents": {}
-        },
-        {
-          "display": "no! you must always get confirmation before any of those actions! check critical rules again and update decision flowchart to make it explicit. then show me the emails that you auto-handled and wait for confirmation with the draft",
-          "pastedContents": {}
-        }
-      ],
-      "mcpContextUris": [],
-      "mcpServers": {},
-      "enabledMcpjsonServers": [],
-      "disabledMcpjsonServers": [],
-      "hasTrustDialogAccepted": false,
-      "projectOnboardingSeenCount": 12,
-      "hasClaudeMdExternalIncludesApproved": false,
-      "hasClaudeMdExternalIncludesWarningShown": false
-    },
-    "/Volumes/ExtremeSSD/TheNeuron": {
-      "allowedTools": [],
-      "history": [],
-      "mcpContextUris": [],
-      "mcpServers": {},
-      "enabledMcpjsonServers": [],
-      "disabledMcpjsonServers": [],
-      "hasTrustDialogAccepted": false,
-      "projectOnboardingSeenCount": 1,
-      "hasClaudeMdExternalIncludesApproved": false,
-      "hasClaudeMdExternalIncludesWarningShown": false,
-      "lastCost": 0.00021360000000000001,
-      "lastAPIDuration": 1018,
-      "lastDuration": 98188514,
-      "lastLinesAdded": 0,
-      "lastLinesRemoved": 0,
-      "lastTotalInputTokens": 207,
-      "lastTotalOutputTokens": 12,
-      "lastTotalCacheCreationInputTokens": 0,
-      "lastTotalCacheReadInputTokens": 0,
-      "lastSessionId": "da65bc73-ee8f-4243-a405-4c0e2309394e"
-    },
-    "/Volumes/ExtremeSSD/TheNeuron/TheNeuron": {
-      "allowedTools": [],
-      "history": [
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "stop selenium-fix ai monitor\n",
-          "pastedContents": {}
-        },
-        {
-          "display": "why does selenium-cli start a new browser session to take screenshot? there was already one running. investigate and fix",
-          "pastedContents": {}
-        },
-        {
-          "display": "no its recording",
-          "pastedContents": {}
-        },
-        {
-          "display": "don't use open! use selenium-cli. run --remind-rules",
-          "pastedContents": {}
-        },
-        {
-          "display": "go on",
-          "pastedContents": {}
-        },
-        {
-          "display": "no. fix the issue with selenium-cli. shouldn't have to call the start or session commands. just navigate should open firefox with default profile in headful mode. start new devmode workflow",
-          "pastedContents": {}
-        },
-        {
-          "display": "investigate why selenium-cli is not working and fix it",
-          "pastedContents": {}
-        },
-        {
-          "display": "don't use open! use selenium-cli. run --remind-rules",
-          "pastedContents": {}
-        },
-        {
-          "display": "start devmode workflow for this",
-          "pastedContents": {}
-        },
-        {
-          "display": "right now we have gemini audio processing but not for the entire data entry process for the patient - name address etc. change it so it's used for all of it. mention that the name/address etc will be in Urdu/Punjabi so it knows how to handle the names it hears better. also move the start recording button to the top of the screen. give me a detailed plan, don't make any changes yet",
-          "pastedContents": {}
-        }
-      ],
-      "mcpContextUris": [],
-      "mcpServers": {},
-      "enabledMcpjsonServers": [],
-      "disabledMcpjsonServers": [],
-      "hasTrustDialogAccepted": false,
-      "projectOnboardingSeenCount": 6,
-      "hasClaudeMdExternalIncludesApproved": false,
-      "hasClaudeMdExternalIncludesWarningShown": false,
-      "exampleFiles": [
-        "patient_management.js",
-        "script.js",
-        "import_patients_from_csv.py",
-        "index.js",
-        "TODO.md"
-      ],
-      "exampleFilesGeneratedAt": 1751255222709
-    },
-    "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/worktrees/parse-test-20250630": {
-      "allowedTools": [],
-      "history": [],
-      "mcpContextUris": [],
-      "mcpServers": {},
-      "enabledMcpjsonServers": [],
-      "disabledMcpjsonServers": [],
-      "hasTrustDialogAccepted": false,
-      "projectOnboardingSeenCount": 1,
-      "hasClaudeMdExternalIncludesApproved": false,
-      "hasClaudeMdExternalIncludesWarningShown": false,
-      "exampleFiles": [
-        "workflow-cli.py",
-        "screen-monitor.js",
-        "index.js",
-        "categorize_db_transactions.py",
-        "screen-new"
-      ],
-      "exampleFilesGeneratedAt": 1751312899092,
-      "lastCost": 0.0008472,
-      "lastAPIDuration": 5571,
-      "lastDuration": 210036,
-      "lastLinesAdded": 0,
-      "lastLinesRemoved": 0,
-      "lastTotalInputTokens": 819,
-      "lastTotalOutputTokens": 48,
-      "lastTotalCacheCreationInputTokens": 0,
-      "lastTotalCacheReadInputTokens": 0,
-      "lastSessionId": "3f3bf76a-4df2-4d4f-bbba-62e386cf333d"
-    },
-    "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/worktrees/fix-selenium-20250630": {
-      "allowedTools": [],
-      "history": [],
-      "mcpContextUris": [],
-      "mcpServers": {},
-      "enabledMcpjsonServers": [],
-      "disabledMcpjsonServers": [],
-      "hasTrustDialogAccepted": false,
-      "ignorePatterns": [],
-      "projectOnboardingSeenCount": 0,
-      "hasClaudeMdExternalIncludesApproved": false,
-      "hasClaudeMdExternalIncludesWarningShown": false,
-      "lastCost": 20.36402489999999,
-      "lastAPIDuration": 2377489,
-      "lastDuration": 5850739,
-      "lastLinesAdded": 893,
-      "lastLinesRemoved": 76,
-      "lastTotalInputTokens": 211015,
-      "lastTotalOutputTokens": 46187,
-      "lastTotalCacheCreationInputTokens": 487554,
-      "lastTotalCacheReadInputTokens": 12787572,
-      "lastSessionId": "263dad4d-407b-4999-b619-d9143e54a2a3"
-    },
-    "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/worktrees/improve-selenium-20250630": {
-      "allowedTools": [],
-      "history": [
-        {
-          "display": "no readme. update cli help",
-          "pastedContents": {}
-        },
-        {
-          "display": "research how browsermcp and playwright-mcp handle responses after each action so that the AI knows the new page state and update selenium-cli with similar ideas. make sure each action returns html diff after each action. \\\n\\\nstart devmode",
-          "pastedContents": {}
-        }
-      ],
-      "mcpContextUris": [],
-      "mcpServers": {},
-      "enabledMcpjsonServers": [],
-      "disabledMcpjsonServers": [],
-      "hasTrustDialogAccepted": false,
-      "projectOnboardingSeenCount": 1,
-      "hasClaudeMdExternalIncludesApproved": false,
-      "hasClaudeMdExternalIncludesWarningShown": false,
-      "exampleFiles": [
-        "workflow-cli.py",
-        "screen-monitor.js",
-        "index.js",
-        "session-server.js",
-        "dev-mode.mdc"
-      ],
-      "exampleFilesGeneratedAt": 1751329974174
-    }
-  },
   "userID": "96200396462dc1a54dcd7bf4ed2806506483ec7ffab4ccd45f138f1896711cd6",
   "fallbackAvailableWarningThreshold": 0.5,
   "firstStartTime": "2025-06-24T18:12:23.289Z",
@@ -1160,8 +43,478 @@
   "bypassPermissionsModeAccepted": true,
   "subscriptionNoticeCount": 0,
   "hasAvailableSubscription": false,
-  "cachedChangelog": "# Changelog\n\n## 1.0.38\n\n- Released [hooks](https://docs.anthropic.com/en/docs/claude-code/hooks). Special thanks to community input in [Github Issues](https://github.com/anthropics/claude-code/issues/712)\n\n## 1.0.37\n\n- Remove ability to set `Proxy-Authorization` header via ANTHROPIC_AUTH_TOKEN or apiKeyHelper\n\n## 1.0.36\n\n- Web search now takes today's date into context\n- Fixed a bug where stdio MCP servers were not terminating properly on exit\n\n## 1.0.35\n\n- Added support for MCP OAuth Authorization Server discovery\n\n## 1.0.34\n\n- Fixed a memory leak causing a MaxListenersExceededWarning message to appear\n\n## 1.0.33\n\n- Improved logging functionality with session ID support\n- Added undo functionality (Ctrl+Z and vim 'u' command)\n- Improvements to plan mode\n\n## 1.0.32\n\n- Updated loopback config for litellm\n- Added forceLoginMethod setting to bypass login selection screen\n\n## 1.0.31\n\n- Fixed a bug where ~/.claude.json would get reset when file contained invalid JSON\n\n## 1.0.30\n\n- Custom slash commands: Run bash output, @-mention files, enable thinking with thinking keywords\n- Improved file path autocomplete with filename matching\n- Added timestamps in Ctrl-r mode and fixed Ctrl-c handling\n- Enhanced jq regex support for complex filters with pipes and select\n\n## 1.0.29\n\n- Improved CJK character support in cursor navigation and rendering\n\n## 1.0.28\n\n- Slash commands: Fix selector display during history navigation\n- Resizes images before upload to prevent API size limit errors\n- Added XDG_CONFIG_HOME support to configuration directory\n- Performance optimizations for memory usage\n- New attributes (terminal.type, language) in OpenTelemetry logging\n\n## 1.0.27\n\n- Streamable HTTP MCP servers are now supported\n- Remote MCP servers (SSE and HTTP) now support OAuth\n- MCP resources can now be @-mentioned\n- /resume slash command to switch conversations within Claude Code\n\n## 1.0.25\n\n- Slash commands: moved \"project\" and \"user\" prefixes to descriptions\n- Slash commands: improved reliability for command discovery\n- Improved support for Ghostty\n- Improved web search reliability\n\n## 1.0.24\n\n- Improved /mcp output\n- Fixed a bug where settings arrays got overwritten instead of merged\n\n## 1.0.23\n\n- Released TypeScript SDK: import @anthropic-ai/claude-code to get started\n- Released Python SDK: pip install claude-code-sdk to get started\n\n## 1.0.22\n\n- SDK: Renamed `total_cost` to `total_cost_usd`\n\n## 1.0.21\n\n- Improved editing of files with tab-based indentation\n- Fix for tool_use without matching tool_result errors\n- Fixed a bug where stdio MCP server processes would linger after quitting Claude Code\n\n## 1.0.18\n\n- Added --add-dir CLI argument for specifying additional working directories\n- Added streaming input support without require -p flag\n- Improved startup performance and session storage performance\n- Added CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR environment variable to freeze working directory for bash commands\n- Added detailed MCP server tools display (/mcp)\n- MCP authentication and permission improvements\n- Added auto-reconnection for MCP SSE connections on disconnect\n- Fixed issue where pasted content was lost when dialogs appeared\n\n## 1.0.17\n\n- We now emit messages from sub-tasks in -p mode (look for the parent_tool_use_id property)\n- Fixed crashes when the VS Code diff tool is invoked multiple times quickly\n- MCP server list UI improvements\n- Update Claude Code process title to display \"claude\" instead of \"node\"\n\n## 1.0.11\n\n- Claude Code can now also be used with a Claude Pro subscription\n- Added /upgrade for smoother switching to Claude Max plans\n- Improved UI for authentication from API keys and Bedrock/Vertex/external auth tokens\n- Improved shell configuration error handling\n- Improved todo list handling during compaction\n\n## 1.0.10\n\n- Added markdown table support\n- Improved streaming performance\n\n## 1.0.8\n\n- Fixed Vertex AI region fallback when using CLOUD_ML_REGION\n- Increased default otel interval from 1s -> 5s\n- Fixed edge cases where MCP_TIMEOUT and MCP_TOOL_TIMEOUT weren't being respected\n- Fixed a regression where search tools unnecessarily asked for permissions\n- Added support for triggering thinking non-English languages\n- Improved compacting UI\n\n## 1.0.7\n\n- Renamed /allowed-tools -> /permissions\n- Migrated allowedTools and ignorePatterns from .claude.json -> settings.json\n- Deprecated claude config commands in favor of editing settings.json\n- Fixed a bug where --dangerously-skip-permissions sometimes didn't work in --print mode\n- Improved error handling for /install-github-app\n- Bugfixes, UI polish, and tool reliability improvements\n\n## 1.0.6\n\n- Improved edit reliability for tab-indented files\n- Respect CLAUDE_CONFIG_DIR everywhere\n- Reduced unnecessary tool permission prompts\n- Added support for symlinks in @file typeahead\n- Bugfixes, UI polish, and tool reliability improvements\n\n## 1.0.4\n\n- Fixed a bug where MCP tool errors weren't being parsed correctly\n\n## 1.0.1\n\n- Added `DISABLE_INTERLEAVED_THINKING` to give users the option to opt out of interleaved thinking.\n- Improved model references to show provider-specific names (Sonnet 3.7 for Bedrock, Sonnet 4 for Console)\n- Updated documentation links and OAuth process descriptions\n\n## 1.0.0\n\n- Claude Code is now generally available\n- Introducing Sonnet 4 and Opus 4 models\n\n## 0.2.125\n\n- Breaking change: Bedrock ARN passed to `ANTHROPIC_MODEL` or `ANTHROPIC_SMALL_FAST_MODEL` should no longer contain an escaped slash (specify `/` instead of `%2F`)\n- Removed `DEBUG=true` in favor of `ANTHROPIC_LOG=debug`, to log all requests\n\n## 0.2.117\n\n- Breaking change: --print JSON output now returns nested message objects, for forwards-compatibility as we introduce new metadata fields\n- Introduced settings.cleanupPeriodDays\n- Introduced CLAUDE_CODE_API_KEY_HELPER_TTL_MS env var\n- Introduced --debug mode\n\n## 0.2.108\n\n- You can now send messages to Claude while it works to steer Claude in real-time\n- Introduced BASH_DEFAULT_TIMEOUT_MS and BASH_MAX_TIMEOUT_MS env vars\n- Fixed a bug where thinking was not working in -p mode\n- Fixed a regression in /cost reporting\n- Deprecated MCP wizard interface in favor of other MCP commands\n- Lots of other bugfixes and improvements\n\n## 0.2.107\n\n- CLAUDE.md files can now import other files. Add @path/to/file.md to ./CLAUDE.md to load additional files on launch\n\n## 0.2.106\n\n- MCP SSE server configs can now specify custom headers\n- Fixed a bug where MCP permission prompt didn't always show correctly\n\n## 0.2.105\n\n- Claude can now search the web\n- Moved system & account status to /status\n- Added word movement keybindings for Vim\n- Improved latency for startup, todo tool, and file edits\n\n## 0.2.102\n\n- Improved thinking triggering reliability\n- Improved @mention reliability for images and folders\n- You can now paste multiple large chunks into one prompt\n\n## 0.2.100\n\n- Fixed a crash caused by a stack overflow error\n- Made db storage optional; missing db support disables --continue and --resume\n\n## 0.2.98\n\n- Fixed an issue where auto-compact was running twice\n\n## 0.2.96\n\n- Claude Code can now also be used with a Claude Max subscription (https://claude.ai/upgrade)\n\n## 0.2.93\n\n- Resume conversations from where you left off from with \"claude --continue\" and \"claude --resume\"\n- Claude now has access to a Todo list that helps it stay on track and be more organized\n\n## 0.2.82\n\n- Added support for --disallowedTools\n- Renamed tools for consistency: LSTool -> LS, View -> Read, etc.\n\n## 0.2.75\n\n- Hit Enter to queue up additional messages while Claude is working\n- Drag in or copy/paste image files directly into the prompt\n- @-mention files to directly add them to context\n- Run one-off MCP servers with `claude --mcp-config <path-to-file>`\n- Improved performance for filename auto-complete\n\n## 0.2.74\n\n- Added support for refreshing dynamically generated API keys (via apiKeyHelper), with a 5 minute TTL\n- Task tool can now perform writes and run bash commands\n\n## 0.2.72\n\n- Updated spinner to indicate tokens loaded and tool usage\n\n## 0.2.70\n\n- Network commands like curl are now available for Claude to use\n- Claude can now run multiple web queries in parallel\n- Pressing ESC once immediately interrupts Claude in Auto-accept mode\n\n## 0.2.69\n\n- Fixed UI glitches with improved Select component behavior\n- Enhanced terminal output display with better text truncation logic\n\n## 0.2.67\n\n- Shared project permission rules can be saved in .claude/settings.json\n\n## 0.2.66\n\n- Print mode (-p) now supports streaming output via --output-format=stream-json\n- Fixed issue where pasting could trigger memory or bash mode unexpectedly\n\n## 0.2.63\n\n- Fixed an issue where MCP tools were loaded twice, which caused tool call errors\n\n## 0.2.61\n\n- Navigate menus with vim-style keys (j/k) or bash/emacs shortcuts (Ctrl+n/p) for faster interaction\n- Enhanced image detection for more reliable clipboard paste functionality\n- Fixed an issue where ESC key could crash the conversation history selector\n\n## 0.2.59\n\n- Copy+paste images directly into your prompt\n- Improved progress indicators for bash and fetch tools\n- Bugfixes for non-interactive mode (-p)\n\n## 0.2.54\n\n- Quickly add to Memory by starting your message with '#'\n- Press ctrl+r to see full output for long tool results\n- Added support for MCP SSE transport\n\n## 0.2.53\n\n- New web fetch tool lets Claude view URLs that you paste in\n- Fixed a bug with JPEG detection\n\n## 0.2.50\n\n- New MCP \"project\" scope now allows you to add MCP servers to .mcp.json files and commit them to your repository\n\n## 0.2.49\n\n- Previous MCP server scopes have been renamed: previous \"project\" scope is now \"local\" and \"global\" scope is now \"user\"\n\n## 0.2.47\n\n- Press Tab to auto-complete file and folder names\n- Press Shift + Tab to toggle auto-accept for file edits\n- Automatic conversation compaction for infinite conversation length (toggle with /config)\n\n## 0.2.44\n\n- Ask Claude to make a plan with thinking mode: just say 'think' or 'think harder' or even 'ultrathink'\n\n## 0.2.41\n\n- MCP server startup timeout can now be configured via MCP_TIMEOUT environment variable\n- MCP server startup no longer blocks the app from starting up\n\n## 0.2.37\n\n- New /release-notes command lets you view release notes at any time\n- `claude config add/remove` commands now accept multiple values separated by commas or spaces\n\n## 0.2.36\n\n- Import MCP servers from Claude Desktop with `claude mcp add-from-claude-desktop`\n- Add MCP servers as JSON strings with `claude mcp add-json <n> <json>`\n\n## 0.2.34\n\n- Vim bindings for text input - enable with /vim or /config\n\n## 0.2.32\n\n- Interactive MCP setup wizard: Run \"claude mcp add\" to add MCP servers with a step-by-step interface\n- Fix for some PersistentShell issues\n\n## 0.2.31\n\n- Custom slash commands: Markdown files in .claude/commands/ directories now appear as custom slash commands to insert prompts into your conversation\n- MCP debug mode: Run with --mcp-debug flag to get more information about MCP server errors\n\n## 0.2.30\n\n- Added ANSI color theme for better terminal compatibility\n- Fixed issue where slash command arguments weren't being sent properly\n- (Mac-only) API keys are now stored in macOS Keychain\n\n## 0.2.26\n\n- New /approved-tools command for managing tool permissions\n- Word-level diff display for improved code readability\n- Fuzzy matching for slash commands\n\n## 0.2.21\n\n- Fuzzy matching for /commands\n",
-  "changelogLastFetched": 1751326505294,
+  "cachedChangelog": "# Changelog\n\n## 1.0.38\n\n- Released hooks. Special thanks to community input in https://github.com/anthropics/claude-code/issues/712. Docs: https://docs.anthropic.com/en/docs/claude-code/hooks\n\n## 1.0.37\n\n- Remove ability to set `Proxy-Authorization` header via ANTHROPIC_AUTH_TOKEN or apiKeyHelper\n\n## 1.0.36\n\n- Web search now takes today's date into context\n- Fixed a bug where stdio MCP servers were not terminating properly on exit\n\n## 1.0.35\n\n- Added support for MCP OAuth Authorization Server discovery\n\n## 1.0.34\n\n- Fixed a memory leak causing a MaxListenersExceededWarning message to appear\n\n## 1.0.33\n\n- Improved logging functionality with session ID support\n- Added undo functionality (Ctrl+Z and vim 'u' command)\n- Improvements to plan mode\n\n## 1.0.32\n\n- Updated loopback config for litellm\n- Added forceLoginMethod setting to bypass login selection screen\n\n## 1.0.31\n\n- Fixed a bug where ~/.claude.json would get reset when file contained invalid JSON\n\n## 1.0.30\n\n- Custom slash commands: Run bash output, @-mention files, enable thinking with thinking keywords\n- Improved file path autocomplete with filename matching\n- Added timestamps in Ctrl-r mode and fixed Ctrl-c handling\n- Enhanced jq regex support for complex filters with pipes and select\n\n## 1.0.29\n\n- Improved CJK character support in cursor navigation and rendering\n\n## 1.0.28\n\n- Slash commands: Fix selector display during history navigation\n- Resizes images before upload to prevent API size limit errors\n- Added XDG_CONFIG_HOME support to configuration directory\n- Performance optimizations for memory usage\n- New attributes (terminal.type, language) in OpenTelemetry logging\n\n## 1.0.27\n\n- Streamable HTTP MCP servers are now supported\n- Remote MCP servers (SSE and HTTP) now support OAuth\n- MCP resources can now be @-mentioned\n- /resume slash command to switch conversations within Claude Code\n\n## 1.0.25\n\n- Slash commands: moved \"project\" and \"user\" prefixes to descriptions\n- Slash commands: improved reliability for command discovery\n- Improved support for Ghostty\n- Improved web search reliability\n\n## 1.0.24\n\n- Improved /mcp output\n- Fixed a bug where settings arrays got overwritten instead of merged\n\n## 1.0.23\n\n- Released TypeScript SDK: import @anthropic-ai/claude-code to get started\n- Released Python SDK: pip install claude-code-sdk to get started\n\n## 1.0.22\n\n- SDK: Renamed `total_cost` to `total_cost_usd`\n\n## 1.0.21\n\n- Improved editing of files with tab-based indentation\n- Fix for tool_use without matching tool_result errors\n- Fixed a bug where stdio MCP server processes would linger after quitting Claude Code\n\n## 1.0.18\n\n- Added --add-dir CLI argument for specifying additional working directories\n- Added streaming input support without require -p flag\n- Improved startup performance and session storage performance\n- Added CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR environment variable to freeze working directory for bash commands\n- Added detailed MCP server tools display (/mcp)\n- MCP authentication and permission improvements\n- Added auto-reconnection for MCP SSE connections on disconnect\n- Fixed issue where pasted content was lost when dialogs appeared\n\n## 1.0.17\n\n- We now emit messages from sub-tasks in -p mode (look for the parent_tool_use_id property)\n- Fixed crashes when the VS Code diff tool is invoked multiple times quickly\n- MCP server list UI improvements\n- Update Claude Code process title to display \"claude\" instead of \"node\"\n\n## 1.0.11\n\n- Claude Code can now also be used with a Claude Pro subscription\n- Added /upgrade for smoother switching to Claude Max plans\n- Improved UI for authentication from API keys and Bedrock/Vertex/external auth tokens\n- Improved shell configuration error handling\n- Improved todo list handling during compaction\n\n## 1.0.10\n\n- Added markdown table support\n- Improved streaming performance\n\n## 1.0.8\n\n- Fixed Vertex AI region fallback when using CLOUD_ML_REGION\n- Increased default otel interval from 1s -> 5s\n- Fixed edge cases where MCP_TIMEOUT and MCP_TOOL_TIMEOUT weren't being respected\n- Fixed a regression where search tools unnecessarily asked for permissions\n- Added support for triggering thinking non-English languages\n- Improved compacting UI\n\n## 1.0.7\n\n- Renamed /allowed-tools -> /permissions\n- Migrated allowedTools and ignorePatterns from .claude.json -> settings.json\n- Deprecated claude config commands in favor of editing settings.json\n- Fixed a bug where --dangerously-skip-permissions sometimes didn't work in --print mode\n- Improved error handling for /install-github-app\n- Bugfixes, UI polish, and tool reliability improvements\n\n## 1.0.6\n\n- Improved edit reliability for tab-indented files\n- Respect CLAUDE_CONFIG_DIR everywhere\n- Reduced unnecessary tool permission prompts\n- Added support for symlinks in @file typeahead\n- Bugfixes, UI polish, and tool reliability improvements\n\n## 1.0.4\n\n- Fixed a bug where MCP tool errors weren't being parsed correctly\n\n## 1.0.1\n\n- Added `DISABLE_INTERLEAVED_THINKING` to give users the option to opt out of interleaved thinking.\n- Improved model references to show provider-specific names (Sonnet 3.7 for Bedrock, Sonnet 4 for Console)\n- Updated documentation links and OAuth process descriptions\n\n## 1.0.0\n\n- Claude Code is now generally available\n- Introducing Sonnet 4 and Opus 4 models\n\n## 0.2.125\n\n- Breaking change: Bedrock ARN passed to `ANTHROPIC_MODEL` or `ANTHROPIC_SMALL_FAST_MODEL` should no longer contain an escaped slash (specify `/` instead of `%2F`)\n- Removed `DEBUG=true` in favor of `ANTHROPIC_LOG=debug`, to log all requests\n\n## 0.2.117\n\n- Breaking change: --print JSON output now returns nested message objects, for forwards-compatibility as we introduce new metadata fields\n- Introduced settings.cleanupPeriodDays\n- Introduced CLAUDE_CODE_API_KEY_HELPER_TTL_MS env var\n- Introduced --debug mode\n\n## 0.2.108\n\n- You can now send messages to Claude while it works to steer Claude in real-time\n- Introduced BASH_DEFAULT_TIMEOUT_MS and BASH_MAX_TIMEOUT_MS env vars\n- Fixed a bug where thinking was not working in -p mode\n- Fixed a regression in /cost reporting\n- Deprecated MCP wizard interface in favor of other MCP commands\n- Lots of other bugfixes and improvements\n\n## 0.2.107\n\n- CLAUDE.md files can now import other files. Add @path/to/file.md to ./CLAUDE.md to load additional files on launch\n\n## 0.2.106\n\n- MCP SSE server configs can now specify custom headers\n- Fixed a bug where MCP permission prompt didn't always show correctly\n\n## 0.2.105\n\n- Claude can now search the web\n- Moved system & account status to /status\n- Added word movement keybindings for Vim\n- Improved latency for startup, todo tool, and file edits\n\n## 0.2.102\n\n- Improved thinking triggering reliability\n- Improved @mention reliability for images and folders\n- You can now paste multiple large chunks into one prompt\n\n## 0.2.100\n\n- Fixed a crash caused by a stack overflow error\n- Made db storage optional; missing db support disables --continue and --resume\n\n## 0.2.98\n\n- Fixed an issue where auto-compact was running twice\n\n## 0.2.96\n\n- Claude Code can now also be used with a Claude Max subscription (https://claude.ai/upgrade)\n\n## 0.2.93\n\n- Resume conversations from where you left off from with \"claude --continue\" and \"claude --resume\"\n- Claude now has access to a Todo list that helps it stay on track and be more organized\n\n## 0.2.82\n\n- Added support for --disallowedTools\n- Renamed tools for consistency: LSTool -> LS, View -> Read, etc.\n\n## 0.2.75\n\n- Hit Enter to queue up additional messages while Claude is working\n- Drag in or copy/paste image files directly into the prompt\n- @-mention files to directly add them to context\n- Run one-off MCP servers with `claude --mcp-config <path-to-file>`\n- Improved performance for filename auto-complete\n\n## 0.2.74\n\n- Added support for refreshing dynamically generated API keys (via apiKeyHelper), with a 5 minute TTL\n- Task tool can now perform writes and run bash commands\n\n## 0.2.72\n\n- Updated spinner to indicate tokens loaded and tool usage\n\n## 0.2.70\n\n- Network commands like curl are now available for Claude to use\n- Claude can now run multiple web queries in parallel\n- Pressing ESC once immediately interrupts Claude in Auto-accept mode\n\n## 0.2.69\n\n- Fixed UI glitches with improved Select component behavior\n- Enhanced terminal output display with better text truncation logic\n\n## 0.2.67\n\n- Shared project permission rules can be saved in .claude/settings.json\n\n## 0.2.66\n\n- Print mode (-p) now supports streaming output via --output-format=stream-json\n- Fixed issue where pasting could trigger memory or bash mode unexpectedly\n\n## 0.2.63\n\n- Fixed an issue where MCP tools were loaded twice, which caused tool call errors\n\n## 0.2.61\n\n- Navigate menus with vim-style keys (j/k) or bash/emacs shortcuts (Ctrl+n/p) for faster interaction\n- Enhanced image detection for more reliable clipboard paste functionality\n- Fixed an issue where ESC key could crash the conversation history selector\n\n## 0.2.59\n\n- Copy+paste images directly into your prompt\n- Improved progress indicators for bash and fetch tools\n- Bugfixes for non-interactive mode (-p)\n\n## 0.2.54\n\n- Quickly add to Memory by starting your message with '#'\n- Press ctrl+r to see full output for long tool results\n- Added support for MCP SSE transport\n\n## 0.2.53\n\n- New web fetch tool lets Claude view URLs that you paste in\n- Fixed a bug with JPEG detection\n\n## 0.2.50\n\n- New MCP \"project\" scope now allows you to add MCP servers to .mcp.json files and commit them to your repository\n\n## 0.2.49\n\n- Previous MCP server scopes have been renamed: previous \"project\" scope is now \"local\" and \"global\" scope is now \"user\"\n\n## 0.2.47\n\n- Press Tab to auto-complete file and folder names\n- Press Shift + Tab to toggle auto-accept for file edits\n- Automatic conversation compaction for infinite conversation length (toggle with /config)\n\n## 0.2.44\n\n- Ask Claude to make a plan with thinking mode: just say 'think' or 'think harder' or even 'ultrathink'\n\n## 0.2.41\n\n- MCP server startup timeout can now be configured via MCP_TIMEOUT environment variable\n- MCP server startup no longer blocks the app from starting up\n\n## 0.2.37\n\n- New /release-notes command lets you view release notes at any time\n- `claude config add/remove` commands now accept multiple values separated by commas or spaces\n\n## 0.2.36\n\n- Import MCP servers from Claude Desktop with `claude mcp add-from-claude-desktop`\n- Add MCP servers as JSON strings with `claude mcp add-json <n> <json>`\n\n## 0.2.34\n\n- Vim bindings for text input - enable with /vim or /config\n\n## 0.2.32\n\n- Interactive MCP setup wizard: Run \"claude mcp add\" to add MCP servers with a step-by-step interface\n- Fix for some PersistentShell issues\n\n## 0.2.31\n\n- Custom slash commands: Markdown files in .claude/commands/ directories now appear as custom slash commands to insert prompts into your conversation\n- MCP debug mode: Run with --mcp-debug flag to get more information about MCP server errors\n\n## 0.2.30\n\n- Added ANSI color theme for better terminal compatibility\n- Fixed issue where slash command arguments weren't being sent properly\n- (Mac-only) API keys are now stored in macOS Keychain\n\n## 0.2.26\n\n- New /approved-tools command for managing tool permissions\n- Word-level diff display for improved code readability\n- Fuzzy matching for slash commands\n\n## 0.2.21\n\n- Fuzzy matching for /commands\n",
+  "changelogLastFetched": 1751489899846,
   "lastReleaseNotesSeen": "1.0.38",
-  "hasUsedBackslashReturn": true
+  "hasUsedBackslashReturn": true,
+  "projects": {
+    "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents": {
+      "allowedTools": [],
+      "history": [
+        {
+          "display": "read the dev-simple-hello- project. seems like the workflow state gets lost when we do the symlink. workflow-cli needs to use the absolute path starting with ~/PersonalAgents to store the state so that the worktree doesn't affect anything",
+          "pastedContents": {}
+        },
+        {
+          "display": "update @docs/tmux-claude-logging-migration.md ",
+          "pastedContents": {}
+        },
+        {
+          "display": "workflow-cli --project simple-hello --mode dev --step 1 --task 'create a very simple hello CLI tool that just prints Hello World' --spawned",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "modify workflow-cli if needed",
+          "pastedContents": {}
+        },
+        {
+          "display": "go to the workflow clean step",
+          "pastedContents": {}
+        },
+        {
+          "display": "are you sure an environment variable instead of passing to workflow-cli?",
+          "pastedContents": {}
+        },
+        {
+          "display": "it shouldn't exit claude normally. only when started with the spawn-workflow-with-task",
+          "pastedContents": {}
+        },
+        {
+          "display": "never switch to it, that stops the agent in the main window. seems like it's running fine in the new window. are you sure the final steps in task mode and dev mode are correct such that the tmux window will auto-close when done?",
+          "pastedContents": {}
+        },
+        {
+          "display": "start devmode with task: 'create a simple hello CLI tool that greets the user'",
+          "pastedContents": {}
+        },
+        {
+          "display": "that seemed to start it and switch to it",
+          "pastedContents": {}
+        },
+        {
+          "display": "it created and closed the tmux window. try spawning workflow with sample task again",
+          "pastedContents": {}
+        },
+        {
+          "display": "ok now spawn a very simple worflow and make sure it closes the tmux window when done",
+          "pastedContents": {}
+        },
+        {
+          "display": "actually no i wanna be able to run yolo from any directory",
+          "pastedContents": {}
+        },
+        {
+          "display": "let's modify yolo as well",
+          "pastedContents": {}
+        },
+        {
+          "display": "read output of the workflow we started - seems it doesn't symlink properly. let's not create the worktree when running the yolo or spawn-workflow-with-task command. the workflow itself will create the worktree. ",
+          "pastedContents": {}
+        },
+        {
+          "display": "why does it say \"Error\" when workflow is still running? also when spawned with this script it should auto-close the tmux window when done",
+          "pastedContents": {}
+        },
+        {
+          "display": "it's started! i think you're checking the state file in the wrong place",
+          "pastedContents": {}
+        },
+        {
+          "display": "is the state file created on step 1? check workflow-cli. it started step 1 and then stopped. I think it's because just running the command doesn't tell it what needs to be created. see @cursor-rules/CLAUDE.md for how I start workflow. It's normally something like: \"start devmode with task: 'create a cli tool that does xyz'\". that gives the relevant context to claude code and it starts the workflow command by itself. ",
+          "pastedContents": {}
+        },
+        {
+          "display": "ai-monitor-cli successfully sends the Enter key that's required to start the workflow. see how it does it",
+          "pastedContents": {}
+        },
+        {
+          "display": "it sent the command but created a line break instead of sending the command with Enter",
+          "pastedContents": {}
+        },
+        {
+          "display": "doesn't seem like it sent the workflow-cli commands to the tmux window",
+          "pastedContents": {}
+        },
+        {
+          "display": "seems to be a blocking command that doesn't let anything else run while it's running",
+          "pastedContents": {}
+        },
+        {
+          "display": "dont update anything until we confirm it works as needed",
+          "pastedContents": {}
+        },
+        {
+          "display": "go ahead",
+          "pastedContents": {}
+        },
+        {
+          "display": "Creating worktree for project: test-cli-v2\nPreparing worktree (new branch 'test-cli-v2-20250702')\nHEAD is now at e86303b feat: enhance AI Monitor CLI with state management and logging improvements\nbranch 'test-cli-v2-20250702' set up to track 'origin/test-cli-v2-20250702'.\nStarting dev workflow in worktree: worktrees/test-cli-v2-20250702\nRunning: workflow-cli --project test-cli-v2 --mode dev --step 1\nI need permission to run the workflow command. Once you grant Bash access, I'll start the dev mode workflow for the test-cli-v2 project at step 1.\n\nWorkflow command sent. Check log at: /tmp/spawn-workflow-test-cli-v2-20250702-160448.log\nPress enter to close...\n",
+          "pastedContents": {}
+        },
+        {
+          "display": "[Pasted text #1 +55 lines]\\\n\\\nwhy can't you read the output? make it stream output to a file?",
+          "pastedContents": {
+            "1": {
+              "id": 1,
+              "type": "text",
+              "content": "Creating worktree for project: test-cli\nPreparing worktree (new branch '-20250702')\nerror: unknown switch `2'\nusage: git branch [<options>] [-r | -a] [--merged] [--no-merged]\n   or: git branch [<options>] [-f] [--recurse-submodules] <branch-name> [<start-point>]\n   or: git branch [<options>] [-l] [<pattern>...]\n   or: git branch [<options>] [-r] (-d | -D) <branch-name>...\n   or: git branch [<options>] (-m | -M) [<old-branch>] <new-branch>\n   or: git branch [<options>] (-c | -C) [<old-branch>] <new-branch>\n   or: git branch [<options>] [-r | -a] [--points-at]\n   or: git branch [<options>] [-r | -a] [--format]\n\nGeneric options\n    -v, --verbose         show hash and subject, give twice for upstream branch\n    -q, --quiet           suppress informational messages\n    -t, --track[=(direct|inherit)]\n                          set branch tracking configuration\n    -u, --set-upstream-to <upstream>\n                          change the upstream info\n    --unset-upstream      unset the upstream info\n    --color[=<when>]      use colored output\n    -r, --remotes         act on remote-tracking branches\n    --contains <commit>   print only branches that contain the commit\n    --no-contains <commit>\n                          print only branches that don't contain the commit\n    --abbrev[=<n>]        use <n> digits to display object names\n\nSpecific git-branch actions:\n    -a, --all             list both remote-tracking and local branches\n    -d, --delete          delete fully merged branch\n    -D                    delete branch (even if not merged)\n    -m, --move            move/rename a branch and its reflog\n    -M                    move/rename a branch, even if target exists\n    -c, --copy            copy a branch and its reflog\n    -C                    copy a branch, even if target exists\n    -l, --list            list branch names\n    --show-current        show current branch name\n    --create-reflog       create the branch's reflog\n    --edit-description    edit the description for the branch\n    -f, --force           force creation, move/rename, deletion\n    --merged <commit>     print only branches that are merged\n    --no-merged <commit>  print only branches that are not merged\n    --column[=<style>]    list branches in columns\n    --sort <key>          field name to sort on\n    --points-at <object>  print only branches of the object\n    -i, --ignore-case     sorting and filtering are case insensitive\n    --recurse-submodules  recurse through submodules\n    --format <format>     format to use for the output\n\nzsh:cd:18: no such file or directory: worktrees/-20250702\nStarting dev workflow in worktree: worktrees/-20250702\nRunning: workflow-cli --project test-cli --mode dev --step 1\nzsh:26: command not found: claude\n\nWorkflow command sent. Press enter to close...\n"
+            }
+          }
+        },
+        {
+          "display": "actually i want it to be able to spawn any mode, not just dev mode, so make it mode agnostic",
+          "pastedContents": {}
+        },
+        {
+          "display": "how about we create a new alias that does all of this",
+          "pastedContents": {}
+        },
+        {
+          "display": "i think yolo starts in interactive mode",
+          "pastedContents": {}
+        },
+        {
+          "display": "that worked but started claude in interactive mode",
+          "pastedContents": {}
+        },
+        {
+          "display": "says this zsh:1: command not found: yolo\nPress enter to close...\n",
+          "pastedContents": {}
+        },
+        {
+          "display": "seems like window closed as soon as it started. maybe leave it open so i can see?",
+          "pastedContents": {}
+        },
+        {
+          "display": "no, start the new widnow first with tmux and zsh otherwise it'll do it in the current process",
+          "pastedContents": {}
+        },
+        {
+          "display": "you can run claude with -p i believe to run in non-interactive mode",
+          "pastedContents": {}
+        },
+        {
+          "display": "the enter just created a new line",
+          "pastedContents": {}
+        },
+        {
+          "display": "when we switched to the window, it showed up with this output: \\\n\\\nThe default interactive shell is now zsh.\nTo update your account to use zsh, please run `chsh -s /bin/zsh`.\nFor more details, please visit https://support.apple.com/kb/HT208050.\nbash-3.2$ yolo test-cli-spawn\nbash: yolo: command not found\nbash-3.2$ pwd\n/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents\nbash-3.2$\n\\\nseemed to create a new window in the same tmux session",
+          "pastedContents": {}
+        },
+        {
+          "display": "let's test it first to make sure it will work as we think before updating task mode",
+          "pastedContents": {}
+        },
+        {
+          "display": "i want to add instructions in task mode that do all of that automatically when spawning a dev mode workflow inside it. task mode workflow should keep running and stay paused until it's done. what's the easiest way to do this?",
+          "pastedContents": {}
+        },
+        {
+          "display": "no just spawn a new agent that builds a cli tool, don't do any research",
+          "pastedContents": {}
+        },
+        {
+          "display": "ok let's test it with a sample task mode workflow that spawns a dev mode from inside it",
+          "pastedContents": {}
+        },
+        {
+          "display": "i think spawning a new agent uses the same process in claude code, so it'll conflict with existing project. i think we can start a new process with claude -p command. or in our case, with the \"yolo\" alias. first verify if it uses the same process, if it does, do some research on the -p command. start a new agent now to verify",
+          "pastedContents": {}
+        },
+        {
+          "display": "@docs/tmux-claude-logging-migration.md when using the @cli_tools/workflow-cli/workflows/task-mode.yaml workflow, i want it to be able to call the @cli_tools/workflow-cli/workflows/dev-mode.yaml workflow from inside it if it needs to build a tool. what's the best way to do that such that it starts an entirely separate dev mode workflow without affecting the current task mode workflow? task mode should wait until it's complete before proceeding. ",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        }
+      ],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 3,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "screen-monitor.js",
+        "workflow-cli.py",
+        "index.js",
+        "session-server.js",
+        "categorize_db_transactions.py"
+      ],
+      "exampleFilesGeneratedAt": 1751485459866,
+      "lastTotalWebSearchRequests": 0
+    },
+    "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/worktrees/test-cli-spawn-20250702": {
+      "allowedTools": [],
+      "history": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 2,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "screen-monitor.js",
+        "workflow-cli.py",
+        "index.js",
+        "session-server.js",
+        "categorize_db_transactions.py"
+      ],
+      "exampleFilesGeneratedAt": 1751486281528,
+      "lastTotalWebSearchRequests": 0,
+      "lastCost": 0,
+      "lastAPIDuration": 0,
+      "lastDuration": 35556,
+      "lastLinesAdded": 0,
+      "lastLinesRemoved": 0,
+      "lastTotalInputTokens": 0,
+      "lastTotalOutputTokens": 0,
+      "lastTotalCacheCreationInputTokens": 0,
+      "lastTotalCacheReadInputTokens": 0,
+      "lastSessionId": "f1ab4e7d-6aec-4ee6-9f4c-8fdbccda5a37"
+    },
+    "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/worktrees/test-cli-v2-20250702": {
+      "allowedTools": [],
+      "history": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "screen-monitor.js",
+        "workflow-cli.py",
+        "index.js",
+        "session-server.js",
+        "categorize_db_transactions.py"
+      ],
+      "exampleFilesGeneratedAt": 1751486698560
+    },
+    "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/worktrees/test-cli-v3-20250702": {
+      "allowedTools": [],
+      "history": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "screen-monitor.js",
+        "workflow-cli.py",
+        "index.js",
+        "session-server.js",
+        "categorize_db_transactions.py"
+      ],
+      "exampleFilesGeneratedAt": 1751486897395
+    },
+    "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/worktrees/sample-tool-20250702": {
+      "allowedTools": [],
+      "history": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 1,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "screen-monitor.js",
+        "workflow-cli.py",
+        "index.js",
+        "session-server.js",
+        "categorize_db_transactions.py"
+      ],
+      "exampleFilesGeneratedAt": 1751486986493,
+      "lastCost": 0.00046960000000000003,
+      "lastAPIDuration": 1626,
+      "lastDuration": 621053,
+      "lastLinesAdded": 0,
+      "lastLinesRemoved": 0,
+      "lastTotalInputTokens": 417,
+      "lastTotalOutputTokens": 34,
+      "lastTotalCacheCreationInputTokens": 0,
+      "lastTotalCacheReadInputTokens": 0,
+      "lastTotalWebSearchRequests": 0,
+      "lastSessionId": "be04beb5-ef4f-48b1-846b-e419c226b768"
+    },
+    "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/worktrees/sample-tool-v2-20250702": {
+      "allowedTools": [],
+      "history": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 1,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "screen-monitor.js",
+        "workflow-cli.py",
+        "index.js",
+        "session-server.js",
+        "categorize_db_transactions.py"
+      ],
+      "exampleFilesGeneratedAt": 1751487084273,
+      "lastCost": 0.00046960000000000003,
+      "lastAPIDuration": 3162,
+      "lastDuration": 546417,
+      "lastLinesAdded": 0,
+      "lastLinesRemoved": 0,
+      "lastTotalInputTokens": 417,
+      "lastTotalOutputTokens": 34,
+      "lastTotalCacheCreationInputTokens": 0,
+      "lastTotalCacheReadInputTokens": 0,
+      "lastTotalWebSearchRequests": 0,
+      "lastSessionId": "27b1e672-6173-4aef-9e4a-d37a3214aa7a"
+    },
+    "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/worktrees/test-auto-cli-20250702": {
+      "allowedTools": [],
+      "history": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 1,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "screen-monitor.js",
+        "workflow-cli.py",
+        "index.js",
+        "session-server.js",
+        "categorize_db_transactions.py"
+      ],
+      "exampleFilesGeneratedAt": 1751487149414,
+      "lastCost": 0.0006752,
+      "lastAPIDuration": 3033,
+      "lastDuration": 458323,
+      "lastLinesAdded": 0,
+      "lastLinesRemoved": 0,
+      "lastTotalInputTokens": 639,
+      "lastTotalOutputTokens": 41,
+      "lastTotalCacheCreationInputTokens": 0,
+      "lastTotalCacheReadInputTokens": 0,
+      "lastTotalWebSearchRequests": 0,
+      "lastSessionId": "c021b8f3-c47d-46de-ac5b-e59969894479"
+    },
+    "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/worktrees/final-test-cli-20250702": {
+      "allowedTools": [],
+      "history": [
+        {
+          "display": "workflow-cli --project final-test-cli --mode dev --step 1",
+          "pastedContents": {}
+        }
+      ],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 1,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "screen-monitor.js",
+        "workflow-cli.py",
+        "index.js",
+        "session-server.js",
+        "categorize_db_transactions.py"
+      ],
+      "exampleFilesGeneratedAt": 1751487318301,
+      "lastCost": 0.33046274999999997,
+      "lastAPIDuration": 18070,
+      "lastDuration": 310507,
+      "lastLinesAdded": 0,
+      "lastLinesRemoved": 0,
+      "lastTotalInputTokens": 2696,
+      "lastTotalOutputTokens": 294,
+      "lastTotalCacheCreationInputTokens": 15495,
+      "lastTotalCacheReadInputTokens": 14355,
+      "lastTotalWebSearchRequests": 0,
+      "lastSessionId": "bbd9524f-abd5-476b-868e-8784dda859e7"
+    },
+    "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/worktrees/sample-cli-20250702": {
+      "allowedTools": [],
+      "history": [
+        {
+          "display": "but why? check task mode and dev mode yaml files. doesn't it correctly instruct to create the symlink?",
+          "pastedContents": {}
+        },
+        {
+          "display": "wait, shouldn't that be pointing to the same cli_tools since we created a symlink to cli_tools earlier. \\\n\\\nalso, stop ai monitor",
+          "pastedContents": {}
+        },
+        {
+          "display": "wait, shouldn't that be pointing tai-monitor: ```json\n\"\"\n```o ",
+          "pastedContents": {}
+        },
+        {
+          "display": "actually forget the cli changes, let's just make changes to dev mode and task mode. but use ~/PersonalAgents as the root directory instead of doing it inside this worktree",
+          "pastedContents": {}
+        },
+        {
+          "display": "set workflow to merge step",
+          "pastedContents": {}
+        },
+        {
+          "display": "it should run the commands without needing to cd. update @cli_tools/workflow-cli/workflows/dev-mode.yaml and @cli_tools/workflow-cli/workflows/task-mode.yaml finish steps",
+          "pastedContents": {}
+        },
+        {
+          "display": "jump to workflow-cli finish step",
+          "pastedContents": {}
+        },
+        {
+          "display": "start devmode with task: 'create a CLI tool that generates random sample data in JSON format'",
+          "pastedContents": {}
+        }
+      ],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 2,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "screen-monitor.js",
+        "workflow-cli.py",
+        "index.js",
+        "session-server.js",
+        "categorize_db_transactions.py"
+      ],
+      "exampleFilesGeneratedAt": 1751487655895,
+      "lastCost": 7.208588700000006,
+      "lastAPIDuration": 999814,
+      "lastDuration": 1304857,
+      "lastLinesAdded": 84,
+      "lastLinesRemoved": 11,
+      "lastTotalInputTokens": 75191,
+      "lastTotalOutputTokens": 19499,
+      "lastTotalCacheCreationInputTokens": 139246,
+      "lastTotalCacheReadInputTokens": 2160050,
+      "lastTotalWebSearchRequests": 2,
+      "lastSessionId": "67bc1262-3b2b-4abe-8afc-c66295a7be8e"
+    }
+  }
 }
