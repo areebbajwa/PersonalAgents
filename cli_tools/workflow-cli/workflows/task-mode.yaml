@@ -159,7 +159,8 @@ steps:
     content: |
       **Git Status Cleanup:**
       1. Run `git status` and review all changes
-      2. Check Non-Negotiable User Requirements from todo file
+      2. Note: CLI tool changes won't appear here - check `git -C ~/PersonalAgents status` to see them
+      3. Check Non-Negotiable User Requirements from todo file
       3. Keep tools/scripts that will make the task faster next time:
          - Document them in todo file under "Helpful Tools Created"
          - Only remove code NOT relevant to requirements
@@ -211,16 +212,14 @@ steps:
          rm -rf worktrees/[project-name]-YYYYMMDD  # Delete folder if still exists
          ```
       
-      **Workflow Complete:** Task finished and state cleaned up
-      
       {% if spawned %}
-      **Spawned workflow complete. Exiting Claude...**
-      
-      Run this command to exit:
-      ```
-      exit
-      ```
+      3. Close spawned workflow window:
+         ```
+         tmux kill-window -t ${TMUX_PANE}
+         ```
       {% endif %}
+      
+      **Workflow Complete:** Task finished and state cleaned up
     mandatory: true
 
 global_rules:
@@ -269,6 +268,7 @@ global_rules:
       - Follow /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/CLI_TOOL_DESIGN_GUIDE.md
       - For new CLI tools: spawn new agent with dev mode workflow
       - Example todo task: `- 🕒 Create invoice-cli tool: spawn new agent with "workflow-cli --project invoice-cli --mode dev --step 1"`
+      - Note: CLI tools are symlinked - changes commit to main repo at ~/PersonalAgents, not the worktree
 
 quick_reference:
   essential_commands:

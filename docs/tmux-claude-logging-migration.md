@@ -94,10 +94,33 @@ tr
 ```
 The `tr` shortcut automatically finds and attaches to your most recently used tmux session. If you're already in a tmux session, it will tell you how to switch instead.
 
+### Tmux window management
+- Create new window: `Ctrl-b c`
+- Next window: `Ctrl-b n`
+- Previous window: `Ctrl-b p`
+- Select window by number: `Ctrl-b 0-9`
+- List all windows: `Ctrl-b w`
+
 ### Split panes in tmux
 - Horizontal split: `Ctrl-b %`
 - Vertical split: `Ctrl-b "`
 - Navigate panes: `Ctrl-b arrow-keys`
+
+### VSCode Terminal Configuration
+If tmux shortcuts don't work in VSCode's integrated terminal (Ctrl-b is intercepted):
+
+1. **Add to VSCode settings.json:**
+   ```json
+   {
+     "terminal.integrated.sendKeybindingsToShell": true
+   }
+   ```
+
+2. **Alternative solutions:**
+   - Disable chord shortcuts: `"terminal.integrated.allowChords": false`
+   - Remove conflicting VSCode keybindings (Cmd+Shift+P → "Preferences: Open Keyboard Shortcuts")
+   - Use external terminal (Terminal.app or iTerm2)
+   - Change tmux prefix in ~/.tmux.conf to avoid conflicts
 
 ### Kill tmux session
 ```bash

@@ -141,16 +141,19 @@ steps:
       ```
       
       **CREATE INCREMENTAL PLAN:**
+      **Note:** After each test passes, you MUST run `workflow-cli --project [project-name] --sub-task-next`
+      
       1. Build feature A
       2. Write E2E test for A
       3. TEST GATE: Run test - MUST PASS
       4. Mark test passed: `workflow-cli --project [project-name] --sub-task-next`
       5. Commit with test status: `git commit -m "feat: add X - tests: 5/5 passed"`
-      6. Only then: Build feature B
-      7. Write E2E test for B
-      8. TEST GATE: Run test - MUST PASS
-      9. Mark test passed: `workflow-cli --project [project-name] --sub-task-next`
-      10. Commit with test status
+      6. For CLI tools: Also commit in main repo: `git -C ~/PersonalAgents add cli_tools/[tool-name] && git -C ~/PersonalAgents commit -m "feat: add [tool-name] CLI tool"`
+      7. Only then: Build feature B
+      8. Write E2E test for B
+      9. TEST GATE: Run test - MUST PASS
+      10. Mark test passed: `workflow-cli --project [project-name] --sub-task-next`
+      11. Commit with test status
       
       **TODO FILE MANAGEMENT:**
       ```yaml
@@ -164,6 +167,7 @@ steps:
             - "## Context Discovery"
             - "## Tasks (with timestamps and status icons)"
             - "## Notes (with breakthrough markers)"
+        - if_cli_tool: "🕒 Run ./scripts/setup-global-cli-tools.sh"  # Second last task
         - final_task: "🕒 Run workflow-cli --project [project-name] --next"
       ```
       
@@ -171,6 +175,25 @@ steps:
     mandatory: true
 
   - number: 6
+    name: "verify-plan"
+    title: "Verify Test-Gated Plan"
+    content: |
+      **STOP! Verify your plan from step 5:**
+      
+      Check each TEST GATE in your todo file has these 3 elements:
+      1. ✅ Test execution step
+      2. ✅ `workflow-cli --project [project-name] --sub-task-next` command
+      3. ✅ Commit with test count
+      
+      If any `--sub-task-next` commands are missing after test gates, go back and add them now.
+      
+      **CLI Tool Check:**
+      If creating a CLI tool, ensure `./scripts/setup-global-cli-tools.sh` is the second last task (before final `workflow-cli --next`).
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 7
     name: "implement"
     title: "Implement One Piece at a Time"
     content: |
@@ -195,13 +218,14 @@ steps:
       **Next Step:** Continue until all tasks complete, then run final `--next` from todo
     mandatory: true
 
-  - number: 7
+  - number: 8
     name: "cleanup"
     title: "Clean Up Environment"
     content: |
       **Git Status Cleanup:**
       1. Run `git status` and review all changes
-      2. Check Non-Negotiable User Requirements from todo file
+      2. Note: CLI tool changes won't appear here - check `git -C ~/PersonalAgents status` to see them
+      3. Check Non-Negotiable User Requirements from todo file
       3. Remove any code/tools/scripts/tests NOT relevant to requirements:
          - Unneeded helper scripts
          - Test files for removed features
@@ -212,7 +236,7 @@ steps:
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
 
-  - number: 8
+  - number: 9
     name: "verify"
     title: "Final Verification"
     content: |
@@ -226,14 +250,14 @@ steps:
             - next: "Run workflow-cli --project [project-name] --next"
         - if_not_met:
             - action: "Update todo list with missing requirements"
-            - action: "Jump back to step 6 (implementation)"
-            - command: "workflow-cli --project [project-name] --set-step 6"
+            - action: "Jump back to implementation step"
+            - command: "workflow-cli --project [project-name] --set-step implement"
       ```
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
 
-  - number: 9
+  - number: 10
     name: "merge"
     title: "Branch Management - Auto Merge"
     content: |
@@ -251,11 +275,12 @@ steps:
       5. `git branch -d [feature-branch]`
       6. `git push origin --delete [feature-branch]`
       7. If created a CLI tool: `./scripts/setup-global-cli-tools.sh`
+      8. Note: CLI tools are symlinked - changes commit to main repo at ~/PersonalAgents, not the worktree
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
 
-  - number: 10
+  - number: 11
     name: "finish"
     title: "Clean Project State"
     content: |
@@ -271,16 +296,14 @@ steps:
          rm -rf worktrees/[project-name]-YYYYMMDD  # Delete folder if still exists
          ```
       
-      **Workflow Complete:** Project finished and state cleaned up
-      
       {% if spawned %}
-      **Spawned workflow complete. Exiting Claude...**
-      
-      Run this command to exit:
-      ```
-      exit
-      ```
+      3. Close spawned workflow window:
+         ```
+         tmux kill-window -t ${TMUX_PANE}
+         ```
       {% endif %}
+      
+      **Workflow Complete:** Project finished and state cleaned up
     mandatory: true
 
 global_rules:

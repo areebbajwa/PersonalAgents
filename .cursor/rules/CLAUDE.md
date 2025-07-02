@@ -5,13 +5,11 @@
 ## Workflow CLI Usage
 
 ### Quick Commands
-- **"taskmode"** → Start task mode workflow: `workflow-cli --project [name] --mode task --step 1`
-- **"devmode"** → Start dev mode workflow: `workflow-cli --project [name] --mode dev --step 1`
 - **"start taskmode with task: 'description'"** → Start with task: `workflow-cli --project [name] --mode task --step 1 --task "description"`
 - **"start devmode with task: 'description'"** → Start with task: `workflow-cli --project [name] --mode dev --step 1 --task "description"`
 - **"updatetodo"** → When user gives new requirements:
   1. Add to Non-Negotiable User Requirements section in todo file
-  2. Jump to planning: `workflow-cli --project [name] --set-step 5`
+  2. Jump to planning: `workflow-cli --project [name] --set-step plan`
 
 ### Navigation Commands
 ```bash
