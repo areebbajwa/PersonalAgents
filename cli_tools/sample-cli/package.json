@@ -1,0 +1,19 @@
+{
+  "name": "sample-cli",
+  "version": "1.0.0",
+  "description": "CLI tool for generating random sample data in JSON format",
+  "main": "sample-cli",
+  "bin": {
+    "sample-cli": "./sample-cli"
+  },
+  "scripts": {
+    "test": "node ../../tests/test-sample-cli.sh"
+  },
+  "keywords": ["sample", "data", "json", "generator", "faker", "cli"],
+  "author": "PersonalAgents",
+  "license": "MIT",
+  "dependencies": {
+    "@faker-js/faker": "^9.0.0",
+    "commander": "^12.0.0"
+  }
+}

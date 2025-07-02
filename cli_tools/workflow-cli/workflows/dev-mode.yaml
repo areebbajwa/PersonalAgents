@@ -258,13 +258,17 @@ steps:
       Final cleanup step:
       
       1. Clean project state: `workflow-cli --project [project-name] --clean`
-      2. Discard symlink changes and remove worktree:
+      2. Get current worktree path: `pwd | grep -o '/worktrees/[^/]*$' | cut -d'/' -f3`
+      3. Discard symlink changes and remove worktree:
          ```
-         pwd  # Note current directory for cleanup
-         git checkout -- cli_tools todos  # Discard symlink changes
-         cd ../..
-         git worktree remove worktrees/[project-name]-YYYYMMDD
-         rm -rf worktrees/[project-name]-YYYYMMDD  # Delete folder if still exists
+         # Discard symlink changes in worktree
+         git checkout -- cli_tools todos
+         
+         # Remove worktree from main repo (without cd)
+         git -C ../.. worktree remove "worktrees/[project-name]-YYYYMMDD"
+         
+         # Delete folder if still exists
+         rm -rf "../../worktrees/[project-name]-YYYYMMDD"
          ```
       
       **Workflow Complete:** Project finished and state cleaned up

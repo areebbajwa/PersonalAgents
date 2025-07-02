@@ -199,12 +199,17 @@ steps:
       Final cleanup step:
       
       1. Clean project state: `workflow-cli --project [project-name] --clean`
-      2. Remove worktree AND folder:
+      2. Get current worktree path: `pwd | grep -o '/worktrees/[^/]*$' | cut -d'/' -f3`
+      3. Remove worktree AND folder:
          ```
-         pwd  # Note current directory for cleanup
-         cd ../..
-         git worktree remove worktrees/[project-name]-YYYYMMDD
-         rm -rf worktrees/[project-name]-YYYYMMDD  # Delete folder if still exists
+         # Discard any symlink changes first
+         git checkout -- cli_tools todos 2>/dev/null || true
+         
+         # Remove worktree from main repo (without cd)
+         git -C ../.. worktree remove "worktrees/[project-name]-YYYYMMDD"
+         
+         # Delete folder if still exists
+         rm -rf "../../worktrees/[project-name]-YYYYMMDD"
          ```
       
       **Workflow Complete:** Task finished and state cleaned up
