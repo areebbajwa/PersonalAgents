@@ -1,4 +1,4 @@
-import { parseSelector } from '../src/playwright-selector-parser.js';
+import { parseSelector } from '../src/playwright-selector-parser-v2.js';
 import assert from 'assert';
 
 describe('Playwright Selector Parser', () => {

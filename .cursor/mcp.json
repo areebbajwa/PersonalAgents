@@ -52,6 +52,30 @@
       "allowedTools": [],
       "history": [
         {
+          "display": "keep only the essential files and then commit and push",
+          "pastedContents": {}
+        },
+        {
+          "display": "don't delete the selenium playwright selector worktree. that's in progress",
+          "pastedContents": {}
+        },
+        {
+          "display": "no, consolidate, i don't want any old tools that have been replaced now with workflow",
+          "pastedContents": {}
+        },
+        {
+          "display": "run --remind-rules",
+          "pastedContents": {}
+        },
+        {
+          "display": "run --next",
+          "pastedContents": {}
+        },
+        {
+          "display": "update any outdated docs/remove unnecessary tools/code",
+          "pastedContents": {}
+        },
+        {
           "display": "run the --next command from workflow-cli since this workflow was started with that",
           "pastedContents": {}
         },
@@ -425,30 +449,6 @@
         },
         {
           "display": "get rid of interactive mode from any of the cli tools. i think screenshot-cli has a special interactive mode. start devmode with this task.",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "do the simplest solution ",
-          "pastedContents": {}
-        },
-        {
-          "display": "there's a workflow currently running and the ai monitor is supposed to be enabled but i don't think its running as i dont see any log files. why?",
-          "pastedContents": {}
-        },
-        {
-          "display": "we have currently disabled the ai-monitor from auto-starting in @cli_tools/workflow-cli/ . turn it back on",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "double check. i thought thats what we did",
           "pastedContents": {}
         }
       ],

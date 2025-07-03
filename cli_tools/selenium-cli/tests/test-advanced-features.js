@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { parseSelector } from '../src/playwright-selector-parser.js';
+import { parseSelector } from '../src/playwright-selector-parser-v2.js';
 
 console.log('Running Advanced Features Tests...\n');
 

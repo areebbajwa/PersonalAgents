@@ -465,12 +465,8 @@ program
     .option('-t, --timeout <ms>', 'Timeout in milliseconds', '10000')
     .option('-e, --show-elements', 'Show interactive elements on the page after clicking')
     .action(async (locator, options) => {
-        console.log(`DEBUG START: Entering click action with locator="${locator}"`);
         try {
-            console.log(`DEBUG: About to call parseSelectorInput`);
-            const parsed = parseSelectorInput(locator);
-            const { strategy: by, value } = parsed;
-            console.log(`DEBUG: locator="${locator}", parsed=${JSON.stringify(parsed)}`);
+            const { strategy: by, value } = parseSelectorInput(locator);
             
             const spinner = ora(`Clicking element: ${locator}`).start();
             try {

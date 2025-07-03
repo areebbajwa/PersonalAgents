@@ -6,6 +6,7 @@ import os from 'os';
 import express from 'express';
 import { diffLines } from 'diff';
 import * as cheerio from 'cheerio';
+import { parseSelector } from './src/playwright-selector-parser-v2.js';
 
 const app = express();
 app.use(express.json());
@@ -344,29 +345,36 @@ function calculateHtmlDiff(currentHtml) {
     };
 }
 
-// Parse CSS selector
-function parseSelector(locator) {
-    if (locator.startsWith('css=')) {
-        return By.css(locator.substring(4));
+// Parse selector with Playwright support
+function parseSelectorToBy(locator) {
+    try {
+        // First apply Playwright selector parsing
+        const parsedSelector = parseSelector(locator);
+        
+        // Then convert to Selenium By object
+        const [strategy, ...valueParts] = parsedSelector.split('=');
+        const value = valueParts.join('=');
+        
+        switch (strategy) {
+            case 'css':
+                return By.css(value);
+            case 'id':
+                return By.id(value);
+            case 'xpath':
+                return By.xpath(value);
+            case 'name':
+                return By.name(value);
+            case 'class':
+                return By.className(value);
+            case 'tag':
+                return By.tagName(value);
+            default:
+                throw new Error(`Unknown locator strategy: ${strategy}`);
+        }
+    } catch (error) {
+        // Re-throw with enhanced error message
+        throw new Error(`Invalid selector "${locator}": ${error.message}. Try Playwright selectors like text:Login, role:button, or css=.selector`);
     }
-    if (locator.startsWith('id=')) {
-        return By.id(locator.substring(3));
-    }
-    if (locator.startsWith('xpath=')) {
-        return By.xpath(locator.substring(6));
-    }
-    if (locator.startsWith('name=')) {
-        return By.name(locator.substring(5));
-    }
-    if (locator.startsWith('class=')) {
-        return By.className(locator.substring(6));
-    }
-    if (locator.startsWith('tag=')) {
-        return By.tagName(locator.substring(4));
-    }
-    
-    // Default to CSS selector
-    return By.css(locator);
 }
 
 // API Routes
@@ -466,7 +474,7 @@ app.post('/navigate', async (req, res) => {
 app.post('/click', async (req, res) => {
     try {
         const { selector } = req.body;
-        const by = parseSelector(selector);
+        const by = parseSelectorToBy(selector);
         await driver.wait(until.elementLocated(by), 10000);
         const element = await driver.findElement(by);
         await element.click();
@@ -520,7 +528,7 @@ app.post('/click', async (req, res) => {
 app.post('/type', async (req, res) => {
     try {
         const { selector, text } = req.body;
-        const by = parseSelector(selector);
+        const by = parseSelectorToBy(selector);
         await driver.wait(until.elementLocated(by), 10000);
         const element = await driver.findElement(by);
         

@@ -5,7 +5,7 @@
  * This test verifies that selectors are properly converted and work with Selenium
  */
 
-import { parseSelector } from '../src/playwright-selector-parser.js';
+import { parseSelector } from '../src/playwright-selector-parser-v2.js';
 import * as browserManager from '../src/browser-manager.js';
 
 console.log('Running Selector E2E Tests...\n');
