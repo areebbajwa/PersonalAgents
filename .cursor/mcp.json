@@ -1,5 +1,5 @@
 {
-  "numStartups": 130,
+  "numStartups": 132,
   "installMethod": "local",
   "autoUpdates": true,
   "theme": "dark-ansi",
@@ -8,7 +8,7 @@
     "new-user-warmup": 5,
     "shift-enter": 114,
     "memory-command": 38,
-    "theme-command": 90,
+    "theme-command": 131,
     "prompt-queue": 44,
     "enter-to-steer-in-relatime": 94,
     "todo-list": 95,
@@ -51,6 +51,26 @@
     "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents": {
       "allowedTools": [],
       "history": [
+        {
+          "display": "are you sure that's the correct way to use spawn-cli?",
+          "pastedContents": {}
+        },
+        {
+          "display": "add one line of instruction in @cursor-rules/CLAUDE.md that when i say to spawn dev/task mode with task, use spawn-cli instead of workflow-cli",
+          "pastedContents": {}
+        },
+        {
+          "display": "is there anything else that's setting some kind of json mode setting on for gemini?",
+          "pastedContents": {}
+        },
+        {
+          "display": "make sure @cli_tools/spawn-cli/spawn-cli doesn't show new tmux window in the foreground",
+          "pastedContents": {}
+        },
+        {
+          "display": "make sure @cli_tools/ai-monitor-cli/ai-monitor-cli only sends plain text guidance. i've seen it send json that's surrounded by markdown characters. as the final line in the string that's sent to gemini (after stringifying), add \"Respond as plain text, no JSON\"",
+          "pastedContents": {}
+        },
         {
           "display": "kill all tmux sessions",
           "pastedContents": {}
@@ -310,17 +330,7 @@
         "categorize_db_transactions.py"
       ],
       "exampleFilesGeneratedAt": 1751493253029,
-      "lastTotalWebSearchRequests": 0,
-      "lastCost": 21.7210515,
-      "lastAPIDuration": 2074923,
-      "lastDuration": 70686239,
-      "lastLinesAdded": 369,
-      "lastLinesRemoved": 63,
-      "lastTotalInputTokens": 188861,
-      "lastTotalOutputTokens": 41152,
-      "lastTotalCacheCreationInputTokens": 382482,
-      "lastTotalCacheReadInputTokens": 7799686,
-      "lastSessionId": "3c96b81f-d3e1-4df9-9962-3806db8c7ae8"
+      "lastTotalWebSearchRequests": 0
     },
     "/Volumes/ExtremeSSD/TheNeuron/TheNeuron": {
       "allowedTools": [],

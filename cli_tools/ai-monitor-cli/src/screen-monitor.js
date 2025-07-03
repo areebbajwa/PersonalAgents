@@ -787,7 +787,9 @@ class ScreenMonitor {
             ...variableContent
         };
         
-        return JSON.stringify(fullPrompt, null, 2);
+        // Convert to JSON string and append plain text instruction
+        const jsonPrompt = JSON.stringify(fullPrompt, null, 2);
+        return jsonPrompt + '\n\nRespond as plain text, no JSON';
     }
 
     /**

@@ -5,6 +5,8 @@
 ## Workflow CLI Usage
 
 ### Quick Commands
+- **"spawn taskmode with task: 'description'"** → Spawn with task: `spawn-cli spawn [name] task "description"`
+- **"spawn devmode with task: 'description'"** → Spawn with task: `spawn-cli spawn [name] dev "description"`
 - **"start taskmode with task: 'description'"** → Start with task: `workflow-cli --project [name] --mode task --step 1 --task "description"`
 - **"start devmode with task: 'description'"** → Start with task: `workflow-cli --project [name] --mode dev --step 1 --task "description"`
 - **"updatetodo"** → When user gives new requirements:

@@ -23,9 +23,9 @@ class SpawnCLI:
         if result.returncode != 0:
             return {"error": "No tmux session found. Please start tmux first."}
         
-        # Create new tmux window and start Claude
+        # Create new tmux window and start Claude (detached mode)
         cmd = [
-            'tmux', 'new-window', '-n', window_name,
+            'tmux', 'new-window', '-d', '-n', window_name,
             '-c', str(self.base_path),
             'zsh'  # Start with just a shell
         ]
