@@ -1,52 +1,394 @@
 {
+  "numStartups": 130,
+  "installMethod": "local",
+  "autoUpdates": true,
+  "theme": "dark-ansi",
+  "tipsHistory": {
+    "ide-hotkey": 81,
+    "new-user-warmup": 5,
+    "shift-enter": 114,
+    "memory-command": 38,
+    "theme-command": 90,
+    "prompt-queue": 44,
+    "enter-to-steer-in-relatime": 94,
+    "todo-list": 95,
+    "# for memory": 118,
+    "install-github-app": 121,
+    "permissions": 130,
+    "drag-and-drop-images": 124,
+    "double-esc": 119,
+    "continue": 125,
+    "custom-commands": 115,
+    "shift-tab": 127,
+    "git-worktrees": 84,
+    "vscode-command-install": 123
+  },
+  "memoryUsageCount": 3,
+  "promptQueueUseCount": 189,
+  "mcpServers": {},
+  "userID": "96200396462dc1a54dcd7bf4ed2806506483ec7ffab4ccd45f138f1896711cd6",
+  "fallbackAvailableWarningThreshold": 0.5,
+  "firstStartTime": "2025-06-24T18:12:23.289Z",
+  "oauthAccount": {
+    "accountUuid": "a9ecdc64-7ff6-4fd5-bec8-b13d6be1305c",
+    "emailAddress": "areebb@gmail.com",
+    "organizationUuid": "6bf9b879-e06c-4736-885f-392714701df8",
+    "organizationRole": "admin",
+    "workspaceRole": null,
+    "organizationName": "Areeb Bajwa"
+  },
+  "shiftEnterKeyBindingInstalled": true,
+  "hasCompletedOnboarding": true,
+  "lastOnboardingVersion": "1.0.33",
+  "bypassPermissionsModeAccepted": true,
+  "subscriptionNoticeCount": 0,
+  "hasAvailableSubscription": false,
+  "cachedChangelog": "# Changelog\n\n## 1.0.41\n\n- Hooks: Split Stop hook triggering into Stop and SubagentStop\n- Hooks: Enabled optional timeout configuration for each command\n- Hooks: Added \"hook_event_name\" to hook input\n- Fixed a bug where MCP tools would display twice in tool list\n- New tool parameters JSON for Bash tool in `tool_decision` event\n\n## 1.0.40\n\n- Fixed a bug causing API connection errors with UNABLE_TO_GET_ISSUER_CERT_LOCALLY if `NODE_EXTRA_CA_CERTS` was set\n\n## 1.0.39\n\n- New Active Time metric in OpenTelemetry logging\n\n## 1.0.38\n\n- Released hooks. Special thanks to community input in https://github.com/anthropics/claude-code/issues/712. Docs: https://docs.anthropic.com/en/docs/claude-code/hooks\n\n## 1.0.37\n\n- Remove ability to set `Proxy-Authorization` header via ANTHROPIC_AUTH_TOKEN or apiKeyHelper\n\n## 1.0.36\n\n- Web search now takes today's date into context\n- Fixed a bug where stdio MCP servers were not terminating properly on exit\n\n## 1.0.35\n\n- Added support for MCP OAuth Authorization Server discovery\n\n## 1.0.34\n\n- Fixed a memory leak causing a MaxListenersExceededWarning message to appear\n\n## 1.0.33\n\n- Improved logging functionality with session ID support\n- Added undo functionality (Ctrl+Z and vim 'u' command)\n- Improvements to plan mode\n\n## 1.0.32\n\n- Updated loopback config for litellm\n- Added forceLoginMethod setting to bypass login selection screen\n\n## 1.0.31\n\n- Fixed a bug where ~/.claude.json would get reset when file contained invalid JSON\n\n## 1.0.30\n\n- Custom slash commands: Run bash output, @-mention files, enable thinking with thinking keywords\n- Improved file path autocomplete with filename matching\n- Added timestamps in Ctrl-r mode and fixed Ctrl-c handling\n- Enhanced jq regex support for complex filters with pipes and select\n\n## 1.0.29\n\n- Improved CJK character support in cursor navigation and rendering\n\n## 1.0.28\n\n- Slash commands: Fix selector display during history navigation\n- Resizes images before upload to prevent API size limit errors\n- Added XDG_CONFIG_HOME support to configuration directory\n- Performance optimizations for memory usage\n- New attributes (terminal.type, language) in OpenTelemetry logging\n\n## 1.0.27\n\n- Streamable HTTP MCP servers are now supported\n- Remote MCP servers (SSE and HTTP) now support OAuth\n- MCP resources can now be @-mentioned\n- /resume slash command to switch conversations within Claude Code\n\n## 1.0.25\n\n- Slash commands: moved \"project\" and \"user\" prefixes to descriptions\n- Slash commands: improved reliability for command discovery\n- Improved support for Ghostty\n- Improved web search reliability\n\n## 1.0.24\n\n- Improved /mcp output\n- Fixed a bug where settings arrays got overwritten instead of merged\n\n## 1.0.23\n\n- Released TypeScript SDK: import @anthropic-ai/claude-code to get started\n- Released Python SDK: pip install claude-code-sdk to get started\n\n## 1.0.22\n\n- SDK: Renamed `total_cost` to `total_cost_usd`\n\n## 1.0.21\n\n- Improved editing of files with tab-based indentation\n- Fix for tool_use without matching tool_result errors\n- Fixed a bug where stdio MCP server processes would linger after quitting Claude Code\n\n## 1.0.18\n\n- Added --add-dir CLI argument for specifying additional working directories\n- Added streaming input support without require -p flag\n- Improved startup performance and session storage performance\n- Added CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR environment variable to freeze working directory for bash commands\n- Added detailed MCP server tools display (/mcp)\n- MCP authentication and permission improvements\n- Added auto-reconnection for MCP SSE connections on disconnect\n- Fixed issue where pasted content was lost when dialogs appeared\n\n## 1.0.17\n\n- We now emit messages from sub-tasks in -p mode (look for the parent_tool_use_id property)\n- Fixed crashes when the VS Code diff tool is invoked multiple times quickly\n- MCP server list UI improvements\n- Update Claude Code process title to display \"claude\" instead of \"node\"\n\n## 1.0.11\n\n- Claude Code can now also be used with a Claude Pro subscription\n- Added /upgrade for smoother switching to Claude Max plans\n- Improved UI for authentication from API keys and Bedrock/Vertex/external auth tokens\n- Improved shell configuration error handling\n- Improved todo list handling during compaction\n\n## 1.0.10\n\n- Added markdown table support\n- Improved streaming performance\n\n## 1.0.8\n\n- Fixed Vertex AI region fallback when using CLOUD_ML_REGION\n- Increased default otel interval from 1s -> 5s\n- Fixed edge cases where MCP_TIMEOUT and MCP_TOOL_TIMEOUT weren't being respected\n- Fixed a regression where search tools unnecessarily asked for permissions\n- Added support for triggering thinking non-English languages\n- Improved compacting UI\n\n## 1.0.7\n\n- Renamed /allowed-tools -> /permissions\n- Migrated allowedTools and ignorePatterns from .claude.json -> settings.json\n- Deprecated claude config commands in favor of editing settings.json\n- Fixed a bug where --dangerously-skip-permissions sometimes didn't work in --print mode\n- Improved error handling for /install-github-app\n- Bugfixes, UI polish, and tool reliability improvements\n\n## 1.0.6\n\n- Improved edit reliability for tab-indented files\n- Respect CLAUDE_CONFIG_DIR everywhere\n- Reduced unnecessary tool permission prompts\n- Added support for symlinks in @file typeahead\n- Bugfixes, UI polish, and tool reliability improvements\n\n## 1.0.4\n\n- Fixed a bug where MCP tool errors weren't being parsed correctly\n\n## 1.0.1\n\n- Added `DISABLE_INTERLEAVED_THINKING` to give users the option to opt out of interleaved thinking.\n- Improved model references to show provider-specific names (Sonnet 3.7 for Bedrock, Sonnet 4 for Console)\n- Updated documentation links and OAuth process descriptions\n\n## 1.0.0\n\n- Claude Code is now generally available\n- Introducing Sonnet 4 and Opus 4 models\n\n## 0.2.125\n\n- Breaking change: Bedrock ARN passed to `ANTHROPIC_MODEL` or `ANTHROPIC_SMALL_FAST_MODEL` should no longer contain an escaped slash (specify `/` instead of `%2F`)\n- Removed `DEBUG=true` in favor of `ANTHROPIC_LOG=debug`, to log all requests\n\n## 0.2.117\n\n- Breaking change: --print JSON output now returns nested message objects, for forwards-compatibility as we introduce new metadata fields\n- Introduced settings.cleanupPeriodDays\n- Introduced CLAUDE_CODE_API_KEY_HELPER_TTL_MS env var\n- Introduced --debug mode\n\n## 0.2.108\n\n- You can now send messages to Claude while it works to steer Claude in real-time\n- Introduced BASH_DEFAULT_TIMEOUT_MS and BASH_MAX_TIMEOUT_MS env vars\n- Fixed a bug where thinking was not working in -p mode\n- Fixed a regression in /cost reporting\n- Deprecated MCP wizard interface in favor of other MCP commands\n- Lots of other bugfixes and improvements\n\n## 0.2.107\n\n- CLAUDE.md files can now import other files. Add @path/to/file.md to ./CLAUDE.md to load additional files on launch\n\n## 0.2.106\n\n- MCP SSE server configs can now specify custom headers\n- Fixed a bug where MCP permission prompt didn't always show correctly\n\n## 0.2.105\n\n- Claude can now search the web\n- Moved system & account status to /status\n- Added word movement keybindings for Vim\n- Improved latency for startup, todo tool, and file edits\n\n## 0.2.102\n\n- Improved thinking triggering reliability\n- Improved @mention reliability for images and folders\n- You can now paste multiple large chunks into one prompt\n\n## 0.2.100\n\n- Fixed a crash caused by a stack overflow error\n- Made db storage optional; missing db support disables --continue and --resume\n\n## 0.2.98\n\n- Fixed an issue where auto-compact was running twice\n\n## 0.2.96\n\n- Claude Code can now also be used with a Claude Max subscription (https://claude.ai/upgrade)\n\n## 0.2.93\n\n- Resume conversations from where you left off from with \"claude --continue\" and \"claude --resume\"\n- Claude now has access to a Todo list that helps it stay on track and be more organized\n\n## 0.2.82\n\n- Added support for --disallowedTools\n- Renamed tools for consistency: LSTool -> LS, View -> Read, etc.\n\n## 0.2.75\n\n- Hit Enter to queue up additional messages while Claude is working\n- Drag in or copy/paste image files directly into the prompt\n- @-mention files to directly add them to context\n- Run one-off MCP servers with `claude --mcp-config <path-to-file>`\n- Improved performance for filename auto-complete\n\n## 0.2.74\n\n- Added support for refreshing dynamically generated API keys (via apiKeyHelper), with a 5 minute TTL\n- Task tool can now perform writes and run bash commands\n\n## 0.2.72\n\n- Updated spinner to indicate tokens loaded and tool usage\n\n## 0.2.70\n\n- Network commands like curl are now available for Claude to use\n- Claude can now run multiple web queries in parallel\n- Pressing ESC once immediately interrupts Claude in Auto-accept mode\n\n## 0.2.69\n\n- Fixed UI glitches with improved Select component behavior\n- Enhanced terminal output display with better text truncation logic\n\n## 0.2.67\n\n- Shared project permission rules can be saved in .claude/settings.json\n\n## 0.2.66\n\n- Print mode (-p) now supports streaming output via --output-format=stream-json\n- Fixed issue where pasting could trigger memory or bash mode unexpectedly\n\n## 0.2.63\n\n- Fixed an issue where MCP tools were loaded twice, which caused tool call errors\n\n## 0.2.61\n\n- Navigate menus with vim-style keys (j/k) or bash/emacs shortcuts (Ctrl+n/p) for faster interaction\n- Enhanced image detection for more reliable clipboard paste functionality\n- Fixed an issue where ESC key could crash the conversation history selector\n\n## 0.2.59\n\n- Copy+paste images directly into your prompt\n- Improved progress indicators for bash and fetch tools\n- Bugfixes for non-interactive mode (-p)\n\n## 0.2.54\n\n- Quickly add to Memory by starting your message with '#'\n- Press ctrl+r to see full output for long tool results\n- Added support for MCP SSE transport\n\n## 0.2.53\n\n- New web fetch tool lets Claude view URLs that you paste in\n- Fixed a bug with JPEG detection\n\n## 0.2.50\n\n- New MCP \"project\" scope now allows you to add MCP servers to .mcp.json files and commit them to your repository\n\n## 0.2.49\n\n- Previous MCP server scopes have been renamed: previous \"project\" scope is now \"local\" and \"global\" scope is now \"user\"\n\n## 0.2.47\n\n- Press Tab to auto-complete file and folder names\n- Press Shift + Tab to toggle auto-accept for file edits\n- Automatic conversation compaction for infinite conversation length (toggle with /config)\n\n## 0.2.44\n\n- Ask Claude to make a plan with thinking mode: just say 'think' or 'think harder' or even 'ultrathink'\n\n## 0.2.41\n\n- MCP server startup timeout can now be configured via MCP_TIMEOUT environment variable\n- MCP server startup no longer blocks the app from starting up\n\n## 0.2.37\n\n- New /release-notes command lets you view release notes at any time\n- `claude config add/remove` commands now accept multiple values separated by commas or spaces\n\n## 0.2.36\n\n- Import MCP servers from Claude Desktop with `claude mcp add-from-claude-desktop`\n- Add MCP servers as JSON strings with `claude mcp add-json <n> <json>`\n\n## 0.2.34\n\n- Vim bindings for text input - enable with /vim or /config\n\n## 0.2.32\n\n- Interactive MCP setup wizard: Run \"claude mcp add\" to add MCP servers with a step-by-step interface\n- Fix for some PersistentShell issues\n\n## 0.2.31\n\n- Custom slash commands: Markdown files in .claude/commands/ directories now appear as custom slash commands to insert prompts into your conversation\n- MCP debug mode: Run with --mcp-debug flag to get more information about MCP server errors\n\n## 0.2.30\n\n- Added ANSI color theme for better terminal compatibility\n- Fixed issue where slash command arguments weren't being sent properly\n- (Mac-only) API keys are now stored in macOS Keychain\n\n## 0.2.26\n\n- New /approved-tools command for managing tool permissions\n- Word-level diff display for improved code readability\n- Fuzzy matching for slash commands\n\n## 0.2.21\n\n- Fuzzy matching for /commands\n",
+  "changelogLastFetched": 1751515498308,
+  "lastReleaseNotesSeen": "1.0.41",
+  "hasUsedBackslashReturn": true,
   "projects": {
-    "/Volumes/ExtremeSSD/KalaamParent": {
-      "allowedTools": [],
-      "history": [],
-      "mcpContextUris": [],
-      "mcpServers": {},
-      "enabledMcpjsonServers": [],
-      "disabledMcpjsonServers": [],
-      "hasTrustDialogAccepted": false,
-      "ignorePatterns": [],
-      "projectOnboardingSeenCount": 0,
-      "hasClaudeMdExternalIncludesApproved": false,
-      "hasClaudeMdExternalIncludesWarningShown": false,
-      "lastCost": 6.0895772999999975,
-      "lastAPIDuration": 1101475,
-      "lastDuration": 86977967,
-      "lastLinesAdded": 538,
-      "lastLinesRemoved": 35,
-      "lastTotalInputTokens": 106127,
-      "lastTotalOutputTokens": 33134,
-      "lastTotalCacheCreationInputTokens": 228452,
-      "lastTotalCacheReadInputTokens": 3603119,
-      "lastTotalWebSearchRequests": 2,
-      "lastSessionId": "e19f8829-5b5a-432f-9f93-5da782e42e25"
-    },
     "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents": {
       "allowedTools": [],
-      "history": [],
+      "history": [
+        {
+          "display": "kill all tmux sessions",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "no leave selenium alone",
+          "pastedContents": {}
+        },
+        {
+          "display": "get rid of interactive mode from any of the cli tools. i think screenshot-cli has a special interactive mode. start devmode with this task.",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
+        {
+          "display": "do the simplest solution ",
+          "pastedContents": {}
+        },
+        {
+          "display": "there's a workflow currently running and the ai monitor is supposed to be enabled but i don't think its running as i dont see any log files. why?",
+          "pastedContents": {}
+        },
+        {
+          "display": "we have currently disabled the ai-monitor from auto-starting in @cli_tools/workflow-cli/ . turn it back on",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "double check. i thought thats what we did",
+          "pastedContents": {}
+        },
+        {
+          "display": "the workflow state should be stored in the absolute ~/PersonalAgents/cli_tools/workflow-cli... directory? ",
+          "pastedContents": {}
+        },
+        {
+          "display": "why does the step get lost after creating the worktree in @cli_tools/workflow-cli/workflows/dev-mode.yaml and @cli_tools/workflow-cli/workflows/task-mode.yaml. example: [Pasted text #1 +74 lines]",
+          "pastedContents": {
+            "1": {
+              "id": 1,
+              "type": "text",
+              "content": "\n⏺ Bash(workflow-cli --project audio-patient-entry --mode dev --step 1 --task \"Enhance Gemini audio processing for complete patient\n      data entry (name/address in Urdu/Pun…)\n  ⎿  === DEV MODE - Step 1 ===\n\n     ### Core Principles\n     … +144 lines (ctrl+r to expand)\n\n⏺ ⚡ DEV MODE ACTIVATED\n\n  I'm operating under DEV MODE rules: Simplify ruthlessly, test what matters, and create modern, maintainable code.\n\n  Task: Enhance Gemini audio processing for complete patient data entry (name/address in Urdu/Punjabi), move recording button to top,\n   auto-navigate to new patients\n\n  ⚠️ IMPORTANT: DO NOT start implementation yet. This is the planning phase.\n\n  Let me continue to the next step to check todo status and git setup.\n\n⏺ Bash(workflow-cli --project audio-patient-entry --next)\n  ⎿  === DEV MODE - Step 2 ===\n\n     ### Core Principles\n     … +186 lines (ctrl+r to expand)\n\n⏺ Let me check for an existing todo file and git worktree setup.\n\n⏺ Bash(ls ~/PersonalAgents/todos/*audio-patient-entry*.md 2>/dev/null | head -5)\n  ⎿  -rw-r--r--@ 1 areeb2  staff  3612 Jul  3 00:26 /Users/areeb2/PersonalAgents/todos/20250703-gemini-audio-patient-entry-todo.md\n\n⏺ Read(../../../../Users/areeb2/PersonalAgents/todos/20250703-gemini-audio-patient-entry-todo.md)\n  ⎿  Read 64 lines (ctrl+r to expand)\n\n⏺ Found existing todo file! Let me check for the corresponding worktree.\n\n⏺ Bash(pwd)\n  ⎿  /Volumes/ExtremeSSD/TheNeuron/TheNeuron\n\n⏺ Bash(ls -la worktrees/ | grep -E \"(gemini-audio-patient-entry|audio-patient-entry)\" | head -5)\n  ⎿  ls: worktrees/: No such file or directory\n\n⏺ Let me create the worktree structure since it doesn't exist yet.\n\n⏺ Bash(mkdir -p worktrees && git worktree add worktrees/audio-patient-entry-20250703 -b audio-patient-entry-20250703)\n  ⎿  HEAD is now at b718fa2 Refactor Firebase emulator configuration and update TODO status\n     Preparing worktree (new branch 'audio-patient-entry-20250703')\n\n⏺ Bash(cd worktrees/audio-patient-entry-20250703 && rm -rf cli_tools todos && ln -s ~/PersonalAgents/cli_tools cli_tools && ln -s\n      ~/PersonalAgents/todos todos && git p…)\n  ⎿  branch 'audio-patient-entry-20250703' set up to track 'origin/audio-patient-entry-20250703'.\n     remote:\n     remote: Create a pull request for 'audio-patient-entry-20250703' on GitHub by visiting:\n     … +4 lines (ctrl+r to expand)\n\n> no ignore that todo\n\n⏺ I'll ignore that existing todo file and continue with the workflow for your new requirements.\n\n⏺ Bash(cd worktrees/audio-patient-entry-20250703 && workflow-cli --project audio-patient-entry --next)\n  ⎿  Error: (eval):cd:1: no such file or directory: worktrees/audio-patient-entry-20250703\n\n⏺ Bash(pwd)\n  ⎿  /Volumes/ExtremeSSD/TheNeuron/TheNeuron/worktrees/audio-patient-entry-20250703\n\n⏺ Bash(workflow-cli --project audio-patient-entry --next)\n  ⎿  {\n       \"error\": \"No mode specified and no current mode in project state. Use --mode to set initial mode.\"\n     }\n\n⏺ Bash(workflow-cli --project audio-patient-entry --mode dev --step 3)\n  ⎿  === DEV MODE - Step 3 ===\n\n     ### Core Principles\n     … +157 lines (ctrl+r to expand)\n"
+            }
+          }
+        },
+        {
+          "display": "no i mean questions in the planning step, not questions as you go through the task",
+          "pastedContents": {}
+        },
+        {
+          "display": "no no, only questions relevant to rules about how to develop, not all rules",
+          "pastedContents": {}
+        },
+        {
+          "display": "create questions for all the requirements listed in the global rules",
+          "pastedContents": {}
+        },
+        {
+          "display": "change the simplify step in @cli_tools/workflow-cli/workflows/dev-mode.yaml to ask the question: \"what is the simplest way i can satisfy all the non-negotiable user requirements given all the rules?\" the musk 5 step thing is too confusing",
+          "pastedContents": {}
+        },
+        {
+          "display": "workflow-cli --project test-monitor-fix --mode dev --step 1 --task \"test that AI monitor now correctly sends plain text guidance to tmux windows\" --spawned",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "no, why did it give the wrong name? fix at the root",
+          "pastedContents": {}
+        },
+        {
+          "display": "i see the log files but doesn't seem like the guidance is being sent to the tmux window?",
+          "pastedContents": {}
+        },
+        {
+          "display": "workflow-cli --project test-ai-monitor --mode dev --step 1 --task \"test ai monitor plain text responses\" --spawned",
+          "pastedContents": {}
+        },
+        {
+          "display": "actually, use spawn-cli",
+          "pastedContents": {}
+        },
+        {
+          "display": "i think there's a way to run it in dry run/test mode with real api calls. the gemini api key should already be there",
+          "pastedContents": {}
+        },
+        {
+          "display": "test it",
+          "pastedContents": {}
+        },
+        {
+          "display": "no even the running monitor sent json as guidance",
+          "pastedContents": {}
+        },
+        {
+          "display": "it seems like the response from ai-monitor-cli is all json. why?",
+          "pastedContents": {}
+        },
+        {
+          "display": "see /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/ai-monitor-cli/logs/gemini/gemini-sample-cli-20250702-2025-07-02T20-33-03-664Z.json",
+          "pastedContents": {}
+        },
+        {
+          "display": "are you sure those paths are correct? check selenium-ide",
+          "pastedContents": {}
+        },
+        {
+          "display": "it seems like any new cookies we generate in our session get lost because we're using a copy of the default firefox profile each time with selenium-cli. modify dev mode to copy the profile back to overwrite the default one in the final cleanup step, so that any new cookies we created get saved.",
+          "pastedContents": {}
+        },
+        {
+          "display": "also in dev mode add instructions that it should use gemini-2.5-pro whenever needing any AI intelligence (in any modality) like the rest of the tools do.",
+          "pastedContents": {}
+        },
+        {
+          "display": "also in the verification step in dev mode make sure there's a check that any cli tools created follow cli tool design guide",
+          "pastedContents": {}
+        },
+        {
+          "display": "@cli_tools/workflow-cli/workflows/dev-mode.yaml make it clear that it should not avoid creating/fixing/modifying a useful general purpose tool and try to find another way to do the task. don't create new tools if existing ones can be used or improved.",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
+        {
+          "display": "make it clear that it should not avoid creating/fixing/modifying a useful tool and try to find another way to do the task. don't create new tools if existing ones can be used or improved.",
+          "pastedContents": {}
+        },
+        {
+          "display": "/resume ",
+          "pastedContents": {}
+        },
+        {
+          "display": "test the command make sure it works",
+          "pastedContents": {}
+        },
+        {
+          "display": "it won't let you cd into that directory but it'll let you run the command from any directory",
+          "pastedContents": {}
+        },
+        {
+          "display": "no no, the symlink is deleted before some of those steps. i mean it thinking it hasn't modified the files because they don't show up in git status for the worktree but show up for the main repo instead",
+          "pastedContents": {}
+        },
+        {
+          "display": "given that cli_tools is a symlink tracked by the main git repo, does anything else in either modes conflict? there's some instruction about checking git status etc",
+          "pastedContents": {}
+        },
+        {
+          "display": "also add this explanation in the plan step",
+          "pastedContents": {}
+        },
+        {
+          "display": "in the verify-plan step in dev mode, make sure if creating a cli tool, setup global cli tools script is the second last task",
+          "pastedContents": {}
+        },
+        {
+          "display": "alright setup karabiner-elements and let's modify F1, F2, F3 etc. let F1 to F11 pick the appropriate tmux window. let F12 create a new tmux window.",
+          "pastedContents": {}
+        },
+        {
+          "display": "sorry i mean it needs to commit to the main repo, not the worktree",
+          "pastedContents": {}
+        },
+        {
+          "display": "for cli tools, since we've created a symlink to cli_tools, it commits to the main git repo at ~/PersonalAgents. update @cli_tools/workflow-cli/workflows/dev-mode.yaml and @cli_tools/workflow-cli/workflows/task-mode.yaml so they know this. add only one line.",
+          "pastedContents": {}
+        },
+        {
+          "display": "workflow-cli --project e2e-test --mode task --step 1 --task \"End-to-end test of spawn-cli\" --spawned",
+          "pastedContents": {}
+        },
+        {
+          "display": "is there a tool on mac that can send that key combination with one key press? ",
+          "pastedContents": {}
+        },
+        {
+          "display": "update @docs/tmux-claude-logging-migration.md with these instructions",
+          "pastedContents": {}
+        },
+        {
+          "display": "it needs to send the enter key as a separate command to tmux afterai-monitor: run workflow-cli --remind-rules --project spawn-cli-20250102 --mode dev",
+          "pastedContents": {}
+        },
+        {
+          "display": "go ahead and make the change for 1 at the global level",
+          "pastedContents": {}
+        },
+        {
+          "display": "seems like the terminal inside vs code is intercepting it for some reason. is there any way around that? search the web",
+          "pastedContents": {}
+        },
+        {
+          "display": "tmux list-keys",
+          "pastedContents": {}
+        },
+        {
+          "display": "doesn't seem to work. i'm on mac. search the web",
+          "pastedContents": {}
+        },
+        {
+          "display": "in tmux how do i switch to a different window and start a new window? what are the keyboard commands",
+          "pastedContents": {}
+        },
+        {
+          "display": "delete the unnecessary spawn scripts except that one",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "workflow-cli --project spawn-cli --mode dev --step 1 --task 'Convert the spawn-workflow-with-task.sh script into a proper CLI tool that can spawn workflows in separate tmux windows' --spawned",
+          "pastedContents": {}
+        },
+        {
+          "display": "spawn dev mode to convert the spawning script into a cli tool",
+          "pastedContents": {}
+        }
+      ],
       "mcpContextUris": [],
       "mcpServers": {},
       "enabledMcpjsonServers": [],
       "disabledMcpjsonServers": [],
       "hasTrustDialogAccepted": false,
-      "ignorePatterns": [],
-      "projectOnboardingSeenCount": 0,
+      "projectOnboardingSeenCount": 7,
       "hasClaudeMdExternalIncludesApproved": false,
       "hasClaudeMdExternalIncludesWarningShown": false,
-      "lastCost": 2.0790873999999997,
-      "lastAPIDuration": 568268,
-      "lastDuration": 97647355,
-      "lastLinesAdded": 33,
-      "lastLinesRemoved": 8,
-      "lastTotalInputTokens": 60669,
-      "lastTotalOutputTokens": 7783,
-      "lastTotalCacheCreationInputTokens": 54030,
-      "lastTotalCacheReadInputTokens": 387431,
+      "exampleFiles": [
+        "workflow-cli.py",
+        "screen-monitor.js",
+        "index.js",
+        "session-server.js",
+        "categorize_db_transactions.py"
+      ],
+      "exampleFilesGeneratedAt": 1751493253029,
       "lastTotalWebSearchRequests": 0,
-      "lastSessionId": "726f9d35-9e45-4186-82bb-34aa54dc3322"
+      "lastCost": 21.7210515,
+      "lastAPIDuration": 2074923,
+      "lastDuration": 70686239,
+      "lastLinesAdded": 369,
+      "lastLinesRemoved": 63,
+      "lastTotalInputTokens": 188861,
+      "lastTotalOutputTokens": 41152,
+      "lastTotalCacheCreationInputTokens": 382482,
+      "lastTotalCacheReadInputTokens": 7799686,
+      "lastSessionId": "3c96b81f-d3e1-4df9-9962-3806db8c7ae8"
+    },
+    "/Volumes/ExtremeSSD/TheNeuron/TheNeuron": {
+      "allowedTools": [],
+      "history": [
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "stop all monitors",
+          "pastedContents": {}
+        },
+        {
+          "display": "ai-monitor: run workflow-cli --remind-rules --project audio-patient-entry-20250703 --mode dev",
+          "pastedContents": {}
+        },
+        {
+          "display": "right now we have gemini audio processing but not for the entire data entry process for the patient - name address etc. change it\n    so it's used for all of it. mention that the name/address etc will be in Urdu/Punjabi so it knows how to handle the names it\n  hears better. also move the start recording button to the top of the screen. also make it so that when a new patient is entered in\n  the patient management, it auto-navigates to that patient for entry in the main screen. start devmode with this task.",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
+        {
+          "display": "ai-monitor: run workflow-cli --remind-rules --project gemini-audio-patient-entry-20250703 --mode dev",
+          "pastedContents": {}
+        },
+        {
+          "display": "right now we have gemini audio processing but not for the entire data entry process for the patient - name address etc. change it\n  so it's used for all of it. mention that the name/address etc will be in Urdu/Punjabi so it knows how to handle the names it hears better. also move the start recording button to the top of the screen. also make it so that when a new patient is entered in the patient management, it auto-navigates to that patient for entry in the main screen. start devmode with this task.",
+          "pastedContents": {}
+        },
+        {
+          "display": "right now we have gemini audio processing but not for the entire data entry process for the patient - name address etc. change it\n  so it's used for all of it. mention that the name/address etc will be in Urdu/Punjabi so it knows how to handle the names it hears\n  better. also move the start recording button to the top of the screen. ",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        }
+      ],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 8,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "patient_management.js",
+        "script.js",
+        "import_patients_from_csv.py",
+        "index.js",
+        "TODO.md"
+      ],
+      "exampleFilesGeneratedAt": 1751515564835,
+      "lastCost": 172.3722124499996,
+      "lastAPIDuration": 4903537,
+      "lastDuration": 51421839,
+      "lastLinesAdded": 408,
+      "lastLinesRemoved": 106,
+      "lastTotalInputTokens": 416660,
+      "lastTotalOutputTokens": 79304,
+      "lastTotalCacheCreationInputTokens": 7086373,
+      "lastTotalCacheReadInputTokens": 22709823,
+      "lastTotalWebSearchRequests": 3,
+      "lastSessionId": "74e835f7-9210-404d-a097-c5502d45135e"
     }
   }
 }

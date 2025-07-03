@@ -17,16 +17,16 @@ steps:
       
       **Check for existing todo:**
       If continuing work on existing todo file in `todos/`:
-      1. Check if corresponding worktree exists: worktrees/[project-name]-YYYYMMDD
+      1. Check if corresponding worktree exists: worktrees/[project-name]
       2. If worktree exists:
-         - Switch to it: `cd worktrees/[project-name]-YYYYMMDD`
+         - Switch to it: `cd worktrees/[project-name]`
          - Skip to step 4 and update existing todo list to match the todo list structure (if needed)
       3. If worktree doesn't exist but todo exists:
          - Recreate worktree: 
          ```
          mkdir -p worktrees
-         git worktree add worktrees/[project-name]-YYYYMMDD -b [project-name]-YYYYMMDD
-         cd worktrees/[project-name]-YYYYMMDD
+         git worktree add worktrees/[project-name] -b [project-name]-YYYYMMDD
+         cd worktrees/[project-name]
          ```
          - Skip to step 4 and continue with existing todo
       
@@ -37,8 +37,8 @@ steps:
          - Create worktree with new branch:
          ```
          mkdir -p worktrees
-         git worktree add worktrees/[project-name]-YYYYMMDD -b [project-name]-YYYYMMDD
-         cd worktrees/[project-name]-YYYYMMDD
+         git worktree add worktrees/[project-name] -b [project-name]-YYYYMMDD
+         cd worktrees/[project-name]
          git push -u origin [project-name]-YYYYMMDD
          ```
       
@@ -134,7 +134,10 @@ steps:
       4. Move to next planned step
       
       **CLI Tool Priority:**
-      If a CLI tool exists for the task but doesn't work, priority should be to fix it first before attempting alternative approaches.
+      - If a CLI tool exists for the task but doesn't work, priority should be to fix it first
+      - If no existing tool fits but task needs general-purpose functionality, CREATE the tool
+      - DO NOT create workarounds when a proper tool solution would be better
+      - Always improve existing tools over creating band-aid fixes
       
       **Call --next ONLY when entire todo list is completed**
       
@@ -209,8 +212,8 @@ steps:
          ```
          pwd  # Note current directory for cleanup
          cd ../..
-         git worktree remove worktrees/[project-name]-YYYYMMDD
-         rm -rf worktrees/[project-name]-YYYYMMDD  # Delete folder if still exists
+         git worktree remove worktrees/[project-name]
+         rm -rf worktrees/[project-name]  # Delete folder if still exists
          ```
       
       {% if spawned %}
@@ -269,16 +272,19 @@ global_rules:
       
   - title: "Creating New Tools During Tasks"
     content: |
-      - **IMPORTANT**: Most task-specific needs should be SCRIPTS, not CLI tools!
+      - **IMPORTANT**: Distinguish between task-specific scripts and general-purpose tools
       - **Scripts (in scripts/)**: For task-specific automation
         - Create directly in task mode: `scripts/process-invoices-2025.js`
         - Delete after task completion
         - No need to spawn workflows for scripts
-      - **CLI Tools**: Only spawn dev workflow if it's truly general-purpose
+      - **CLI Tools**: For general-purpose functionality
+        - ✅ First check if an existing tool can be used or improved
+        - ✅ If no existing tool fits, CREATE the new general-purpose tool
+        - ❌ DO NOT avoid creating tools by doing workarounds
         - ✅ Need PDF extraction for many tasks? `spawn-cli spawn pdf-extractor dev "create general PDF extraction CLI"`
         - ❌ Need to process Company X invoices? Just create a script
       - Example in todo: `🕒 Create script to process bank statements: scripts/parse-bank-statements.py`
-      - Ask yourself: "Will I use this again for different tasks?" If no, make it a script
+      - Ask yourself: "Will I use this again for different tasks?" If yes, make it a CLI tool
 
   - title: "AI Integration for New Tools/Scripts"
     content: |
@@ -290,6 +296,10 @@ global_rules:
   - title: "CLI Tool Development"
     content: |
       - Follow /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/CLI_TOOL_DESIGN_GUIDE.md
+      - **Tool Creation Philosophy**:
+        - ✅ Always prefer improving existing tools over creating workarounds
+        - ✅ Create new general-purpose tools when needed - don't avoid it
+        - ✅ Tools should solve problems properly, not with band-aids
       - For new CLI tools: spawn new agent with dev mode workflow using spawn-cli
       - Example: `spawn-cli spawn invoice-cli dev "create invoice-cli tool for generating PDF invoices"`
       - Example todo task: `- 🕒 Create invoice-cli tool: spawn-cli spawn invoice-cli dev "create invoice CLI tool"`

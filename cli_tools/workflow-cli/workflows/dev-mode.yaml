@@ -30,19 +30,19 @@ steps:
         - if_exists:
             - action: "Read existing todo file"
             - check_worktree:
-                - action: "Check if corresponding worktree exists: worktrees/[project-name]-YYYYMMDD"
+                - action: "Check if corresponding worktree exists: worktrees/[project-name]"
                 - if_worktree_exists:
                     - action: "Switch to existing worktree:"
                       commands:
-                        - "cd worktrees/[project-name]-YYYYMMDD"
+                        - "cd worktrees/[project-name]"
                     - action: "Continue with existing work from current state"
                     - next: "Run workflow-cli --project [project-name] --next"
                 - if_worktree_not_exists:
                     - action: "Recreate worktree for continuing work:"
                       commands:
                         - "mkdir -p worktrees"
-                        - "git worktree add worktrees/[project-name]-YYYYMMDD -b [project-name]-YYYYMMDD"
-                        - "cd worktrees/[project-name]-YYYYMMDD"
+                        - "git worktree add worktrees/[project-name] -b [project-name]-YYYYMMDD"
+                        - "cd worktrees/[project-name]"
                         - "rm -rf cli_tools todos"  # Remove directories from worktree
                         - "ln -s ~/PersonalAgents/cli_tools cli_tools"  # Symlink to main cli_tools
                         - "ln -s ~/PersonalAgents/todos todos"  # Symlink to main todos
@@ -58,8 +58,8 @@ steps:
                     - action: "Create new git worktree:"
                       commands:
                         - "mkdir -p worktrees"
-                        - "git worktree add worktrees/[project-name]-YYYYMMDD -b [project-name]-YYYYMMDD"
-                        - "cd worktrees/[project-name]-YYYYMMDD"
+                        - "git worktree add worktrees/[project-name] -b [project-name]-YYYYMMDD"
+                        - "cd worktrees/[project-name]"
                         - "rm -rf cli_tools todos"  # Remove directories from worktree
                         - "ln -s ~/PersonalAgents/cli_tools cli_tools"  # Symlink to main cli_tools
                         - "ln -s ~/PersonalAgents/todos todos"  # Symlink to main todos
@@ -96,23 +96,43 @@ steps:
 
   - number: 4
     name: "simplify"
-    title: "Apply Musk's 5-Step Process"
+    title: "Simplify the Approach"
     content: |
       **⚠️ IMPORTANT: Still in planning phase - NO implementation yet.**
       
       **CRITICAL:** Review Non-Negotiable User Requirements from todo file - NEVER violate these when simplifying.
       
-      Apply this analysis to the current task:
-      1. Question: Is this requirement necessary?
-      2. Delete: What can we remove?
-      3. Simplify: How can we make it simpler?
-      4. Accelerate: Speed up only after simplifying
-      5. Automate: Automate only proven processes
+      **Core Question: "What is the simplest way I can satisfy all the non-negotiable user requirements given all the rules?"**
       
-      Example:
-      - User wants caching → Do ALL endpoints need it?
-      - Can we use in-memory instead of Redis?
-      - Test the simple solution first
+      **Planning Questions to Answer:**
+      
+      1. **Simplification:**
+         - What's the absolute minimal implementation that fully meets requirements?
+         - What complexity can I eliminate while still delivering everything asked?
+         - Can I solve this in 10 lines instead of 100?
+      
+      2. **Reuse & Libraries:**
+         - What existing tools in cli_tools/ can I use or extend?
+         - Are there GitHub/npm libraries that already solve this?
+         - Can I modify existing code instead of writing new code?
+      
+      3. **Architecture:**
+         - What's the simplest architecture that handles all use cases?
+         - Can I use batch operations instead of loops?
+         - Should I start with in-memory solutions before adding complexity?
+      
+      4. **Tool vs Script:**
+         - Is this general-purpose (CLI tool) or task-specific (script)?
+         - Would other AI agents find this useful?
+         - Does this belong in cli_tools/ or scripts/?
+      
+      5. **AI Integration:**
+         - Where can gemini-2.5-pro + ai_cache_utils.js simplify the solution?
+         - Can AI handle complex logic I'd otherwise code manually?
+      
+      6. **Testing Strategy:**
+         - What's the minimum testing that ensures requirements are met?
+         - Can I write one comprehensive test instead of many small ones?
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
@@ -188,11 +208,13 @@ steps:
       If any `--sub-task-next` commands are missing after test gates, go back and add them now.
       
       **CLI Tool vs Script Check:**
-      1. If creating a tool, verify it's truly general-purpose:
+      1. If the task requires a general-purpose tool:
+         - ✅ Check if an existing tool can handle it (update/improve if needed)
+         - ✅ If no existing tool fits, CREATE the new tool - don't avoid it
          - ✅ Would other AI agents find this useful?
          - ✅ Will this be used across different tasks?
-         - ❌ If task-specific, change plan to create a script in scripts/ instead
-      2. If creating a CLI tool, ensure `./scripts/setup-global-cli-tools.sh` is the second last task (before final `workflow-cli --next`).
+         - ❌ If task-specific, create a script in scripts/ instead
+      2. If creating or updating a CLI tool, ensure `./scripts/setup-global-cli-tools.sh` is the second last task (before final `workflow-cli --next`).
       
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
@@ -237,6 +259,27 @@ steps:
       4. Update/delete conflicting docs/references in other files based on changes
       5. Ensure .gitignore is up-to-date
       
+      **Selenium Profile Preservation:**
+      If you used selenium-cli during this workflow:
+      1. Check if selenium-cli is still running: `selenium-cli status`
+      2. If running, stop it first: `selenium-cli stop`
+      3. Find and preserve the temporary profile cookies:
+         ```bash
+         # Find the most recent selenium temp profile
+         TEMP_PROFILE=$(ls -td /tmp/selenium-profile-* 2>/dev/null | head -1)
+         if [ -n "$TEMP_PROFILE" ] && [ -d "$TEMP_PROFILE" ]; then
+             # Find the default Firefox profile
+             DEFAULT_PROFILE=$(find ~/Library/Application\ Support/Firefox/Profiles -name "*.default-release" -type d | head -1)
+             if [ -n "$DEFAULT_PROFILE" ]; then
+                 # Copy cookies and session data back
+                 cp -f "$TEMP_PROFILE/cookies.sqlite"* "$DEFAULT_PROFILE/" 2>/dev/null || true
+                 cp -f "$TEMP_PROFILE/sessionstore.jsonlz4" "$DEFAULT_PROFILE/" 2>/dev/null || true
+                 echo "Cookies preserved from $TEMP_PROFILE"
+             fi
+         fi
+         ```
+      4. This ensures any new cookies/logins are preserved for future sessions
+      
       **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
     mandatory: true
 
@@ -248,6 +291,14 @@ steps:
       ```yaml
       verify_requirements:
         - action: "Check todo file's Non-Negotiable User Requirements"
+        - action: "If CLI tools were created, verify they follow CLI_TOOL_DESIGN_GUIDE.md:"
+          checks:
+            - "Has proper command structure with subcommands?"
+            - "Includes --help for all commands?"
+            - "Has error handling and clear error messages?"
+            - "Uses proper argument parsing?"
+            - "Follows naming conventions?"
+            - "Has been added to cli_tools/ directory?"
         - if_all_met:
             - action: "Update todo file with final status"
             - action: "Final commit and push"
@@ -296,8 +347,8 @@ steps:
          pwd  # Note current directory for cleanup
          git checkout -- cli_tools todos  # Discard symlink changes
          cd ../..
-         git worktree remove worktrees/[project-name]-YYYYMMDD
-         rm -rf worktrees/[project-name]-YYYYMMDD  # Delete folder if still exists
+         git worktree remove worktrees/[project-name]
+         rm -rf worktrees/[project-name]  # Delete folder if still exists
          ```
       
       {% if spawned %}
@@ -331,6 +382,7 @@ global_rules:
       16. Use GitHub/npm libraries instead of reinventing the wheel - search for existing solutions first
       17. If stuck after significant effort and things are messy - first search web for best practices, then simplify and rebuild from scratch instead of fixing broken code
       18. Never duplicate any code or create any redundancy. Update/delete/refactor as needed.
+      19. **AI Integration:** Always use gemini-2.5-pro for ANY AI intelligence needs (text, vision, code analysis, etc.) - use ai_cache_utils.js for caching
 
   - title: "UpdateTodo Command Handler"
     content: |
@@ -384,6 +436,10 @@ global_rules:
       - **IMPORTANT**: This is for SECONDARY tools only - not your main task!
       - If your todo list's main task is to create a tool, do it in THIS workflow
       - Only spawn new workflows for additional tools discovered during development
+      - **Tool Creation Philosophy**:
+        - ✅ Always prefer improving existing tools over creating workarounds
+        - ✅ Create new general-purpose tools when needed - don't avoid it
+        - ✅ Tools should solve problems properly, not with band-aids
       - Example: Building a web scraper (main task) but need a PDF parser? `spawn-cli spawn pdf-parser dev "create CLI tool to parse PDFs"`
       - Example: Creating an API client (main task) but need a data validator? `spawn-cli spawn data-validator dev "create validation tool"`
       - This ensures proper isolation and allows parallel development of secondary tools
@@ -391,7 +447,7 @@ global_rules:
       
   - title: "CLI Tools vs Scripts"
     content: |
-      - **CLI Tools (in cli_tools/)**: Only for GENERAL-PURPOSE tools that help build an AI agent
+      - **CLI Tools (in cli_tools/)**: For GENERAL-PURPOSE tools that help build an AI agent
         - ✅ pdf-ai-cli: Extracts data from ANY PDF
         - ✅ selenium-cli: Automates ANY website
         - ✅ gmail-cli: Manages ANY Gmail account
@@ -402,7 +458,30 @@ global_rules:
         - Company-specific integrations
         - Task-specific workflows
         - Delete when no longer needed
-      - Ask yourself: "Would other AI agents find this useful?" If no, make it a script
+      - **IMPORTANT**: When a task requires a general-purpose tool:
+        - ✅ First check if an existing tool can be used or improved
+        - ✅ If no existing tool fits, CREATE the new general-purpose tool
+        - ❌ DO NOT avoid creating tools by doing workarounds
+        - ❌ DO NOT create task-specific scripts when a general tool would be better
+      - Ask yourself: "Would other AI agents find this useful?" If yes, make it a CLI tool
+      
+  - title: "AI Integration Standards"
+    content: |
+      - **Model Selection:** Always use gemini-2.5-pro for ALL AI tasks:
+        - Text analysis and generation
+        - Vision tasks (image analysis, screenshots)
+        - Code analysis and generation
+        - Multi-modal tasks
+      - **Implementation:** Always use ai_cache_utils.js for:
+        - Automatic caching of AI responses
+        - Consistent error handling
+        - Token usage tracking
+      - **Best Practices:**
+        - Structure prompts for YAML/JSON output when parsing needed
+        - Use file I/O for large data exchanges instead of console output
+        - Batch multiple AI calls when possible
+        - Check cache before making redundant calls
+        - For vision tasks: pass image paths directly to gemini-2.5-pro
 
 
 quick_reference:

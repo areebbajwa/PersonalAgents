@@ -307,7 +307,7 @@ class WorkflowManager:
         
         # Auto-start AI Manager on step 1
         if project_name != 'default':
-            self.auto_start_ai_monitor_if_needed(mode, step, project_name)
+            self.auto_start_ai_monitor_if_needed(mode, step, project_name, self.no_auto_monitor)
         
         return self.get_workflow_rules(mode, step, workflow_file=workflow_file)
     
@@ -452,17 +452,28 @@ Check your todo list. If tasks remain, continue working. If all done, use --next
         if not ai_monitor_cli.exists():
             return {"error": f"AI Monitor CLI not found at {ai_monitor_cli}"}
         
-        # Get current tmux session
+        # Get current tmux session and window
         tmux_session = os.environ.get('TMUX_PANE')
         if tmux_session:
-            # We're in tmux, get the session name
+            # We're in tmux, get the CURRENT session and window name (after any renaming)
             try:
+                # Get current session name (this will be the renamed name if session was renamed)
                 result = subprocess.run(['tmux', 'display-message', '-p', '#S'], 
                                      capture_output=True, text=True)
-                if result.returncode == 0:
-                    tmux_session_name = result.stdout.strip()
-                else:
+                if result.returncode != 0:
                     return {"error": "Could not get tmux session name"}
+                tmux_session_name = result.stdout.strip()
+                
+                # Get window name
+                result = subprocess.run(['tmux', 'display-message', '-p', '#W'], 
+                                     capture_output=True, text=True)
+                if result.returncode == 0:
+                    tmux_window_name = result.stdout.strip()
+                    # If we have a window name, use session:window format
+                    tmux_target = f"{tmux_session_name}:{tmux_window_name}"
+                else:
+                    # Fallback to just session name
+                    tmux_target = tmux_session_name
             except:
                 return {"error": "Failed to get tmux session info"}
         else:
@@ -471,6 +482,7 @@ Check your todo list. If tasks remain, continue working. If all done, use --next
         # Store tmux session with project state
         current_state = self.current_state.copy()
         current_state[f"{project}_tmux_session"] = tmux_session_name
+        current_state[f"{project}_tmux_target"] = tmux_target
         self.current_state = current_state
         self._save_state()
         
@@ -480,7 +492,7 @@ Check your todo list. If tasks remain, continue working. If all done, use --next
                 str(ai_monitor_cli), 'monitor',
                 '--project', project,
                 '--mode', mode,
-                '--session', tmux_session_name,
+                '--session', tmux_target,
                 '--interval', '60'  # Check every minute
             ]
             
@@ -497,6 +509,7 @@ Check your todo list. If tasks remain, continue working. If all done, use --next
                 "project": project,
                 "mode": mode,
                 "tmux_session": tmux_session_name,
+                "tmux_target": tmux_target,
                 "pid": process.pid,
                 "message": f"AI Monitor started for project '{project}' in {mode} mode"
             }
@@ -602,7 +615,6 @@ def main():
     parser.add_argument('--stop-ai-monitor', action='store_true',
                        help='Stop AI Monitor monitoring for this project')
     parser.add_argument('--no-auto-monitor', action='store_true',
-                       default=True,
                        help='Disable automatic AI Monitor startup (default: enabled)')
     parser.add_argument('--set-step', type=int, help='Jump to specific step')
     parser.add_argument('--track-test', nargs=2, metavar=('NAME', 'STATUS'),
