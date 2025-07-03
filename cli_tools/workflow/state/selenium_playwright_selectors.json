@@ -1,0 +1,33 @@
+{
+  "version": "1.0.0",
+  "project": "selenium_playwright_selectors",
+  "mode": "dev",
+  "currentStep": 1,
+  "completedSteps": [],
+  "task": "",
+  "createdAt": "2025-07-03T21:28:30.481Z",
+  "updatedAt": "2025-07-03T21:28:30.481Z",
+  "workflow": {
+    "branch": null,
+    "worktree": null,
+    "tmuxSession": null,
+    "tmuxWindow": null
+  },
+  "monitor": {
+    "enabled": false,
+    "pid": null,
+    "lastCheck": null,
+    "remindInterval": 600000
+  },
+  "spawn": {
+    "spawned": false,
+    "parentPid": 4722,
+    "terminal": null,
+    "environment": {}
+  },
+  "tests": {
+    "totalTests": 0,
+    "passedTests": 0,
+    "lastTestRun": null
+  }
+}

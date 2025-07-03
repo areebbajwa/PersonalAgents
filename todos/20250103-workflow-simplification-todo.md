@@ -14,9 +14,9 @@ Implement unified workflow system to simplify spawn-cli, workflow-cli, and ai-mo
 ## Key Simplifications Identified
 1. Merge all 3 tools into single unified `workflow` CLI
 2. Single state store for all workflow data
-3. Direct process spawning without intermediate steps
+3. Keep tmux for visibility but simplify integration
 4. Consistent absolute paths from ~/PersonalAgents
-5. Remove tmux dependency for cleaner integration
+5. Direct workflow spawning without intermediate yolo/environment variables
 
 ## Tasks
 
@@ -31,16 +31,16 @@ Implement unified workflow system to simplify spawn-cli, workflow-cli, and ai-mo
 - ✅ [17:25] Write comprehensive tests for state management
 - ✅ [17:26] TEST GATE: All state management tests must pass (15/15 passed)
 - ✅ [17:27] Run workflow-cli --project workflow-simplification --sub-task-next
-- 🕒 [17:28] Commit: "feat: add unified state management - tests: 15/15 passed"
-- 🕒 Commit in main repo: git -C ~/PersonalAgents add cli_tools/workflow && git -C ~/PersonalAgents commit -m "feat: add workflow CLI tool - core state management"
+- ✅ [17:28] Commit: "feat: add unified state management - tests: 15/15 passed"
+- ✅ [17:28] Commit in main repo: git -C ~/PersonalAgents add cli_tools/workflow && git -C ~/PersonalAgents commit -m "feat: add workflow CLI tool - core state management"
 
 ### Phase 3: Spawn Integration
-- 🕒 Implement direct spawning without tmux dependency
-- 🕒 Add terminal spawning using Node.js child processes
-- 🕒 Write tests for spawn functionality
-- 🕒 TEST GATE: All spawn tests must pass
-- 🕒 Run workflow-cli --project workflow-simplification --sub-task-next
-- 🕒 Commit: "feat: add direct spawn integration - tests: X/X passed"
+- ✅ [17:29] Implement direct spawning with simplified tmux integration
+- ✅ [17:30] Create tmux sessions/windows without complex environment variables
+- ✅ [17:31] Write tests for spawn functionality
+- ✅ [17:32] TEST GATE: All spawn tests must pass (36/36 passed)
+- ✅ [17:33] Run workflow-cli --project workflow-simplification --sub-task-next
+- 🕒 [17:33] Commit: "feat: add direct spawn integration - tests: 36/36 passed"
 - 🕒 Commit in main repo: git -C ~/PersonalAgents add cli_tools/workflow && git -C ~/PersonalAgents commit -m "feat: add workflow CLI tool - spawn integration"
 
 ### Phase 4: AI Monitor Integration
