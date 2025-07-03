@@ -2,23 +2,30 @@
 
 # Workflow Instructions
 
-## Workflow CLI Usage
+## Workflow CLI Usage (Unified Commands)
 
 ### Quick Commands
-- **"spawn taskmode with task: 'description'"** → Spawn with task: `spawn-cli spawn [name] task "description"`
-- **"spawn devmode with task: 'description'"** → Spawn with task: `spawn-cli spawn [name] dev "description"`
-- **"start taskmode with task: 'description'"** → Start with task: `workflow-cli --project [name] --mode task --step 1 --task "description"`
-- **"start devmode with task: 'description'"** → Start with task: `workflow-cli --project [name] --mode dev --step 1 --task "description"`
+- **"spawn taskmode with task: 'description'"** → Spawn with task: `workflow spawn [name] task "description"`
+- **"spawn devmode with task: 'description'"** → Spawn with task: `workflow spawn [name] dev "description"`
+- **"start taskmode with task: 'description'"** → Start with task: `workflow start [name] task "description"`
+- **"start devmode with task: 'description'"** → Start with task: `workflow start [name] dev "description"`
 - **"updatetodo"** → When user gives new requirements:
   1. Add to Non-Negotiable User Requirements section in todo file
-  2. Jump to planning: `workflow-cli --project [name] --set-step plan`
+  2. Jump to planning: `workflow set-step [name] plan`
 
 ### Navigation Commands
 ```bash
-workflow-cli --project [name] --mode [dev|task] --step 1    # start new workflow
-workflow-cli --project [name] --next                        # continue to next step
-workflow-cli --project [name] --set-step [number]           # jump to specific step
-workflow-cli --project [name] --sub-task-next               # mark test passed, continue
+workflow start [name] [dev|task] "task description"  # start new workflow
+workflow next                                        # continue to next step
+workflow set-step [name] [number|name]              # jump to specific step
+workflow sub-task-next                              # mark test passed, continue
+```
+
+### Project Management
+```bash
+workflow list                                        # list all workflows
+workflow kill [name]                                # kill a workflow
+workflow status [name]                              # check workflow status
 ```
 
 ### Dev Mode Steps (with names)
@@ -39,14 +46,23 @@ Never use sleep > 119 seconds
 ## AI Monitor (Auto Compliance Checking)
 
 ```bash
-workflow-cli --start-ai-monitor     # start monitor (auto-detects everything)
-workflow-cli --stop-ai-monitor      # stop monitor (auto-detects project)
-workflow-cli --stop-all-ai-monitors # stop all running AI monitors
+workflow monitor start              # start monitor (auto-detects everything)
+workflow monitor stop               # stop monitor (auto-detects project)
+workflow monitor stop-all           # stop all running AI monitors
+workflow monitor status             # check monitor status
 ```
 
 AI Monitor auto-starts with workflows and sends "ai-monitor:" prefixed guidance for violations.
 
-Note: If starting with `yolo [project-name]`, workflow-cli auto-detects project from worktree directory.
+Note: If starting with `yolo [project-name]`, workflow auto-detects project from worktree directory.
+
+### Backward Compatibility
+The new unified `workflow` command replaces the separate CLIs:
+- `spawn-cli` → `workflow spawn/kill/list`
+- `workflow-cli` → `workflow start/next/set-step`
+- `ai-monitor-cli` → `workflow monitor`
+
+Legacy commands are still supported but deprecated.
 
 ## Coding Guidelines ##
 
