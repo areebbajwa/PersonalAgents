@@ -24,9 +24,19 @@ export class SpawnManager {
     // Check if tmux session already exists
     try {
       execSync(`tmux has-session -t ${sessionName} 2>/dev/null`);
-      console.log(chalk.yellow(`Tmux session '${sessionName}' already exists`));
-      console.log(chalk.yellow(`Use 'tmux kill-session -t ${sessionName}' first`));
-      return null;
+      if (options.force) {
+        // Force option enabled, kill existing session
+        console.log(chalk.yellow(`Killing existing tmux session: ${sessionName}`));
+        try {
+          execSync(`tmux kill-session -t ${sessionName} 2>/dev/null`);
+        } catch (killError) {
+          // Session might have been killed already
+        }
+      } else {
+        console.log(chalk.yellow(`Tmux session '${sessionName}' already exists`));
+        console.log(chalk.yellow(`Use 'tmux kill-session -t ${sessionName}' first`));
+        return null;
+      }
     } catch (error) {
       // Session doesn't exist, good to proceed
     }
@@ -41,8 +51,12 @@ export class SpawnManager {
       console.log(chalk.yellow('Not in a git repository, using default branch: main'));
     }
 
-    // Create the workflow command - use node directly to avoid PATH issues
-    const workflowCmd = `node ${path.join(os.homedir(), 'PersonalAgents', 'cli_tools', 'workflow', 'src', 'index.js')} start ${project} ${mode} "${task}" --spawned`;
+    // Create the workflow command - use current directory to find the correct path
+    const currentDir = process.cwd();
+    const workflowPath = currentDir.includes('PersonalAgents') 
+      ? path.join(currentDir.split('PersonalAgents')[0], 'PersonalAgents', 'cli_tools', 'workflow', 'src', 'index.js')
+      : path.join(os.homedir(), 'PersonalAgents', 'cli_tools', 'workflow', 'src', 'index.js');
+    const workflowCmd = `node ${workflowPath} start ${project} ${mode} "${task}" --spawned`;
     
     // Build tmux command
     const tmuxCmd = [

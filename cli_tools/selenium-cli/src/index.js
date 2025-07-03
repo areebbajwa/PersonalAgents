@@ -7,7 +7,7 @@ import * as browserManager from './browser-manager.js';
 import * as screenshotManager from './screenshot-manager.js';
 import * as persistentSession from './persistent-session.js';
 import * as defaultSession from './default-session.js';
-import { parseSelector } from './playwright-selector-parser.js';
+import { parseSelector } from './playwright-selector-parser-v2.js';
 import { spawn } from 'child_process';
 import { fileURLToPath } from 'url';
 import path from 'path';

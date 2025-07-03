@@ -17,6 +17,11 @@ Implement Playwright-style selectors for selenium-cli tool as specified in /Volu
 8. Write unit and integration tests
 9. Update documentation and help text
 
+### NEW REQUIREMENT: Use Popular Libraries for Simplification
+- Replace custom parsing logic with popular npm libraries for better reliability
+- Use libraries like css-xpath, xpath, or similar for complex selector parsing
+- Ensure libraries are well-maintained and popular in the npm ecosystem
+
 ## Context Discovery
 
 ### Current State:
@@ -58,29 +63,29 @@ Implement Playwright-style selectors for selenium-cli tool as specified in /Volu
 - 🕒 [17:54] Run workflow-cli --project selenium_playwright_selectors --sub-task-next
 - 🕒 Commit: "feat: add advanced selector features - tests: 20/22 passed"
 
-### Phase 4: Error Handling and Help
-- 🕒 Add helpful error messages for invalid selectors
-- 🕒 Update CLI help text with new selector examples
-- 🕒 Write tests for error scenarios
-- 🕒 TEST GATE: All error handling tests must pass
+### Phase 4: Library Integration and Refactoring
+- 🕒 [17:56] Research and install popular selector parsing libraries (css-to-xpath, playwright official)
+- 🕒 Replace custom parseSelector logic with robust library-based implementation
+- 🕒 Update tests to work with new library-based implementation
+- 🕒 TEST GATE: All existing tests must still pass with library implementation
 - 🕒 Run workflow-cli --project selenium_playwright_selectors --sub-task-next
-- 🕒 Commit: "feat: add error handling and help - tests: X/X passed"
+- 🕒 Commit: "feat: refactor to use popular selector libraries - tests: X/X passed"
 
-### Phase 5: Documentation and E2E Testing
-- 🕒 Update README.md with Playwright selector guide
-- 🕒 Create examples directory with usage examples
-- 🕒 Write comprehensive E2E tests with real websites
-- 🕒 TEST GATE: All E2E tests must pass
+### Phase 5: Enhanced Error Handling and Documentation  
+- 🕒 Add helpful error messages leveraging library validation
+- 🕒 Create comprehensive examples demonstrating all selector types
+- 🕒 Write E2E tests with real web pages
+- 🕒 TEST GATE: All enhanced tests must pass
 - 🕒 Run workflow-cli --project selenium_playwright_selectors --sub-task-next
-- 🕒 Commit: "feat: add documentation and E2E tests - tests: X/X passed"
+- 🕒 Commit: "feat: add enhanced error handling and examples - tests: X/X passed"
 
 ### Phase 6: Finalization
 - 🕒 Run all tests one final time to ensure nothing broke
-- 🕒 TEST GATE: All tests must pass (unit + integration + E2E)
+- 🕒 TEST GATE: All tests must pass (unit + integration + E2E + library tests)
 - 🕒 Run workflow-cli --project selenium_playwright_selectors --sub-task-next
 - 🕒 Run ./scripts/setup-global-cli-tools.sh
-- 🕒 Commit: "feat: complete Playwright selectors implementation - all tests passed"
-- 🕒 Commit in main repo: git -C ~/PersonalAgents add cli_tools/selenium-cli && git -C ~/PersonalAgents commit -m "feat: enhance selenium-cli with Playwright selectors"
+- 🕒 Commit: "feat: complete library-based Playwright selectors implementation - all tests passed"
+- 🕒 Commit in main repo: git -C ~/PersonalAgents add cli_tools/selenium-cli && git -C ~/PersonalAgents commit -m "feat: enhance selenium-cli with Playwright selectors using popular libraries"
 - 🕒 Run workflow-cli --project selenium_playwright_selectors --next
 
 ## Notes
