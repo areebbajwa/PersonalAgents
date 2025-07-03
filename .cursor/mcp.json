@@ -24,7 +24,7 @@
     "vscode-command-install": 123
   },
   "memoryUsageCount": 3,
-  "promptQueueUseCount": 200,
+  "promptQueueUseCount": 202,
   "mcpServers": {},
   "userID": "96200396462dc1a54dcd7bf4ed2806506483ec7ffab4ccd45f138f1896711cd6",
   "fallbackAvailableWarningThreshold": 0.5,
@@ -51,6 +51,14 @@
     "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents": {
       "allowedTools": [],
       "history": [
+        {
+          "display": "go ahead. update the yaml files as needed and move them into the new location",
+          "pastedContents": {}
+        },
+        {
+          "display": "run --remind-rules",
+          "pastedContents": {}
+        },
         {
           "display": "does it still read from the same dev mode and task mode yaml files?",
           "pastedContents": {}
@@ -447,14 +455,6 @@
         },
         {
           "display": "i see the log files but doesn't seem like the guidance is being sent to the tmux window?",
-          "pastedContents": {}
-        },
-        {
-          "display": "workflow-cli --project test-ai-monitor --mode dev --step 1 --task \"test ai monitor plain text responses\" --spawned",
-          "pastedContents": {}
-        },
-        {
-          "display": "actually, use spawn-cli",
           "pastedContents": {}
         }
       ],

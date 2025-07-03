@@ -1,0 +1,507 @@
+name: "Dev Mode"
+description: "Development workflow - simplified step-by-step process"
+steps:
+  - number: 1
+    name: "announce"
+    title: "Announce Dev Mode"
+    content: |
+      MANDATORY first response:
+      ⚡ **DEV MODE ACTIVATED**
+      
+      I'm operating under DEV MODE rules: Simplify ruthlessly, test what matters, and create modern, maintainable code.
+      
+      {% if task %}
+      **Task:** {{ task }}
+      {% endif %}
+      
+      **⚠️ IMPORTANT: DO NOT start implementation yet. This is the planning phase.**
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 2
+    name: "setup"
+    title: "Check Todo Status & Git Setup"
+    content: |
+      **ACTION DECISION TREE:**
+      ```yaml
+      check_todo:
+        - action: "Look for todo file matching: ~/PersonalAgents/todos/YYYYMMDD-[project]-todo.md"
+        - if_exists:
+            - action: "Read existing todo file"
+            - check_worktree:
+                - action: "Check if corresponding worktree exists: worktrees/[project-name]"
+                - if_worktree_exists:
+                    - action: "Switch to existing worktree:"
+                      commands:
+                        - "cd worktrees/[project-name]"
+                    - action: "Continue with existing work from current state"
+                    - next: "Run workflow-cli --project [project-name] --next"
+                - if_worktree_not_exists:
+                    - action: "Recreate worktree for continuing work:"
+                      commands:
+                        - "mkdir -p worktrees"
+                        - "git worktree add worktrees/[project-name] -b [project-name]-YYYYMMDD"
+                        - "cd worktrees/[project-name]"
+                        - "rm -rf cli_tools todos"  # Remove directories from worktree
+                        - "ln -s ~/PersonalAgents/cli_tools cli_tools"  # Symlink to main cli_tools
+                        - "ln -s ~/PersonalAgents/todos todos"  # Symlink to main todos
+                    - action: "Continue with existing work from todo"
+                    - next: "Run workflow-cli --project [project-name] --next"
+        - if_not_exists:
+            - check_worktree:
+                - action: "Check if already in a worktree (path contains /worktrees/)"
+                - if_in_worktree:
+                    - action: "Use existing worktree (created by yolo command)"
+                    - next: "Run workflow-cli --project [project-name] --next"
+                - if_not_in_worktree:
+                    - action: "Create new git worktree:"
+                      commands:
+                        - "mkdir -p worktrees"
+                        - "git worktree add worktrees/[project-name] -b [project-name]-YYYYMMDD"
+                        - "cd worktrees/[project-name]"
+                        - "rm -rf cli_tools todos"  # Remove directories from worktree
+                        - "ln -s ~/PersonalAgents/cli_tools cli_tools"  # Symlink to main cli_tools
+                        - "ln -s ~/PersonalAgents/todos todos"  # Symlink to main todos
+                        - "git push -u origin [project-name]-YYYYMMDD"
+                    - action: "Note: cli_tools and todos are symlinked to main repo for centralized changes"
+                    - next: "Run workflow-cli --project [project-name] --next"
+      ```
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 3
+    name: "research"
+    title: "Consult Knowledge Base"
+    content: |
+      **⚠️ IMPORTANT: This is research phase - DO NOT implement anything yet.**
+      
+      Execute these research steps:
+      
+      **Local Context:**
+      1. Search codebase for similar implementations
+      2. Find existing code to reuse/extend (prioritize ai_cache_utils.js for AI calls)
+      3. Check config/.env for existing API keys before asking user
+      4. Search ~/PersonalAgents/todos/ directory for previous learnings
+      
+      **Web Context:**
+      5. Search web for best practices on the technology/framework
+      6. Find latest API documentation
+      7. Look for common patterns and pitfalls
+      8. Check for batch operation support in APIs
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 4
+    name: "simplify"
+    title: "Simplify the Approach"
+    content: |
+      **⚠️ IMPORTANT: Still in planning phase - NO implementation yet.**
+      
+      **CRITICAL:** Review Non-Negotiable User Requirements from todo file - NEVER violate these when simplifying.
+      
+      **Core Question: "What is the simplest way I can satisfy all the non-negotiable user requirements given all the rules?"**
+      
+      **Planning Questions to Answer:**
+      
+      1. **Simplification:**
+         - What's the absolute minimal implementation that fully meets requirements?
+         - What complexity can I eliminate while still delivering everything asked?
+         - Can I solve this in 10 lines instead of 100?
+      
+      2. **Reuse & Libraries:**
+         - What existing tools in cli_tools/ can I use or extend?
+         - Are there GitHub/npm libraries that already solve this?
+         - Can I modify existing code instead of writing new code?
+      
+      3. **Architecture:**
+         - What's the simplest architecture that handles all use cases?
+         - Can I use batch operations instead of loops?
+         - Should I start with in-memory solutions before adding complexity?
+      
+      4. **Tool vs Script:**
+         - Is this general-purpose (CLI tool) or task-specific (script)?
+         - Would other AI agents find this useful?
+         - Does this belong in cli_tools/ or scripts/?
+      
+      5. **AI Integration:**
+         - Where can gemini-2.5-pro + ai_cache_utils.js simplify the solution?
+         - Can AI handle complex logic I'd otherwise code manually?
+      
+      6. **Testing Strategy:**
+         - What's the minimum testing that ensures requirements are met?
+         - Can I write one comprehensive test instead of many small ones?
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 5
+    name: "plan"
+    title: "Plan with Test Gates and Todo Management"
+    content: |
+      **⚠️ IMPORTANT: Final planning step - DO NOT implement yet!**
+      
+      **CONDITIONAL CHECKS:**
+      ```yaml
+      cli_tool_check:
+        - condition: "Creating a CLI tool?"
+        - if_true: "Include steps from: /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/CLI_TOOL_DESIGN_GUIDE.md"
+      
+      api_keys_check:
+        - condition: "Required API keys missing from config/.env?"
+        - if_true:
+            - action: "Use selenium-cli browser automation"
+            - steps:
+                - "selenium-cli start"
+                - "Navigate to API dashboard"
+                - "Copy API keys"
+                - "Add to config/.env"
+      ```
+      
+      **CREATE INCREMENTAL PLAN:**
+      **Note:** After each test passes, you MUST run `workflow-cli --project [project-name] --sub-task-next`
+      
+      1. Build feature A
+      2. Write E2E test for A
+      3. TEST GATE: Run test - MUST PASS
+      4. Mark test passed: `workflow-cli --project [project-name] --sub-task-next`
+      5. Commit with test status: `git commit -m "feat: add X - tests: 5/5 passed"`
+      6. For CLI tools: Also commit in main repo: `git -C ~/PersonalAgents add cli_tools/[tool-name] && git -C ~/PersonalAgents commit -m "feat: add [tool-name] CLI tool"`
+      7. Only then: Build feature B
+      8. Write E2E test for B
+      9. TEST GATE: Run test - MUST PASS
+      10. Mark test passed: `workflow-cli --project [project-name] --sub-task-next`
+      11. Commit with test status
+      
+      **TODO FILE MANAGEMENT:**
+      ```yaml
+      todo_file:
+        - action: "Create or update file"
+        - path: "~/PersonalAgents/todos/YYYYMMDD-[project-name]-todo.md"
+        - structure:
+            - "# YYYYMMDD-[project-name]-todo.md"
+            - "Last updated: [timestamp]"
+            - "## Non-Negotiable User Requirements: {% if task %}{{ task }}{% else %}[exact user words]{% endif %}"
+            - "## Context Discovery"
+            - "## Tasks (with timestamps and status icons)"
+            - "## Notes (with breakthrough markers)"
+        - if_cli_tool: "🕒 Run ./scripts/setup-global-cli-tools.sh"  # Second last task
+        - final_task: "🕒 Run workflow-cli --project [project-name] --next"
+      ```
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 6
+    name: "verify-plan"
+    title: "Verify Test-Gated Plan"
+    content: |
+      **STOP! Verify your plan from step 5:**
+      
+      Check each TEST GATE in your todo file has these 3 elements:
+      1. ✅ Test execution step
+      2. ✅ `workflow-cli --project [project-name] --sub-task-next` command
+      3. ✅ Commit with test count
+      
+      If any `--sub-task-next` commands are missing after test gates, go back and add them now.
+      
+      **CLI Tool vs Script Check:**
+      1. If the task requires a general-purpose tool:
+         - ✅ Check if an existing tool can handle it (update/improve if needed)
+         - ✅ If no existing tool fits, CREATE the new tool - don't avoid it
+         - ✅ Would other AI agents find this useful?
+         - ✅ Will this be used across different tasks?
+         - ❌ If task-specific, create a script in scripts/ instead
+      2. If creating or updating a CLI tool, ensure `./scripts/setup-global-cli-tools.sh` is the second last task (before final `workflow-cli --next`).
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 7
+    name: "implement"
+    title: "Implement One Piece at a Time"
+    content: |
+      **NOW YOU CAN START IMPLEMENTATION!**
+      
+      Execute these implementation steps:
+      1. Work through your todo list from step 5
+      2. Write one logical unit of functionality
+      3. Write E2E test for that functionality
+      4. Run test and verify it passes
+      5. After test passes → `workflow-cli --project [project-name] --sub-task-next`
+      6. Update todo file with progress and timestamps
+      7. ONLY if passed → Move to next feature
+      
+      **Remember:**
+      - Update timestamps in format [HH:MM] for each task/note
+      - Mark completed tasks with ✅
+      - Log breakthroughs with 🔥 BREAKTHROUGH
+      - MUST complete entire todo list autonomously
+      - Never give up, keep trying until done
+      
+      **Next Step:** Continue until all tasks complete, then run final `--next` from todo
+    mandatory: true
+
+  - number: 8
+    name: "cleanup"
+    title: "Clean Up Environment"
+    content: |
+      **Git Status Cleanup:**
+      1. Run `git status` and review all changes
+      2. Note: CLI tool changes won't appear here - check `git -C ~/PersonalAgents status` to see them
+      3. Check Non-Negotiable User Requirements from todo file
+      3. Remove any code/tools/scripts/tests NOT relevant to requirements:
+         - Unneeded helper scripts
+         - Test files for removed features
+         - Documentation for deleted functionality
+      4. Update/delete conflicting docs/references in other files based on changes
+      5. Ensure .gitignore is up-to-date
+      
+      **Selenium Profile Preservation:**
+      If you used selenium-cli during this workflow:
+      1. Check if selenium-cli is still running: `selenium-cli status`
+      2. If running, stop it first: `selenium-cli stop`
+      3. Find and preserve the temporary profile cookies:
+         ```bash
+         # Find the most recent selenium temp profile
+         TEMP_PROFILE=$(ls -td /tmp/selenium-profile-* 2>/dev/null | head -1)
+         if [ -n "$TEMP_PROFILE" ] && [ -d "$TEMP_PROFILE" ]; then
+             # Find the default Firefox profile
+             DEFAULT_PROFILE=$(find ~/Library/Application\ Support/Firefox/Profiles -name "*.default-release" -type d | head -1)
+             if [ -n "$DEFAULT_PROFILE" ]; then
+                 # Copy cookies and session data back
+                 cp -f "$TEMP_PROFILE/cookies.sqlite"* "$DEFAULT_PROFILE/" 2>/dev/null || true
+                 cp -f "$TEMP_PROFILE/sessionstore.jsonlz4" "$DEFAULT_PROFILE/" 2>/dev/null || true
+                 echo "Cookies preserved from $TEMP_PROFILE"
+             fi
+         fi
+         ```
+      4. This ensures any new cookies/logins are preserved for future sessions
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 9
+    name: "verify"
+    title: "Final Verification"
+    content: |
+      **VERIFICATION DECISION TREE:**
+      ```yaml
+      verify_requirements:
+        - action: "Check todo file's Non-Negotiable User Requirements"
+        - action: "If CLI tools were created, verify they follow CLI_TOOL_DESIGN_GUIDE.md:"
+          checks:
+            - "Has proper command structure with subcommands?"
+            - "Includes --help for all commands?"
+            - "Has error handling and clear error messages?"
+            - "Uses proper argument parsing?"
+            - "Follows naming conventions?"
+            - "Has been added to cli_tools/ directory?"
+        - if_all_met:
+            - action: "Update todo file with final status"
+            - action: "Final commit and push"
+            - next: "Run workflow-cli --project [project-name] --next"
+        - if_not_met:
+            - action: "Update todo list with missing requirements"
+            - action: "Jump back to implementation step"
+            - command: "workflow-cli --project [project-name] --set-step implement"
+      ```
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 10
+    name: "merge"
+    title: "Branch Management - Auto Merge"
+    content: |
+      **Automatically merge to main branch:**
+      
+      First identify the main branch:
+      1. `git branch -r --sort=-committerdate | head -5` (find most active branch)
+      2. Usually main, master, or develop
+      
+      Execute merge automatically:
+      1. `git checkout [main-branch]`
+      2. `git pull origin [main-branch]`
+      3. `git merge [feature-branch]`
+      4. `git push origin [main-branch]`
+      5. `git branch -d [feature-branch]`
+      6. `git push origin --delete [feature-branch]`
+      7. If created a CLI tool: `./scripts/setup-global-cli-tools.sh`
+      8. Note: CLI tools are symlinked - changes commit to main repo at ~/PersonalAgents, not the worktree
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 11
+    name: "finish"
+    title: "Clean Project State"
+    content: |
+      Final cleanup step:
+      
+      1. Clean project state: `workflow-cli --project [project-name] --clean`
+      2. Discard symlink changes and remove worktree:
+         ```
+         pwd  # Note current directory for cleanup
+         git checkout -- cli_tools todos  # Discard symlink changes
+         cd ../..
+         git worktree remove worktrees/[project-name]
+         rm -rf worktrees/[project-name]  # Delete folder if still exists
+         ```
+      
+      {% if spawned %}
+      3. Close spawned workflow window:
+         ```
+         tmux kill-window -t ${TMUX_PANE}
+         ```
+      {% endif %}
+      
+      **Workflow Complete:** Project finished and state cleaned up
+    mandatory: true
+
+global_rules:
+  - title: "Core Principles"
+    content: |
+      1. Simplify ruthlessly, test what matters
+      2. Never proceed with failing tests
+      3. Use batch APIs instead of loops
+      4. Check existing code/todos first
+      5. Ask before commits/final submissions
+      6. Update ~/PersonalAgents/todos/YYYYMMDD-[project]-todo.md with timestamps in format: [HH:MM] using ✅🕒🔥
+      7. MUST complete entire todo list autonomously - never stop until done (only ask for help if stuck on 2FA)
+      8. NEVER take shortcuts when completing todo list - fix whatever is broken as needed so future tasks are easier
+      9. NEVER mark todo items complete hastily - if you realize you marked something complete prematurely, immediately undo it
+      10. Search the web as needed for documentation and solutions
+      11. Keep directory structure clean: place new files in appropriate directories (cli_tools/, tests/, docs/, data/, scripts/, etc.)
+      12. ALWAYS read debug logs before attempting any fix - never make blind fixes
+      13. If dealing with anything GUI related, take screenshots regularly to understand what's going on
+      14. NO FALLBACK CODE - Keep logic simple and direct, avoid complex fallback patterns
+      15. ALWAYS find root cause of issues and fix it - never add band-aid fixes or fallbacks
+      16. Use GitHub/npm libraries instead of reinventing the wheel - search for existing solutions first
+      17. If stuck after significant effort and things are messy - first search web for best practices, then simplify and rebuild from scratch instead of fixing broken code
+      18. Never duplicate any code or create any redundancy. Update/delete/refactor as needed.
+      19. **AI Integration:** Always use gemini-2.5-pro for ANY AI intelligence needs (text, vision, code analysis, etc.) - use ai_cache_utils.js for caching
+
+  - title: "UpdateTodo Command Handler"
+    content: |
+      **WHEN USER SAYS "updatetodo":**
+      ```yaml
+      updatetodo_handler:
+        - action: "Add new requirement to Non-Negotiable User Requirements section of current todo file"
+        - action: "Save the updated todo file"
+        - action: "Jump to 'plan' step (step 5)"
+        - command: "workflow-cli --project [project-name] --set-step 5"
+        - reason: "The 'plan' step will re-evaluate the plan with the new requirements"
+      ```
+
+
+  - title: "Never Do"
+    content: |
+      - NEVER proceed with failing tests
+      - NEVER mark complete without E2E testing
+      - NEVER mark todo items complete hastily - undo immediately if done prematurely
+      - NEVER attempt fixes without reading debug logs first
+      - NEVER try to fix GUI issues without taking screenshots
+      - NEVER add band-aid fixes or fallbacks - always find and fix root cause
+      - NEVER take shortcuts when completing todo list - fix problems properly
+      - NEVER give up - find another way
+
+  - title: "Terminal Command Limits"
+    content: |
+      - Commands timeout after 2 minutes - run long tasks in background: `cmd > /tmp/log.txt 2>&1 &`
+      - Never use sleep > 119 seconds
+
+  - title: "Automation Tools"
+    content: |
+      - Check available MCP tools and resources
+      - Use official APIs first, selenium-cli browser only for unsupported features
+      - selenium-cli browser: unblock auth, get API keys, one-time setup tasks
+      - Take screenshots when curious/stuck: screenshot-cli tool
+      - Use record-cli to record screen and send to AI for analysis if screenshots don't suffice
+      - Last resort for GUI tasks: desktop-automation-cli
+      
+  - title: "Spawning Workflows"
+    content: |
+      - Use spawn-cli to create independent workflows in separate tmux windows
+      - Spawn a dev workflow: `spawn-cli spawn project-name dev "task description"`
+      - Spawn a task workflow: `spawn-cli spawn project-name task "task description"`
+      - List active workflows: `spawn-cli list`
+      - Kill a workflow: `spawn-cli kill project-name`
+      - Spawned workflows run independently and auto-close when complete
+      
+  - title: "Creating New Tools"
+    content: |
+      - **IMPORTANT**: This is for SECONDARY tools only - not your main task!
+      - If your todo list's main task is to create a tool, do it in THIS workflow
+      - Only spawn new workflows for additional tools discovered during development
+      - **Tool Creation Philosophy**:
+        - ✅ Always prefer improving existing tools over creating workarounds
+        - ✅ Create new general-purpose tools when needed - don't avoid it
+        - ✅ Tools should solve problems properly, not with band-aids
+      - Example: Building a web scraper (main task) but need a PDF parser? `spawn-cli spawn pdf-parser dev "create CLI tool to parse PDFs"`
+      - Example: Creating an API client (main task) but need a data validator? `spawn-cli spawn data-validator dev "create validation tool"`
+      - This ensures proper isolation and allows parallel development of secondary tools
+      - The spawned workflow will handle all setup, testing, and global installation
+      
+  - title: "CLI Tools vs Scripts"
+    content: |
+      - **CLI Tools (in cli_tools/)**: For GENERAL-PURPOSE tools that help build an AI agent
+        - ✅ pdf-ai-cli: Extracts data from ANY PDF
+        - ✅ selenium-cli: Automates ANY website
+        - ✅ gmail-cli: Manages ANY Gmail account
+        - ❌ invoice-processor: Too specific, make it a script instead
+        - ❌ company-x-api-client: Too specific, make it a script instead
+      - **Scripts (in scripts/)**: For task-specific automation
+        - One-time data processing
+        - Company-specific integrations
+        - Task-specific workflows
+        - Delete when no longer needed
+      - **IMPORTANT**: When a task requires a general-purpose tool:
+        - ✅ First check if an existing tool can be used or improved
+        - ✅ If no existing tool fits, CREATE the new general-purpose tool
+        - ❌ DO NOT avoid creating tools by doing workarounds
+        - ❌ DO NOT create task-specific scripts when a general tool would be better
+      - Ask yourself: "Would other AI agents find this useful?" If yes, make it a CLI tool
+      
+  - title: "AI Integration Standards"
+    content: |
+      - **Model Selection:** Always use gemini-2.5-pro for ALL AI tasks:
+        - Text analysis and generation
+        - Vision tasks (image analysis, screenshots)
+        - Code analysis and generation
+        - Multi-modal tasks
+      - **Implementation:** Always use ai_cache_utils.js for:
+        - Automatic caching of AI responses
+        - Consistent error handling
+        - Token usage tracking
+      - **Best Practices:**
+        - Structure prompts for YAML/JSON output when parsing needed
+        - Use file I/O for large data exchanges instead of console output
+        - Batch multiple AI calls when possible
+        - Check cache before making redundant calls
+        - For vision tasks: pass image paths directly to gemini-2.5-pro
+
+
+quick_reference:
+  essential_commands:
+    - "workflow-cli --project [name] --mode dev --step 1"
+    - "workflow-cli --project [name] --next"
+    - "workflow-cli --project [name] --sub-task-next"
+    - "workflow-cli --project [name] --remind-rules"
+    - "workflow-cli --project [name] --clean"
+
+emergency_procedures:
+  - title: "Rollback"
+    commands:
+      - "git reset --hard [commit-hash]"
+      - "git push --force-with-lease origin HEAD"
+  
+  - title: "Session Recovery"
+    commands:
+      - "git branch --show-current"
+      - "git status"
+      - "Check ~/PersonalAgents/todos/YYYYMMDD-[project]-todo.md for progress"
+      - "Run tests"
+      - "Continue with commits"

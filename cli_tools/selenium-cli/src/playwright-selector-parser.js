@@ -61,8 +61,13 @@ function escapeXPath(str) {
  * @returns {string} - Converted selector with strategy prefix (xpath=, css=, etc.)
  */
 export function parseSelector(selector) {
-    // Check if it's already in Selenium format (strategy=value)
-    if (selector.includes('=')) {
+    // Handle chained selectors FIRST (before checking for = in selenium selectors)
+    if (selector.includes(' >> ') && !selector.match(/>>\s*nth=\d+$/)) {
+        return parseChainedSelector(selector);
+    }
+
+    // Check if it's already in Selenium format (strategy=value) - but not chained
+    if (selector.includes('=') && !selector.includes(' >> ')) {
         const [strategy] = selector.split('=');
         const validStrategies = ['id', 'css', 'xpath', 'name', 'tag', 'class'];
         if (validStrategies.includes(strategy.toLowerCase())) {
@@ -90,10 +95,6 @@ export function parseSelector(selector) {
         nthIndex = parseInt(nthMatch[2]) + 1; // Convert to 1-based index for XPath
     }
 
-    // Handle chained selectors (>>) - but not nth selectors
-    if (selector.includes(' >> ') && !selector.match(/>>\s*nth=\d+$/)) {
-        return parseChainedSelector(selector);
-    }
 
     // Parse Playwright selector types
     let xpath = '';

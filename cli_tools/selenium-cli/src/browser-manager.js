@@ -236,6 +236,11 @@ async function findElement(by, value, timeout = 10000) {
         throw new Error('No browser session. Use "launch" command first.');
     }
     
+    // Handle chained selectors
+    if (by === 'chain') {
+        return await findChainedElement(value, timeout);
+    }
+    
     let locator;
     switch (by) {
         case 'id':
@@ -262,6 +267,56 @@ async function findElement(by, value, timeout = 10000) {
     
     await driver.wait(until.elementLocated(locator), timeout);
     return await driver.findElement(locator);
+}
+
+// Helper function to handle chained selectors
+async function findChainedElement(chainValue, timeout = 10000) {
+    // Parse the chain: "xpath=//*[@role='form'] >> xpath=//*[text()='Submit']"
+    const parts = chainValue.split(' >> ');
+    
+    let currentElement = driver;
+    
+    for (let i = 0; i < parts.length; i++) {
+        const part = parts[i];
+        const [strategy, ...valueParts] = part.split('=');
+        const value = valueParts.join('=');
+        
+        let locator;
+        switch (strategy) {
+            case 'id':
+                locator = By.id(value);
+                break;
+            case 'css':
+                locator = By.css(value);
+                break;
+            case 'xpath':
+                locator = By.xpath(value);
+                break;
+            case 'name':
+                locator = By.name(value);
+                break;
+            case 'tag':
+                locator = By.tagName(value);
+                break;
+            case 'class':
+                locator = By.className(value);
+                break;
+            default:
+                throw new Error(`Unknown locator type in chain: ${strategy}`);
+        }
+        
+        // For the first element, search from the driver
+        // For subsequent elements, search within the previous element
+        if (i === 0) {
+            await driver.wait(until.elementLocated(locator), timeout);
+            currentElement = await driver.findElement(locator);
+        } else {
+            // Search within the current element
+            currentElement = await currentElement.findElement(locator);
+        }
+    }
+    
+    return currentElement;
 }
 
 // Click element

@@ -3,6 +3,7 @@ import path from 'path';
 import os from 'os';
 import { execSync } from 'child_process';
 import chalk from 'chalk';
+import yaml from 'js-yaml';
 import StateManager from './state-manager.js';
 import MonitorManager from './monitor-manager.js';
 
@@ -10,7 +11,7 @@ export class WorkflowEngine {
   constructor() {
     this.stateManager = new StateManager();
     this.monitorManager = new MonitorManager();
-    this.workflowsDir = path.join(os.homedir(), 'PersonalAgents', 'cli_tools', 'workflow-cli', 'workflows');
+    this.workflowsDir = path.join(os.homedir(), 'PersonalAgents', 'cli_tools', 'workflow', 'workflows');
   }
 
   async start(project, mode, task, options = {}) {
@@ -156,8 +157,34 @@ export class WorkflowEngine {
 
   async loadWorkflow(mode) {
     try {
-      // For now, return a simplified workflow structure
-      // In the future, this will load from workflow definition files
+      const workflowFile = path.join(this.workflowsDir, `${mode}-mode.yaml`);
+      const data = await fs.readFile(workflowFile, 'utf8');
+      const workflowData = yaml.load(data);
+      
+      // Convert YAML format to our expected format
+      const workflow = {
+        name: workflowData.name,
+        description: workflowData.description,
+        principles: workflowData.principles || [],
+        steps: {},
+        emergency: workflowData.emergency
+      };
+      
+      // Convert steps array to numbered object
+      if (workflowData.steps && Array.isArray(workflowData.steps)) {
+        workflowData.steps.forEach(step => {
+          workflow.steps[step.number] = {
+            name: step.title,
+            content: step.content
+          };
+        });
+      }
+      
+      return workflow;
+    } catch (error) {
+      console.error(chalk.yellow(`Warning: Could not load ${mode}-mode.yaml:`, error.message));
+      
+      // Return simplified fallback workflow
       return {
         principles: [
           'Simplify ruthlessly, test what matters',
@@ -215,13 +242,6 @@ export class WorkflowEngine {
   git branch --show-current
   git status
   Check ~/PersonalAgents/todos/YYYYMMDD-[project]-todo.md for progress`
-      };
-    } catch (error) {
-      // Return default workflow
-      return {
-        steps: {
-          1: { name: 'Start', content: 'Starting workflow...' }
-        }
       };
     }
   }

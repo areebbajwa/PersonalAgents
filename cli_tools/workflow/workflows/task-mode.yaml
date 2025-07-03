@@ -1,0 +1,313 @@
+name: "Task Mode"
+description: "Task planning and execution workflow - simplified autonomous task execution"
+steps:
+  - number: 1
+    title: "Announce Task Mode"
+    content: |
+      MANDATORY first response:
+      🤖 **TASK MODE ACTIVATED**
+      
+      I will complete this task autonomously without asking for help (except for 2FA).
+      
+      {% if task %}
+      **Task:** {{ task }}
+      {% endif %}
+      
+      **⚠️ IMPORTANT: DO NOT start implementation yet. This is the planning phase.**
+      
+      **Check for existing todo:**
+      If continuing work on existing todo file in `todos/`:
+      1. Check if corresponding worktree exists: worktrees/[project-name]
+      2. If worktree exists:
+         - Switch to it: `cd worktrees/[project-name]`
+         - Skip to step 4 and update existing todo list to match the todo list structure (if needed)
+      3. If worktree doesn't exist but todo exists:
+         - Recreate worktree: 
+         ```
+         mkdir -p worktrees
+         git worktree add worktrees/[project-name] -b [project-name]-YYYYMMDD
+         cd worktrees/[project-name]
+         ```
+         - Skip to step 4 and continue with existing todo
+      
+      **For new work, check worktree status:**
+      1. If already in a worktree (path contains /worktrees/):
+         - Use existing worktree (created by yolo command)
+      2. If not in a worktree:
+         - Create worktree with new branch:
+         ```
+         mkdir -p worktrees
+         git worktree add worktrees/[project-name] -b [project-name]-YYYYMMDD
+         cd worktrees/[project-name]
+         git push -u origin [project-name]-YYYYMMDD
+         ```
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 2
+    title: "Search for Context"
+    content: |
+      **⚠️ IMPORTANT: This is research phase - DO NOT implement anything yet.**
+      
+      Before starting ANY work, execute these search actions:
+      
+      **PRIORITY CHECK:**
+      If essentially the same task was done recently, just look at its todo list in `todos/` and follow it instead of doing a thorough context search.
+      
+      **Local Context:**
+      1. Search `docs/` directory for relevant documentation
+      2. Check `todos/` for previous learnings to avoid same mistakes
+      3. Look in `data/` directory for existing resources
+      4. Check `config/.env` for API keys and credentials
+      5. Search for existing utilities and scripts to reuse
+      
+      **Web Context:**
+      6. Search web for best practices related to the task
+      7. Find latest API documentation if working with external services
+      8. Look for recent updates or changes to tools/libraries
+      
+      **IMPORTANT:** Only use context that's directly relevant to the current task. Don't mix in unrelated information.
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 3
+    title: "Create Task Plan"
+    content: |
+      **⚠️ IMPORTANT: Final planning step - DO NOT implement yet!**
+      
+      **Actions to perform:**
+      Create TODO file at: `todos/YYYYMMDD-[project-name]-todo.md`
+      
+      **Group similar actions together to avoid switching costs** (e.g., all file edits together, all API calls together)
+      
+      **Example format:**
+      ```markdown
+      # YYYYMMDD-[project-name]-todo.md
+      
+      ## Non-Negotiable User Requirements: "{% if task %}{{ task }}{% else %}[exact user words preserved here]{% endif %}"
+      
+      ## Context Discovery
+      - Link to relevant existing code: [file_path:line number]
+      - Related todos/learnings: [link to relevant todo files]
+      - Key insights from codebase research: [brief summary with file links]
+      
+      ## Tasks
+      ✅ [14:15] Navigate to bank website and login
+      
+      # Download all statements (grouped to avoid re-navigation)
+      ✅ [14:22] Download January 2025 statement
+      ✅ [14:23] Download December 2024 statement
+      ✅ [14:24] Download November 2024 statement
+      🕒 [14:25] Download October 2024 statement
+      🕒 Download September 2024 statement
+      🕒 Download August 2024 statement
+      
+      # Process all statements (after all downloads complete)
+      🕒 Extract transactions from all PDFs
+      🕒 Categorize expenses and merge into single report
+      🕒 Save to data/finance/2024-summary.csv
+      🕒 Run workflow-cli --project [project-name] --next
+      
+      ## Notes
+      🔥 BREAKTHROUGH [14:20]: Found statements are in consistent PDF format, can batch process
+      ```
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 4
+    title: "Execute Plan Step by Step"
+    content: |
+      **NOW YOU CAN START IMPLEMENTATION!**
+      
+      **API Keys Check:**
+      If any required API keys are missing from config/.env:
+      - Use selenium-cli browser automation to obtain them (login to service, navigate to API settings)
+      - Example: `selenium-cli start` → navigate to API dashboard → copy keys
+      
+      **Actions to perform:**
+      1. Complete one planned step from your TODO file
+      2. Update todo file with ✅ when done, 🕒 for in progress
+      3. Log breakthroughs with 🔥 BREAKTHROUGH: when stuck
+      4. Move to next planned step
+      
+      **CLI Tool Priority:**
+      - If a CLI tool exists for the task but doesn't work, priority should be to fix it first
+      - If no existing tool fits but task needs general-purpose functionality, CREATE the tool
+      - DO NOT create workarounds when a proper tool solution would be better
+      - Always improve existing tools over creating band-aid fixes
+      
+      **Call --next ONLY when entire todo list is completed**
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 5
+    title: "Clean Up Environment"
+    content: |
+      Before final steps, clean up temporary files:
+      1. Delete test logs: `rm -f *.log test.log`
+      2. Remove temporary files: `rm -f temp_* tmp_*`
+      3. Clean up debug files: `rm -f debug_* *.debug`
+      4. Remove unneeded test artifacts
+      5. Verify only necessary files remain
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 6
+    title: "Clean Up Environment & Final Verification"
+    content: |
+      **Git Status Cleanup:**
+      1. Run `git status` and review all changes
+      2. Note: CLI tool changes won't appear here - check `git -C ~/PersonalAgents status` to see them
+      3. Check Non-Negotiable User Requirements from todo file
+      3. Keep ONLY general-purpose tools that will help with future tasks:
+         - Document general tools in todo file under "Helpful Tools Created"
+         - DELETE task-specific scripts unless explicitly required to keep
+         - Remove all code NOT relevant to requirements
+      4. Update/delete conflicting docs/references in other files based on changes
+      5. Ensure .gitignore is up-to-date
+      
+      **Final Verification:**
+      1. **REVIEW NON-NEGOTIABLES:** Check todo file's "Non-Negotiable User Requirements" section - ensure ALL requirements are met
+      2. If any requirements not met: update todo list and `workflow-cli --project [project-name] --step 4`
+      3. Verify all tasks completed successfully
+      4. Update todo file with final status
+      5. Move TODO file to `todos/completed/`
+      6. Final commit and push
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 7
+    title: "Branch Management - Auto Merge"
+    content: |
+      **Automatically merge to main branch:**
+      
+      First identify the main branch:
+      1. `git branch -r --sort=-committerdate | head -5` (find most active branch)
+      2. Usually main, master, or develop
+      
+      Execute merge automatically:
+      1. `git checkout [main-branch]`
+      2. `git pull origin [main-branch]`
+      3. `git merge [task-branch]`
+      4. `git push origin [main-branch]`
+      5. `git branch -d [task-branch]`
+      6. `git push origin --delete [task-branch]`
+      
+      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+    mandatory: true
+
+  - number: 8
+    title: "Clean Project State"
+    content: |
+      Final cleanup step:
+      
+      1. Clean project state: `workflow-cli --project [project-name] --clean`
+      2. Remove worktree AND folder:
+         ```
+         pwd  # Note current directory for cleanup
+         cd ../..
+         git worktree remove worktrees/[project-name]
+         rm -rf worktrees/[project-name]  # Delete folder if still exists
+         ```
+      
+      {% if spawned %}
+      3. Close spawned workflow window:
+         ```
+         tmux kill-window -t ${TMUX_PANE}
+         ```
+      {% endif %}
+      
+      **Workflow Complete:** Task finished and state cleaned up
+    mandatory: true
+
+global_rules:
+  - title: "Core Principles"
+    content: |
+      1. Complete tasks autonomously without help (except 2FA)
+      2. Check existing code/todos first
+      3. Keep trying different approaches until success
+      4. Update todos/YYYYMMDD-[project]-todo.md with timestamps in format: [HH:MM] using ✅🕒🔥
+      5. Search the web as needed for documentation and solutions
+      6. Keep directory structure clean: place new files in appropriate directories (cli_tools/, docs/, data/, scripts/, etc.)
+      7. Batch processing mindset: Process multiple files at once, use batch APIs, combine similar commands
+
+  - title: "Never Do"
+    content: |
+      - NEVER stop until task is complete
+      - NEVER give up - find another way
+      - NEVER ask for help (except 2FA)
+
+  - title: "Terminal Command Limits"
+    content: |
+      - Commands timeout after 2 minutes - run long tasks in background: `cmd > /tmp/log.txt 2>&1 &`
+      - Never use sleep > 119 seconds
+
+  - title: "Automation Tools"
+    content: |
+      - Look for existing CLI tools in the codebase first
+      - Check available MCP tools and resources
+      - Use official APIs first, selenium-cli browser only for unsupported features
+      - selenium-cli browser: unblock auth, get API keys, one-time setup tasks
+      - PDF processing: pdf-ai-cli for extraction and analysis
+      - Database queries: sqlite3 CLI with direct SQL
+      - Take screenshots when curious/stuck: screenshot-cli tool
+      - Use record-cli to record screen and send to AI for analysis if screenshots don't suffice
+      - Last resort for GUI tasks: desktop-automation-cli
+      
+  - title: "Spawning Workflows"
+    content: |
+      - Use spawn-cli to create independent workflows in separate tmux windows
+      - Spawn a dev workflow: `spawn-cli spawn project-name dev "task description"`
+      - Spawn a task workflow: `spawn-cli spawn project-name task "task description"`
+      - List active workflows: `spawn-cli list`
+      - Kill a workflow: `spawn-cli kill project-name`
+      - Spawned workflows run independently and auto-close when complete
+      - Use this when you need parallel execution or to delegate subtasks
+      
+  - title: "Creating New Tools During Tasks"
+    content: |
+      - **IMPORTANT**: Distinguish between task-specific scripts and general-purpose tools
+      - **Scripts (in scripts/)**: For task-specific automation
+        - Create directly in task mode: `scripts/process-invoices-2025.js`
+        - Delete after task completion
+        - No need to spawn workflows for scripts
+      - **CLI Tools**: For general-purpose functionality
+        - ✅ First check if an existing tool can be used or improved
+        - ✅ If no existing tool fits, CREATE the new general-purpose tool
+        - ❌ DO NOT avoid creating tools by doing workarounds
+        - ✅ Need PDF extraction for many tasks? `spawn-cli spawn pdf-extractor dev "create general PDF extraction CLI"`
+        - ❌ Need to process Company X invoices? Just create a script
+      - Example in todo: `🕒 Create script to process bank statements: scripts/parse-bank-statements.py`
+      - Ask yourself: "Will I use this again for different tasks?" If yes, make it a CLI tool
+
+  - title: "AI Integration for New Tools/Scripts"
+    content: |
+      - Always use ai_cache_utils.js for caching AI calls
+      - Use file I/O for large data exchanges
+      - Prefer Gemini models for complex tasks
+      - Structure prompts for YAML output when needed
+
+  - title: "CLI Tool Development"
+    content: |
+      - Follow /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/CLI_TOOL_DESIGN_GUIDE.md
+      - **Tool Creation Philosophy**:
+        - ✅ Always prefer improving existing tools over creating workarounds
+        - ✅ Create new general-purpose tools when needed - don't avoid it
+        - ✅ Tools should solve problems properly, not with band-aids
+      - For new CLI tools: spawn new agent with dev mode workflow using spawn-cli
+      - Example: `spawn-cli spawn invoice-cli dev "create invoice-cli tool for generating PDF invoices"`
+      - Example todo task: `- 🕒 Create invoice-cli tool: spawn-cli spawn invoice-cli dev "create invoice CLI tool"`
+      - Check spawned workflows: `spawn-cli list`
+      - Kill if needed: `spawn-cli kill invoice-cli`
+      - Note: CLI tools are symlinked - changes commit to main repo at ~/PersonalAgents, not the worktree
+
+quick_reference:
+  essential_commands:
+    - "workflow-cli --project [name] --next"
+    - "workflow-cli --project [name] --clean"
