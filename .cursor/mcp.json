@@ -52,6 +52,10 @@
       "allowedTools": [],
       "history": [
         {
+          "display": "run the loop in the background",
+          "pastedContents": {}
+        },
+        {
           "display": "go ahead. update the yaml files as needed and move them into the new location",
           "pastedContents": {}
         },
@@ -451,10 +455,6 @@
         },
         {
           "display": "no, why did it give the wrong name? fix at the root",
-          "pastedContents": {}
-        },
-        {
-          "display": "i see the log files but doesn't seem like the guidance is being sent to the tmux window?",
           "pastedContents": {}
         }
       ],

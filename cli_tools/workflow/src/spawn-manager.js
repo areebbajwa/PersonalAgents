@@ -41,8 +41,8 @@ export class SpawnManager {
       console.log(chalk.yellow('Not in a git repository, using default branch: main'));
     }
 
-    // Create the workflow command
-    const workflowCmd = `workflow start ${project} ${mode} "${task}" --spawned`;
+    // Create the workflow command - use node directly to avoid PATH issues
+    const workflowCmd = `node ${path.join(os.homedir(), 'PersonalAgents', 'cli_tools', 'workflow', 'src', 'index.js')} start ${project} ${mode} "${task}" --spawned`;
     
     // Build tmux command
     const tmuxCmd = [
