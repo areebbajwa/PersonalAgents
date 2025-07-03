@@ -4,7 +4,7 @@ Last updated: 2025-01-03 17:42
 
 ## Non-Negotiable User Requirements
 
-Implement Playwright-style selectors for selenium-cli tool as specified in /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/tasks/selenium_cli_playwright_selectors_task.md
+Implement Playwright-style selectors for browser-cli tool as specified in /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/tasks/selenium_cli_playwright_selectors_task.md
 
 ### Key Requirements from Task File:
 1. Add support for new selector prefixes: text:, text*:, role:, aria:, placeholder:, alt:, title:, data-testid:
@@ -25,7 +25,7 @@ Implement Playwright-style selectors for selenium-cli tool as specified in /Volu
 ## Context Discovery
 
 ### Current State:
-- selenium-cli uses strategy=value format (e.g., css=.button, xpath=//button)
+- browser-cli uses strategy=value format (e.g., css=.button, xpath=//button)
 - Selector parsing happens in multiple places in src/index.js (lines 264-267, 436-437, etc.)
 - findElement function in browser-manager.js supports: id, css, xpath, name, tag, class
 - No default selector strategy - must always specify strategy=value
@@ -85,7 +85,7 @@ Implement Playwright-style selectors for selenium-cli tool as specified in /Volu
 - 🕒 Run workflow-cli --project selenium_playwright_selectors --sub-task-next
 - 🕒 Run ./scripts/setup-global-cli-tools.sh
 - 🕒 Commit: "feat: complete library-based Playwright selectors implementation - all tests passed"
-- 🕒 Commit in main repo: git -C ~/PersonalAgents add cli_tools/selenium-cli && git -C ~/PersonalAgents commit -m "feat: enhance selenium-cli with Playwright selectors using popular libraries"
+- 🕒 Commit in main repo: git -C ~/PersonalAgents add cli_tools/browser-cli && git -C ~/PersonalAgents commit -m "feat: enhance browser-cli with Playwright selectors using popular libraries"
 - 🕒 Run workflow-cli --project selenium_playwright_selectors --next
 
 ## Notes

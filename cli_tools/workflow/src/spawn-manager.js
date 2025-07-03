@@ -56,7 +56,8 @@ export class SpawnManager {
     const workflowPath = currentDir.includes('PersonalAgents') 
       ? path.join(currentDir.split('PersonalAgents')[0], 'PersonalAgents', 'cli_tools', 'workflow', 'src', 'index.js')
       : path.join(os.homedir(), 'PersonalAgents', 'cli_tools', 'workflow', 'src', 'index.js');
-    const workflowCmd = `node ${workflowPath} start ${project} ${mode} "${task}" --spawned`;
+    const noMonitorFlag = options.monitor === false ? ' --no-monitor' : '';
+    const workflowCmd = `node ${workflowPath} start ${project} ${mode} "${task}" --spawned${noMonitorFlag}`;
     
     // Build tmux command
     const tmuxCmd = [

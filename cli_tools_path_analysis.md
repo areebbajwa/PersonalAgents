@@ -61,9 +61,9 @@ This report analyzes all CLI tools in the `cli_tools` directory to identify path
   - Uses `process.cwd()` which depends on where command is run from
 - **Global Compatibility**: ❌ BROKEN
 
-### 7. **selenium-cli**
-- **Path**: `cli_tools/selenium-cli/`
-- **Main Entry**: `selenium-cli` → `src/index.js`
+### 7. **browser-cli**
+- **Path**: `cli_tools/browser-cli/`
+- **Main Entry**: `browser-cli` → `src/index.js`
 - **Relative Path Issues**: ✅ NONE
   - Bash wrapper changes to script directory
   - No hardcoded config paths found in main files

@@ -1,10 +1,10 @@
-# Task: Add Playwright-style Selectors to selenium-cli
+# Task: Add Playwright-style Selectors to browser-cli
 
 ## Objective
-Enhance the selenium-cli tool to support Playwright-style selectors for more intuitive and robust web automation.
+Enhance the browser-cli tool to support Playwright-style selectors for more intuitive and robust web automation.
 
 ## Background
-Current selenium-cli requires complex CSS selectors that often break due to special characters or pseudo-selectors. Playwright's selector approach is more readable and maintainable.
+Current browser-cli requires complex CSS selectors that often break due to special characters or pseudo-selectors. Playwright's selector approach is more readable and maintainable.
 
 ## Requirements
 
@@ -64,25 +64,25 @@ Support nth selection:
 
 ```bash
 # Text selectors
-selenium-cli click "text:Login"
-selenium-cli click "text*:Add to cart"
+browser-cli click "text:Login"
+browser-cli click "text*:Add to cart"
 
 # ARIA selectors
-selenium-cli click "role:button"
-selenium-cli click "aria:button[name='Submit']"
-selenium-cli fill "role:textbox" "Hello world"
+browser-cli click "role:button"
+browser-cli click "aria:button[name='Submit']"
+browser-cli fill "role:textbox" "Hello world"
 
 # Attribute selectors
-selenium-cli click "placeholder:Search..."
-selenium-cli click "alt:Company Logo"
-selenium-cli click "data-testid:submit-form"
+browser-cli click "placeholder:Search..."
+browser-cli click "alt:Company Logo"
+browser-cli click "data-testid:submit-form"
 
 # Chained selectors
-selenium-cli click "role:navigation >> text:Products"
-selenium-cli fill "role:form >> role:textbox >> nth=1" "test@example.com"
+browser-cli click "role:navigation >> text:Products"
+browser-cli fill "role:form >> role:textbox >> nth=1" "test@example.com"
 
 # With visibility
-selenium-cli click "text:Submit:visible"
+browser-cli click "text:Submit:visible"
 ```
 
 ### 6. Testing Requirements
@@ -110,6 +110,6 @@ selenium-cli click "text:Submit:visible"
 - Ensure the solution works across different browsers
 
 ## File Locations
-- Main CLI tool: `/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/selenium-cli/selenium-cli`
-- Source files: `/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/selenium-cli/src/`
-- Tests: `/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/selenium-cli/tests/`
+- Main CLI tool: `/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/browser-cli/browser-cli`
+- Source files: `/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/browser-cli/src/`
+- Tests: `/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/browser-cli/tests/`

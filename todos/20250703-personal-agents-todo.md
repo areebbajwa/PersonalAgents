@@ -13,7 +13,7 @@ Status: COMPLETED ✅
 - These are non-blocking (user makes selection, then command exits)
 - No REPL or readline dependencies found in any CLI tools
 - ai-monitor-cli runs as daemon, no interactive mode
-- selenium-cli has no REPL mode found
+- browser-cli has no REPL mode found
 
 ## Tasks (with timestamps and status icons)
 ✅ [18:23] Audit all CLI tools for any blocking interactive features

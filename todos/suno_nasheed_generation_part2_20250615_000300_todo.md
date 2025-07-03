@@ -55,14 +55,14 @@
 
 ### Context Discovery
 - Previous successful completion: todos/completed/suno_liked_nasheed_generation_20240602_130000_todo.md
-- Existing automation tool: cli_tools/selenium-cli/ 
+- Existing automation tool: cli_tools/browser-cli/ 
 - 21/50 nasheeds already complete with proven workflow
 - Browser automation pattern established and working
 
 ### Grouped Task Execution Plan
 
 #### Phase 1: Browser Setup & Navigation (Single Setup)
-🕒 [23:32] Launch selenium-cli browser automation
+🕒 [23:32] Launch browser-cli browser automation
 🕒 Navigate to Suno and verify login status
 🕒 Take screenshot to confirm correct page state
 

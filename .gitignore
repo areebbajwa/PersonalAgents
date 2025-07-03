@@ -43,10 +43,11 @@ worktrees/
 cli_tools/workflow-cli/state/ai_monitor_pid_*.txt
 cli_tools/ai-monitor-cli/logs/
 cli_tools/workflow/logs/
-cli_tools/selenium-cli/html-exports/*
-cli_tools/selenium-cli/screenshots/*
+cli_tools/browser-cli/html-exports/*
+cli_tools/browser-cli/screenshots/*
 screenshots/
 html-exports/
 /session-server.mjs
-fixed-selenium-cli
-working-selenium-cli
+fixed-browser-cli
+working-browser-cli
+cli_tools/workflow/state/*

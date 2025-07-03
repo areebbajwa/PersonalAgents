@@ -2,7 +2,7 @@
 Last updated: 2025-06-30T20:14:00Z
 
 ## Non-Negotiable User Requirements
-- selenium-cli command seems to be a mess. it's not able to automate any task
+- browser-cli command seems to be a mess. it's not able to automate any task
 - make sure it can run from any directory (it's a global cli tool)
 - can automate the task: go to suno.com and generate a song
 - make sure it uses the latest firefox profile (i have already logged into suno)
@@ -10,10 +10,10 @@ Last updated: 2025-06-30T20:14:00Z
 - make sure you're not logging into suno again in a new profile
 - remove any unnecessary commands like start or launch. just navigating should automatically launch the browser if needed, or use existing browser session
 - we only want one browser session at this time
-- this workflow is not complete until we can successfully generate a suno song from start to finish with the existing logged in account using selenium-cli
+- this workflow is not complete until we can successfully generate a suno song from start to finish with the existing logged in account using browser-cli
 
 ## Context Discovery
-- selenium-cli already exists in cli_tools/selenium-cli/
+- browser-cli already exists in cli_tools/browser-cli/
 - It uses Selenium WebDriver with Firefox
 - Already supports using existing Firefox profile (for logged-in sessions)
 - Commands are non-blocking (exit immediately)
@@ -53,7 +53,7 @@ Last updated: 2025-06-30T20:14:00Z
 🔥 [20:52] Document final state and move to next step - NOT READY
 
 ## Notes (with breakthrough markers)
-- 💡 selenium-cli already has most required functionality
+- 💡 browser-cli already has most required functionality
 - 💡 Navigate already auto-launches browser - no changes needed there
 - 💡 Firefox profile support already implemented correctly
 - 🔍 Main issues: debug output pollution, missing HTML diff, need to verify Suno automation works
@@ -62,16 +62,16 @@ Last updated: 2025-06-30T20:14:00Z
 - 🔥 CRITICAL ISSUE: Multiple Firefox instances being created, causing "session lost" errors
 - 📝 **WORKING commands:**
   ```bash
-  selenium-cli navigate https://suno.com  # ✅ Works, uses Firefox profile, maintains login
-  selenium-cli screenshot               # ✅ Works, saves timestamped files  
-  selenium-cli click "css=a[href='/create']"  # ✅ Works with simple CSS selectors
-  selenium-cli status                  # ✅ Works, shows session info
-  selenium-cli close                   # ✅ Works, cleans up properly
+  browser-cli navigate https://suno.com  # ✅ Works, uses Firefox profile, maintains login
+  browser-cli screenshot               # ✅ Works, saves timestamped files  
+  browser-cli click "css=a[href='/create']"  # ✅ Works with simple CSS selectors
+  browser-cli status                  # ✅ Works, shows session info
+  browser-cli close                   # ✅ Works, cleans up properly
   ```
 
 - 🔥 **BROKEN commands:**
   ```bash
-  selenium-cli type "css=textarea" "text"  # ❌ CRASHES SESSION EVERY TIME
+  browser-cli type "css=textarea" "text"  # ❌ CRASHES SESSION EVERY TIME
   # Any type command with any selector crashes the session server
   ```
 

@@ -28,7 +28,7 @@ CLI_TOOLS=(
     "pdf-ai-cli"
     "record-cli"
     "screenshot-cli"
-    "selenium-cli"
+    "browser-cli"
     "workflow-cli"
 )
 

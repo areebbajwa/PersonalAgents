@@ -1,16 +1,16 @@
 #!/bin/bash
 
-# Test selenium-cli from different directories
+# Test browser-cli from different directories
 # Tests that the tool works from any location
 
 set +e  # Don't exit on error
 
-echo "🧪 Testing selenium-cli from different directories"
+echo "🧪 Testing browser-cli from different directories"
 echo "================================================"
 
 # Save current directory
 ORIGINAL_DIR=$(pwd)
-SELENIUM_CLI="$ORIGINAL_DIR/cli_tools/selenium-cli/selenium-cli"
+SELENIUM_CLI="$ORIGINAL_DIR/cli_tools/browser-cli/browser-cli"
 
 # Test configuration
 TEST_PASSED=0
@@ -98,10 +98,10 @@ COMMANDS=(
 echo "Testing all subcommands..."
 for cmd in "${COMMANDS[@]}"; do
     if $SELENIUM_CLI $cmd >/dev/null 2>&1; then
-        echo "✅ Command works: selenium-cli $cmd"
+        echo "✅ Command works: browser-cli $cmd"
         ((TEST_PASSED++))
     else
-        echo "❌ Command failed: selenium-cli $cmd"
+        echo "❌ Command failed: browser-cli $cmd"
         ((TEST_FAILED++))
     fi
 done
@@ -117,9 +117,9 @@ echo "❌ Failed: $TEST_FAILED"
 
 # Exit with appropriate code
 if [ $TEST_FAILED -gt 0 ]; then
-    echo -e "\n❌ selenium-cli has issues!"
+    echo -e "\n❌ browser-cli has issues!"
     exit 1
 else
-    echo -e "\n✅ selenium-cli works from all directories!"
+    echo -e "\n✅ browser-cli works from all directories!"
     exit 0
 fi

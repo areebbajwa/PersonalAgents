@@ -23,50 +23,57 @@ steps:
     name: "setup"
     title: "Check Todo Status & Git Setup"
     content: |
-      **ACTION DECISION TREE:**
+      **SETUP DECISION TREE:**
+      
+      **Decision 1: Does todo file exist?**
       ```yaml
-      check_todo:
-        - action: "Look for todo file matching: ~/PersonalAgents/todos/YYYYMMDD-[project]-todo.md"
-        - if_exists:
-            - action: "Read existing todo file"
-            - check_worktree:
-                - action: "Check if corresponding worktree exists: worktrees/[project-name]"
-                - if_worktree_exists:
-                    - action: "Switch to existing worktree:"
-                      commands:
-                        - "cd worktrees/[project-name]"
-                    - action: "Continue with existing work from current state"
-                    - next: "Run workflow continue [project-name]"
-                - if_worktree_not_exists:
-                    - action: "Recreate worktree for continuing work:"
-                      commands:
-                        - "mkdir -p worktrees"
-                        - "git worktree add worktrees/[project-name] -b [project-name]-YYYYMMDD"
-                        - "cd worktrees/[project-name]"
-                        - "rm -rf cli_tools todos"  # Remove directories from worktree
-                        - "ln -s ~/PersonalAgents/cli_tools cli_tools"  # Symlink to main cli_tools
-                        - "ln -s ~/PersonalAgents/todos todos"  # Symlink to main todos
-                    - action: "Continue with existing work from todo"
-                    - next: "Run workflow continue [project-name]"
-        - if_not_exists:
-            - check_worktree:
-                - action: "Check if already in a worktree (path contains /worktrees/)"
-                - if_in_worktree:
-                    - action: "Use existing worktree (created by yolo command)"
-                    - next: "Run workflow continue [project-name]"
-                - if_not_in_worktree:
-                    - action: "Create new git worktree:"
-                      commands:
-                        - "mkdir -p worktrees"
-                        - "git worktree add worktrees/[project-name] -b [project-name]-YYYYMMDD"
-                        - "cd worktrees/[project-name]"
-                        - "rm -rf cli_tools todos"  # Remove directories from worktree
-                        - "ln -s ~/PersonalAgents/cli_tools cli_tools"  # Symlink to main cli_tools
-                        - "ln -s ~/PersonalAgents/todos todos"  # Symlink to main todos
-                        - "git push -u origin [project-name]-YYYYMMDD"
-                    - action: "Note: cli_tools and todos are symlinked to main repo for centralized changes"
-                    - next: "Run workflow continue [project-name]"
+      todo_check:
+        - look_for: "~/PersonalAgents/todos/YYYYMMDD-[project]-todo.md"
+        - if_exists: "Go to Decision 2A"
+        - if_not_exists: "Go to Decision 2B"
       ```
+      
+      **Decision 2A: Todo exists - Check worktree**
+      ```yaml
+      existing_todo_worktree_check:
+        - check: "Does worktrees/[project-name] directory exist?"
+        - if_exists: 
+            - action: "Switch to existing worktree"
+            - commands: ["cd worktrees/[project-name]"]
+            - result: "Continue with existing work"
+        - if_not_exists:
+            - action: "Recreate missing worktree"
+            - commands: 
+                - "mkdir -p worktrees"
+                - "git worktree add worktrees/[project-name] -b [project-name]-YYYYMMDD"
+                - "cd worktrees/[project-name]"
+                - "rm -rf cli_tools todos"
+                - "ln -s ~/PersonalAgents/cli_tools cli_tools"
+                - "ln -s ~/PersonalAgents/todos todos"
+            - result: "Continue with existing todo"
+      ```
+      
+      **Decision 2B: No todo - Check current location**
+      ```yaml
+      new_work_location_check:
+        - check: "Is current path in /worktrees/ directory?"
+        - if_in_worktree:
+            - action: "Use existing worktree (from yolo command)"
+            - result: "Ready for new work"
+        - if_not_in_worktree:
+            - action: "Create new worktree"
+            - commands:
+                - "mkdir -p worktrees"
+                - "git worktree add worktrees/[project-name] -b [project-name]-YYYYMMDD"
+                - "cd worktrees/[project-name]"
+                - "rm -rf cli_tools todos"
+                - "ln -s ~/PersonalAgents/cli_tools cli_tools"
+                - "ln -s ~/PersonalAgents/todos todos"
+                - "git push -u origin [project-name]-YYYYMMDD"
+            - result: "Ready for new work"
+      ```
+      
+      **Note:** cli_tools and todos are symlinked to main repo for centralized changes
       
       **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
@@ -143,53 +150,61 @@ steps:
     content: |
       **⚠️ IMPORTANT: Final planning step - DO NOT implement yet!**
       
-      **CONDITIONAL CHECKS:**
+      **PRE-PLANNING CHECKS:**
+      
+      **Check 1: CLI Tool Requirements**
       ```yaml
       cli_tool_check:
-        - condition: "Creating a CLI tool?"
-        - if_true: "Include steps from: /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/CLI_TOOL_DESIGN_GUIDE.md"
-      
-      api_keys_check:
-        - condition: "Required API keys missing from config/.env?"
-        - if_true:
-            - action: "Use selenium-cli browser automation"
-            - steps:
-                - "selenium-cli start"
-                - "Navigate to API dashboard"
-                - "Copy API keys"
-                - "Add to config/.env"
+        - question: "Is this task creating a CLI tool?"
+        - if_yes: "Include requirements from CLI_TOOL_DESIGN_GUIDE.md"
+        - if_no: "Skip CLI-specific requirements"
       ```
       
-      **CREATE INCREMENTAL PLAN:**
-      **Note:** After each test passes, you MUST run `workflow sub-task-next [project-name]`
+      **Check 2: API Key Requirements**  
+      ```yaml
+      api_key_check:
+        - question: "Are API keys missing from config/.env?"
+        - if_yes: "Add API key acquisition to plan"
+        - if_no: "Skip API key setup"
+        - api_key_plan:
+            - "Use browser-cli automation"
+            - "Navigate to service API dashboard"
+            - "Copy required API keys"
+            - "Add to config/.env file"
+      ```
       
+      **INCREMENTAL PLAN CREATION:**
+      Create test-gated incremental plan:
+      
+      For each feature/component:
       1. Build feature A
       2. Write E2E test for A
-      3. TEST GATE: Run test - MUST PASS
-      4. Mark test passed: `workflow sub-task-next [project-name]`
-      5. Commit with test status: `git commit -m "feat: add X - tests: 5/5 passed"`
-      6. For CLI tools: Also commit in main repo: `git -C ~/PersonalAgents add cli_tools/[tool-name] && git -C ~/PersonalAgents commit -m "feat: add [tool-name] CLI tool"`
-      7. Only then: Build feature B
-      8. Write E2E test for B
-      9. TEST GATE: Run test - MUST PASS
-      10. Mark test passed: `workflow sub-task-next [project-name]`
-      11. Commit with test status
+      3. **TEST GATE:** Run test - MUST PASS
+      4. **REQUIRED:** `workflow sub-task-next [project-name]`
+      5. Commit: `git commit -m "feat: add X - tests: 5/5 passed"`
+      6. **CLI tools only:** Commit to main: `git -C ~/PersonalAgents add cli_tools/[tool-name] && git -C ~/PersonalAgents commit -m "feat: add [tool-name] CLI tool"`
+      7. **Only after test passes:** Build next feature
       
-      **TODO FILE MANAGEMENT:**
-      ```yaml
-      todo_file:
-        - action: "Create or update file"
-        - path: "~/PersonalAgents/todos/YYYYMMDD-[project-name]-todo.md"
-        - structure:
-            - "# YYYYMMDD-[project-name]-todo.md"
-            - "Last updated: [timestamp]"
-            - "## Non-Negotiable User Requirements: {% if task %}{{ task }}{% else %}[exact user words]{% endif %}"
-            - "## Context Discovery"
-            - "## Tasks (with timestamps and status icons)"
-            - "## Notes (with breakthrough markers)"
-        - if_cli_tool: "🕒 Run ./scripts/setup-global-cli-tools.sh"  # Second last task
-        - final_task: "🕒 Run workflow continue [project-name]"
+      **TODO FILE CREATION:**
+      Create: `~/PersonalAgents/todos/YYYYMMDD-[project-name]-todo.md`
+      
+      Required structure:
+      ```markdown
+      # YYYYMMDD-[project-name]-todo.md
+      Last updated: [timestamp]
+      
+      ## Non-Negotiable User Requirements: {% if task %}{{ task }}{% else %}[exact user words]{% endif %}
+      
+      ## Context Discovery
+      
+      ## Tasks (with timestamps and status icons)
+      
+      ## Notes (with breakthrough markers)
       ```
+      
+      **CLI tool final tasks:**
+      - Second last: `🕒 Run ./scripts/setup-global-cli-tools.sh`
+      - Last: `🕒 Run workflow continue [project-name]`
       
       **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
@@ -259,10 +274,10 @@ steps:
       4. Update/delete conflicting docs/references in other files based on changes
       5. Ensure .gitignore is up-to-date
       
-      **Selenium Profile Preservation:**
-      If you used selenium-cli during this workflow:
-      1. Check if selenium-cli is still running: `selenium-cli status`
-      2. If running, stop it first: `selenium-cli stop`
+      **Browser Profile Preservation:**
+      If you used browser-cli during this workflow:
+      1. Check if browser-cli is still running: `browser-cli status`
+      2. If running, stop it first: `browser-cli stop`
       3. Find and preserve the temporary profile cookies:
          ```bash
          # Find the most recent selenium temp profile
@@ -288,25 +303,48 @@ steps:
     title: "Final Verification"
     content: |
       **VERIFICATION DECISION TREE:**
+      
+      **Step 1: Check User Requirements**
       ```yaml
-      verify_requirements:
-        - action: "Check todo file's Non-Negotiable User Requirements"
-        - action: "If CLI tools were created, verify they follow CLI_TOOL_DESIGN_GUIDE.md:"
-          checks:
-            - "Has proper command structure with subcommands?"
-            - "Includes --help for all commands?"
-            - "Has error handling and clear error messages?"
-            - "Uses proper argument parsing?"
-            - "Follows naming conventions?"
-            - "Has been added to cli_tools/ directory?"
-        - if_all_met:
-            - action: "Update todo file with final status"
-            - action: "Final commit and push"
-            - next: "Run workflow continue [project-name]"
-        - if_not_met:
-            - action: "Update todo list with missing requirements"
-            - action: "Jump back to implementation step"
-            - command: "workflow set-step [project-name] implement"
+      requirements_check:
+        - action: "Review todo file's Non-Negotiable User Requirements section"
+        - question: "Are ALL user requirements satisfied?"
+        - if_all_met: "Go to Step 2"
+        - if_not_met: "Go to Step 3 (Fix Missing)"
+      ```
+      
+      **Step 2: CLI Tool Verification (if applicable)**
+      ```yaml
+      cli_tool_verification:
+        - question: "Were CLI tools created in this workflow?"
+        - if_no_tools: "Skip to Step 4 (Success)"
+        - if_tools_created:
+            - verify_checklist:
+                - "Has proper command structure with subcommands?"
+                - "Includes --help for all commands?"
+                - "Has error handling and clear error messages?"
+                - "Uses proper argument parsing?"
+                - "Follows naming conventions?"
+                - "Has been added to cli_tools/ directory?"
+            - if_all_checks_pass: "Go to Step 4 (Success)"
+            - if_checks_fail: "Go to Step 3 (Fix Missing)"
+      ```
+      
+      **Step 3: Fix Missing Requirements**
+      ```yaml
+      fix_missing:
+        - action: "Update todo list with missing requirements"
+        - action: "Jump back to implementation"
+        - command: "workflow set-step [project-name] implement"
+        - note: "Do NOT continue until all requirements met"
+      ```
+      
+      **Step 4: Verification Success**
+      ```yaml
+      verification_success:
+        - action: "Update todo file with final verification status"
+        - action: "Final commit and push changes"
+        - result: "Ready for next step"
       ```
       
       **Next Step:** Run `workflow continue [project-name]` to continue
@@ -416,8 +454,8 @@ global_rules:
   - title: "Automation Tools"
     content: |
       - Check available MCP tools and resources
-      - Use official APIs first, selenium-cli browser only for unsupported features
-      - selenium-cli browser: unblock auth, get API keys, one-time setup tasks
+      - Use official APIs first, browser-cli browser only for unsupported features
+      - browser-cli browser: unblock auth, get API keys, one-time setup tasks
       - Take screenshots when curious/stuck: screenshot-cli tool
       - Use record-cli to record screen and send to AI for analysis if screenshots don't suffice
       - Last resort for GUI tasks: desktop-automation-cli
@@ -449,7 +487,7 @@ global_rules:
     content: |
       - **CLI Tools (in cli_tools/)**: For GENERAL-PURPOSE tools that help build an AI agent
         - ✅ pdf-ai-cli: Extracts data from ANY PDF
-        - ✅ selenium-cli: Automates ANY website
+        - ✅ browser-cli: Automates ANY website
         - ✅ gmail-cli: Manages ANY Gmail account
         - ❌ invoice-processor: Too specific, make it a script instead
         - ❌ company-x-api-client: Too specific, make it a script instead

@@ -27,7 +27,7 @@ Interactive modes in CLI tools block autonomous execution in workflows and scrip
 
 ## All Other CLI Tools
 The following tools were verified to have NO blocking interactive modes:
-- selenium-cli
+- browser-cli
 - gmail-cli
 - pdf-ai-cli
 - spawn-cli

@@ -15,37 +15,61 @@ steps:
       
       **⚠️ IMPORTANT: DO NOT start implementation yet. This is the planning phase.**
       
-      **Check for existing todo:**
-      If continuing work on existing todo file in `todos/`:
-      1. Check if corresponding worktree exists: worktrees/[project-name]
-      2. If worktree exists:
-         - Switch to it: `cd worktrees/[project-name]`
-         - Skip to step 4 and update existing todo list to match the todo list structure (if needed)
-      3. If worktree doesn't exist but todo exists:
-         - Recreate worktree: 
-         ```
-         mkdir -p worktrees
-         git worktree add worktrees/[project-name] -b [project-name]-YYYYMMDD
-         cd worktrees/[project-name]
-         ```
-         - Skip to step 4 and continue with existing todo
-      
-      **For new work, check worktree status:**
-      1. If already in a worktree (path contains /worktrees/):
-         - Use existing worktree (created by yolo command)
-      2. If not in a worktree:
-         - Create worktree with new branch:
-         ```
-         mkdir -p worktrees
-         git worktree add worktrees/[project-name] -b [project-name]-YYYYMMDD
-         cd worktrees/[project-name]
-         git push -u origin [project-name]-YYYYMMDD
-         ```
-      
       **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
 
   - number: 2
+    title: "Setup Worktree Environment"
+    content: |
+      **WORKTREE SETUP DECISION TREE:**
+      
+      **Decision 1: Check for existing todo**
+      ```yaml
+      existing_todo_check:
+        - check: "Does todo file exist in ~/PersonalAgents/todos/?"
+        - pattern: "YYYYMMDD-[project-name]-todo.md"
+        - if_exists: "Go to Decision 2A"
+        - if_not_exists: "Go to Decision 2B"
+      ```
+      
+      **Decision 2A: Existing todo - Check worktree**
+      ```yaml
+      existing_todo_worktree:
+        - check: "Does worktrees/[project-name] exist?"
+        - if_exists:
+            - action: "Switch to existing worktree"
+            - commands: ["cd worktrees/[project-name]"]
+            - next_step: "Skip to step 4 (update existing todo structure if needed)"
+        - if_not_exists:
+            - action: "Recreate worktree for existing todo"
+            - commands:
+                - "mkdir -p worktrees"
+                - "git worktree add worktrees/[project-name] -b [project-name]-YYYYMMDD"
+                - "cd worktrees/[project-name]"
+            - next_step: "Skip to step 4 (continue with existing todo)"
+      ```
+      
+      **Decision 2B: New work - Check current location**
+      ```yaml
+      new_work_location:
+        - check: "Is current path in /worktrees/ directory?"
+        - if_in_worktree:
+            - action: "Use existing worktree (from yolo command)"
+            - result: "Ready for new work"
+        - if_not_in_worktree:
+            - action: "Create new worktree"
+            - commands:
+                - "mkdir -p worktrees"
+                - "git worktree add worktrees/[project-name] -b [project-name]-YYYYMMDD"
+                - "cd worktrees/[project-name]"
+                - "git push -u origin [project-name]-YYYYMMDD"
+            - result: "Ready for new work"
+      ```
+      
+      **Next Step:** Run `workflow continue [project-name]` to continue
+    mandatory: true
+
+  - number: 3
     title: "Search for Context"
     content: |
       **⚠️ IMPORTANT: This is research phase - DO NOT implement anything yet.**
@@ -72,7 +96,7 @@ steps:
       **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
 
-  - number: 3
+  - number: 4
     title: "Create Task Plan"
     content: |
       **⚠️ IMPORTANT: Final planning step - DO NOT implement yet!**
@@ -117,34 +141,62 @@ steps:
       **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
 
-  - number: 4
+  - number: 5
+    title: "Pre-Execution Setup"
+    content: |
+      **PRE-EXECUTION CHECKS:**
+      
+      **Check 1: API Key Requirements**
+      ```yaml
+      api_key_status:
+        - question: "Are required API keys missing from config/.env?"
+        - if_missing:
+            - action: "Use browser-cli automation to obtain keys"
+            - steps:
+                - "browser-cli start"
+                - "Navigate to service API dashboard"
+                - "Copy required API keys"
+                - "Add to config/.env"
+        - if_present: "Continue to execution"
+      ```
+      
+      **Check 2: Tool Strategy Decision**
+      ```yaml
+      tool_strategy:
+        - question: "Does task require general-purpose functionality?"
+        - if_general_purpose:
+            - check: "Does existing CLI tool handle this?"
+            - if_exists_broken: "Priority: Fix existing tool first"
+            - if_not_exists: "Priority: CREATE new general-purpose tool"
+            - avoid: "Do NOT create workarounds when proper tool needed"
+        - if_task_specific: "Create script in scripts/ directory"
+      ```
+      
+      **Next Step:** Run `workflow continue [project-name]` to continue
+    mandatory: true
+
+  - number: 6
     title: "Execute Plan Step by Step"
     content: |
       **NOW YOU CAN START IMPLEMENTATION!**
       
-      **API Keys Check:**
-      If any required API keys are missing from config/.env:
-      - Use selenium-cli browser automation to obtain them (login to service, navigate to API settings)
-      - Example: `selenium-cli start` → navigate to API dashboard → copy keys
-      
-      **Actions to perform:**
+      **Execution Loop:**
       1. Complete one planned step from your TODO file
       2. Update todo file with ✅ when done, 🕒 for in progress
       3. Log breakthroughs with 🔥 BREAKTHROUGH: when stuck
       4. Move to next planned step
       
-      **CLI Tool Priority:**
-      - If a CLI tool exists for the task but doesn't work, priority should be to fix it first
-      - If no existing tool fits but task needs general-purpose functionality, CREATE the tool
-      - DO NOT create workarounds when a proper tool solution would be better
+      **Tool Implementation Priority:**
       - Always improve existing tools over creating band-aid fixes
+      - Create proper tool solutions, not workarounds
+      - Fix broken tools before building new functionality
       
-      **Call --next ONLY when entire todo list is completed**
+      **Continue until entire todo list is completed**
       
       **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
 
-  - number: 5
+  - number: 7
     title: "Clean Up Environment"
     content: |
       Before final steps, clean up temporary files:
@@ -157,32 +209,84 @@ steps:
       **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
 
-  - number: 6
-    title: "Clean Up Environment & Final Verification"
+  - number: 8
+    title: "Final Verification"
     content: |
-      **Git Status Cleanup:**
-      1. Run `git status` and review all changes
-      2. Note: CLI tool changes won't appear here - check `git -C ~/PersonalAgents status` to see them
-      3. Check Non-Negotiable User Requirements from todo file
-      3. Keep ONLY general-purpose tools that will help with future tasks:
-         - Document general tools in todo file under "Helpful Tools Created"
-         - DELETE task-specific scripts unless explicitly required to keep
-         - Remove all code NOT relevant to requirements
-      4. Update/delete conflicting docs/references in other files based on changes
-      5. Ensure .gitignore is up-to-date
+      **VERIFICATION DECISION TREE:**
       
-      **Final Verification:**
-      1. **REVIEW NON-NEGOTIABLES:** Check todo file's "Non-Negotiable User Requirements" section - ensure ALL requirements are met
-      2. If any requirements not met: update todo list and `workflow set-step [project-name] 4`
-      3. Verify all tasks completed successfully
-      4. Update todo file with final status
-      5. Move TODO file to `todos/completed/`
-      6. Final commit and push
+      **Step 1: Requirements Verification**
+      ```yaml
+      requirements_verification:
+        - action: "Check todo file's Non-Negotiable User Requirements section"
+        - question: "Are ALL requirements satisfied?"
+        - if_all_met: "Go to Step 2"
+        - if_not_met:
+            - action: "Update todo list with missing items"
+            - command: "workflow set-step [project-name] 5"
+            - note: "Do NOT continue until requirements met"
+      ```
+      
+      **Step 2: Task Completion Check**
+      ```yaml
+      task_completion:
+        - question: "Are all todo tasks completed successfully?"
+        - if_completed: "Go to Step 3"
+        - if_incomplete: "Return to execution step"
+      ```
+      
+      **Step 3: File Management**
+      ```yaml
+      file_management:
+        - action: "Update todo file with final completion status"
+        - action: "Move todo file to todos/completed/ directory"
+        - action: "Final commit and push all changes"
+        - result: "Verification complete"
+      ```
       
       **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
 
-  - number: 7
+  - number: 9
+    title: "Clean Up Environment"
+    content: |
+      **CLEANUP DECISION TREE:**
+      
+      **Step 1: Git Status Review**
+      ```yaml
+      git_status_review:
+        - action: "Run git status and review all changes"
+        - note: "CLI tool changes appear in git -C ~/PersonalAgents status"
+        - question: "Are changes relevant to requirements?"
+        - if_relevant: "Keep changes"
+        - if_irrelevant: "Remove unnecessary code/files"
+      ```
+      
+      **Step 2: Tool Classification**
+      ```yaml
+      tool_classification:
+        - question: "Were general-purpose tools created?"
+        - if_general_tools:
+            - action: "Document in todo under 'Helpful Tools Created'"
+            - action: "Keep tools for future use"
+        - if_task_specific:
+            - question: "Explicitly required to keep?"
+            - if_required: "Keep and document"
+            - if_not_required: "Delete task-specific scripts"
+      ```
+      
+      **Step 3: Environment Cleanup**
+      ```yaml
+      environment_cleanup:
+        - action: "Update/delete conflicting docs/references"
+        - action: "Ensure .gitignore is up-to-date"
+        - action: "Remove temporary files and artifacts"
+        - result: "Environment cleaned"
+      ```
+      
+      **Next Step:** Run `workflow continue [project-name]` to continue
+    mandatory: true
+
+  - number: 10
     title: "Branch Management - Auto Merge"
     content: |
       **Automatically merge to main branch:**
@@ -202,7 +306,7 @@ steps:
       **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
 
-  - number: 8
+  - number: 11
     title: "Clean Project State"
     content: |
       Final cleanup step:
@@ -252,8 +356,8 @@ global_rules:
     content: |
       - Look for existing CLI tools in the codebase first
       - Check available MCP tools and resources
-      - Use official APIs first, selenium-cli browser only for unsupported features
-      - selenium-cli browser: unblock auth, get API keys, one-time setup tasks
+      - Use official APIs first, browser-cli browser only for unsupported features
+      - browser-cli browser: unblock auth, get API keys, one-time setup tasks
       - PDF processing: pdf-ai-cli for extraction and analysis
       - Database queries: sqlite3 CLI with direct SQL
       - Take screenshots when curious/stuck: screenshot-cli tool

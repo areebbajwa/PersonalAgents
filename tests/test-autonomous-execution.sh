@@ -62,7 +62,7 @@ test_command "ai-monitor-cli monitor (blocking - should timeout)" "cli_tools/ai-
 echo ""
 echo "3. Testing other CLI tools for non-blocking execution..."
 echo "-------------------------------------------------------"
-test_command "selenium-cli help" "cli_tools/selenium-cli/selenium-cli --help"
+test_command "browser-cli help" "cli_tools/browser-cli/browser-cli --help"
 test_command "gmail-cli help" "cli_tools/gmail-cli/gmail-cli --help"
 test_command "pdf-ai-cli help" "cli_tools/pdf-ai-cli/pdf-ai-cli --help"
 test_command "spawn-cli list" "cli_tools/spawn-cli/spawn-cli list"

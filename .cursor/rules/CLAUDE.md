@@ -16,6 +16,7 @@
 ### Navigation Commands
 ```bash
 workflow start [name] [dev|task] "task description"  # start new workflow
+workflow start [name] [dev|task] "description" --no-monitor  # start without AI monitor
 workflow next                                        # continue to next step
 workflow set-step [name] [number|name]              # jump to specific step
 workflow sub-task-next                              # mark test passed, continue
@@ -26,6 +27,7 @@ workflow sub-task-next                              # mark test passed, continue
 workflow list                                        # list all workflows
 workflow kill [name]                                # kill a workflow
 workflow status [name]                              # check workflow status
+workflow spawn [name] [dev|task] "description" --no-monitor  # spawn without AI monitor
 ```
 
 ### Dev Mode Steps (with names)
@@ -52,17 +54,9 @@ workflow monitor stop-all           # stop all running AI monitors
 workflow monitor status             # check monitor status
 ```
 
-AI Monitor auto-starts with workflows and sends "ai-monitor:" prefixed guidance for violations.
+AI Monitor auto-starts with all workflows (dev and task modes) and sends "ai-monitor:" prefixed guidance for violations. Use --no-monitor to disable auto-start.
 
 Note: If starting with `yolo [project-name]`, workflow auto-detects project from worktree directory.
-
-### Backward Compatibility
-The new unified `workflow` command replaces the separate CLIs:
-- `spawn-cli` → `workflow spawn/kill/list`
-- `workflow-cli` → `workflow start/next/set-step`
-- `ai-monitor-cli` → `workflow monitor`
-
-Legacy commands are still supported but deprecated.
 
 ## Coding Guidelines ##
 

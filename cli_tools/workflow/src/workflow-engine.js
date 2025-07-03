@@ -38,8 +38,8 @@ export class WorkflowEngine {
     // Execute first step
     await this.executeStep(project, 1);
     
-    // Auto-start AI monitor
-    if (mode === 'dev' && !options.noMonitor) {
+    // Auto-start AI monitor (for all modes unless disabled)
+    if (options.monitor !== false) {
       try {
         await this.monitorManager.startMonitor(project);
       } catch (error) {

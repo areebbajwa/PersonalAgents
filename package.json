@@ -1,1 +1,1 @@
-{"name":"working-selenium-cli","version":"1.0.0","type":"module","dependencies":{"cheerio":"^1.1.0","diff":"^8.0.2","express":"^5.1.0","html-diff":"^0.0.4","selenium-webdriver":"^4.11.1"}}
+{"name":"working-browser-cli","version":"1.0.0","type":"module","dependencies":{"cheerio":"^1.1.0","diff":"^8.0.2","express":"^5.1.0","html-diff":"^0.0.4","selenium-webdriver":"^4.11.1"}}

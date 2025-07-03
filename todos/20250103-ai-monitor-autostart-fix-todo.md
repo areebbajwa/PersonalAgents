@@ -2,7 +2,7 @@
 Last updated: [15:15]
 
 ## Non-Negotiable User Requirements
-- Fix AI monitor auto-start functionality so it automatically detects and monitors newly spawned dev/task mode sessions like dev-selenium-cli-improvements
+- Fix AI monitor auto-start functionality so it automatically detects and monitors newly spawned dev/task mode sessions like dev-browser-cli-improvements
 - State file MUST be created when workflow starts
 - AI monitor MUST detect spawned workflows and be able to send guidance to them automatically
 

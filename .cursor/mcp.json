@@ -1,5 +1,5 @@
 {
-  "numStartups": 143,
+  "numStartups": 146,
   "installMethod": "local",
   "autoUpdates": true,
   "theme": "dark-ansi",
@@ -15,16 +15,16 @@
     "# for memory": 139,
     "install-github-app": 143,
     "permissions": 130,
-    "drag-and-drop-images": 124,
+    "drag-and-drop-images": 145,
     "double-esc": 140,
     "continue": 125,
-    "custom-commands": 115,
+    "custom-commands": 146,
     "shift-tab": 127,
     "git-worktrees": 84,
     "vscode-command-install": 123
   },
   "memoryUsageCount": 3,
-  "promptQueueUseCount": 213,
+  "promptQueueUseCount": 217,
   "mcpServers": {},
   "userID": "96200396462dc1a54dcd7bf4ed2806506483ec7ffab4ccd45f138f1896711cd6",
   "fallbackAvailableWarningThreshold": 0.5,
@@ -52,6 +52,66 @@
       "allowedTools": [],
       "history": [
         {
+          "display": "should work with task mode too",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "yea add such a command and update @cursor-rules/CLAUDE.md ",
+          "pastedContents": {}
+        },
+        {
+          "display": "is there a command to start a workflow without the monitor?",
+          "pastedContents": {}
+        },
+        {
+          "display": "do all ",
+          "pastedContents": {}
+        },
+        {
+          "display": "does workflow auto-start monitor?",
+          "pastedContents": {}
+        },
+        {
+          "display": "i see steps that still could use decision trees to simplify as there are too many in one step",
+          "pastedContents": {}
+        },
+        {
+          "display": "why not the existing yaml decision tree?",
+          "pastedContents": {}
+        },
+        {
+          "display": "update everything in dev mode and task mode workflow yaml files to decision trees so that the AI doesn't get confused",
+          "pastedContents": {}
+        },
+        {
+          "display": "use terminal find and replace",
+          "pastedContents": {}
+        },
+        {
+          "display": "update references to browser-cli with browser-cli everywhere",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "stop it",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "make sure @scripts/setup-global-cli-tools.sh will work with this",
+          "pastedContents": {}
+        },
+        {
           "display": "/exit ",
           "pastedContents": {}
         },
@@ -64,7 +124,7 @@
           "pastedContents": {}
         },
         {
-          "display": "maybe selenium-cli is not a good name for this anymore. let's call it browser-cli and update all references",
+          "display": "maybe browser-cli is not a good name for this anymore. let's call it browser-cli and update all references",
           "pastedContents": {}
         },
         {
@@ -172,7 +232,7 @@
           "pastedContents": {}
         },
         {
-          "display": "run workflow-cli --project selenium_playwright_selectors --mode dev --step 1 --task \"Implement Playwright-style selectors for selenium-cli tool as specified in /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/tasks/selenium_cli_playwright_selectors_task.md\" --spawned",
+          "display": "run workflow-cli --project selenium_playwright_selectors --mode dev --step 1 --task \"Implement Playwright-style selectors for browser-cli tool as specified in /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/tasks/selenium_cli_playwright_selectors_task.md\" --spawned",
           "pastedContents": {}
         },
         {
@@ -388,67 +448,7 @@
           "pastedContents": {}
         },
         {
-          "display": "workflow-cli --project ai-monitor-autostart-fix --mode dev --step 1 --task \"Fix AI monitor auto-start functionality so it automatically detects and monitors newly spawned dev/task mode sessions like dev-selenium-cli-improvements\" --spawned",
-          "pastedContents": {}
-        },
-        {
-          "display": "why is ai-monitor not detecting this new dev-selenium-cli-improvements? ai-monitor should've started automatically. spawn devmode with this task",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "workflow-cli --project selenium-cli-improvements --mode dev --step 1 --task \"Improve selenium-cli with better selector support, wait commands, clear command, escape/dismiss-modal functionality, and better error messages to make browser automation more reliable and user-friendly\" --spawned",
-          "pastedContents": {}
-        },
-        {
-          "display": "spawn devmode with these improvements",
-          "pastedContents": {}
-        },
-        {
-          "display": "reflect on your struggle with selenium-cli. what needs to be improved so that you don't struggle like this?",
-          "pastedContents": {}
-        },
-        {
-          "display": "no, you need to go to custom tab and enter generated lyrics. generate the lyrics by yourself. update generation guide",
-          "pastedContents": {}
-        },
-        {
-          "display": "workflow-cli --project suno_nasheed_generation_part2 --mode task --step 1 --task \"Continue generating the remaining 29 nasheeds (22-50) from the Suno nasheed generation todo list using browser automation\" --spawned",
-          "pastedContents": {}
-        },
-        {
-          "display": "spawn taskmode with the nasheed generation task. @todos/suno_nasheed_generation_part2_20250615_000300_todo.md ",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "are you sure that's the correct way to use spawn-cli?",
-          "pastedContents": {}
-        },
-        {
-          "display": "add one line of instruction in @cursor-rules/CLAUDE.md that when i say to spawn dev/task mode with task, use spawn-cli instead of workflow-cli",
-          "pastedContents": {}
-        },
-        {
-          "display": "is there anything else that's setting some kind of json mode setting on for gemini?",
-          "pastedContents": {}
-        },
-        {
-          "display": "make sure @cli_tools/spawn-cli/spawn-cli doesn't show new tmux window in the foreground",
-          "pastedContents": {}
-        },
-        {
-          "display": "make sure @cli_tools/ai-monitor-cli/ai-monitor-cli only sends plain text guidance. i've seen it send json that's surrounded by markdown characters. as the final line in the string that's sent to gemini (after stringifying), add \"Respond as plain text, no JSON\"",
-          "pastedContents": {}
-        },
-        {
-          "display": "kill all tmux sessions",
+          "display": "workflow-cli --project ai-monitor-autostart-fix --mode dev --step 1 --task \"Fix AI monitor auto-start functionality so it automatically detects and monitors newly spawned dev/task mode sessions like dev-browser-cli-improvements\" --spawned",
           "pastedContents": {}
         }
       ],
@@ -469,16 +469,16 @@
       ],
       "exampleFilesGeneratedAt": 1751493253029,
       "lastTotalWebSearchRequests": 0,
-      "lastCost": 11.058814450000002,
-      "lastAPIDuration": 1165985,
-      "lastDuration": 14546795,
-      "lastLinesAdded": 117,
-      "lastLinesRemoved": 2,
-      "lastTotalInputTokens": 112905,
-      "lastTotalOutputTokens": 16796,
-      "lastTotalCacheCreationInputTokens": 301593,
-      "lastTotalCacheReadInputTokens": 2874567,
-      "lastSessionId": "7e62c383-355d-4094-ae7e-5b831d9421b5"
+      "lastCost": 0.38004995,
+      "lastAPIDuration": 262254,
+      "lastDuration": 800125,
+      "lastLinesAdded": 0,
+      "lastLinesRemoved": 0,
+      "lastTotalInputTokens": 75844,
+      "lastTotalOutputTokens": 5219,
+      "lastTotalCacheCreationInputTokens": 15389,
+      "lastTotalCacheReadInputTokens": 662288,
+      "lastSessionId": "b0c94031-8ba8-4f41-95a8-808324647ed6"
     },
     "/Volumes/ExtremeSSD/TheNeuron/TheNeuron": {
       "allowedTools": [],

@@ -22,6 +22,7 @@ program
   .command('spawn <project> <mode> <task>')
   .description('Spawn a new workflow in a tmux session')
   .option('-f, --force', 'Force spawn even if workflow exists')
+  .option('--no-monitor', 'Disable AI monitor auto-start')
   .action(async (project, mode, task, options) => {
     try {
       await spawnManager.spawnWorkflow(project, mode, task, options);
@@ -37,6 +38,7 @@ program
   .description('Start a workflow in the current terminal')
   .option('-f, --force', 'Force start even if workflow exists')
   .option('--spawned', 'Internal flag indicating this was spawned')
+  .option('--no-monitor', 'Disable AI monitor auto-start')
   .action(async (project, mode, task, options) => {
     try {
       await workflowEngine.start(project, mode, task, options);
@@ -170,7 +172,7 @@ monitor
         // Start for all active workflows
         const states = await stateManager.listStates();
         for (const state of states) {
-          if (state.mode === 'dev' && !state.monitor?.enabled) {
+          if (!state.monitor?.enabled) {
             await monitorManager.startMonitor(state.project);
           }
         }
