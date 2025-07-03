@@ -86,6 +86,9 @@ describe('MonitorManager', () => {
     // Stop all
     await monitorManager.stopAllMonitors();
     
+    // Small delay to ensure processes are fully stopped
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
     // Check both are stopped
     const state1 = await stateManager.loadState(testProject);
     const state2 = await stateManager.loadState(testProject2);
