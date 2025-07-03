@@ -51,8 +51,8 @@ class SpawnCLI:
         # Wait for Claude to start (check for cursor in pane)
         time.sleep(15)
         
-        # Send workflow command (without Enter first)
-        workflow_cmd = f'workflow-cli --project {project} --mode {mode} --step {step} --task "{task}" --spawned'
+        # Send workflow command with "run " prefix so Claude executes it
+        workflow_cmd = f'run workflow-cli --project {project} --mode {mode} --step {step} --task "{task}" --spawned'
         subprocess.run(['tmux', 'send-keys', '-t', window_name, workflow_cmd])
         
         # Send Enter as a separate command

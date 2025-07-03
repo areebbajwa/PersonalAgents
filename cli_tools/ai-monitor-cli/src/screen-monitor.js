@@ -227,44 +227,162 @@ class ScreenMonitor {
     }
 
     /**
-     * Save Gemini prompt and response to file
+     * Save Gemini prompt and response to file in readable format
      */
     saveGeminiInteraction(prompt, response) {
         try {
             const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-            const filename = `gemini-${this.projectName}-${timestamp}.json`;
+            const filename = `gemini-${this.projectName}-${timestamp}.log`;
             const filepath = path.join(this.geminiLogsDir, filename);
             
-            // Parse the prompt JSON to make it readable in the log
+            // Parse the prompt JSON for better formatting
             let parsedPrompt;
             try {
-                parsedPrompt = JSON.parse(prompt);
-                // Convert string fields to arrays for better readability in logs
-                if (parsedPrompt.terminal && typeof parsedPrompt.terminal === 'string') {
-                    parsedPrompt.terminal = parsedPrompt.terminal.split('\n');
-                }
-                if (parsedPrompt.rules && typeof parsedPrompt.rules === 'string') {
-                    parsedPrompt.rules = parsedPrompt.rules.split('\n');
-                }
+                // Remove the trailing instruction from the prompt
+                const jsonPart = prompt.replace(/\n\nRespond as plain text, no JSON$/, '');
+                parsedPrompt = JSON.parse(jsonPart);
             } catch (e) {
-                parsedPrompt = prompt; // Keep as string if not valid JSON
+                parsedPrompt = { error: 'Failed to parse prompt', raw: prompt };
             }
             
-            const data = {
+            // Create a human-readable log format
+            const logContent = [
+                '═══════════════════════════════════════════════════════════════════════════════',
+                `GEMINI AI MONITOR LOG`,
+                `═══════════════════════════════════════════════════════════════════════════════`,
+                '',
+                `📅 Timestamp: ${new Date().toISOString()}`,
+                `📁 Project: ${this.projectName}`,
+                `🔧 Mode: ${this.workflowMode || 'unknown'}`,
+                '',
+                '───────────────────────────────────────────────────────────────────────────────',
+                '📋 PROMPT DETAILS',
+                '───────────────────────────────────────────────────────────────────────────────',
+                '',
+                '🤖 System Role:',
+                this.formatText(parsedPrompt.systemRole || 'Not specified', 4),
+                '',
+                '🚨 Stuck Definition:',
+                this.formatText(parsedPrompt.stuckDefinition || 'Not specified', 4),
+                '',
+                '⚠️  Intervention Criteria:',
+                this.formatText(parsedPrompt.interventionCriteria || 'Not specified', 4),
+                '',
+                '📝 General Instructions:',
+                this.formatText(parsedPrompt.generalInstructions || 'Not specified', 4),
+                '',
+                '📜 Workflow Rules:',
+                this.formatText(parsedPrompt.workflowRules || 'Not specified', 4),
+                '',
+                '✅ Current TODO:',
+                this.formatText(parsedPrompt.currentTodo || 'No TODO file found', 4),
+                '',
+                '🖥️  Terminal Output (last 50 lines):',
+                '    ┌─────────────────────────────────────────────────────────────────────────┐',
+                ...this.formatTerminalOutput(parsedPrompt.terminalOutput || [], 4),
+                '    └─────────────────────────────────────────────────────────────────────────┘',
+                '',
+                '───────────────────────────────────────────────────────────────────────────────',
+                '💬 GEMINI RESPONSE',
+                '───────────────────────────────────────────────────────────────────────────────',
+                '',
+                response ? this.formatText(response, 0) : '(No response)',
+                '',
+                '───────────────────────────────────────────────────────────────────────────────',
+                `📊 Stats: Prompt length: ${prompt.length} chars | Response length: ${response.length} chars`,
+                '═══════════════════════════════════════════════════════════════════════════════',
+                ''
+            ].join('\n');
+            
+            // Write the human-readable log
+            fs.writeFileSync(filepath, logContent);
+            
+            // Also save a JSON version for programmatic access
+            const jsonFilepath = filepath.replace('.log', '.json');
+            const jsonData = {
                 timestamp: new Date().toISOString(),
                 project: this.projectName,
                 mode: this.workflowMode,
-                prompt: parsedPrompt, // Store as parsed object instead of escaped string
+                prompt: parsedPrompt,
                 response: response,
                 promptLength: prompt.length,
                 responseLength: response.length
             };
+            fs.writeFileSync(jsonFilepath, JSON.stringify(jsonData, null, 2));
             
-            fs.writeFileSync(filepath, JSON.stringify(data, null, 2));
-            console.log(`💾 Saved Gemini interaction to: ${filename}`);
+            console.log(`💾 Saved Gemini interaction to: ${filename} (+ .json)`);
         } catch (error) {
             console.error('Failed to save Gemini interaction:', error.message);
         }
+    }
+    
+    /**
+     * Format text with proper indentation and word wrapping
+     */
+    formatText(text, indent = 0) {
+        if (!text) return ' '.repeat(indent) + '(empty)';
+        
+        const maxWidth = 80 - indent;
+        const indentStr = ' '.repeat(indent);
+        
+        // Split by newlines first to preserve intentional line breaks
+        const lines = text.split('\n');
+        const formattedLines = [];
+        
+        for (const line of lines) {
+            if (line.length <= maxWidth) {
+                formattedLines.push(indentStr + line);
+            } else {
+                // Word wrap long lines
+                const words = line.split(' ');
+                let currentLine = '';
+                
+                for (const word of words) {
+                    if ((currentLine + word).length > maxWidth && currentLine.length > 0) {
+                        formattedLines.push(indentStr + currentLine.trim());
+                        currentLine = word + ' ';
+                    } else {
+                        currentLine += word + ' ';
+                    }
+                }
+                
+                if (currentLine.trim()) {
+                    formattedLines.push(indentStr + currentLine.trim());
+                }
+            }
+        }
+        
+        return formattedLines.join('\n');
+    }
+    
+    /**
+     * Format terminal output with line numbers and proper framing
+     */
+    formatTerminalOutput(lines, indent = 0) {
+        if (!lines || lines.length === 0) return [' '.repeat(indent) + '│ (no output) │'];
+        
+        const indentStr = ' '.repeat(indent);
+        const maxWidth = 72; // Account for line numbers and borders
+        const formattedLines = [];
+        
+        // Take last 50 lines
+        const recentLines = lines.slice(-50);
+        const startLineNum = Math.max(1, lines.length - 49);
+        
+        recentLines.forEach((line, idx) => {
+            const lineNum = startLineNum + idx;
+            const lineNumStr = String(lineNum).padStart(4, ' ');
+            
+            // Truncate long lines
+            let content = line || '';
+            if (content.length > maxWidth) {
+                content = content.substring(0, maxWidth - 3) + '...';
+            }
+            
+            formattedLines.push(`${indentStr}│ ${lineNumStr}: ${content.padEnd(maxWidth)} │`);
+        });
+        
+        return formattedLines;
     }
 
     /**
@@ -512,9 +630,17 @@ class ScreenMonitor {
                 // Handle tool use entries
                 lineContent = `[Tool: ${entry.toolUse.name || 'unknown'}]`;
             } else if (entry.toolUseResult) {
-                // Handle tool result entries
+                // Handle tool result entries - truncate to 5 lines
                 const result = entry.toolUseResult.stdout || entry.toolUseResult.stderr || '';
-                lineContent = `[Result: ${result}]`;
+                const resultLines = result.split('\n');
+                
+                if (resultLines.length <= 5) {
+                    lineContent = `[Result: ${result}]`;
+                } else {
+                    const truncatedResult = resultLines.slice(0, 5).join('\n');
+                    const hiddenCount = resultLines.length - 5;
+                    lineContent = `[Result: ${truncatedResult}\n... ${hiddenCount} more lines hidden]`;
+                }
             }
             
             if (lineContent) {
@@ -584,6 +710,9 @@ class ScreenMonitor {
                         if (response.candidates && response.candidates[0] && response.candidates[0].content && response.candidates[0].content.parts && response.candidates[0].content.parts[0]) {
                             const text = response.candidates[0].content.parts[0].text;
                             resolve(text);
+                        } else if (response.candidates && response.candidates[0] && response.candidates[0].finishReason === 'STOP') {
+                            // Gemini returned an empty response (no intervention needed)
+                            resolve('');
                         } else {
                             // Log the actual response structure for debugging
                             console.error('Gemini API response structure:', JSON.stringify(response, null, 2));
@@ -775,10 +904,16 @@ class ScreenMonitor {
         };
         
         // Variable content at the end for dynamic data
+        const terminalLines = terminalOutput.split('\n');
+        const truncatedTerminal = terminalLines.length > 500 
+            ? [`[First ${terminalLines.length - 500} lines omitted]`,
+               ...terminalLines.slice(-500)]
+            : terminalLines;
+            
         const variableContent = {
             workflowRules: workflowRules || 'ERROR: Could not load workflow rules file',
             currentTodo: todoContent || "No TODO file found",
-            terminalOutput: terminalOutput.split('\n') // Store as array for better readability
+            terminalOutput: truncatedTerminal // Last 500 lines only
         };
         
         // Combine static prefix (for caching) with variable content

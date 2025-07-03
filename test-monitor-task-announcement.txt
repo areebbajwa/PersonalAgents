@@ -1,0 +1,7 @@
+🤖 **TASK MODE ACTIVATED**
+
+I will complete this task autonomously without asking for help (except for 2FA).
+
+**Task:** Create a todo list with 10 separate items, each saying to write 'hello world' to a file. Then execute each todo item one by one, writing to output.txt
+
+**⚠️ IMPORTANT: DO NOT start implementation yet. This is the planning phase.**

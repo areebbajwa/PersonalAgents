@@ -115,6 +115,14 @@ Examples:
   $ selenium-cli right-click "id=context-menu"
   $ selenium-cli key Enter
   $ selenium-cli upload "id=file-input" "/path/to/file.pdf"
+  
+  # Wait commands
+  $ selenium-cli wait "id=loading" --timeout 20000
+  $ selenium-cli wait "css=.modal" --visible
+  $ selenium-cli wait "xpath=//button[@disabled]" --present
+  
+  # Input field operations
+  $ selenium-cli clear "id=search-box"
 
   # Session management
   $ selenium-cli session create my-session
@@ -708,6 +716,76 @@ program
             exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to upload file: ${error.message}`));
+            process.exit(1);
+        }
+    });
+
+// Wait for element command
+program
+    .command('wait <locator>')
+    .description('Wait for an element to be visible and clickable')
+    .option('-t, --timeout <ms>', 'Timeout in milliseconds', '10000')
+    .option('--visible', 'Wait only for visibility (not clickability)')
+    .option('--present', 'Wait only for presence (not visibility)')
+    .action(async (locator, options) => {
+        const [by, ...valueParts] = locator.split('=');
+        const value = valueParts.join('=');
+        
+        if (!by || !value) {
+            console.error(chalk.red('Invalid locator format. Use: strategy=value (e.g., id=submit-button)'));
+            process.exit(1);
+        }
+        
+        const waitType = options.present ? 'present' : (options.visible ? 'visible' : 'clickable');
+        const spinner = ora(`Waiting for element to be ${waitType}: ${locator}`).start();
+        try {
+            const result = await defaultSession.sendToDefaultSession({
+                action: 'wait',
+                by,
+                value,
+                timeout: parseInt(options.timeout),
+                waitType
+            });
+            spinner.succeed(chalk.green(`Element is ${waitType}`));
+            displayActionResult(result);
+            exitAfterCommand();
+        } catch (error) {
+            spinner.fail(chalk.red(`Failed to wait for element: ${error.message}`));
+            if (error.screenshot) console.log(chalk.gray(`Error screenshot: ${error.screenshot}`));
+            if (error.html) console.log(chalk.gray(`Error HTML: ${error.html}`));
+            process.exit(1);
+        }
+    });
+
+// Clear input field command
+program
+    .command('clear <locator>')
+    .description('Clear an input field')
+    .option('-t, --timeout <ms>', 'Timeout in milliseconds', '10000')
+    .action(async (locator, options) => {
+        const [by, ...valueParts] = locator.split('=');
+        const value = valueParts.join('=');
+        
+        if (!by || !value) {
+            console.error(chalk.red('Invalid locator format. Use: strategy=value (e.g., id=username)'));
+            process.exit(1);
+        }
+        
+        const spinner = ora(`Clearing element: ${locator}`).start();
+        try {
+            const result = await defaultSession.sendToDefaultSession({
+                action: 'clear',
+                by,
+                value,
+                timeout: parseInt(options.timeout)
+            });
+            spinner.succeed(chalk.green('Field cleared successfully'));
+            displayActionResult(result);
+            exitAfterCommand();
+        } catch (error) {
+            spinner.fail(chalk.red(`Failed to clear field: ${error.message}`));
+            if (error.screenshot) console.log(chalk.gray(`Error screenshot: ${error.screenshot}`));
+            if (error.html) console.log(chalk.gray(`Error HTML: ${error.html}`));
             process.exit(1);
         }
     });

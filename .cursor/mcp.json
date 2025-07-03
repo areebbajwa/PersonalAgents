@@ -1,22 +1,22 @@
 {
-  "numStartups": 132,
+  "numStartups": 142,
   "installMethod": "local",
   "autoUpdates": true,
   "theme": "dark-ansi",
   "tipsHistory": {
     "ide-hotkey": 81,
     "new-user-warmup": 5,
-    "shift-enter": 114,
+    "shift-enter": 137,
     "memory-command": 38,
     "theme-command": 131,
     "prompt-queue": 44,
-    "enter-to-steer-in-relatime": 94,
-    "todo-list": 95,
-    "# for memory": 118,
-    "install-github-app": 121,
+    "enter-to-steer-in-relatime": 135,
+    "todo-list": 136,
+    "# for memory": 139,
+    "install-github-app": 142,
     "permissions": 130,
     "drag-and-drop-images": 124,
-    "double-esc": 119,
+    "double-esc": 140,
     "continue": 125,
     "custom-commands": 115,
     "shift-tab": 127,
@@ -24,7 +24,7 @@
     "vscode-command-install": 123
   },
   "memoryUsageCount": 3,
-  "promptQueueUseCount": 189,
+  "promptQueueUseCount": 199,
   "mcpServers": {},
   "userID": "96200396462dc1a54dcd7bf4ed2806506483ec7ffab4ccd45f138f1896711cd6",
   "fallbackAvailableWarningThreshold": 0.5,
@@ -51,6 +51,242 @@
     "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents": {
       "allowedTools": [],
       "history": [
+        {
+          "display": "what are the advantages of selenium?",
+          "pastedContents": {}
+        },
+        {
+          "display": "what about if we used aria selectors? is that playwright? explain",
+          "pastedContents": {}
+        },
+        {
+          "display": "go ahead",
+          "pastedContents": {}
+        },
+        {
+          "display": "run workflow-cli --project workflow-simplification --mode dev --step 1 --task \"Implement unified workflow system to simplify spawn-cli, workflow-cli, and ai-monitor-cli integration with single state management, consistent paths, and unified CLI\" --spawned",
+          "pastedContents": {}
+        },
+        {
+          "display": "go ahead. spawn a new devmode task for this",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "can we simplify even further?",
+          "pastedContents": {}
+        },
+        {
+          "display": "ai-monitor: run workflow-cli --remind-rules --project test-monitor-task --mode task",
+          "pastedContents": {}
+        },
+        {
+          "display": "so the overall workflow is this: i spawn a new devmode task with spawn-cli, that creates a new tmux session and runs the yolo command which then runs a workflow-cli command with the --spawned flag. that creates a state file as well as jsonl for claude to read. that gets passed to ai-monitor-cli for monitoring which uses all of that to create a prompt for gemini and send the guidance in the response back to the tmux session running that workflow. some paths are absolute (symlinked ~/PersonalAgents) for cli_tools and todos, other paths are relative. it's all quite complex and creates lots of confusion and room for bugs. investigate the current setup and suggest how best we can simplify this so it still does what it currently does.",
+          "pastedContents": {}
+        },
+        {
+          "display": "but the log file should still be created?",
+          "pastedContents": {}
+        },
+        {
+          "display": "ai-monitor: run workflow-cli --remind-rules --project test-monitor-task --mode task",
+          "pastedContents": {}
+        },
+        {
+          "display": "ok so run the --once command for this project now",
+          "pastedContents": {}
+        },
+        {
+          "display": "run it as a command! it's a global command",
+          "pastedContents": {}
+        },
+        {
+          "display": "run ai-monitor-cli monitor-all command and redirect output",
+          "pastedContents": {}
+        },
+        {
+          "display": "seems to be showing up in the ai-monitor monitor-all (blocking command) though as a project being monitored",
+          "pastedContents": {}
+        },
+        {
+          "display": "check most recent .jsonl files in that directory",
+          "pastedContents": {}
+        },
+        {
+          "display": "there's no jsonl file with \"test-monitor-task\" in the name? in .claude/projects?",
+          "pastedContents": {}
+        },
+        {
+          "display": "it is running in a worktree. what are you looking for that's missing?",
+          "pastedContents": {}
+        },
+        {
+          "display": "there's a new project: test-monitor-task that was just started in ai monitor",
+          "pastedContents": {}
+        },
+        {
+          "display": "run workflow-cli --project test-monitor-task --mode task --step 1 --task \"Create a todo list with 10 separate items, each saying to write 'hello world' to a file. Then execute each todo item one by one, writing to output.txt\" --spawned",
+          "pastedContents": {}
+        },
+        {
+          "display": "spawn taskmode with a task to write hello world to a file 100 times. make sure each todo list item is separate and says to write \"hello world\". i want the task to run a long time.",
+          "pastedContents": {}
+        },
+        {
+          "display": "no that's for another project. ",
+          "pastedContents": {}
+        },
+        {
+          "display": "check ai-monitor-cli for the path",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "run it once for the most recent ai-monitor project i wanna see",
+          "pastedContents": {}
+        },
+        {
+          "display": "no, i want 500 from end.. just mention line count before that",
+          "pastedContents": {}
+        },
+        {
+          "display": "no viewer. i want to be able to read the .log file. seems to look good. need a few changes to the prompt that gets sent to gemini: restrict tool result in terminal to the first 5 lines and show how many more lines are hidden). also restrict the number of lines that get sent to gemini to 500",
+          "pastedContents": {}
+        },
+        {
+          "display": "ai-monitor: cd /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents && workflow-cli --project test-complete-fix --set-step 2",
+          "pastedContents": {}
+        },
+        {
+          "display": "start ai monitor",
+          "pastedContents": {}
+        },
+        {
+          "display": "the gemini logs that @cli_tools/ai-monitor-cli/ai-monitor-cli creates are not easy to read. the prompt especially is full of escape characters and json. make it easy to read.",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
+        {
+          "display": "ai-monitor: Your current directory is incorrect. cd /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents, then run 'workflow-cli --project test-complete-fix --set-step 2' to correctly create the worktree.",
+          "pastedContents": {}
+        },
+        {
+          "display": "actually i wanna see ai-monitor can send guidance to it",
+          "pastedContents": {}
+        },
+        {
+          "display": "run workflow-cli --project test-complete-fix --mode dev --step 1 --task \"Test complete AI monitor auto-start fix\" --spawned",
+          "pastedContents": {}
+        },
+        {
+          "display": "i think spawn-cli needs to add the word \"run \" before the workflow-cli command that it sends to the tmux window. seems like otherwise it's not actually treating that as a command",
+          "pastedContents": {}
+        },
+        {
+          "display": "workflow-cli --project test-state-debug --mode dev --step 1 --task \"Debug state file creation\" --spawned",
+          "pastedContents": {}
+        },
+        {
+          "display": "no. figure out why state file was not created. it's not working until the ai-monitor detects it and can send guidance to a new spawned workflow automatically. updatetodo",
+          "pastedContents": {}
+        },
+        {
+          "display": "workflow-cli --project test-tmux-fix --mode dev --step 1 --task \"Test tmux detection fix\" --spawned",
+          "pastedContents": {}
+        },
+        {
+          "display": "seems that's a blocking command again",
+          "pastedContents": {}
+        },
+        {
+          "display": "workflow-cli --project test-tmux-fix --mode dev --step 1 --task \"Test tmux detection fix\" --spawned",
+          "pastedContents": {}
+        },
+        {
+          "display": "it auto-closed right after starting",
+          "pastedContents": {}
+        },
+        {
+          "display": "i killed it already",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "monitor-all is a blocking command",
+          "pastedContents": {}
+        },
+        {
+          "display": "workflow-cli --project test-monitor-autostart --mode dev --step 1 --task \"Test AI monitor auto-start functionality\" --spawned",
+          "pastedContents": {}
+        },
+        {
+          "display": "add to @cursor-rules/CLAUDE.md ",
+          "pastedContents": {}
+        },
+        {
+          "display": "stop all of them. there are still some running. check workflow-cli and add a --stop-all command?",
+          "pastedContents": {}
+        },
+        {
+          "display": "stop all ai monitors",
+          "pastedContents": {}
+        },
+        {
+          "display": "ai-monitor: Your current directory is incorrect because the 'cd' command failed during setup. You must fix this before proceeding. Run `ls worktrees`, then `cd worktrees/ai-monitor-autostart-fix`, then complete the remaining setup steps from the workflow.",
+          "pastedContents": {}
+        },
+        {
+          "display": "workflow-cli --project ai-monitor-autostart-fix --mode dev --step 1 --task \"Fix AI monitor auto-start functionality so it automatically detects and monitors newly spawned dev/task mode sessions like dev-selenium-cli-improvements\" --spawned",
+          "pastedContents": {}
+        },
+        {
+          "display": "why is ai-monitor not detecting this new dev-selenium-cli-improvements? ai-monitor should've started automatically. spawn devmode with this task",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
+        {
+          "display": "workflow-cli --project selenium-cli-improvements --mode dev --step 1 --task \"Improve selenium-cli with better selector support, wait commands, clear command, escape/dismiss-modal functionality, and better error messages to make browser automation more reliable and user-friendly\" --spawned",
+          "pastedContents": {}
+        },
+        {
+          "display": "spawn devmode with these improvements",
+          "pastedContents": {}
+        },
+        {
+          "display": "reflect on your struggle with selenium-cli. what needs to be improved so that you don't struggle like this?",
+          "pastedContents": {}
+        },
+        {
+          "display": "no, you need to go to custom tab and enter generated lyrics. generate the lyrics by yourself. update generation guide",
+          "pastedContents": {}
+        },
+        {
+          "display": "workflow-cli --project suno_nasheed_generation_part2 --mode task --step 1 --task \"Continue generating the remaining 29 nasheeds (22-50) from the Suno nasheed generation todo list using browser automation\" --spawned",
+          "pastedContents": {}
+        },
+        {
+          "display": "spawn taskmode with the nasheed generation task. @todos/suno_nasheed_generation_part2_20250615_000300_todo.md ",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
         {
           "display": "are you sure that's the correct way to use spawn-cli?",
           "pastedContents": {}
@@ -219,98 +455,6 @@
         },
         {
           "display": "make it clear that it should not avoid creating/fixing/modifying a useful tool and try to find another way to do the task. don't create new tools if existing ones can be used or improved.",
-          "pastedContents": {}
-        },
-        {
-          "display": "/resume ",
-          "pastedContents": {}
-        },
-        {
-          "display": "test the command make sure it works",
-          "pastedContents": {}
-        },
-        {
-          "display": "it won't let you cd into that directory but it'll let you run the command from any directory",
-          "pastedContents": {}
-        },
-        {
-          "display": "no no, the symlink is deleted before some of those steps. i mean it thinking it hasn't modified the files because they don't show up in git status for the worktree but show up for the main repo instead",
-          "pastedContents": {}
-        },
-        {
-          "display": "given that cli_tools is a symlink tracked by the main git repo, does anything else in either modes conflict? there's some instruction about checking git status etc",
-          "pastedContents": {}
-        },
-        {
-          "display": "also add this explanation in the plan step",
-          "pastedContents": {}
-        },
-        {
-          "display": "in the verify-plan step in dev mode, make sure if creating a cli tool, setup global cli tools script is the second last task",
-          "pastedContents": {}
-        },
-        {
-          "display": "alright setup karabiner-elements and let's modify F1, F2, F3 etc. let F1 to F11 pick the appropriate tmux window. let F12 create a new tmux window.",
-          "pastedContents": {}
-        },
-        {
-          "display": "sorry i mean it needs to commit to the main repo, not the worktree",
-          "pastedContents": {}
-        },
-        {
-          "display": "for cli tools, since we've created a symlink to cli_tools, it commits to the main git repo at ~/PersonalAgents. update @cli_tools/workflow-cli/workflows/dev-mode.yaml and @cli_tools/workflow-cli/workflows/task-mode.yaml so they know this. add only one line.",
-          "pastedContents": {}
-        },
-        {
-          "display": "workflow-cli --project e2e-test --mode task --step 1 --task \"End-to-end test of spawn-cli\" --spawned",
-          "pastedContents": {}
-        },
-        {
-          "display": "is there a tool on mac that can send that key combination with one key press? ",
-          "pastedContents": {}
-        },
-        {
-          "display": "update @docs/tmux-claude-logging-migration.md with these instructions",
-          "pastedContents": {}
-        },
-        {
-          "display": "it needs to send the enter key as a separate command to tmux afterai-monitor: run workflow-cli --remind-rules --project spawn-cli-20250102 --mode dev",
-          "pastedContents": {}
-        },
-        {
-          "display": "go ahead and make the change for 1 at the global level",
-          "pastedContents": {}
-        },
-        {
-          "display": "seems like the terminal inside vs code is intercepting it for some reason. is there any way around that? search the web",
-          "pastedContents": {}
-        },
-        {
-          "display": "tmux list-keys",
-          "pastedContents": {}
-        },
-        {
-          "display": "doesn't seem to work. i'm on mac. search the web",
-          "pastedContents": {}
-        },
-        {
-          "display": "in tmux how do i switch to a different window and start a new window? what are the keyboard commands",
-          "pastedContents": {}
-        },
-        {
-          "display": "delete the unnecessary spawn scripts except that one",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "workflow-cli --project spawn-cli --mode dev --step 1 --task 'Convert the spawn-workflow-with-task.sh script into a proper CLI tool that can spawn workflows in separate tmux windows' --spawned",
-          "pastedContents": {}
-        },
-        {
-          "display": "spawn dev mode to convert the spawning script into a cli tool",
           "pastedContents": {}
         }
       ],

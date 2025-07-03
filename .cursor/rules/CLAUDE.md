@@ -41,6 +41,7 @@ Never use sleep > 119 seconds
 ```bash
 workflow-cli --start-ai-monitor     # start monitor (auto-detects everything)
 workflow-cli --stop-ai-monitor      # stop monitor (auto-detects project)
+workflow-cli --stop-all-ai-monitors # stop all running AI monitors
 ```
 
 AI Monitor auto-starts with workflows and sends "ai-monitor:" prefixed guidance for violations.

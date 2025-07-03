@@ -453,19 +453,21 @@ Check your todo list. If tasks remain, continue working. If all done, use --next
             return {"error": f"AI Monitor CLI not found at {ai_monitor_cli}"}
         
         # Get current tmux session and window
-        tmux_session = os.environ.get('TMUX_PANE')
-        if tmux_session:
+        tmux_pane = os.environ.get('TMUX_PANE')
+        if tmux_pane:
             # We're in tmux, get the CURRENT session and window name (after any renaming)
             try:
+                # CRITICAL FIX: Use -t flag to specify the pane context
+                # This ensures we get the correct window name for spawned workflows
                 # Get current session name (this will be the renamed name if session was renamed)
-                result = subprocess.run(['tmux', 'display-message', '-p', '#S'], 
+                result = subprocess.run(['tmux', 'display-message', '-t', tmux_pane, '-p', '#S'], 
                                      capture_output=True, text=True)
                 if result.returncode != 0:
                     return {"error": "Could not get tmux session name"}
                 tmux_session_name = result.stdout.strip()
                 
-                # Get window name
-                result = subprocess.run(['tmux', 'display-message', '-p', '#W'], 
+                # Get window name from the correct pane context
+                result = subprocess.run(['tmux', 'display-message', '-t', tmux_pane, '-p', '#W'], 
                                      capture_output=True, text=True)
                 if result.returncode == 0:
                     tmux_window_name = result.stdout.strip()
@@ -560,6 +562,48 @@ Check your todo list. If tasks remain, continue working. If all done, use --next
         except Exception as e:
             return {"error": f"Failed to stop AI Monitor: {str(e)}"}
     
+    def stop_all_ai_monitors(self) -> Dict:
+        """Stop all running AI monitors"""
+        import os
+        import signal
+        
+        stopped_monitors = []
+        errors = []
+        
+        # Find all PID files
+        pid_files = list(self.state_file.parent.glob('ai_monitor_pid_*.txt'))
+        
+        if not pid_files:
+            return {"message": "No AI monitors are running", "stopped": []}
+        
+        for pid_file in pid_files:
+            # Extract project name from filename
+            project = pid_file.stem.replace('ai_monitor_pid_', '')
+            
+            try:
+                with open(pid_file, 'r') as f:
+                    pid = int(f.read().strip())
+                
+                # Try to kill the process
+                try:
+                    os.kill(pid, signal.SIGTERM)
+                    stopped_monitors.append({"project": project, "pid": pid, "status": "stopped"})
+                except ProcessLookupError:
+                    # Process already dead
+                    stopped_monitors.append({"project": project, "pid": pid, "status": "already_stopped"})
+                
+                # Remove PID file
+                pid_file.unlink()
+                
+            except Exception as e:
+                errors.append({"project": project, "error": str(e)})
+        
+        return {
+            "message": f"Stopped {len(stopped_monitors)} AI monitor(s)",
+            "stopped": stopped_monitors,
+            "errors": errors if errors else None
+        }
+    
     def get_ai_monitor_status(self, project: str) -> Dict:
         """Get AI Monitor status for the project"""
         import os
@@ -614,6 +658,8 @@ def main():
                        help='Start AI Monitor monitoring for this project')
     parser.add_argument('--stop-ai-monitor', action='store_true',
                        help='Stop AI Monitor monitoring for this project')
+    parser.add_argument('--stop-all-ai-monitors', action='store_true',
+                       help='Stop all running AI Monitors')
     parser.add_argument('--no-auto-monitor', action='store_true',
                        help='Disable automatic AI Monitor startup (default: enabled)')
     parser.add_argument('--set-step', type=int, help='Jump to specific step')
@@ -674,6 +720,9 @@ def main():
     elif args.stop_ai_monitor:
         # Auto-detect project from current state
         result = manager.stop_ai_monitor()
+    elif args.stop_all_ai_monitors:
+        # Stop all running AI monitors
+        result = manager.stop_all_ai_monitors()
     elif args.sub_task_next or args.remind_rules:
         # Handle sub-task-next and remind-rules commands (they're identical)
         if args.workflow:
