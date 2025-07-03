@@ -52,6 +52,18 @@
       "allowedTools": [],
       "history": [
         {
+          "display": "run the stop all monitors command on loop with sleep 60",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
+        {
+          "display": "run --remind-rules",
+          "pastedContents": {}
+        },
+        {
           "display": "/exit ",
           "pastedContents": {}
         },
@@ -443,18 +455,6 @@
         },
         {
           "display": "test it",
-          "pastedContents": {}
-        },
-        {
-          "display": "no even the running monitor sent json as guidance",
-          "pastedContents": {}
-        },
-        {
-          "display": "it seems like the response from ai-monitor-cli is all json. why?",
-          "pastedContents": {}
-        },
-        {
-          "display": "see /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/cli_tools/ai-monitor-cli/logs/gemini/gemini-sample-cli-20250702-2025-07-02T20-33-03-664Z.json",
           "pastedContents": {}
         }
       ],

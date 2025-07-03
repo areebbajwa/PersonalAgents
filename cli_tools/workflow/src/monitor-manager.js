@@ -1,0 +1,200 @@
+import { spawn } from 'child_process';
+import fs from 'fs/promises';
+import path from 'path';
+import os from 'os';
+import chalk from 'chalk';
+import StateManager from './state-manager.js';
+
+export class MonitorManager {
+  constructor() {
+    this.stateManager = new StateManager();
+    this.monitors = new Map(); // project -> monitor process
+    this.logsDir = path.join(os.homedir(), 'PersonalAgents', 'cli_tools', 'workflow', 'logs');
+  }
+
+  async ensureLogsDir() {
+    await fs.mkdir(this.logsDir, { recursive: true });
+  }
+
+  async startMonitor(project, options = {}) {
+    // Check if monitor already running
+    if (this.monitors.has(project)) {
+      console.log(chalk.yellow(`Monitor already running for project: ${project}`));
+      return;
+    }
+
+    const state = await this.stateManager.loadState(project);
+    if (!state) {
+      throw new Error(`No workflow found for project: ${project}`);
+    }
+
+    await this.ensureLogsDir();
+
+    // Create monitor process
+    const monitorProcess = spawn('node', [
+      path.join(os.homedir(), 'PersonalAgents', 'cli_tools', 'workflow', 'src', 'monitor-worker.js'),
+      project,
+      state.workflow.tmuxSession || '',
+      state.workflow.tmuxWindow || ''
+    ], {
+      detached: true,
+      stdio: ['ignore', 'pipe', 'pipe']
+    });
+
+    // Log monitor output
+    const logFile = path.join(this.logsDir, `monitor-${project}-${Date.now()}.log`);
+    const logStream = await fs.open(logFile, 'w');
+    
+    monitorProcess.stdout.on('data', async (data) => {
+      await logStream.write(data);
+    });
+    
+    monitorProcess.stderr.on('data', async (data) => {
+      await logStream.write(data);
+    });
+
+    // Update state with monitor info
+    await this.stateManager.updateState(project, {
+      monitor: {
+        enabled: true,
+        pid: monitorProcess.pid,
+        lastCheck: new Date().toISOString(),
+        remindInterval: options.remindInterval || 600000 // 10 minutes default
+      }
+    });
+
+    this.monitors.set(project, monitorProcess);
+    
+    console.log(chalk.green(`✓ AI Monitor started for project: ${project}`));
+    console.log(chalk.gray(`PID: ${monitorProcess.pid}`));
+    console.log(chalk.gray(`Logs: ${logFile}`));
+
+    // Don't wait for process to exit
+    monitorProcess.unref();
+  }
+
+  async stopMonitor(project) {
+    const state = await this.stateManager.loadState(project);
+    
+    // Stop running process
+    const monitor = this.monitors.get(project);
+    if (monitor) {
+      try {
+        process.kill(monitor.pid, 'SIGTERM');
+        this.monitors.delete(project);
+      } catch (error) {
+        // Process might already be dead
+      }
+    }
+
+    // Also try PID from state
+    if (state?.monitor?.pid) {
+      try {
+        process.kill(state.monitor.pid, 'SIGTERM');
+      } catch (error) {
+        // Process might already be dead
+      }
+    }
+
+    // Update state
+    if (state) {
+      await this.stateManager.updateState(project, {
+        monitor: {
+          enabled: false,
+          pid: null,
+          lastCheck: new Date().toISOString()
+        }
+      });
+    }
+
+    console.log(chalk.yellow(`Stopped AI Monitor for project: ${project}`));
+  }
+
+  async stopAllMonitors() {
+    const states = await this.stateManager.listStates();
+    
+    for (const state of states) {
+      if (state.monitor?.enabled) {
+        await this.stopMonitor(state.project);
+      }
+    }
+    
+    console.log(chalk.green('✓ All AI Monitors stopped'));
+  }
+
+  async getMonitorStatus() {
+    const states = await this.stateManager.listStates();
+    const statuses = [];
+    
+    for (const state of states) {
+      if (state.monitor?.enabled) {
+        // Check if process is actually running
+        let isRunning = false;
+        if (state.monitor.pid) {
+          try {
+            process.kill(state.monitor.pid, 0); // Signal 0 just checks if process exists
+            isRunning = true;
+          } catch (error) {
+            isRunning = false;
+          }
+        }
+
+        statuses.push({
+          project: state.project,
+          pid: state.monitor.pid,
+          isRunning,
+          lastCheck: state.monitor.lastCheck,
+          remindInterval: state.monitor.remindInterval
+        });
+      }
+    }
+    
+    return statuses;
+  }
+
+  async displayStatus() {
+    const statuses = await this.getMonitorStatus();
+    
+    if (statuses.length === 0) {
+      console.log(chalk.yellow('No AI Monitors running'));
+      return;
+    }
+
+    console.log(chalk.cyan('\nAI Monitor Status:\n'));
+    
+    for (const status of statuses) {
+      const statusIcon = status.isRunning ? '🟢' : '🔴';
+      const lastCheckAgo = Math.floor((Date.now() - new Date(status.lastCheck).getTime()) / 1000 / 60);
+      
+      console.log(`${statusIcon} ${chalk.bold(status.project)}`);
+      console.log(`   PID: ${status.pid || 'N/A'} | Running: ${status.isRunning ? 'Yes' : 'No'}`);
+      console.log(`   Last Check: ${lastCheckAgo} minutes ago`);
+      console.log(`   Remind Interval: ${status.remindInterval / 60000} minutes`);
+      console.log();
+    }
+  }
+
+  async cleanupStalePids() {
+    const states = await this.stateManager.listStates();
+    
+    for (const state of states) {
+      if (state.monitor?.pid) {
+        try {
+          process.kill(state.monitor.pid, 0);
+        } catch (error) {
+          // Process is dead, clean up state
+          await this.stateManager.updateState(state.project, {
+            monitor: {
+              ...state.monitor,
+              enabled: false,
+              pid: null
+            }
+          });
+          console.log(chalk.gray(`Cleaned up stale monitor PID for: ${state.project}`));
+        }
+      }
+    }
+  }
+}
+
+export default MonitorManager;

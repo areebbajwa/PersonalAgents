@@ -4,10 +4,12 @@ import os from 'os';
 import { execSync } from 'child_process';
 import chalk from 'chalk';
 import StateManager from './state-manager.js';
+import MonitorManager from './monitor-manager.js';
 
 export class WorkflowEngine {
   constructor() {
     this.stateManager = new StateManager();
+    this.monitorManager = new MonitorManager();
     this.workflowsDir = path.join(os.homedir(), 'PersonalAgents', 'cli_tools', 'workflow-cli', 'workflows');
   }
 
@@ -34,6 +36,15 @@ export class WorkflowEngine {
 
     // Execute first step
     await this.executeStep(project, 1);
+    
+    // Auto-start AI monitor
+    if (mode === 'dev' && !options.noMonitor) {
+      try {
+        await this.monitorManager.startMonitor(project);
+      } catch (error) {
+        console.error(chalk.yellow('Failed to start AI monitor:'), error.message);
+      }
+    }
     
     return state;
   }
@@ -277,15 +288,8 @@ export class WorkflowEngine {
       throw new Error(`No workflow found for project: ${project}`);
     }
 
-    // Stop AI monitor if running
-    if (state.monitor?.pid) {
-      try {
-        process.kill(state.monitor.pid, 'SIGTERM');
-        console.log(chalk.yellow(`Stopped AI monitor for project: ${project}`));
-      } catch (error) {
-        // Process already dead
-      }
-    }
+    // Stop AI monitor
+    await this.monitorManager.stopMonitor(project);
 
     // Delete state
     await this.stateManager.deleteState(project);

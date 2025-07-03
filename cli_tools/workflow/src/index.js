@@ -5,10 +5,12 @@ import chalk from 'chalk';
 import WorkflowEngine from './workflow-engine.js';
 import SpawnManager from './spawn-manager.js';
 import StateManager from './state-manager.js';
+import MonitorManager from './monitor-manager.js';
 
 const workflowEngine = new WorkflowEngine();
 const spawnManager = new SpawnManager();
 const stateManager = new StateManager();
+const monitorManager = new MonitorManager();
 
 program
   .name('workflow')
@@ -164,8 +166,17 @@ monitor
   .description('Start AI monitor for a project')
   .action(async (project) => {
     try {
-      console.log(chalk.yellow('AI Monitor integration coming in Phase 4'));
-      // TODO: Implement in Phase 4
+      if (!project) {
+        // Start for all active workflows
+        const states = await stateManager.listStates();
+        for (const state of states) {
+          if (state.mode === 'dev' && !state.monitor?.enabled) {
+            await monitorManager.startMonitor(state.project);
+          }
+        }
+      } else {
+        await monitorManager.startMonitor(project);
+      }
     } catch (error) {
       console.error(chalk.red('Error:'), error.message);
       process.exit(1);
@@ -177,8 +188,11 @@ monitor
   .description('Stop AI monitor for a project')
   .action(async (project) => {
     try {
-      console.log(chalk.yellow('AI Monitor integration coming in Phase 4'));
-      // TODO: Implement in Phase 4
+      if (!project) {
+        await monitorManager.stopAllMonitors();
+      } else {
+        await monitorManager.stopMonitor(project);
+      }
     } catch (error) {
       console.error(chalk.red('Error:'), error.message);
       process.exit(1);
@@ -190,8 +204,7 @@ monitor
   .description('Show AI monitor status')
   .action(async () => {
     try {
-      console.log(chalk.yellow('AI Monitor integration coming in Phase 4'));
-      // TODO: Implement in Phase 4
+      await monitorManager.displayStatus();
     } catch (error) {
       console.error(chalk.red('Error:'), error.message);
       process.exit(1);
