@@ -440,8 +440,8 @@ global_rules:
         - ✅ Always prefer improving existing tools over creating workarounds
         - ✅ Create new general-purpose tools when needed - don't avoid it
         - ✅ Tools should solve problems properly, not with band-aids
-      - Example: Building a web scraper (main task) but need a PDF parser? `spawn-cli spawn pdf-parser dev "create CLI tool to parse PDFs"`
-      - Example: Creating an API client (main task) but need a data validator? `spawn-cli spawn data-validator dev "create validation tool"`
+      - Example: Building a web scraper (main task) but need a PDF parser? `workflow spawn pdf-parser dev "create CLI tool to parse PDFs"`
+      - Example: Creating an API client (main task) but need a data validator? `workflow spawn data-validator dev "create validation tool"`
       - This ensures proper isolation and allows parallel development of secondary tools
       - The spawned workflow will handle all setup, testing, and global installation
       
