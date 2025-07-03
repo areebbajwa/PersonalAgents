@@ -70,29 +70,29 @@ export function parseSelector(selector) {
         }
     }
 
-    // Handle chained selectors (>>)
-    if (selector.includes(' >> ')) {
-        return parseChainedSelector(selector);
-    }
-
     // Check for visibility/state filters at the end
     let visibilityFilter = '';
     let cleanSelector = selector;
     
     if (selector.endsWith(':visible')) {
-        visibilityFilter = '[not(@hidden) and not(@style="display: none;")]';
+        visibilityFilter = 'not(@hidden) and not(@style="display: none;")';
         cleanSelector = selector.slice(0, -8); // Remove ':visible'
     } else if (selector.endsWith(':enabled')) {
-        visibilityFilter = '[not(@disabled)]';
+        visibilityFilter = 'not(@disabled)';
         cleanSelector = selector.slice(0, -8); // Remove ':enabled'
     }
 
-    // Check for nth selector
+    // Check for nth selector BEFORE checking for chained selectors
     let nthIndex = null;
     const nthMatch = cleanSelector.match(/(.+?)\s*>>\s*nth=(\d+)$/);
     if (nthMatch) {
         cleanSelector = nthMatch[1];
         nthIndex = parseInt(nthMatch[2]) + 1; // Convert to 1-based index for XPath
+    }
+
+    // Handle chained selectors (>>) - but not nth selectors
+    if (selector.includes(' >> ') && !selector.match(/>>\s*nth=\d+$/)) {
+        return parseChainedSelector(selector);
     }
 
     // Parse Playwright selector types
@@ -162,7 +162,7 @@ export function parseSelector(selector) {
     if (visibilityFilter) {
         // Need to insert before the closing bracket, handling proper syntax
         const lastBracket = xpath.lastIndexOf(']');
-        xpath = xpath.substring(0, lastBracket) + ' and ' + visibilityFilter.slice(1) + xpath.substring(lastBracket);
+        xpath = xpath.substring(0, lastBracket) + ' and ' + visibilityFilter + xpath.substring(lastBracket);
     }
 
     // Apply nth index if present
