@@ -104,11 +104,11 @@ async function runTests() {
     console.log('To test with a real browser, run these commands:');
     console.log('');
     console.log('  # Navigate to a test page');
-    console.log('  selenium-cli navigate https://example.com');
+    console.log('  browser-cli navigate https://example.com');
     console.log('');
     console.log('  # Test Playwright selectors');
-    console.log('  selenium-cli click "text:More information..."');
-    console.log('  selenium-cli screenshot');
+    console.log('  browser-cli click "text:More information..."');
+    console.log('  browser-cli screenshot');
     console.log('');
     
     console.log(`\n========================================`);

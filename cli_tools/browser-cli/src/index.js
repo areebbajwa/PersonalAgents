@@ -107,51 +107,51 @@ function parseSelectorInput(input) {
 
 // Main program setup
 program
-    .name('selenium-cli')
-    .description('Command-line tool for browser automation with MCP-compatible commands')
+    .name('browser-cli')
+    .description('Command-line tool for browser automation with Selenium & Playwright selectors')
     .version('1.0.0')
     .addHelpText('after', `
 Examples:
   # Basic browser automation
-  $ selenium-cli navigate https://example.com
-  $ selenium-cli screenshot
-  $ selenium-cli close
+  $ browser-cli navigate https://example.com
+  $ browser-cli screenshot
+  $ browser-cli close
 
   # Element interaction with Selenium selectors
-  $ selenium-cli click "css=.submit-button"
-  $ selenium-cli type "id=username" "john@example.com"
-  $ selenium-cli text "xpath=//h1[@class='title']"
+  $ browser-cli click "css=.submit-button"
+  $ browser-cli type "id=username" "john@example.com"
+  $ browser-cli text "xpath=//h1[@class='title']"
   
   # Playwright-style selectors
-  $ selenium-cli click "text:Login"
-  $ selenium-cli type "placeholder:Email" "john@example.com"
-  $ selenium-cli click "role:button"
+  $ browser-cli click "text:Login"
+  $ browser-cli type "placeholder:Email" "john@example.com"
+  $ browser-cli click "role:button"
 
   # Show interactive elements after actions
-  $ selenium-cli navigate https://example.com --show-elements
-  $ selenium-cli click "id=submit" --show-elements
-  $ selenium-cli type "id=search" "query" --show-elements
+  $ browser-cli navigate https://example.com --show-elements
+  $ browser-cli click "id=submit" --show-elements
+  $ browser-cli type "id=search" "query" --show-elements
 
   # Advanced interactions
-  $ selenium-cli hover "css=.menu-item"
-  $ selenium-cli double-click "css=.file"
-  $ selenium-cli right-click "id=context-menu"
-  $ selenium-cli key Enter
-  $ selenium-cli upload "id=file-input" "/path/to/file.pdf"
+  $ browser-cli hover "css=.menu-item"
+  $ browser-cli double-click "css=.file"
+  $ browser-cli right-click "id=context-menu"
+  $ browser-cli key Enter
+  $ browser-cli upload "id=file-input" "/path/to/file.pdf"
   
   # Wait commands
-  $ selenium-cli wait "id=loading" --timeout 20000
-  $ selenium-cli wait "css=.modal" --visible
-  $ selenium-cli wait "xpath=//button[@disabled]" --present
+  $ browser-cli wait "id=loading" --timeout 20000
+  $ browser-cli wait "css=.modal" --visible
+  $ browser-cli wait "xpath=//button[@disabled]" --present
   
   # Input field operations
-  $ selenium-cli clear "id=search-box"
+  $ browser-cli clear "id=search-box"
 
   # Session management
-  $ selenium-cli session create my-session
-  $ selenium-cli session send my-session navigate https://example.com
-  $ selenium-cli session list
-  $ selenium-cli session close my-session
+  $ browser-cli session create my-session
+  $ browser-cli session send my-session navigate https://example.com
+  $ browser-cli session list
+  $ browser-cli session close my-session
 
 Selenium locator formats:
   - id=element-id
@@ -184,7 +184,7 @@ New: Element Discovery
   interactive elements on the page. Returns element details including:
   tag, text, id, class, href, and CSS selectors.
   
-Note: By default, selenium-cli uses your existing Firefox profile to maintain
+Note: By default, browser-cli uses your existing Firefox profile to maintain
 logged-in sessions. Use --no-profile flag with launch command to use a clean profile.
 `);
 
@@ -255,7 +255,7 @@ session
             );
             
             console.log(chalk.green('Browser launched in session'));
-            console.log(chalk.gray(`Use 'selenium-cli session send ${name} <command>' to control the browser`));
+            console.log(chalk.gray(`Use 'browser-cli session send ${name} <command>' to control the browser`));
             exitAfterCommand();
         } catch (error) {
             spinner.fail(chalk.red(`Failed to create session: ${error.message}`));

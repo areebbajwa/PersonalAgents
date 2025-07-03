@@ -1,18 +1,22 @@
 {
-  "name": "selenium-cli",
+  "name": "browser-cli",
   "version": "1.0.0",
-  "description": "Command-line tool for browser automation using Selenium WebDriver",
+  "description": "Command-line tool for browser automation with Selenium & Playwright selectors",
   "type": "module",
   "main": "src/index.js",
+  "bin": {
+    "browser-cli": "./src/index.js"
+  },
   "scripts": {
     "test": "node src/test.js"
   },
   "keywords": [
-    "selenium",
-    "webdriver",
     "browser",
     "automation",
-    "cli"
+    "cli",
+    "selenium",
+    "playwright",
+    "webdriver"
   ],
   "author": "",
   "license": "MIT",

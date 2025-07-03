@@ -24,7 +24,7 @@
     "vscode-command-install": 123
   },
   "memoryUsageCount": 3,
-  "promptQueueUseCount": 209,
+  "promptQueueUseCount": 211,
   "mcpServers": {},
   "userID": "96200396462dc1a54dcd7bf4ed2806506483ec7ffab4ccd45f138f1896711cd6",
   "fallbackAvailableWarningThreshold": 0.5,
@@ -51,6 +51,18 @@
     "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents": {
       "allowedTools": [],
       "history": [
+        {
+          "display": "cli_tools should be served from the symlink ~/PersonalAgents",
+          "pastedContents": {}
+        },
+        {
+          "display": "double check both yaml files again and make sure nothing outdated is left",
+          "pastedContents": {}
+        },
+        {
+          "display": "maybe selenium-cli is not a good name for this anymore. let's call it browser-cli and update all references",
+          "pastedContents": {}
+        },
         {
           "display": "keep only the essential files and then commit and push",
           "pastedContents": {}
@@ -437,18 +449,6 @@
         },
         {
           "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "no leave selenium alone",
-          "pastedContents": {}
-        },
-        {
-          "display": "get rid of interactive mode from any of the cli tools. i think screenshot-cli has a special interactive mode. start devmode with this task.",
           "pastedContents": {}
         }
       ],

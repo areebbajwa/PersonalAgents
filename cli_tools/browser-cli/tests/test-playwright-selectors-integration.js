@@ -116,7 +116,7 @@ async function runTests() {
             // Since we can't actually click without a browser,
             // we'll just verify the command doesn't fail with selector parsing
             // In real tests, this would interact with a test page
-            console.log(`    Command: selenium-cli ${cmd.join(' ')}`);
+            console.log(`    Command: browser-cli ${cmd.join(' ')}`);
         });
     }
     
@@ -129,7 +129,7 @@ async function runTests() {
         ];
         
         for (const cmd of cmds) {
-            console.log(`    Command: selenium-cli ${cmd.join(' ')}`);
+            console.log(`    Command: browser-cli ${cmd.join(' ')}`);
         }
     });
     

@@ -4,7 +4,7 @@
 
 set -e
 
-echo "Testing selenium-cli --show-elements flag..."
+echo "Testing browser-cli --show-elements flag..."
 
 # Use the local version
 CLI="node src/index.js"

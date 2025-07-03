@@ -30,7 +30,7 @@ async function ensureSessionServer() {
     console.log('Starting session server...');
     
     // Use absolute path to session server in main repo
-    const serverPath = path.join(MAIN_REPO_PATH, 'cli_tools', 'selenium-cli', 'session-server.mjs');
+    const serverPath = path.join(MAIN_REPO_PATH, 'cli_tools', 'browser-cli', 'session-server.mjs');
     
     // Check if session server exists
     try {
@@ -141,9 +141,9 @@ async function main() {
     
     // Show help if no arguments or help requested
     if (!command || command === 'help' || command === '-h' || command === '--help') {
-        console.log('Selenium CLI - Browser automation tool');
+        console.log('Browser CLI - Browser automation tool with Selenium & Playwright selectors');
         console.log('');
-        console.log('Usage: selenium-cli <command> [options]');
+        console.log('Usage: browser-cli <command> [options]');
         console.log('');
         console.log('Commands:');
         console.log('  navigate <url>              - Navigate to URL');
@@ -154,7 +154,7 @@ async function main() {
         console.log('  status                      - Check browser status');
         console.log('  close                       - Close browser');
         console.log('');
-        console.log('Selectors:');
+        console.log('Selenium Selectors:');
         console.log('  css=.class                  - CSS selector');
         console.log('  id=element-id               - ID selector');
         console.log('  xpath=//div[@class="x"]     - XPath selector');
@@ -162,11 +162,21 @@ async function main() {
         console.log('  class=class-name            - Class name');
         console.log('  tag=div                     - Tag name');
         console.log('');
+        console.log('Playwright Selectors:');
+        console.log('  text:Login                  - Exact text match');
+        console.log('  text*:Add to                - Partial text match');
+        console.log('  role:button                 - ARIA role');
+        console.log('  placeholder:Email           - Placeholder attribute');
+        console.log('  alt:Logo                    - Alt attribute');
+        console.log('  title:Help                  - Title attribute');
+        console.log('  data-testid:submit          - Data test ID');
+        console.log('');
         console.log('Examples:');
-        console.log('  selenium-cli navigate https://example.com');
-        console.log('  selenium-cli click "css=button.submit"');
-        console.log('  selenium-cli type "id=search" "hello world"');
-        console.log('  selenium-cli screenshot');
+        console.log('  browser-cli navigate https://example.com');
+        console.log('  browser-cli click "text:Login"');
+        console.log('  browser-cli click "css=button.submit"');
+        console.log('  browser-cli type "placeholder:Email" "user@example.com"');
+        console.log('  browser-cli screenshot');
         return;
     }
     
