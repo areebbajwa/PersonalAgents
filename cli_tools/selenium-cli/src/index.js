@@ -90,14 +90,19 @@ function displayActionResult(result, options = {}) {
 
 // Helper function to parse selectors with Playwright support
 function parseSelectorInput(input) {
-    // First apply Playwright selector parsing
-    const parsedSelector = parseSelector(input);
-    
-    // Then split into strategy and value
-    const [strategy, ...valueParts] = parsedSelector.split('=');
-    const value = valueParts.join('=');
-    
-    return { strategy, value };
+    try {
+        // First apply Playwright selector parsing
+        const parsedSelector = parseSelector(input);
+        
+        // Then split into strategy and value
+        const [strategy, ...valueParts] = parsedSelector.split('=');
+        const value = valueParts.join('=');
+        
+        return { strategy, value };
+    } catch (error) {
+        // Re-throw with enhanced error message for CLI
+        throw new Error(`Invalid selector "${input}": ${error.message}. Try Playwright selectors like text:Login, role:button, or css=.selector`);
+    }
 }
 
 // Main program setup
@@ -460,28 +465,33 @@ program
     .option('-t, --timeout <ms>', 'Timeout in milliseconds', '10000')
     .option('-e, --show-elements', 'Show interactive elements on the page after clicking')
     .action(async (locator, options) => {
-        const { strategy: by, value } = parseSelectorInput(locator);
-        
-        if (!by || !value) {
-            console.error(chalk.red('Invalid locator format. Use: strategy=value (e.g., id=submit-button) or Playwright selectors (e.g., text:Login)'));
-            process.exit(1);
-        }
-        
-        const spinner = ora(`Clicking element: ${locator}`).start();
+        console.log(`DEBUG START: Entering click action with locator="${locator}"`);
         try {
-            const result = await defaultSession.sendToDefaultSession({
-                action: 'click',
-                by,
-                value,
-                timeout: parseInt(options.timeout)
-            });
-            spinner.succeed(chalk.green('Click successful'));
-            displayActionResult(result, { showElements: options.showElements });
-            exitAfterCommand();
+            console.log(`DEBUG: About to call parseSelectorInput`);
+            const parsed = parseSelectorInput(locator);
+            const { strategy: by, value } = parsed;
+            console.log(`DEBUG: locator="${locator}", parsed=${JSON.stringify(parsed)}`);
+            
+            const spinner = ora(`Clicking element: ${locator}`).start();
+            try {
+                const result = await defaultSession.sendToDefaultSession({
+                    action: 'click',
+                    by,
+                    value,
+                    timeout: parseInt(options.timeout)
+                });
+                spinner.succeed(chalk.green('Click successful'));
+                displayActionResult(result, { showElements: options.showElements });
+                exitAfterCommand();
+            } catch (error) {
+                spinner.fail(chalk.red(`Failed to click: ${error.message}`));
+                if (error.screenshot) console.log(chalk.gray(`Error screenshot: ${error.screenshot}`));
+                if (error.html) console.log(chalk.gray(`Error HTML: ${error.html}`));
+                process.exit(1);
+            }
         } catch (error) {
-            spinner.fail(chalk.red(`Failed to click: ${error.message}`));
-            if (error.screenshot) console.log(chalk.gray(`Error screenshot: ${error.screenshot}`));
-            if (error.html) console.log(chalk.gray(`Error HTML: ${error.html}`));
+            // Handle selector parsing errors
+            console.error(chalk.red(error.message));
             process.exit(1);
         }
     });

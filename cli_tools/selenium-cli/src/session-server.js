@@ -212,6 +212,7 @@ const server = http.createServer(async (req, res) => {
                         
                     case 'click':
                         await ensureBrowserLaunched();
+                        console.log(`SESSION DEBUG: click command - by="${command.by}", value="${command.value}"`);
                         result = await browserManager.clickElement(command.by, command.value, command.timeout);
                         // Take screenshot
                         const clickScreenshot = screenshotManager.getScreenshotPath(

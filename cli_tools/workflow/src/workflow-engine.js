@@ -143,12 +143,34 @@ export class WorkflowEngine {
     
     console.log(chalk.yellow('\n=== WORKFLOW RULES REMINDER ===\n'));
     
-    if (workflow.principles) {
-      console.log(chalk.cyan('### Core Principles'));
-      workflow.principles.forEach((principle, index) => {
-        console.log(`${index + 1}. ${principle}`);
+    // Display all global rules
+    if (workflow.global_rules && Array.isArray(workflow.global_rules)) {
+      workflow.global_rules.forEach(rule => {
+        console.log(chalk.cyan(`### ${rule.title}`));
+        console.log(rule.content);
+        console.log();
       });
     }
+    
+    // Display emergency procedures
+    if (workflow.emergency_procedures && Array.isArray(workflow.emergency_procedures)) {
+      console.log(chalk.red('\n=== EMERGENCY PROCEDURES ===\n'));
+      workflow.emergency_procedures.forEach(proc => {
+        console.log(chalk.red(`**${proc.title}**`));
+        if (proc.commands) {
+          proc.commands.forEach(cmd => {
+            console.log(`  ${cmd}`);
+          });
+        }
+        console.log();
+      });
+    }
+    
+    // Display task completion reminder
+    console.log(chalk.blue('\n=== TASK COMPLETION REMINDER ===\n'));
+    console.log('📝 **--sub-task-next**: After completing ONE todo task');
+    console.log('📋 **--next**: After completing ALL todos in current step');
+    console.log('\nCheck your todo list. If tasks remain, continue working. If all done, use --next.');
 
     console.log(chalk.gray(`\nCurrent step: ${state.currentStep}`));
     console.log(chalk.gray(`Mode: ${state.mode}`));
@@ -167,7 +189,10 @@ export class WorkflowEngine {
         description: workflowData.description,
         principles: workflowData.principles || [],
         steps: {},
-        emergency: workflowData.emergency
+        emergency: workflowData.emergency,
+        global_rules: workflowData.global_rules || [],
+        emergency_procedures: workflowData.emergency_procedures || [],
+        quick_reference: workflowData.quick_reference || {}
       };
       
       // Convert steps array to numbered object

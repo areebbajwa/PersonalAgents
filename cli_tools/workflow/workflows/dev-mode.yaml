@@ -16,7 +16,7 @@ steps:
       
       **⚠️ IMPORTANT: DO NOT start implementation yet. This is the planning phase.**
       
-      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+      **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
 
   - number: 2
@@ -36,7 +36,7 @@ steps:
                       commands:
                         - "cd worktrees/[project-name]"
                     - action: "Continue with existing work from current state"
-                    - next: "Run workflow-cli --project [project-name] --next"
+                    - next: "Run workflow continue [project-name]"
                 - if_worktree_not_exists:
                     - action: "Recreate worktree for continuing work:"
                       commands:
@@ -47,13 +47,13 @@ steps:
                         - "ln -s ~/PersonalAgents/cli_tools cli_tools"  # Symlink to main cli_tools
                         - "ln -s ~/PersonalAgents/todos todos"  # Symlink to main todos
                     - action: "Continue with existing work from todo"
-                    - next: "Run workflow-cli --project [project-name] --next"
+                    - next: "Run workflow continue [project-name]"
         - if_not_exists:
             - check_worktree:
                 - action: "Check if already in a worktree (path contains /worktrees/)"
                 - if_in_worktree:
                     - action: "Use existing worktree (created by yolo command)"
-                    - next: "Run workflow-cli --project [project-name] --next"
+                    - next: "Run workflow continue [project-name]"
                 - if_not_in_worktree:
                     - action: "Create new git worktree:"
                       commands:
@@ -65,10 +65,10 @@ steps:
                         - "ln -s ~/PersonalAgents/todos todos"  # Symlink to main todos
                         - "git push -u origin [project-name]-YYYYMMDD"
                     - action: "Note: cli_tools and todos are symlinked to main repo for centralized changes"
-                    - next: "Run workflow-cli --project [project-name] --next"
+                    - next: "Run workflow continue [project-name]"
       ```
       
-      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+      **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
 
   - number: 3
@@ -91,7 +91,7 @@ steps:
       7. Look for common patterns and pitfalls
       8. Check for batch operation support in APIs
       
-      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+      **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
 
   - number: 4
@@ -134,7 +134,7 @@ steps:
          - What's the minimum testing that ensures requirements are met?
          - Can I write one comprehensive test instead of many small ones?
       
-      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+      **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
 
   - number: 5
@@ -161,18 +161,18 @@ steps:
       ```
       
       **CREATE INCREMENTAL PLAN:**
-      **Note:** After each test passes, you MUST run `workflow-cli --project [project-name] --sub-task-next`
+      **Note:** After each test passes, you MUST run `workflow sub-task-next [project-name]`
       
       1. Build feature A
       2. Write E2E test for A
       3. TEST GATE: Run test - MUST PASS
-      4. Mark test passed: `workflow-cli --project [project-name] --sub-task-next`
+      4. Mark test passed: `workflow sub-task-next [project-name]`
       5. Commit with test status: `git commit -m "feat: add X - tests: 5/5 passed"`
       6. For CLI tools: Also commit in main repo: `git -C ~/PersonalAgents add cli_tools/[tool-name] && git -C ~/PersonalAgents commit -m "feat: add [tool-name] CLI tool"`
       7. Only then: Build feature B
       8. Write E2E test for B
       9. TEST GATE: Run test - MUST PASS
-      10. Mark test passed: `workflow-cli --project [project-name] --sub-task-next`
+      10. Mark test passed: `workflow sub-task-next [project-name]`
       11. Commit with test status
       
       **TODO FILE MANAGEMENT:**
@@ -188,10 +188,10 @@ steps:
             - "## Tasks (with timestamps and status icons)"
             - "## Notes (with breakthrough markers)"
         - if_cli_tool: "🕒 Run ./scripts/setup-global-cli-tools.sh"  # Second last task
-        - final_task: "🕒 Run workflow-cli --project [project-name] --next"
+        - final_task: "🕒 Run workflow continue [project-name]"
       ```
       
-      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+      **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
 
   - number: 6
@@ -202,7 +202,7 @@ steps:
       
       Check each TEST GATE in your todo file has these 3 elements:
       1. ✅ Test execution step
-      2. ✅ `workflow-cli --project [project-name] --sub-task-next` command
+      2. ✅ `workflow sub-task-next [project-name]` command
       3. ✅ Commit with test count
       
       If any `--sub-task-next` commands are missing after test gates, go back and add them now.
@@ -214,9 +214,9 @@ steps:
          - ✅ Would other AI agents find this useful?
          - ✅ Will this be used across different tasks?
          - ❌ If task-specific, create a script in scripts/ instead
-      2. If creating or updating a CLI tool, ensure `./scripts/setup-global-cli-tools.sh` is the second last task (before final `workflow-cli --next`).
+      2. If creating or updating a CLI tool, ensure `./scripts/setup-global-cli-tools.sh` is the second last task (before final `workflow continue [project-name]`).
       
-      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+      **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
 
   - number: 7
@@ -230,7 +230,7 @@ steps:
       2. Write one logical unit of functionality
       3. Write E2E test for that functionality
       4. Run test and verify it passes
-      5. After test passes → `workflow-cli --project [project-name] --sub-task-next`
+      5. After test passes → `workflow sub-task-next [project-name]`
       6. Update todo file with progress and timestamps
       7. ONLY if passed → Move to next feature
       
@@ -280,7 +280,7 @@ steps:
          ```
       4. This ensures any new cookies/logins are preserved for future sessions
       
-      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+      **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
 
   - number: 9
@@ -302,14 +302,14 @@ steps:
         - if_all_met:
             - action: "Update todo file with final status"
             - action: "Final commit and push"
-            - next: "Run workflow-cli --project [project-name] --next"
+            - next: "Run workflow continue [project-name]"
         - if_not_met:
             - action: "Update todo list with missing requirements"
             - action: "Jump back to implementation step"
-            - command: "workflow-cli --project [project-name] --set-step implement"
+            - command: "workflow set-step [project-name] implement"
       ```
       
-      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+      **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
 
   - number: 10
@@ -332,7 +332,7 @@ steps:
       7. If created a CLI tool: `./scripts/setup-global-cli-tools.sh`
       8. Note: CLI tools are symlinked - changes commit to main repo at ~/PersonalAgents, not the worktree
       
-      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+      **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
 
   - number: 11
@@ -341,7 +341,7 @@ steps:
     content: |
       Final cleanup step:
       
-      1. Clean project state: `workflow-cli --project [project-name] --clean`
+      1. Clean project state: `workflow kill [project-name]`
       2. Discard symlink changes and remove worktree:
          ```
          pwd  # Note current directory for cleanup
@@ -392,7 +392,7 @@ global_rules:
         - action: "Add new requirement to Non-Negotiable User Requirements section of current todo file"
         - action: "Save the updated todo file"
         - action: "Jump to 'plan' step (step 5)"
-        - command: "workflow-cli --project [project-name] --set-step 5"
+        - command: "workflow set-step [project-name] 5"
         - reason: "The 'plan' step will re-evaluate the plan with the new requirements"
       ```
 
@@ -486,11 +486,11 @@ global_rules:
 
 quick_reference:
   essential_commands:
-    - "workflow-cli --project [name] --mode dev --step 1"
-    - "workflow-cli --project [name] --next"
-    - "workflow-cli --project [name] --sub-task-next"
-    - "workflow-cli --project [name] --remind-rules"
-    - "workflow-cli --project [name] --clean"
+    - "workflow start [name] dev 'task description'"
+    - "workflow continue [name]"
+    - "workflow sub-task-next [name]"
+    - "workflow remind-rules [name]"
+    - "workflow kill [name]"
 
 emergency_procedures:
   - title: "Rollback"

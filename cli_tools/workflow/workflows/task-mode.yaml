@@ -42,7 +42,7 @@ steps:
          git push -u origin [project-name]-YYYYMMDD
          ```
       
-      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+      **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
 
   - number: 2
@@ -69,7 +69,7 @@ steps:
       
       **IMPORTANT:** Only use context that's directly relevant to the current task. Don't mix in unrelated information.
       
-      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+      **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
 
   - number: 3
@@ -108,13 +108,13 @@ steps:
       🕒 Extract transactions from all PDFs
       🕒 Categorize expenses and merge into single report
       🕒 Save to data/finance/2024-summary.csv
-      🕒 Run workflow-cli --project [project-name] --next
+      🕒 Run workflow continue [project-name]
       
       ## Notes
       🔥 BREAKTHROUGH [14:20]: Found statements are in consistent PDF format, can batch process
       ```
       
-      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+      **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
 
   - number: 4
@@ -141,7 +141,7 @@ steps:
       
       **Call --next ONLY when entire todo list is completed**
       
-      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+      **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
 
   - number: 5
@@ -154,7 +154,7 @@ steps:
       4. Remove unneeded test artifacts
       5. Verify only necessary files remain
       
-      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+      **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
 
   - number: 6
@@ -173,13 +173,13 @@ steps:
       
       **Final Verification:**
       1. **REVIEW NON-NEGOTIABLES:** Check todo file's "Non-Negotiable User Requirements" section - ensure ALL requirements are met
-      2. If any requirements not met: update todo list and `workflow-cli --project [project-name] --step 4`
+      2. If any requirements not met: update todo list and `workflow set-step [project-name] 4`
       3. Verify all tasks completed successfully
       4. Update todo file with final status
       5. Move TODO file to `todos/completed/`
       6. Final commit and push
       
-      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+      **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
 
   - number: 7
@@ -199,7 +199,7 @@ steps:
       5. `git branch -d [task-branch]`
       6. `git push origin --delete [task-branch]`
       
-      **Next Step:** Run `workflow-cli --project [project-name] --next` to continue
+      **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
 
   - number: 8
@@ -207,7 +207,7 @@ steps:
     content: |
       Final cleanup step:
       
-      1. Clean project state: `workflow-cli --project [project-name] --clean`
+      1. Clean project state: `workflow kill [project-name]`
       2. Remove worktree AND folder:
          ```
          pwd  # Note current directory for cleanup
@@ -309,5 +309,5 @@ global_rules:
 
 quick_reference:
   essential_commands:
-    - "workflow-cli --project [name] --next"
-    - "workflow-cli --project [name] --clean"
+    - "workflow continue [name]"
+    - "workflow kill [name]"
