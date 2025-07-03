@@ -8,7 +8,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const CLI_PATH = path.join(__dirname, '..', 'selenium-cli');
+const CLI_PATH = path.join(__dirname, '..', 'browser-cli');
 
 // Set test mode
 process.env.SELENIUM_CLI_TEST = 'true';
@@ -171,7 +171,7 @@ async function testCloseSessions() {
 
 // Run all tests
 async function runAllTests() {
-    console.log(chalk.blue('Running selenium-cli session tests...\n'));
+    console.log(chalk.blue('Running browser-cli session tests...\n'));
     
     await runTest('Create session', testCreateSession);
     await runTest('List sessions', testListSessions);

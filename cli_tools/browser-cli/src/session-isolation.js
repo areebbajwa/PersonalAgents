@@ -4,7 +4,7 @@ import path from 'path';
 
 // Generate unique session ID for this process
 export function generateSessionId() {
-    return `selenium-cli-${process.pid}-${crypto.randomBytes(4).toString('hex')}`;
+    return `browser-cli-${process.pid}-${crypto.randomBytes(4).toString('hex')}`;
 }
 
 // Get isolated temp directory for this session

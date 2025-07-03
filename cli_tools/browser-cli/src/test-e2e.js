@@ -9,7 +9,7 @@ import { promises as fs } from 'fs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const CLI_PATH = path.join(__dirname, '..', 'selenium-cli');
+const CLI_PATH = path.join(__dirname, '..', 'browser-cli');
 
 // Set test mode
 process.env.SELENIUM_CLI_TEST = 'true';
@@ -150,7 +150,7 @@ async function testBrowserClose() {
 
 // Run all E2E tests
 async function runAllTests() {
-    console.log(chalk.blue('Running selenium-cli E2E tests...\n'));
+    console.log(chalk.blue('Running browser-cli E2E tests...\n'));
     
     await runTest('Browser launch and status', testBrowserLaunch);
     await runTest('Navigation', testNavigation);

@@ -9,7 +9,7 @@ import { promises as fs } from 'fs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const CLI_PATH = path.join(__dirname, '..', 'selenium-cli');
+const CLI_PATH = path.join(__dirname, '..', 'browser-cli');
 
 // Set test mode
 process.env.SELENIUM_CLI_TEST = 'true';
@@ -80,13 +80,13 @@ function runBatchInBackground(batchFile, id) {
 
 // Main test
 async function testMultipleInstances() {
-    console.log(chalk.blue('Testing multiple selenium-cli instances...\n'));
+    console.log(chalk.blue('Testing multiple browser-cli instances...\n'));
     
     // Create batch files
     await createBatchFiles();
     
     // Start 3 instances simultaneously
-    console.log(chalk.yellow('Starting 3 selenium-cli instances simultaneously...'));
+    console.log(chalk.yellow('Starting 3 browser-cli instances simultaneously...'));
     
     const promises = [
         runBatchInBackground('/tmp/batch1.txt', 'Instance1'),

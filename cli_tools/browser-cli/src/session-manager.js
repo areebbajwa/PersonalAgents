@@ -3,7 +3,7 @@ import path from 'path';
 import os from 'os';
 
 // Session file for maintaining state between CLI calls
-const SESSION_FILE = path.join(os.tmpdir(), 'selenium-cli-session.json');
+const SESSION_FILE = path.join(os.tmpdir(), 'browser-cli-session.json');
 
 export async function saveSession(sessionData) {
     try {

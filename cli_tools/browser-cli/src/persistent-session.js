@@ -4,7 +4,7 @@ import os from 'os';
 import http from 'http';
 import { spawn } from 'child_process';
 
-const SESSION_DIR = path.join(os.homedir(), '.selenium-cli-sessions');
+const SESSION_DIR = path.join(os.homedir(), '.browser-cli-sessions');
 
 // Ensure session directory exists
 export async function ensureSessionDir() {
@@ -123,9 +123,9 @@ export async function sendCommandToSession(sessionInfo, command) {
         req.on('error', (error) => {
             // Better error messages for common socket issues
             if (error.code === 'ECONNRESET' || error.code === 'EPIPE') {
-                reject(new Error('Browser session lost. Please restart with: selenium-cli close && selenium-cli launch'));
+                reject(new Error('Browser session lost. Please restart with: browser-cli close && browser-cli launch'));
             } else if (error.code === 'ECONNREFUSED') {
-                reject(new Error('Session server not running. Please restart with: selenium-cli launch'));
+                reject(new Error('Session server not running. Please restart with: browser-cli launch'));
             } else {
                 reject(error);
             }

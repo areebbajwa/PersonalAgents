@@ -8,7 +8,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const CLI_PATH = path.join(__dirname, '..', 'selenium-cli');
+const CLI_PATH = path.join(__dirname, '..', 'browser-cli');
 
 // Set test mode environment variable
 process.env.SELENIUM_CLI_TEST = 'true';
@@ -73,7 +73,7 @@ async function testHelpFlag() {
     if (result.code !== 0) {
         throw new Error(`Expected exit code 0, got ${result.code}`);
     }
-    if (!result.stdout.includes('selenium-cli')) {
+    if (!result.stdout.includes('browser-cli')) {
         throw new Error('Help output should include tool name');
     }
     if (!result.stdout.includes('Commands:')) {
@@ -85,7 +85,7 @@ async function testHelpFlag() {
 async function testNoArgsShowsHelp() {
     const result = await runCommand([]);
     // No arguments should show help (exit code might be 0 or 1 depending on implementation)
-    if (!result.stdout.includes('selenium-cli') && !result.stderr.includes('selenium-cli')) {
+    if (!result.stdout.includes('browser-cli') && !result.stderr.includes('browser-cli')) {
         throw new Error('Should show help when no arguments provided');
     }
 }
@@ -122,7 +122,7 @@ async function testInvalidCommand() {
 
 // Run all tests
 async function runAllTests() {
-    console.log(chalk.blue('Running selenium-cli tests...\n'));
+    console.log(chalk.blue('Running browser-cli tests...\n'));
     
     await runTest('Help flag', testHelpFlag);
     await runTest('No arguments shows help', testNoArgsShowsHelp);

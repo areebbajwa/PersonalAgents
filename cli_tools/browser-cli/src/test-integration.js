@@ -9,7 +9,7 @@ import { promises as fs } from 'fs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const CLI_PATH = path.join(__dirname, '..', 'selenium-cli');
+const CLI_PATH = path.join(__dirname, '..', 'browser-cli');
 
 // Set test mode
 process.env.SELENIUM_CLI_TEST = 'true';
@@ -72,7 +72,7 @@ function runCommand(args, timeout = 30000) {
 async function testBasicCLI() {
     // Help
     const helpResult = await runCommand(['--help']);
-    if (!helpResult.stdout.includes('selenium-cli') || !helpResult.stdout.includes('Commands:')) {
+    if (!helpResult.stdout.includes('browser-cli') || !helpResult.stdout.includes('Commands:')) {
         throw new Error('Help output missing expected content');
     }
     
@@ -158,7 +158,7 @@ async function testErrorHandling() {
 
 // Run all tests
 async function runAllTests() {
-    console.log(chalk.blue('Running selenium-cli integration tests...\n'));
+    console.log(chalk.blue('Running browser-cli integration tests...\n'));
     
     await runTest('Basic CLI functionality', testBasicCLI);
     await runTest('Single command execution', testSingleCommands);

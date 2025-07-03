@@ -24,7 +24,7 @@
     "vscode-command-install": 123
   },
   "memoryUsageCount": 3,
-  "promptQueueUseCount": 211,
+  "promptQueueUseCount": 213,
   "mcpServers": {},
   "userID": "96200396462dc1a54dcd7bf4ed2806506483ec7ffab4ccd45f138f1896711cd6",
   "fallbackAvailableWarningThreshold": 0.5,
@@ -51,6 +51,10 @@
     "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents": {
       "allowedTools": [],
       "history": [
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
         {
           "display": "cli_tools should be served from the symlink ~/PersonalAgents",
           "pastedContents": {}
@@ -446,10 +450,6 @@
         {
           "display": "kill all tmux sessions",
           "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
         }
       ],
       "mcpContextUris": [],
@@ -469,16 +469,16 @@
       ],
       "exampleFilesGeneratedAt": 1751493253029,
       "lastTotalWebSearchRequests": 0,
-      "lastCost": 5.539068899999998,
-      "lastAPIDuration": 380647,
-      "lastDuration": 8887957,
-      "lastLinesAdded": 165,
-      "lastLinesRemoved": 0,
-      "lastTotalInputTokens": 8239,
-      "lastTotalOutputTokens": 11331,
-      "lastTotalCacheCreationInputTokens": 131080,
-      "lastTotalCacheReadInputTokens": 1496181,
-      "lastSessionId": "e4c882fd-00f2-46c3-8ef3-94a61beb532c"
+      "lastCost": 11.058814450000002,
+      "lastAPIDuration": 1165985,
+      "lastDuration": 14546795,
+      "lastLinesAdded": 117,
+      "lastLinesRemoved": 2,
+      "lastTotalInputTokens": 112905,
+      "lastTotalOutputTokens": 16796,
+      "lastTotalCacheCreationInputTokens": 301593,
+      "lastTotalCacheReadInputTokens": 2874567,
+      "lastSessionId": "7e62c383-355d-4094-ae7e-5b831d9421b5"
     },
     "/Volumes/ExtremeSSD/TheNeuron/TheNeuron": {
       "allowedTools": [],

@@ -6,7 +6,7 @@ import path from 'path';
 import os from 'os';
 
 const SESSION_SERVER_PORT = 3001;
-const SESSION_PIDFILE = path.join(os.tmpdir(), 'selenium-session.pid');
+const SESSION_PIDFILE = path.join(os.tmpdir(), 'browser-session.pid');
 
 // Use ~/PersonalAgents as per CLI design guide
 const MAIN_REPO_PATH = path.join(os.homedir(), 'PersonalAgents');
@@ -117,7 +117,7 @@ function displayActionResult(result) {
             });
             if (result.htmlDiff.newButtons.length > 20) {
                 console.log(`  ... and ${result.htmlDiff.newButtons.length - 20} more`);
-                console.log(`  (Use 'selenium-cli elements' to see complete list)`);
+                console.log(`  (Use 'browser-cli elements' to see complete list)`);
             }
         }
         
@@ -185,7 +185,7 @@ async function main() {
             case 'navigate': {
                 const url = args[1];
                 if (!url) {
-                    console.error('Usage: selenium-cli navigate <url>');
+                    console.error('Usage: browser-cli navigate <url>');
                     process.exit(1);
                 }
                 console.log(`Navigating to ${url}...`);
@@ -206,7 +206,7 @@ async function main() {
             case 'click': {
                 const selector = args[1];
                 if (!selector) {
-                    console.error('Usage: selenium-cli click <selector>');
+                    console.error('Usage: browser-cli click <selector>');
                     process.exit(1);
                 }
                 console.log(`Clicking ${selector}...`);
@@ -228,7 +228,7 @@ async function main() {
                 const selector = args[1];
                 const text = args.slice(2).join(' ');
                 if (!selector || !text) {
-                    console.error('Usage: selenium-cli type <selector> <text>');
+                    console.error('Usage: browser-cli type <selector> <text>');
                     process.exit(1);
                 }
                 console.log(`Typing "${text}" into ${selector}...`);
@@ -321,7 +321,7 @@ async function main() {
                 
             default:
                 console.error(`Unknown command: ${command}`);
-                console.error('Run "selenium-cli --help" for usage');
+                console.error('Run "browser-cli --help" for usage');
                 process.exit(1);
         }
     } catch (error) {
