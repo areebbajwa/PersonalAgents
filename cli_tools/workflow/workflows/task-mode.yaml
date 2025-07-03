@@ -262,11 +262,11 @@ global_rules:
       
   - title: "Spawning Workflows"
     content: |
-      - Use spawn-cli to create independent workflows in separate tmux windows
-      - Spawn a dev workflow: `spawn-cli spawn project-name dev "task description"`
-      - Spawn a task workflow: `spawn-cli spawn project-name task "task description"`
-      - List active workflows: `spawn-cli list`
-      - Kill a workflow: `spawn-cli kill project-name`
+      - Use workflow to create independent workflows in separate tmux windows
+      - Spawn a dev workflow: `workflow spawn project-name dev "task description"`
+      - Spawn a task workflow: `workflow spawn project-name task "task description"`
+      - List active workflows: `workflow list`
+      - Kill a workflow: `workflow kill project-name`
       - Spawned workflows run independently and auto-close when complete
       - Use this when you need parallel execution or to delegate subtasks
       
@@ -281,7 +281,7 @@ global_rules:
         - ✅ First check if an existing tool can be used or improved
         - ✅ If no existing tool fits, CREATE the new general-purpose tool
         - ❌ DO NOT avoid creating tools by doing workarounds
-        - ✅ Need PDF extraction for many tasks? `spawn-cli spawn pdf-extractor dev "create general PDF extraction CLI"`
+        - ✅ Need PDF extraction for many tasks? `workflow spawn pdf-extractor dev "create general PDF extraction CLI"`
         - ❌ Need to process Company X invoices? Just create a script
       - Example in todo: `🕒 Create script to process bank statements: scripts/parse-bank-statements.py`
       - Ask yourself: "Will I use this again for different tasks?" If yes, make it a CLI tool
@@ -300,11 +300,11 @@ global_rules:
         - ✅ Always prefer improving existing tools over creating workarounds
         - ✅ Create new general-purpose tools when needed - don't avoid it
         - ✅ Tools should solve problems properly, not with band-aids
-      - For new CLI tools: spawn new agent with dev mode workflow using spawn-cli
-      - Example: `spawn-cli spawn invoice-cli dev "create invoice-cli tool for generating PDF invoices"`
-      - Example todo task: `- 🕒 Create invoice-cli tool: spawn-cli spawn invoice-cli dev "create invoice CLI tool"`
-      - Check spawned workflows: `spawn-cli list`
-      - Kill if needed: `spawn-cli kill invoice-cli`
+      - For new CLI tools: spawn new agent with dev mode workflow using workflow
+      - Example: `workflow spawn invoice-cli dev "create invoice-cli tool for generating PDF invoices"`
+      - Example todo task: `- 🕒 Create invoice-cli tool: workflow spawn invoice-cli dev "create invoice CLI tool"`
+      - Check spawned workflows: `workflow list`
+      - Kill if needed: `workflow kill invoice-cli`
       - Note: CLI tools are symlinked - changes commit to main repo at ~/PersonalAgents, not the worktree
 
 quick_reference:

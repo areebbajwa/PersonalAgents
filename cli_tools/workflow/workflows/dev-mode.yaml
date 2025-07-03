@@ -424,11 +424,11 @@ global_rules:
       
   - title: "Spawning Workflows"
     content: |
-      - Use spawn-cli to create independent workflows in separate tmux windows
-      - Spawn a dev workflow: `spawn-cli spawn project-name dev "task description"`
-      - Spawn a task workflow: `spawn-cli spawn project-name task "task description"`
-      - List active workflows: `spawn-cli list`
-      - Kill a workflow: `spawn-cli kill project-name`
+      - Use workflow spawn to create independent workflows in separate tmux windows
+      - Spawn a dev workflow: `workflow spawn project-name dev "task description"`
+      - Spawn a task workflow: `workflow spawn project-name task "task description"`
+      - List active workflows: `workflow list`
+      - Kill a workflow: `workflow kill project-name`
       - Spawned workflows run independently and auto-close when complete
       
   - title: "Creating New Tools"
