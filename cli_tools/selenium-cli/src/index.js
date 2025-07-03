@@ -7,6 +7,7 @@ import * as browserManager from './browser-manager.js';
 import * as screenshotManager from './screenshot-manager.js';
 import * as persistentSession from './persistent-session.js';
 import * as defaultSession from './default-session.js';
+import { parseSelector } from './playwright-selector-parser.js';
 import { spawn } from 'child_process';
 import { fileURLToPath } from 'url';
 import path from 'path';
@@ -87,6 +88,18 @@ function displayActionResult(result, options = {}) {
     }
 }
 
+// Helper function to parse selectors with Playwright support
+function parseSelectorInput(input) {
+    // First apply Playwright selector parsing
+    const parsedSelector = parseSelector(input);
+    
+    // Then split into strategy and value
+    const [strategy, ...valueParts] = parsedSelector.split('=');
+    const value = valueParts.join('=');
+    
+    return { strategy, value };
+}
+
 // Main program setup
 program
     .name('selenium-cli')
@@ -99,10 +112,15 @@ Examples:
   $ selenium-cli screenshot
   $ selenium-cli close
 
-  # Element interaction
+  # Element interaction with Selenium selectors
   $ selenium-cli click "css=.submit-button"
   $ selenium-cli type "id=username" "john@example.com"
   $ selenium-cli text "xpath=//h1[@class='title']"
+  
+  # Playwright-style selectors
+  $ selenium-cli click "text:Login"
+  $ selenium-cli type "placeholder:Email" "john@example.com"
+  $ selenium-cli click "role:button"
 
   # Show interactive elements after actions
   $ selenium-cli navigate https://example.com --show-elements
@@ -130,13 +148,22 @@ Examples:
   $ selenium-cli session list
   $ selenium-cli session close my-session
 
-Locator format: strategy=value
+Selenium locator formats:
   - id=element-id
   - css=.selector
   - xpath=//xpath/expression
   - name=element-name
   - tag=tagname
   - class=classname
+
+Playwright locator formats:
+  - text:Exact Text         (exact text match)
+  - text*:Partial           (partial text match)
+  - role:button             (ARIA role)
+  - placeholder:Email       (placeholder attribute)
+  - alt:Logo                (alt attribute)
+  - title:Help              (title attribute)
+  - data-testid:submit      (data-testid attribute)
 
 Features:
   - Firefox browser automation
@@ -261,13 +288,13 @@ session
                 case 'hover':
                 case 'double-click':
                 case 'right-click':
-                    const [by, value] = args[0].split('=');
+                    const { strategy: by, value } = parseSelectorInput(args[0]);
                     cmd.by = by;
                     cmd.value = value;
                     break;
                     
                 case 'type':
-                    const [typeBy, typeValue] = args[0].split('=');
+                    const { strategy: typeBy, value: typeValue } = parseSelectorInput(args[0]);
                     cmd.by = typeBy;
                     cmd.value = typeValue;
                     cmd.text = args.slice(1).join(' ');
@@ -282,7 +309,7 @@ session
                     break;
                     
                 case 'upload':
-                    const [uploadBy, uploadValue] = args[0].split('=');
+                    const { strategy: uploadBy, value: uploadValue } = parseSelectorInput(args[0]);
                     cmd.by = uploadBy;
                     cmd.value = uploadValue;
                     cmd.filePath = args[1];
@@ -429,15 +456,14 @@ program
 // Click command
 program
     .command('click <locator>')
-    .description('Click an element (format: strategy=value, e.g., id=submit-button)')
+    .description('Click an element (Selenium: id=button, css=.btn | Playwright: text:Login, role:button)')
     .option('-t, --timeout <ms>', 'Timeout in milliseconds', '10000')
     .option('-e, --show-elements', 'Show interactive elements on the page after clicking')
     .action(async (locator, options) => {
-        const [by, ...valueParts] = locator.split('=');
-        const value = valueParts.join('=');
+        const { strategy: by, value } = parseSelectorInput(locator);
         
         if (!by || !value) {
-            console.error(chalk.red('Invalid locator format. Use: strategy=value (e.g., id=submit-button)'));
+            console.error(chalk.red('Invalid locator format. Use: strategy=value (e.g., id=submit-button) or Playwright selectors (e.g., text:Login)'));
             process.exit(1);
         }
         
@@ -463,17 +489,16 @@ program
 // Type command
 program
     .command('type <locator> <text>')
-    .description('Type text into an element')
+    .description('Type text into an element (Selenium: id=input | Playwright: placeholder:Email)')
     .option('-t, --timeout <ms>', 'Timeout in milliseconds', '10000')
     .option('--no-clear', 'Do not clear the field before typing')
     .option('--enter', 'Press Enter after typing')
     .option('-e, --show-elements', 'Show interactive elements on the page after typing')
     .action(async (locator, text, options) => {
-        const [by, ...valueParts] = locator.split('=');
-        const value = valueParts.join('=');
+        const { strategy: by, value } = parseSelectorInput(locator);
         
         if (!by || !value) {
-            console.error(chalk.red('Invalid locator format. Use: strategy=value (e.g., id=username)'));
+            console.error(chalk.red('Invalid locator format. Use: strategy=value (e.g., id=username) or Playwright selectors'));
             process.exit(1);
         }
         
@@ -505,11 +530,10 @@ program
     .description('Get text from an element')
     .option('-t, --timeout <ms>', 'Timeout in milliseconds', '10000')
     .action(async (locator, options) => {
-        const [by, ...valueParts] = locator.split('=');
-        const value = valueParts.join('=');
+        const { strategy: by, value } = parseSelectorInput(locator);
         
         if (!by || !value) {
-            console.error(chalk.red('Invalid locator format. Use: strategy=value (e.g., class=message)'));
+            console.error(chalk.red('Invalid locator format. Use: strategy=value (e.g., class=message) or Playwright selectors'));
             process.exit(1);
         }
         
@@ -602,11 +626,10 @@ program
     .description('Hover over an element')
     .option('-t, --timeout <ms>', 'Timeout in milliseconds', '10000')
     .action(async (locator, options) => {
-        const [by, ...valueParts] = locator.split('=');
-        const value = valueParts.join('=');
+        const { strategy: by, value } = parseSelectorInput(locator);
         
         if (!by || !value) {
-            console.error(chalk.red('Invalid locator format. Use: strategy=value'));
+            console.error(chalk.red('Invalid locator format. Use: strategy=value or Playwright selectors'));
             process.exit(1);
         }
         
@@ -633,11 +656,10 @@ program
     .description('Double-click an element')
     .option('-t, --timeout <ms>', 'Timeout in milliseconds', '10000')
     .action(async (locator, options) => {
-        const [by, ...valueParts] = locator.split('=');
-        const value = valueParts.join('=');
+        const { strategy: by, value } = parseSelectorInput(locator);
         
         if (!by || !value) {
-            console.error(chalk.red('Invalid locator format. Use: strategy=value'));
+            console.error(chalk.red('Invalid locator format. Use: strategy=value or Playwright selectors'));
             process.exit(1);
         }
         
@@ -664,11 +686,10 @@ program
     .description('Right-click an element')
     .option('-t, --timeout <ms>', 'Timeout in milliseconds', '10000')
     .action(async (locator, options) => {
-        const [by, ...valueParts] = locator.split('=');
-        const value = valueParts.join('=');
+        const { strategy: by, value } = parseSelectorInput(locator);
         
         if (!by || !value) {
-            console.error(chalk.red('Invalid locator format. Use: strategy=value'));
+            console.error(chalk.red('Invalid locator format. Use: strategy=value or Playwright selectors'));
             process.exit(1);
         }
         
@@ -695,11 +716,10 @@ program
     .description('Upload a file to a file input element')
     .option('-t, --timeout <ms>', 'Timeout in milliseconds', '10000')
     .action(async (locator, filePath, options) => {
-        const [by, ...valueParts] = locator.split('=');
-        const value = valueParts.join('=');
+        const { strategy: by, value } = parseSelectorInput(locator);
         
         if (!by || !value) {
-            console.error(chalk.red('Invalid locator format. Use: strategy=value'));
+            console.error(chalk.red('Invalid locator format. Use: strategy=value or Playwright selectors'));
             process.exit(1);
         }
         
@@ -728,11 +748,10 @@ program
     .option('--visible', 'Wait only for visibility (not clickability)')
     .option('--present', 'Wait only for presence (not visibility)')
     .action(async (locator, options) => {
-        const [by, ...valueParts] = locator.split('=');
-        const value = valueParts.join('=');
+        const { strategy: by, value } = parseSelectorInput(locator);
         
         if (!by || !value) {
-            console.error(chalk.red('Invalid locator format. Use: strategy=value (e.g., id=submit-button)'));
+            console.error(chalk.red('Invalid locator format. Use: strategy=value (e.g., id=submit-button) or Playwright selectors'));
             process.exit(1);
         }
         
@@ -763,11 +782,10 @@ program
     .description('Clear an input field')
     .option('-t, --timeout <ms>', 'Timeout in milliseconds', '10000')
     .action(async (locator, options) => {
-        const [by, ...valueParts] = locator.split('=');
-        const value = valueParts.join('=');
+        const { strategy: by, value } = parseSelectorInput(locator);
         
         if (!by || !value) {
-            console.error(chalk.red('Invalid locator format. Use: strategy=value (e.g., id=username)'));
+            console.error(chalk.red('Invalid locator format. Use: strategy=value (e.g., id=username) or Playwright selectors'));
             process.exit(1);
         }
         
