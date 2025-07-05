@@ -1,5 +1,5 @@
 {
-  "numStartups": 166,
+  "numStartups": 171,
   "installMethod": "local",
   "autoUpdates": true,
   "theme": "dark-ansi",
@@ -17,14 +17,14 @@
     "permissions": 151,
     "drag-and-drop-images": 166,
     "double-esc": 161,
-    "continue": 148,
+    "continue": 169,
     "custom-commands": 146,
     "shift-tab": 151,
     "git-worktrees": 147,
     "vscode-command-install": 123
   },
   "memoryUsageCount": 3,
-  "promptQueueUseCount": 232,
+  "promptQueueUseCount": 233,
   "mcpServers": {},
   "userID": "96200396462dc1a54dcd7bf4ed2806506483ec7ffab4ccd45f138f1896711cd6",
   "fallbackAvailableWarningThreshold": 0.5,
@@ -51,6 +51,46 @@
     "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents": {
       "allowedTools": [],
       "history": [
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "run command: workflow task \"print hello world every 20 seconds for 1 minute\" and follow the instructions",
+          "pastedContents": {}
+        },
+        {
+          "display": "change it to \"run command: ... and follow the instructions\"",
+          "pastedContents": {}
+        },
+        {
+          "display": "run command: workflow task \"print hello world every 30 seconds for 2 minutes\"",
+          "pastedContents": {}
+        },
+        {
+          "display": "i've modified instructions in step 1. kill and start new test workflow",
+          "pastedContents": {}
+        },
+        {
+          "display": "no, fix the root cause",
+          "pastedContents": {}
+        },
+        {
+          "display": "run command: workflow task \"print hello world every 30 seconds for 2 minutes\"",
+          "pastedContents": {}
+        },
+        {
+          "display": "no run command is fine. i think @cursor-rules/CLAUDE.md needs to clearly separate the commands with some code words",
+          "pastedContents": {}
+        },
+        {
+          "display": "run command: workflow task \"print hello world every 30 seconds for 3 minutes\"",
+          "pastedContents": {}
+        },
+        {
+          "display": "updatetodo",
+          "pastedContents": {}
+        },
         {
           "display": "workflow continue hello-test-fixed",
           "pastedContents": {}
@@ -410,46 +450,6 @@
         {
           "display": "do all ",
           "pastedContents": {}
-        },
-        {
-          "display": "does workflow auto-start monitor?",
-          "pastedContents": {}
-        },
-        {
-          "display": "i see steps that still could use decision trees to simplify as there are too many in one step",
-          "pastedContents": {}
-        },
-        {
-          "display": "why not the existing yaml decision tree?",
-          "pastedContents": {}
-        },
-        {
-          "display": "update everything in dev mode and task mode workflow yaml files to decision trees so that the AI doesn't get confused",
-          "pastedContents": {}
-        },
-        {
-          "display": "use terminal find and replace",
-          "pastedContents": {}
-        },
-        {
-          "display": "update references to browser-cli with browser-cli everywhere",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "stop it",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "make sure @scripts/setup-global-cli-tools.sh will work with this",
-          "pastedContents": {}
         }
       ],
       "mcpContextUris": [],
@@ -469,16 +469,16 @@
       ],
       "exampleFilesGeneratedAt": 1751493253029,
       "lastTotalWebSearchRequests": 0,
-      "lastCost": 0.38373009999999996,
-      "lastAPIDuration": 45818,
-      "lastDuration": 211687,
-      "lastLinesAdded": 0,
+      "lastCost": 1.8224464499999997,
+      "lastAPIDuration": 224065,
+      "lastDuration": 182761,
+      "lastLinesAdded": 19,
       "lastLinesRemoved": 0,
-      "lastTotalInputTokens": 3509,
-      "lastTotalOutputTokens": 1093,
-      "lastTotalCacheCreationInputTokens": 8114,
-      "lastTotalCacheReadInputTokens": 104576,
-      "lastSessionId": "da4c847b-edfb-468b-ac8a-867549d74f32"
+      "lastTotalInputTokens": 62000,
+      "lastTotalOutputTokens": 5321,
+      "lastTotalCacheCreationInputTokens": 37187,
+      "lastTotalCacheReadInputTokens": 482856,
+      "lastSessionId": "6598773f-baf1-43d6-bf15-d998eba3851a"
     },
     "/Volumes/ExtremeSSD/TheNeuron/TheNeuron": {
       "allowedTools": [],

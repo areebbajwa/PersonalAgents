@@ -153,7 +153,8 @@ export class SpawnManager {
           
           // Use C-u to clear any existing text, then send the command
           execSync(`tmux send-keys -t ${sessionName} C-u`);
-          execSync(`tmux send-keys -t ${sessionName} 'run command: ${workflowCommand}'`);
+          execSync(`tmux send-keys -t ${sessionName} 'run command: ${workflowCommand} and follow the instructions'`);
+          // Send Enter as a separate command to execute
           execSync(`tmux send-keys -t ${sessionName} Enter`);
           
           console.log(chalk.green(`✓ Workflow command sent to Claude Code`));

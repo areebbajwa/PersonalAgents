@@ -2,11 +2,26 @@
 
 # Workflow Instructions
 
+## IMPORTANT: Command Execution vs Interpretation
+
+### When you see "run command: [command] and follow the instructions"
+This is a DIRECT EXECUTION instruction. Execute the command exactly as given AND follow any workflow instructions that appear:
+- **"run command: workflow task 'description' and follow the instructions"** → Execute `workflow task "description"` directly AND follow the workflow steps
+- **"run command: workflow dev 'description' and follow the instructions"** → Execute `workflow dev "description"` directly AND follow the workflow steps
+- DO NOT spawn a new workflow when you see "run command:"
+- This is used by the spawn system to start workflows inside Claude Code sessions
+- After executing the command, follow the workflow instructions that appear (e.g., run `workflow continue [project]` when instructed)
+
+### When the user gives natural language instructions
+These require interpretation and action:
+- **"spawn taskmode with task: 'description'"** → Spawn with task: `workflow spawn [name] task "description"`
+- **"spawn devmode with task: 'description'"** → Spawn with task: `workflow spawn [name] dev "description"`
+- **"start devmode with task: 'description'"** → Start with task: `workflow start [name] dev "description"`
+- **"start taskmode with task: 'description'"** → Start with task: `workflow start [name] task "description"`
+
 ## Workflow CLI Usage (Unified Commands)
 
 ### Quick Commands
-- **"spawn taskmode with task: 'description'"** → Spawn with task: `workflow spawn [name] task "description"`
-- **"spawn devmode with task: 'description'"** → Spawn with task: `workflow spawn [name] dev "description"`
 - **"updatetodo"** → When user gives new requirements:
   1. Add to Non-Negotiable User Requirements section in todo file. Add to existing requirements, don't replace! Only replace what contradicts new requirements.
   2. Jump to planning: `workflow set-step [name] plan`
