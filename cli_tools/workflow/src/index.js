@@ -147,6 +147,16 @@ program
     try {
       await workflowEngine.recordTestPass(project);
       console.log(chalk.green('Sub-task marked as complete. Continue with next task.'));
+      console.log('');
+      console.log(chalk.blue('=== TASK COMPLETION REMINDER ==='));
+      console.log('');
+      console.log('📝 **sub-task-next**: After completing ONE todo task');
+      console.log('📋 **next**: After completing ALL todos in current step');
+      console.log('');
+      console.log('Check your todo list. If tasks remain, continue working. If all done, use --next.');
+      
+      // Also display workflow rules
+      await workflowEngine.remindRules(project);
     } catch (error) {
       console.error(chalk.red('Error:'), error.message);
       process.exit(1);
@@ -221,45 +231,51 @@ monitor
     }
   });
 
-// Compatibility aliases for migration
+// Direct workflow commands (for use within spawned Claude sessions)
 program
-  .command('--project <project>')
-  .description('Legacy workflow-cli compatibility')
-  .option('--mode <mode>', 'Workflow mode')
-  .option('--step <step>', 'Workflow step')
-  .option('--task <task>', 'Task description')
-  .option('--next', 'Continue to next step')
-  .option('--set-step <step>', 'Set specific step')
-  .option('--sub-task-next', 'Mark sub-task complete')
-  .option('--remind-rules', 'Show rules reminder')
-  .option('--spawned', 'Spawned flag')
-  .action(async (project, options) => {
+  .command('dev <task>')
+  .description('Start dev mode workflow directly (use within spawned sessions)')
+  .option('--no-monitor', 'Disable AI monitor')
+  .action(async (task, options) => {
     try {
-      // Handle legacy workflow-cli commands
-      if (options.next) {
-        await workflowEngine.continue(project);
-      } else if (options.setStep) {
-        await workflowEngine.setStep(project, parseInt(options.setStep));
-      } else if (options.subTaskNext) {
-        await workflowEngine.recordTestPass(project);
-        console.log(chalk.green('Sub-task marked as complete. Continue with next task.'));
-      } else if (options.remindRules) {
-        await workflowEngine.remindRules(project);
-      } else if (options.mode && options.step && options.task) {
-        // Starting a workflow with legacy syntax
-        await workflowEngine.start(project, options.mode, options.task, {
-          spawned: options.spawned
-        });
-      } else {
-        console.log(chalk.yellow('Incomplete legacy command. Use new syntax:'));
-        console.log('  workflow start <project> <mode> <task>');
-        console.log('  workflow next <project>');
-      }
+      // Generate a project name from the task
+      const project = task.toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .substring(0, 30);
+      
+      await workflowEngine.start(project, 'dev', task, {
+        spawned: true,
+        monitor: options.monitor
+      });
     } catch (error) {
       console.error(chalk.red('Error:'), error.message);
       process.exit(1);
     }
   });
+
+program
+  .command('task <task>')
+  .description('Start task mode workflow directly (use within spawned sessions)')
+  .option('--no-monitor', 'Disable AI monitor')
+  .action(async (task, options) => {
+    try {
+      // Generate a project name from the task
+      const project = task.toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .substring(0, 30);
+      
+      await workflowEngine.start(project, 'task', task, {
+        spawned: true,
+        monitor: options.monitor
+      });
+    } catch (error) {
+      console.error(chalk.red('Error:'), error.message);
+      process.exit(1);
+    }
+  });
+
 
 // Parse arguments
 program.parse();

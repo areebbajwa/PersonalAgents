@@ -7,16 +7,21 @@
 ### Quick Commands
 - **"spawn taskmode with task: 'description'"** → Spawn with task: `workflow spawn [name] task "description"`
 - **"spawn devmode with task: 'description'"** → Spawn with task: `workflow spawn [name] dev "description"`
-- **"start taskmode with task: 'description'"** → Start with task: `workflow start [name] task "description"`
-- **"start devmode with task: 'description'"** → Start with task: `workflow start [name] dev "description"`
 - **"updatetodo"** → When user gives new requirements:
-  1. Add to Non-Negotiable User Requirements section in todo file
+  1. Add to Non-Negotiable User Requirements section in todo file. Add to existing requirements, don't replace! Only replace what contradicts new requirements.
   2. Jump to planning: `workflow set-step [name] plan`
+- **"remind rules"** → Display workflow rules and guidelines: `workflow remind-rules [project]`
+
+### Starting Workflows (Within Spawned Sessions)
+```bash
+workflow dev "task description"              # start dev mode workflow
+workflow task "task description"             # start task mode workflow
+```
 
 ### Navigation Commands
 ```bash
-workflow start [name] [dev|task] "task description"  # start new workflow
-workflow start [name] [dev|task] "description" --no-monitor  # start without AI monitor
+workflow spawn [name] [dev|task] "task description"  # spawn new workflow in tmux window
+workflow spawn [name] [dev|task] "description" --no-monitor  # spawn without AI monitor
 workflow next                                        # continue to next step
 workflow set-step [name] [number|name]              # jump to specific step
 workflow sub-task-next                              # mark test passed, continue

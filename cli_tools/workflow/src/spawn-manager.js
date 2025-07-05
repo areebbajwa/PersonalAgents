@@ -51,11 +51,7 @@ export class SpawnManager {
       console.log(chalk.yellow('Not in a git repository, using default branch: main'));
     }
 
-    // Create the workflow command - always use ~/PersonalAgents for cli_tools
-    const workflowPath = path.join(os.homedir(), 'PersonalAgents', 'cli_tools', 'workflow', 'src', 'index.js');
-    const noMonitorFlag = options.monitor === false ? ' --no-monitor' : '';
-    const forceFlag = options.force ? ' --force' : '';
-    const workflowCmd = `node ${workflowPath} start ${project} ${mode} "${task}" --spawned${noMonitorFlag}${forceFlag}`;
+    // Workflow will be started by sending the command to Claude after it launches
     
     // Check if we're already in a tmux session
     const inTmuxSession = process.env.TMUX !== undefined;
@@ -74,10 +70,28 @@ export class SpawnManager {
       '-c', worktree,    // Start directory
     ];
 
-    // Create the shell command as an array for better handling
+    // Create the shell command to launch Claude Code
+    // The workflow will be initiated by sending the command after Claude starts
     const shellCmd = [
-      'bash', '-c',
-      `echo 'Starting workflow for ${project}...' && ${workflowCmd}`
+      'zsh', '-c',
+      `
+      echo '=== Starting Claude Code for ${project} workflow ==='
+      echo 'Task: ${task}'
+      echo ''
+      echo 'Launching Claude Code...'
+      
+      # Export environment for workflow detection
+      export TMUX_WINDOW_NAME="${sessionName}"
+      export SPAWN_WORKFLOW=1
+      
+      # Launch Claude Code
+      /Users/areeb2/.claude/local/claude --dangerously-skip-permissions
+      
+      # After Claude exits, keep shell open
+      echo ''
+      echo 'Claude session ended.'
+      exec zsh
+      `
     ];
 
     console.log(chalk.cyan(`Creating tmux window: ${sessionName}`));
@@ -123,16 +137,30 @@ export class SpawnManager {
         console.warn(chalk.yellow('Could not rename window:'), renameError.message);
       }
       
-      // Create initial state
-      await this.stateManager.createState(project, mode, task, {
-        spawned: true,
-        branch,
-        worktree,
-        tmuxWindow: sessionName,
-        terminal: this.detectTerminal()
-      });
+      // Don't create state here - let the workflow command create it
+      // This prevents the "workflow already exists" error
 
       console.log(chalk.green(`✓ Spawned workflow in tmux window: ${sessionName}`));
+      
+      // Wait for Claude to start and send the workflow command
+      console.log(chalk.cyan('⏳ Waiting for Claude Code to start...'));
+      setTimeout(() => {
+        try {
+          // Send the workflow command to Claude
+          const workflowCommand = `workflow ${mode} "${task}"`;
+          console.log(chalk.cyan(`📤 Sending workflow command: ${workflowCommand}`));
+          
+          // Use C-u to clear any existing text, then send the command
+          execSync(`tmux send-keys -t ${sessionName} C-u`);
+          execSync(`tmux send-keys -t ${sessionName} 'run command: ${workflowCommand}'`);
+          execSync(`tmux send-keys -t ${sessionName} Enter`);
+          
+          console.log(chalk.green(`✓ Workflow command sent to Claude Code`));
+        } catch (error) {
+          console.error(chalk.yellow('Could not send workflow command:'), error.message);
+        }
+      }, 15000); // Wait 15 seconds for Claude to start
+      
       console.log(chalk.cyan(`\nTo switch to the window:`));
       console.log(chalk.white(`  tmux select-window -t ${sessionName}`));
       console.log(chalk.cyan(`\nTo view without switching:`));
@@ -187,29 +215,29 @@ export class SpawnManager {
 
   async listSessions() {
     try {
-      // Get all tmux sessions
-      const output = execSync('tmux list-sessions -F "#{session_name}"', { encoding: 'utf8' });
-      const sessions = output.trim().split('\n').filter(s => s.endsWith('-workflow'));
+      // Get all tmux windows
+      const output = execSync('tmux list-windows -F "#{window_name}"', { encoding: 'utf8' });
+      const windows = output.trim().split('\n').filter(w => w.endsWith('-workflow'));
       
-      if (sessions.length === 0) {
-        console.log(chalk.yellow('No workflow tmux sessions found'));
+      if (windows.length === 0) {
+        console.log(chalk.yellow('No workflow tmux windows found'));
         return;
       }
 
-      console.log(chalk.cyan('\nActive Workflow Sessions:\n'));
+      console.log(chalk.cyan('\nActive Workflow Windows:\n'));
       
-      for (const session of sessions) {
-        const project = session.replace('-workflow', '');
+      for (const window of windows) {
+        const project = window.replace('-workflow', '');
         const state = await this.stateManager.loadState(project);
         
         if (state) {
           const age = Math.floor((Date.now() - new Date(state.createdAt).getTime()) / 1000 / 60);
-          console.log(`• ${chalk.bold(session)}`);
+          console.log(`• ${chalk.bold(window)}`);
           console.log(`  Project: ${project} | Mode: ${state.mode} | Step: ${state.currentStep}`);
           console.log(`  Created: ${age} minutes ago`);
-          console.log(`  Attach: tmux attach -t ${session}`);
+          console.log(`  Switch to: tmux select-window -t ${window}`);
         } else {
-          console.log(`• ${chalk.bold(session)} (no state found)`);
+          console.log(`• ${chalk.bold(window)} (no state found)`);
         }
         console.log();
       }
@@ -217,21 +245,22 @@ export class SpawnManager {
       if (error.message.includes('no server running')) {
         console.log(chalk.yellow('No tmux server running'));
       } else {
-        console.error(chalk.red('Error listing sessions:'), error.message);
+        console.error(chalk.red('Error listing windows:'), error.message);
       }
     }
   }
 
   async killSession(project) {
     const state = await this.stateManager.loadState(project);
-    const sessionName = `${project}-workflow`;
+    const windowName = `${project}-workflow`;
     
-    // Kill tmux session
+    // Kill tmux window (not session)
     try {
-      execSync(`tmux kill-session -t ${sessionName} 2>/dev/null`);
-      console.log(chalk.yellow(`Killed tmux session: ${sessionName}`));
+      execSync(`tmux kill-window -t ${windowName} 2>/dev/null`);
+      console.log(chalk.yellow(`Killed tmux window: ${windowName}`));
     } catch (error) {
-      // Session might not exist
+      // Window might not exist
+      console.log(chalk.gray(`Window ${windowName} not found (may have already closed)`));
     }
 
     // Delete state
