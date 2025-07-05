@@ -541,17 +541,23 @@ class MonitorWorker {
 }
 
 // Start the monitor if run directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Handle both symlinked and real paths
+const normalizedArgv1 = process.argv[1]?.replace('/Users/areeb2/PersonalAgents', '/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents');
+const isMainModule = import.meta.url === `file://${process.argv[1]}` || 
+                     import.meta.url === `file://${normalizedArgv1}`;
+
+if (isMainModule) {
   const [,, project, tmuxSession, tmuxWindow] = process.argv;
   
   if (!project) {
     console.error('Usage: monitor-worker.js <project> [tmuxSession] [tmuxWindow]');
     process.exit(1);
   }
-
+  
   const worker = new MonitorWorker(project, tmuxSession, tmuxWindow);
   worker.run().catch(error => {
     console.error('Fatal error:', error);
+    console.error('Error stack:', error.stack);
     process.exit(1);
   });
 }

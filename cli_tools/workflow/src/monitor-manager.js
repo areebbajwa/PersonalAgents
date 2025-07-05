@@ -1,4 +1,4 @@
-import { spawn } from 'child_process';
+import { spawn, fork } from 'child_process';
 import fs from 'fs/promises';
 import path from 'path';
 import os from 'os';
@@ -30,15 +30,23 @@ export class MonitorManager {
 
     await this.ensureLogsDir();
 
-    // Create monitor process
-    const monitorProcess = spawn('node', [
-      path.join(os.homedir(), 'PersonalAgents', 'cli_tools', 'workflow', 'src', 'monitor-worker.js'),
+    // Use fork for ES modules - it handles module loading properly
+    const monitorWorkerPath = path.join(os.homedir(), 'PersonalAgents', 'cli_tools', 'workflow', 'src', 'monitor-worker.js');
+    
+    const monitorProcess = fork(monitorWorkerPath, [
       project,
       state.workflow.tmuxSession || '',
       state.workflow.tmuxWindow || ''
     ], {
       detached: true,
-      stdio: ['ignore', 'pipe', 'pipe']
+      silent: true, // Use silent to pipe stdout/stderr
+      env: {
+        ...process.env,
+        NODE_PATH: process.env.NODE_PATH || '',
+        PATH: process.env.PATH || '',
+        HOME: process.env.HOME || os.homedir(),
+        GEMINI_API_KEY: process.env.GEMINI_API_KEY || ''
+      }
     });
 
     // Log monitor output
@@ -51,6 +59,17 @@ export class MonitorManager {
     
     monitorProcess.stderr.on('data', async (data) => {
       await logStream.write(data);
+    });
+
+    // Monitor process exit
+    monitorProcess.on('exit', (code, signal) => {
+      console.log(chalk.yellow(`Monitor process exited for ${project} (PID: ${monitorProcess.pid}, code: ${code})`));
+      this.monitors.delete(project);
+      logStream.close();
+    });
+
+    monitorProcess.on('error', (error) => {
+      console.error(chalk.red(`Monitor process error for ${project}:`), error);
     });
 
     // Update state with monitor info

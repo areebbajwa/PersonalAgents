@@ -1,5 +1,5 @@
 {
-  "numStartups": 171,
+  "numStartups": 173,
   "installMethod": "local",
   "autoUpdates": true,
   "theme": "dark-ansi",
@@ -8,13 +8,13 @@
     "new-user-warmup": 5,
     "shift-enter": 158,
     "memory-command": 38,
-    "theme-command": 131,
+    "theme-command": 172,
     "prompt-queue": 44,
     "enter-to-steer-in-relatime": 135,
     "todo-list": 136,
     "# for memory": 160,
     "install-github-app": 164,
-    "permissions": 151,
+    "permissions": 173,
     "drag-and-drop-images": 166,
     "double-esc": 161,
     "continue": 169,
@@ -51,6 +51,22 @@
     "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents": {
       "allowedTools": [],
       "history": [
+        {
+          "display": "run command: workflow task \"test monitor auto-start\" and follow the instructions",
+          "pastedContents": {}
+        },
+        {
+          "display": "run command: workflow task \"print debug test\" and follow the instructions",
+          "pastedContents": {}
+        },
+        {
+          "display": "don't make any blind fixes. add debug logs to get to the root first",
+          "pastedContents": {}
+        },
+        {
+          "display": "fix it",
+          "pastedContents": {}
+        },
         {
           "display": "/exit ",
           "pastedContents": {}
@@ -434,22 +450,6 @@
         {
           "display": "should work with task mode too",
           "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "yea add such a command and update @cursor-rules/CLAUDE.md ",
-          "pastedContents": {}
-        },
-        {
-          "display": "is there a command to start a workflow without the monitor?",
-          "pastedContents": {}
-        },
-        {
-          "display": "do all ",
-          "pastedContents": {}
         }
       ],
       "mcpContextUris": [],
@@ -469,16 +469,16 @@
       ],
       "exampleFilesGeneratedAt": 1751493253029,
       "lastTotalWebSearchRequests": 0,
-      "lastCost": 1.8224464499999997,
-      "lastAPIDuration": 224065,
-      "lastDuration": 182761,
-      "lastLinesAdded": 19,
+      "lastCost": 0.27791439999999995,
+      "lastAPIDuration": 41031,
+      "lastDuration": 162913,
+      "lastLinesAdded": 0,
       "lastLinesRemoved": 0,
-      "lastTotalInputTokens": 62000,
-      "lastTotalOutputTokens": 5321,
-      "lastTotalCacheCreationInputTokens": 37187,
-      "lastTotalCacheReadInputTokens": 482856,
-      "lastSessionId": "6598773f-baf1-43d6-bf15-d998eba3851a"
+      "lastTotalInputTokens": 6196,
+      "lastTotalOutputTokens": 798,
+      "lastTotalCacheCreationInputTokens": 6128,
+      "lastTotalCacheReadInputTokens": 72922,
+      "lastSessionId": "937836b7-3f00-4de6-8a46-f03ede5183df"
     },
     "/Volumes/ExtremeSSD/TheNeuron/TheNeuron": {
       "allowedTools": [],
