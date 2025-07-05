@@ -2,31 +2,40 @@
 
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import os from 'os';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Create temp directory if it doesn't exist
-const tempDir = path.join(__dirname, '../temp');
-if (!fs.existsSync(tempDir)) {
-  fs.mkdirSync(tempDir);
+async function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// Inefficient file writing with 2 second sleep between each
-for (let i = 1; i <= 100; i++) {
-  const fileName = path.join(tempDir, `file_${i}.txt`);
-  const content = `This is file number ${i}\nCreated at: ${new Date().toISOString()}\n`;
-  
-  // Write file synchronously (inefficient)
-  fs.writeFileSync(fileName, content);
-  console.log(`Created file ${i} of 100: ${fileName}`);
-  
-  // Sleep for 2 seconds (inefficient delay)
-  const start = Date.now();
-  while (Date.now() - start < 2000) {
-    // Busy wait (very inefficient)
-  }
+async function main() {
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'inefficient-files-'));
+    console.log(`Writing 100 files to: ${tempDir}`);
+    console.log('This will take approximately 200 seconds (3.3 minutes)...');
+    
+    const startTime = Date.now();
+    
+    for (let i = 1; i <= 100; i++) {
+        const fileName = path.join(tempDir, `file-${String(i).padStart(3, '0')}.txt`);
+        const content = `This is file number ${i}\nCreated at: ${new Date().toISOString()}\n`;
+        
+        fs.writeFileSync(fileName, content);
+        
+        console.log(`Created file ${i}/100: ${fileName}`);
+        
+        if (i < 100) {
+            await sleep(2000);
+        }
+    }
+    
+    const endTime = Date.now();
+    const elapsedSeconds = (endTime - startTime) / 1000;
+    
+    console.log(`\nCompleted! Created 100 files in ${elapsedSeconds.toFixed(1)} seconds`);
+    console.log(`Files location: ${tempDir}`);
 }
 
-console.log('Finished creating 100 files!');
+main().catch(err => {
+    console.error('Error:', err);
+    process.exit(1);
+});

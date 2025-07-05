@@ -1,64 +1,88 @@
 #!/usr/bin/env node
 
+import { spawn } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import { execSync } from 'child_process';
 import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = dirname(__filename);
 
-// Test configuration
-const tempDir = path.join(__dirname, '../temp');
+console.log('Testing inefficient file writer script...');
+console.log('This test will take approximately 3.5 minutes to complete.\n');
+
 const scriptPath = path.join(__dirname, 'inefficient-file-writer.js');
+const startTime = Date.now();
 
-console.log('Starting test for inefficient file writer...');
+const child = spawn('node', [scriptPath], {
+    stdio: 'pipe'
+});
 
-// Clean up temp directory before test
-if (fs.existsSync(tempDir)) {
-  console.log('Cleaning up existing temp directory...');
-  fs.rmSync(tempDir, { recursive: true, force: true });
-}
+let tempDir = null;
+let outputBuffer = '';
 
-// Run the script (this will take ~200 seconds)
-console.log('Running inefficient file writer script...');
-console.log('This will take approximately 200 seconds (3.3 minutes)...');
+child.stdout.on('data', (data) => {
+    const output = data.toString();
+    outputBuffer += output;
+    process.stdout.write(output);
+    
+    const match = output.match(/Writing 100 files to: (.+)/);
+    if (match && !tempDir) {
+        tempDir = match[1].trim();
+    }
+});
 
-try {
-  execSync(`node ${scriptPath}`, { stdio: 'inherit' });
-} catch (error) {
-  console.error('Script failed:', error);
-  process.exit(1);
-}
+child.stderr.on('data', (data) => {
+    process.stderr.write(data);
+});
 
-// Verify results
-console.log('\nVerifying results...');
-
-if (!fs.existsSync(tempDir)) {
-  console.error('❌ Test failed: temp directory does not exist');
-  process.exit(1);
-}
-
-const files = fs.readdirSync(tempDir).filter(f => f.startsWith('file_') && f.endsWith('.txt'));
-const fileCount = files.length;
-
-if (fileCount === 100) {
-  console.log(`✅ Test passed: Found exactly ${fileCount} files in temp directory`);
-  
-  // Verify file content of first and last file
-  const firstFile = fs.readFileSync(path.join(tempDir, 'file_1.txt'), 'utf8');
-  const lastFile = fs.readFileSync(path.join(tempDir, 'file_100.txt'), 'utf8');
-  
-  if (firstFile.includes('This is file number 1') && lastFile.includes('This is file number 100')) {
-    console.log('✅ File content verification passed');
-  } else {
-    console.error('❌ File content verification failed');
-    process.exit(1);
-  }
-  
-  console.log('\n🎉 All tests passed! 1/1 tests succeeded.');
-  process.exit(0);
-} else {
-  console.error(`❌ Test failed: Expected 100 files, found ${fileCount}`);
-  process.exit(1);
-}
+child.on('close', (code) => {
+    const endTime = Date.now();
+    const elapsedSeconds = (endTime - startTime) / 1000;
+    
+    console.log(`\n\nTest Results:`);
+    console.log(`=============`);
+    console.log(`Exit code: ${code}`);
+    console.log(`Total test time: ${elapsedSeconds.toFixed(1)} seconds`);
+    
+    if (code !== 0) {
+        console.error('❌ Test FAILED: Script exited with non-zero code');
+        process.exit(1);
+    }
+    
+    if (!tempDir) {
+        console.error('❌ Test FAILED: Could not find temp directory in output');
+        process.exit(1);
+    }
+    
+    try {
+        const files = fs.readdirSync(tempDir);
+        const txtFiles = files.filter(f => f.endsWith('.txt'));
+        
+        console.log(`Files created: ${txtFiles.length}`);
+        
+        if (txtFiles.length !== 100) {
+            console.error(`❌ Test FAILED: Expected 100 files, found ${txtFiles.length}`);
+            process.exit(1);
+        }
+        
+        const firstFile = fs.readFileSync(path.join(tempDir, 'file-001.txt'), 'utf8');
+        const lastFile = fs.readFileSync(path.join(tempDir, 'file-100.txt'), 'utf8');
+        
+        if (!firstFile.includes('file number 1') || !lastFile.includes('file number 100')) {
+            console.error('❌ Test FAILED: File content validation failed');
+            process.exit(1);
+        }
+        
+        console.log('✅ Test PASSED: All 100 files created successfully!');
+        console.log(`\nCleaning up test files...`);
+        
+        fs.rmSync(tempDir, { recursive: true, force: true });
+        console.log('Cleanup complete.');
+        
+    } catch (err) {
+        console.error('❌ Test FAILED:', err.message);
+        process.exit(1);
+    }
+});
