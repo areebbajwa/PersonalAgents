@@ -17,10 +17,10 @@ program
   .description('Unified workflow management system for AI agents')
   .version('1.0.0');
 
-// Spawn command - creates new tmux session
+// Spawn command - creates new tmux window
 program
   .command('spawn <project> <mode> <task>')
-  .description('Spawn a new workflow in a tmux session')
+  .description('Spawn a new workflow in a tmux window')
   .option('-f, --force', 'Force spawn even if workflow exists')
   .option('--no-monitor', 'Disable AI monitor auto-start')
   .action(async (project, mode, task, options) => {
@@ -32,14 +32,22 @@ program
     }
   });
 
-// Start command - runs in current terminal
+// Start command - internal use only (called by spawn)
 program
   .command('start <project> <mode> <task>')
-  .description('Start a workflow in the current terminal')
+  .description('Internal command - use "workflow spawn" instead')
   .option('-f, --force', 'Force start even if workflow exists')
   .option('--spawned', 'Internal flag indicating this was spawned')
   .option('--no-monitor', 'Disable AI monitor auto-start')
   .action(async (project, mode, task, options) => {
+    // Only allow if spawned internally
+    if (!options.spawned) {
+      console.error(chalk.red('Error: Direct use of "workflow start" is deprecated.'));
+      console.error(chalk.yellow('Use "workflow spawn" instead:'));
+      console.error(chalk.white(`  workflow spawn ${project} ${mode} "${task}"`));
+      process.exit(1);
+    }
+    
     try {
       await workflowEngine.start(project, mode, task, options);
     } catch (error) {

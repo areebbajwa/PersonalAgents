@@ -55,15 +55,15 @@ class MonitorWorker {
   }
 
   sendReminder() {
-    if (!this.tmuxSession) return;
+    if (!this.tmuxWindow) return;
 
     const message = 'ai-monitor: run workflow-cli --remind-rules';
     
     try {
-      // Send reminder to tmux session
-      const cmd = `tmux send-keys -t ${this.tmuxSession}:${this.tmuxWindow || '0'} "${message}" Enter`;
+      // Send reminder to tmux window
+      const cmd = `tmux send-keys -t ${this.tmuxWindow} "${message}" Enter`;
       execSync(cmd);
-      console.log(`Sent reminder to ${this.tmuxSession}`);
+      console.log(`Sent reminder to window ${this.tmuxWindow}`);
     } catch (error) {
       console.error(`Failed to send reminder: ${error.message}`);
     }

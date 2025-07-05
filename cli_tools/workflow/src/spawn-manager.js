@@ -1,4 +1,4 @@
-import { execSync, spawn } from 'child_process';
+import { execSync, spawn, spawnSync } from 'child_process';
 import path from 'path';
 import os from 'os';
 import chalk from 'chalk';
@@ -21,24 +21,24 @@ export class SpawnManager {
     // Create tmux session name
     const sessionName = `${project}-workflow`;
     
-    // Check if tmux session already exists
+    // Check if tmux window already exists
     try {
-      execSync(`tmux has-session -t ${sessionName} 2>/dev/null`);
+      execSync(`tmux list-windows -F "#{window_name}" | grep -q "^${sessionName}$"`, { shell: true });
       if (options.force) {
-        // Force option enabled, kill existing session
-        console.log(chalk.yellow(`Killing existing tmux session: ${sessionName}`));
+        // Force option enabled, kill existing window
+        console.log(chalk.yellow(`Killing existing tmux window: ${sessionName}`));
         try {
-          execSync(`tmux kill-session -t ${sessionName} 2>/dev/null`);
+          execSync(`tmux kill-window -t ${sessionName} 2>/dev/null`);
         } catch (killError) {
-          // Session might have been killed already
+          // Window might have been killed already
         }
       } else {
-        console.log(chalk.yellow(`Tmux session '${sessionName}' already exists`));
-        console.log(chalk.yellow(`Use 'tmux kill-session -t ${sessionName}' first`));
+        console.log(chalk.yellow(`Tmux window '${sessionName}' already exists`));
+        console.log(chalk.yellow(`Use 'tmux kill-window -t ${sessionName}' first`));
         return null;
       }
     } catch (error) {
-      // Session doesn't exist, good to proceed
+      // Window doesn't exist, good to proceed
     }
 
     // Detect current git branch and worktree
@@ -51,48 +51,91 @@ export class SpawnManager {
       console.log(chalk.yellow('Not in a git repository, using default branch: main'));
     }
 
-    // Create the workflow command - use current directory to find the correct path
-    const currentDir = process.cwd();
-    const workflowPath = currentDir.includes('PersonalAgents') 
-      ? path.join(currentDir.split('PersonalAgents')[0], 'PersonalAgents', 'cli_tools', 'workflow', 'src', 'index.js')
-      : path.join(os.homedir(), 'PersonalAgents', 'cli_tools', 'workflow', 'src', 'index.js');
+    // Create the workflow command - always use ~/PersonalAgents for cli_tools
+    const workflowPath = path.join(os.homedir(), 'PersonalAgents', 'cli_tools', 'workflow', 'src', 'index.js');
     const noMonitorFlag = options.monitor === false ? ' --no-monitor' : '';
-    const workflowCmd = `node ${workflowPath} start ${project} ${mode} "${task}" --spawned${noMonitorFlag}`;
+    const forceFlag = options.force ? ' --force' : '';
+    const workflowCmd = `node ${workflowPath} start ${project} ${mode} "${task}" --spawned${noMonitorFlag}${forceFlag}`;
     
-    // Build tmux command
+    // Check if we're already in a tmux session
+    const inTmuxSession = process.env.TMUX !== undefined;
+    
+    if (!inTmuxSession) {
+      console.log(chalk.red('Error: You must be inside a tmux session to spawn workflows'));
+      console.log(chalk.yellow('Start tmux first with: tmux new-session -s main'));
+      return null;
+    }
+    
+    // Create a new window in the current session without switching to it
     const tmuxCmd = [
-      'tmux', 'new-session',
-      '-d',  // Detached
-      '-s', sessionName,
-      '-n', 'workflow',  // Window name
+      'tmux', 'new-window',
+      '-d',  // Detached (don't switch focus)
+      '-n', sessionName,  // Window name
       '-c', worktree,    // Start directory
     ];
 
-    // Add the command to run
-    tmuxCmd.push('bash', '-c', `echo "Starting workflow for ${project}..." && ${workflowCmd}`);
+    // Create the shell command as an array for better handling
+    const shellCmd = [
+      'bash', '-c',
+      `echo 'Starting workflow for ${project}...' && ${workflowCmd}`
+    ];
 
-    console.log(chalk.cyan(`Creating tmux session: ${sessionName}`));
+    console.log(chalk.cyan(`Creating tmux window: ${sessionName}`));
     console.log(chalk.gray(`Branch: ${branch}`));
     console.log(chalk.gray(`Directory: ${worktree}`));
     
     try {
-      // Spawn the tmux session
-      execSync(tmuxCmd.join(' '));
+      try {
+        // Get current tmux session
+        const currentSession = execSync('tmux display-message -p "#S"', { encoding: 'utf8' }).trim();
+        console.log(chalk.gray(`Current tmux session: ${currentSession}`));
+        
+        // Use spawnSync for better control - spread the shell command array
+        const tmuxArgs = [
+          'new-window',
+          '-t', `${currentSession}:`,  // Target the current session
+          '-d',
+          '-n', sessionName,
+          '-c', worktree,
+          ...shellCmd  // Spread the shell command array
+        ];
+        
+        const result = spawnSync('tmux', tmuxArgs, { encoding: 'utf8' });
+        
+        if (result.error) {
+          throw result.error;
+        }
+        if (result.status !== 0) {
+          console.error(chalk.red('Command failed with status:'), result.status);
+          if (result.stderr) console.error(chalk.red('stderr:'), result.stderr);
+          if (result.stdout) console.error(chalk.red('stdout:'), result.stdout);
+          throw new Error(`tmux command failed with status ${result.status}`);
+        }
+      } catch (cmdError) {
+        console.error(chalk.red('Command failed:'), cmdError.message);
+        throw cmdError;
+      }
+      
+      // Force rename the window (in case automatic-rename is on)
+      try {
+        execSync(`tmux rename-window -t :$ ${sessionName}`);
+      } catch (renameError) {
+        console.warn(chalk.yellow('Could not rename window:'), renameError.message);
+      }
       
       // Create initial state
       await this.stateManager.createState(project, mode, task, {
         spawned: true,
         branch,
         worktree,
-        tmuxSession: sessionName,
-        tmuxWindow: 'workflow',
+        tmuxWindow: sessionName,
         terminal: this.detectTerminal()
       });
 
-      console.log(chalk.green(`✓ Spawned workflow in tmux session: ${sessionName}`));
-      console.log(chalk.cyan(`\nTo attach to the session:`));
-      console.log(chalk.white(`  tmux attach -t ${sessionName}`));
-      console.log(chalk.cyan(`\nTo view without attaching:`));
+      console.log(chalk.green(`✓ Spawned workflow in tmux window: ${sessionName}`));
+      console.log(chalk.cyan(`\nTo switch to the window:`));
+      console.log(chalk.white(`  tmux select-window -t ${sessionName}`));
+      console.log(chalk.cyan(`\nTo view without switching:`));
       console.log(chalk.white(`  tmux capture-pane -t ${sessionName} -p`));
       
       return sessionName;
