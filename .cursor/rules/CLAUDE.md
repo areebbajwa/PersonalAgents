@@ -57,6 +57,7 @@ workflow monitor start              # start monitor (auto-detects everything)
 workflow monitor stop               # stop monitor (auto-detects project)
 workflow monitor stop-all           # stop all running AI monitors
 workflow monitor status             # check monitor status
+workflow monitor check [project]    # force immediate AI compliance check (no 60s wait)
 ```
 
 AI Monitor auto-starts with all workflows (dev and task modes) and sends "ai-monitor:" prefixed guidance for violations. Use --no-monitor to disable auto-start.

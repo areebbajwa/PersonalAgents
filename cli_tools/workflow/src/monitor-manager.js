@@ -195,6 +195,36 @@ export class MonitorManager {
       }
     }
   }
+
+  async forceCheck(project) {
+    const state = await this.stateManager.loadState(project);
+    if (!state) {
+      throw new Error(`No workflow found for project: ${project}`);
+    }
+
+    if (!state.monitor?.enabled || !state.monitor?.pid) {
+      throw new Error(`No AI monitor running for project: ${project}`);
+    }
+
+    // Create a force-check file that the monitor will detect
+    const forceCheckFile = path.join(
+      os.homedir(),
+      'PersonalAgents',
+      'cli_tools',
+      'workflow',
+      'state',
+      `${project}-force-check`
+    );
+
+    try {
+      // Write timestamp to force-check file
+      await fs.writeFile(forceCheckFile, Date.now().toString());
+      console.log(chalk.green(`✓ Force check triggered for: ${project}`));
+      console.log(chalk.gray('The monitor will perform compliance check within seconds...'));
+    } catch (error) {
+      throw new Error(`Failed to trigger force check: ${error.message}`);
+    }
+  }
 }
 
 export default MonitorManager;

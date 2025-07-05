@@ -231,6 +231,18 @@ monitor
     }
   });
 
+monitor
+  .command('check <project>')
+  .description('Force immediate AI compliance check for a project')
+  .action(async (project) => {
+    try {
+      await monitorManager.forceCheck(project);
+    } catch (error) {
+      console.error(chalk.red('Error:'), error.message);
+      process.exit(1);
+    }
+  });
+
 // Direct workflow commands (for use within spawned Claude sessions)
 program
   .command('dev <task>')

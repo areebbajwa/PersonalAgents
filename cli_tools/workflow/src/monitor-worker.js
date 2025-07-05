@@ -492,6 +492,26 @@ class MonitorWorker {
     // Main monitoring loop
     while (true) {
       try {
+        // Check for force-check file
+        const forceCheckFile = path.join(
+          os.homedir(),
+          'PersonalAgents',
+          'cli_tools',
+          'workflow',
+          'state',
+          `${this.project}-force-check`
+        );
+        
+        try {
+          await fs.access(forceCheckFile);
+          // Force check file exists, trigger immediate check
+          console.log('Force check detected, performing immediate compliance check...');
+          this.lastCheckTime = 0; // Reset to force immediate check
+          await fs.unlink(forceCheckFile); // Remove the trigger file
+        } catch (error) {
+          // No force check file, continue normally
+        }
+        
         await this.checkCompliance();
         
         // Check if we should still be running
