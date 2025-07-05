@@ -250,15 +250,16 @@ program
   .option('--no-monitor', 'Disable AI monitor')
   .action(async (task, options) => {
     try {
-      // Generate a project name from the task
-      const project = task.toLowerCase()
+      // Use spawn project name if available, otherwise generate from task
+      const project = process.env.SPAWN_PROJECT || task.toLowerCase()
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/^-+|-+$/g, '')
         .substring(0, 30);
       
       await workflowEngine.start(project, 'dev', task, {
         spawned: true,
-        monitor: options.monitor
+        monitor: options.monitor,
+        tmuxWindow: process.env.TMUX_WINDOW_NAME
       });
     } catch (error) {
       console.error(chalk.red('Error:'), error.message);
@@ -272,15 +273,16 @@ program
   .option('--no-monitor', 'Disable AI monitor')
   .action(async (task, options) => {
     try {
-      // Generate a project name from the task
-      const project = task.toLowerCase()
+      // Use spawn project name if available, otherwise generate from task
+      const project = process.env.SPAWN_PROJECT || task.toLowerCase()
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/^-+|-+$/g, '')
         .substring(0, 30);
       
       await workflowEngine.start(project, 'task', task, {
         spawned: true,
-        monitor: options.monitor
+        monitor: options.monitor,
+        tmuxWindow: process.env.TMUX_WINDOW_NAME
       });
     } catch (error) {
       console.error(chalk.red('Error:'), error.message);

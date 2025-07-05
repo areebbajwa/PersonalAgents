@@ -33,6 +33,8 @@ steps:
         - if_not_exists: "Go to Decision 2B"
       ```
       
+      Answer each of the questions above systematically before proceeding.
+      
       **Decision 2A: Todo exists - Check worktree**
       ```yaml
       existing_todo_worktree_check:
@@ -84,19 +86,16 @@ steps:
     content: |
       **⚠️ IMPORTANT: This is research phase - DO NOT implement anything yet.**
       
-      Execute these research steps:
+      **Execute these research steps:**
       
-      **Local Context:**
-      1. Search codebase for similar implementations
-      2. Find existing code to reuse/extend (prioritize ai_cache_utils.js for AI calls)
-      3. Check config/.env for existing API keys before asking user
-      4. Search ~/PersonalAgents/todos/ directory for previous learnings
-      
-      **Web Context:**
-      5. Search web for best practices on the technology/framework
-      6. Find latest API documentation
-      7. Look for common patterns and pitfalls
-      8. Check for batch operation support in APIs
+      1. **Search codebase for similar implementations**
+      2. **Find existing code to reuse/extend** (prioritize ai_cache_utils.js for AI calls)
+      3. **Check config/.env for existing API keys** before asking user
+      4. **Search ~/PersonalAgents/todos/ directory** for previous learnings
+      5. **Search web for best practices** on the technology/framework
+      6. **Find latest API documentation**
+      7. **Look for common patterns and pitfalls**
+      8. **Check for batch operation support in APIs**
       
       **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
@@ -111,35 +110,37 @@ steps:
       
       **Core Question: "What is the simplest way I can satisfy all the non-negotiable user requirements given all the rules?"**
       
-      **Planning Questions to Answer:**
+      **Answer these planning questions systematically:**
       
-      1. **Simplification:**
+      1. **Simplification Questions:**
          - What's the absolute minimal implementation that fully meets requirements?
          - What complexity can I eliminate while still delivering everything asked?
          - Can I solve this in 10 lines instead of 100?
       
-      2. **Reuse & Libraries:**
+      2. **Reuse & Libraries Questions:**
          - What existing tools in cli_tools/ can I use or extend?
          - Are there GitHub/npm libraries that already solve this?
          - Can I modify existing code instead of writing new code?
       
-      3. **Architecture:**
+      3. **Architecture Questions:**
          - What's the simplest architecture that handles all use cases?
          - Can I use batch operations instead of loops?
          - Should I start with in-memory solutions before adding complexity?
       
-      4. **Tool vs Script:**
+      4. **Tool vs Script Questions:**
          - Is this general-purpose (CLI tool) or task-specific (script)?
          - Would other AI agents find this useful?
          - Does this belong in cli_tools/ or scripts/?
       
-      5. **AI Integration:**
+      5. **AI Integration Questions:**
          - Where can gemini-2.5-pro + ai_cache_utils.js simplify the solution?
          - Can AI handle complex logic I'd otherwise code manually?
       
-      6. **Testing Strategy:**
+      6. **Testing Strategy Questions:**
          - What's the minimum testing that ensures requirements are met?
          - Can I write one comprehensive test instead of many small ones?
+      
+      Answer each of the questions above systematically before proceeding.
       
       **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
@@ -150,61 +151,57 @@ steps:
     content: |
       **⚠️ IMPORTANT: Final planning step - DO NOT implement yet!**
       
-      **PRE-PLANNING CHECKS:**
+      **Complete these pre-planning checks:**
       
-      **Check 1: CLI Tool Requirements**
-      ```yaml
-      cli_tool_check:
-        - question: "Is this task creating a CLI tool?"
-        - if_yes: "Include requirements from CLI_TOOL_DESIGN_GUIDE.md"
-        - if_no: "Skip CLI-specific requirements"
-      ```
+      1. **Check CLI Tool Requirements:**
+         - Question: "Is this task creating a CLI tool?"
+         - If yes: "Include requirements from CLI_TOOL_DESIGN_GUIDE.md"
+         - If no: "Skip CLI-specific requirements"
       
-      **Check 2: API Key Requirements**  
-      ```yaml
-      api_key_check:
-        - question: "Are API keys missing from config/.env?"
-        - if_yes: "Add API key acquisition to plan"
-        - if_no: "Skip API key setup"
-        - api_key_plan:
-            - "Use browser-cli automation"
-            - "Navigate to service API dashboard"
-            - "Copy required API keys"
-            - "Add to config/.env file"
-      ```
+      2. **Check API Key Requirements:**
+         - Question: "Are API keys missing from config/.env?"
+         - If yes: "Add API key acquisition to plan"
+         - If no: "Skip API key setup"
+         - API key acquisition plan (if needed):
+           - Use browser-cli automation
+           - Navigate to service API dashboard
+           - Copy required API keys
+           - Add to config/.env file
+      
+      Answer each of the questions above systematically before proceeding.
       
       **INCREMENTAL PLAN CREATION:**
-      Create test-gated incremental plan:
       
-      For each feature/component:
-      1. Build feature A
-      2. Write E2E test for A
-      3. **TEST GATE:** Run test - MUST PASS
-      4. **REQUIRED:** `workflow sub-task-next [project-name]`
-      5. Commit: `git commit -m "feat: add X - tests: 5/5 passed"`
-      6. **CLI tools only:** Commit to main: `git -C ~/PersonalAgents add cli_tools/[tool-name] && git -C ~/PersonalAgents commit -m "feat: add [tool-name] CLI tool"`
-      7. **Only after test passes:** Build next feature
+      1. **Create test-gated incremental plan for each feature/component:**
+         - Build feature A
+         - Write E2E test for A
+         - **TEST GATE:** Run test - MUST PASS
+         - **REQUIRED:** `workflow sub-task-next [project-name]`
+         - Commit: `git commit -m "feat: add X - tests: 5/5 passed"`
+         - **CLI tools only:** Commit to main: `git -C ~/PersonalAgents add cli_tools/[tool-name] && git -C ~/PersonalAgents commit -m "feat: add [tool-name] CLI tool"`
+         - **Only after test passes:** Build next feature
       
       **TODO FILE CREATION:**
-      Create: `~/PersonalAgents/todos/YYYYMMDD-[project-name]-todo.md`
       
-      Required structure:
-      ```markdown
-      # YYYYMMDD-[project-name]-todo.md
-      Last updated: [timestamp]
+      1. **Create todo file:** `~/PersonalAgents/todos/YYYYMMDD-[project-name]-todo.md`
       
-      ## Non-Negotiable User Requirements: {% if task %}{{ task }}{% else %}[exact user words]{% endif %}
+      2. **Use this required structure:**
+         ```markdown
+         # YYYYMMDD-[project-name]-todo.md
+         Last updated: [timestamp]
+         
+         ## Non-Negotiable User Requirements: {% if task %}{{ task }}{% else %}[exact user words]{% endif %}
+         
+         ## Context Discovery
+         
+         ## Tasks (with timestamps and status icons)
+         
+         ## Notes (with breakthrough markers)
+         ```
       
-      ## Context Discovery
-      
-      ## Tasks (with timestamps and status icons)
-      
-      ## Notes (with breakthrough markers)
-      ```
-      
-      **CLI tool final tasks:**
-      - Second last: `🕒 Run ./scripts/setup-global-cli-tools.sh`
-      - Last: `🕒 Run workflow continue [project-name]`
+      3. **For CLI tools, ensure final tasks include:**
+         - Second last: `🕒 Run ./scripts/setup-global-cli-tools.sh`
+         - Last: `🕒 Run workflow continue [project-name]`
       
       **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
@@ -213,23 +210,24 @@ steps:
     name: "verify-plan"
     title: "Verify Test-Gated Plan"
     content: |
-      **STOP! Verify your plan from step 5:**
+      **STOP! Complete these verification steps:**
       
-      Check each TEST GATE in your todo file has these 3 elements:
-      1. ✅ Test execution step
-      2. ✅ `workflow sub-task-next [project-name]` command
-      3. ✅ Commit with test count
+      1. **Verify each TEST GATE in your todo file has these 3 elements:**
+         - ✅ Test execution step
+         - ✅ `workflow sub-task-next [project-name]` command
+         - ✅ Commit with test count
       
-      If any `--sub-task-next` commands are missing after test gates, go back and add them now.
+      2. **If any `--sub-task-next` commands are missing after test gates, go back and add them now.**
       
-      **CLI Tool vs Script Check:**
-      1. If the task requires a general-purpose tool:
-         - ✅ Check if an existing tool can handle it (update/improve if needed)
-         - ✅ If no existing tool fits, CREATE the new tool - don't avoid it
-         - ✅ Would other AI agents find this useful?
-         - ✅ Will this be used across different tasks?
-         - ❌ If task-specific, create a script in scripts/ instead
-      2. If creating or updating a CLI tool, ensure `./scripts/setup-global-cli-tools.sh` is the second last task (before final `workflow continue [project-name]`).
+      3. **CLI Tool vs Script Check:**
+         - If the task requires a general-purpose tool:
+           - ✅ Check if an existing tool can handle it (update/improve if needed)
+           - ✅ If no existing tool fits, CREATE the new tool - don't avoid it
+           - ✅ Would other AI agents find this useful?
+           - ✅ Will this be used across different tasks?
+           - ❌ If task-specific, create a script in scripts/ instead
+      
+      4. **If creating or updating a CLI tool, ensure `./scripts/setup-global-cli-tools.sh` is the second last task** (before final `workflow continue [project-name]`).
       
       **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
@@ -240,69 +238,31 @@ steps:
     content: |
       **NOW YOU CAN START IMPLEMENTATION!**
       
-      Execute these implementation steps:
-      1. Work through your todo list from step 5
-      2. Write one logical unit of functionality
-      3. Write E2E test for that functionality
-      4. Run test and verify it passes
-      5. After test passes → `workflow sub-task-next [project-name]`
-      6. Update todo file with progress and timestamps
-      7. ONLY if passed → Move to next feature
+      **Execute these implementation steps:**
+      
+      1. **Work through your todo list from step 5**
+      2. **Write one logical unit of functionality**
+      3. **Write E2E test for that functionality**
+      4. **Run test and verify it passes**
+      5. **After test passes → `workflow sub-task-next [project-name]`**
+      6. **Update todo file with progress and timestamps**
+      7. **ONLY if passed → Move to next feature**
       
       **Remember:**
-      - Update timestamps in format [HH:MM] for each task/note
-      - Mark completed tasks with ✅
-      - Log breakthroughs with 🔥 BREAKTHROUGH
-      - MUST complete entire todo list autonomously
-      - Never give up, keep trying until done
+      1. Update timestamps in format [HH:MM] for each task/note
+      2. Mark completed tasks with ✅
+      3. Log breakthroughs with 🔥 BREAKTHROUGH
+      4. MUST complete entire todo list autonomously
+      5. Never give up, keep trying until done
       
       **Next Step:** Continue until all tasks complete, then run final `--next` from todo
     mandatory: true
 
   - number: 8
-    name: "cleanup"
-    title: "Clean Up Environment"
-    content: |
-      **Git Status Cleanup:**
-      1. Run `git status` and review all changes
-      2. Note: CLI tool changes won't appear here - check `git -C ~/PersonalAgents status` to see them
-      3. Check Non-Negotiable User Requirements from todo file
-      3. Remove any code/tools/scripts/tests NOT relevant to requirements:
-         - Unneeded helper scripts
-         - Test files for removed features
-         - Documentation for deleted functionality
-      4. Update/delete conflicting docs/references in other files based on changes
-      5. Ensure .gitignore is up-to-date
-      
-      **Browser Profile Preservation:**
-      If you used browser-cli during this workflow:
-      1. Check if browser-cli is still running: `browser-cli status`
-      2. If running, stop it first: `browser-cli stop`
-      3. Find and preserve the temporary profile cookies:
-         ```bash
-         # Find the most recent selenium temp profile
-         TEMP_PROFILE=$(ls -td /tmp/selenium-profile-* 2>/dev/null | head -1)
-         if [ -n "$TEMP_PROFILE" ] && [ -d "$TEMP_PROFILE" ]; then
-             # Find the default Firefox profile
-             DEFAULT_PROFILE=$(find ~/Library/Application\ Support/Firefox/Profiles -name "*.default-release" -type d | head -1)
-             if [ -n "$DEFAULT_PROFILE" ]; then
-                 # Copy cookies and session data back
-                 cp -f "$TEMP_PROFILE/cookies.sqlite"* "$DEFAULT_PROFILE/" 2>/dev/null || true
-                 cp -f "$TEMP_PROFILE/sessionstore.jsonlz4" "$DEFAULT_PROFILE/" 2>/dev/null || true
-                 echo "Cookies preserved from $TEMP_PROFILE"
-             fi
-         fi
-         ```
-      4. This ensures any new cookies/logins are preserved for future sessions
-      
-      **Next Step:** Run `workflow continue [project-name]` to continue
-    mandatory: true
-
-  - number: 9
     name: "verify"
     title: "Final Verification"
     content: |
-      **VERIFICATION DECISION TREE:**
+     **VERIFICATION DECISION TREE:**
       
       **Step 1: Check User Requirements**
       ```yaml
@@ -330,6 +290,8 @@ steps:
             - if_checks_fail: "Go to Step 3 (Fix Missing)"
       ```
       
+      Answer each of the questions above systematically before proceeding.
+      
       **Step 3: Fix Missing Requirements**
       ```yaml
       fix_missing:
@@ -350,25 +312,67 @@ steps:
       **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
 
+  - number: 9
+    name: "cleanup"
+    title: "Clean Up Environment"
+    content: |
+       **Complete these cleanup tasks:**
+      
+        1. **Git Status Cleanup:**
+          - Run `git status` and review all changes
+          - Note: CLI tool changes won't appear here - check `git -C ~/PersonalAgents status` to see them
+          - Check Non-Negotiable User Requirements from todo file
+          - Remove any code/tools/scripts/tests NOT relevant to requirements:
+            - Unneeded helper scripts
+            - Test files for removed features
+            - Documentation for deleted functionality
+          - Update/delete conflicting docs/references in other files based on changes
+          - Ensure .gitignore is up-to-date
+        
+        2. **Browser Profile Preservation (if you used browser-cli):**
+          - Check if browser-cli is still running: `browser-cli status`
+          - If running, stop it first: `browser-cli stop`
+          - Find and preserve the temporary profile cookies:
+            ```bash
+            # Find the most recent selenium temp profile
+            TEMP_PROFILE=$(ls -td /tmp/selenium-profile-* 2>/dev/null | head -1)
+            if [ -n "$TEMP_PROFILE" ] && [ -d "$TEMP_PROFILE" ]; then
+                # Find the default Firefox profile
+                DEFAULT_PROFILE=$(find ~/Library/Application\ Support/Firefox/Profiles -name "*.default-release" -type d | head -1)
+                if [ -n "$DEFAULT_PROFILE" ]; then
+                    # Copy cookies and session data back
+                    cp -f "$TEMP_PROFILE/cookies.sqlite"* "$DEFAULT_PROFILE/" 2>/dev/null || true
+                    cp -f "$TEMP_PROFILE/sessionstore.jsonlz4" "$DEFAULT_PROFILE/" 2>/dev/null || true
+                    echo "Cookies preserved from $TEMP_PROFILE"
+                fi
+            fi
+            ```
+          - This ensures any new cookies/logins are preserved for future sessions
+        
+        **Next Step:** Run `workflow continue [project-name]` to continue
+    mandatory: true
+
   - number: 10
     name: "merge"
     title: "Branch Management - Auto Merge"
     content: |
-      **Automatically merge to main branch:**
+      **Complete these merge steps:**
       
-      First identify the main branch:
-      1. `git branch -r --sort=-committerdate | head -5` (find most active branch)
-      2. Usually main, master, or develop
+      1. **Identify the main branch:**
+         - Run `git branch -r --sort=-committerdate | head -5` (find most active branch)
+         - Usually main, master, or develop
       
-      Execute merge automatically:
-      1. `git checkout [main-branch]`
-      2. `git pull origin [main-branch]`
-      3. `git merge [feature-branch]`
-      4. `git push origin [main-branch]`
-      5. `git branch -d [feature-branch]`
-      6. `git push origin --delete [feature-branch]`
-      7. If created a CLI tool: `./scripts/setup-global-cli-tools.sh`
-      8. Note: CLI tools are symlinked - changes commit to main repo at ~/PersonalAgents, not the worktree
+      2. **Execute merge automatically:**
+         - `git checkout [main-branch]`
+         - `git pull origin [main-branch]`
+         - `git merge [feature-branch]`
+         - `git push origin [main-branch]`
+         - `git branch -d [feature-branch]`
+         - `git push origin --delete [feature-branch]`
+      
+      3. **If created a CLI tool:** Run `./scripts/setup-global-cli-tools.sh`
+      
+      4. **Note:** CLI tools are symlinked - changes commit to main repo at ~/PersonalAgents, not the worktree
       
       **Next Step:** Run `workflow continue [project-name]` to continue
     mandatory: true
@@ -377,10 +381,11 @@ steps:
     name: "finish"
     title: "Clean Project State"
     content: |
-      Final cleanup step:
+      **Complete these final cleanup steps:**
       
-      1. Clean project state: `workflow kill [project-name]`
-      2. Discard symlink changes and remove worktree:
+      1. **Clean project state:** `workflow kill [project-name]`
+      
+      2. **Discard symlink changes and remove worktree:**
          ```
          pwd  # Note current directory for cleanup
          git checkout -- cli_tools todos  # Discard symlink changes
@@ -390,7 +395,7 @@ steps:
          ```
       
       {% if spawned %}
-      3. Close spawned workflow window:
+      3. **Close spawned workflow window:**
          ```
          tmux kill-window -t ${TMUX_PANE}
          ```

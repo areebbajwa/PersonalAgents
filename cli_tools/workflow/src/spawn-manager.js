@@ -83,6 +83,7 @@ export class SpawnManager {
       # Export environment for workflow detection
       export TMUX_WINDOW_NAME="${sessionName}"
       export SPAWN_WORKFLOW=1
+      export SPAWN_PROJECT="${project}"
       
       # Launch Claude Code
       /Users/areeb2/.claude/local/claude --dangerously-skip-permissions

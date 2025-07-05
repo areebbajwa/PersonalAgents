@@ -1,30 +1,30 @@
 {
-  "numStartups": 146,
+  "numStartups": 166,
   "installMethod": "local",
   "autoUpdates": true,
   "theme": "dark-ansi",
   "tipsHistory": {
     "ide-hotkey": 81,
     "new-user-warmup": 5,
-    "shift-enter": 137,
+    "shift-enter": 158,
     "memory-command": 38,
     "theme-command": 131,
     "prompt-queue": 44,
     "enter-to-steer-in-relatime": 135,
     "todo-list": 136,
-    "# for memory": 139,
-    "install-github-app": 143,
-    "permissions": 130,
-    "drag-and-drop-images": 145,
-    "double-esc": 140,
-    "continue": 125,
+    "# for memory": 160,
+    "install-github-app": 164,
+    "permissions": 151,
+    "drag-and-drop-images": 166,
+    "double-esc": 161,
+    "continue": 148,
     "custom-commands": 146,
-    "shift-tab": 127,
-    "git-worktrees": 84,
+    "shift-tab": 151,
+    "git-worktrees": 147,
     "vscode-command-install": 123
   },
   "memoryUsageCount": 3,
-  "promptQueueUseCount": 217,
+  "promptQueueUseCount": 232,
   "mcpServers": {},
   "userID": "96200396462dc1a54dcd7bf4ed2806506483ec7ffab4ccd45f138f1896711cd6",
   "fallbackAvailableWarningThreshold": 0.5,
@@ -51,6 +51,346 @@
     "/Volumes/ExtremeSSD/PersonalAgents/PersonalAgents": {
       "allowedTools": [],
       "history": [
+        {
+          "display": "workflow continue hello-test-fixed",
+          "pastedContents": {}
+        },
+        {
+          "display": "seems like it sometimes doesn't proceed to step 2 by itself and seems like monitor doesn't get started",
+          "pastedContents": {}
+        },
+        {
+          "display": "run command: workflow task \"print hello world every 30 seconds for 10 minutes\"",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "why wasn't state file started?",
+          "pastedContents": {}
+        },
+        {
+          "display": "workflow continue print-hello-world-to-screen-ev",
+          "pastedContents": {}
+        },
+        {
+          "display": "run command: workflow task \"print hello world to screen every 30 seconds for 10 minutes\"",
+          "pastedContents": {}
+        },
+        {
+          "display": "spawn a new test workflow to print hello world to the screen for 10 mins and test ai monitor force checks",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit",
+          "pastedContents": {}
+        },
+        {
+          "display": "seems like it started the command then immediately ran a command to kill tmux",
+          "pastedContents": {}
+        },
+        {
+          "display": "run command: workflow dev \"test force check command functionality\"",
+          "pastedContents": {}
+        },
+        {
+          "display": "make the monitor start as soon as step 1 of workflow starts. also add a way to force a gemini check without having to wait 60s",
+          "pastedContents": {}
+        },
+        {
+          "display": "workflow next",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit",
+          "pastedContents": {}
+        },
+        {
+          "display": "but you didn't check the new parsed output?",
+          "pastedContents": {}
+        },
+        {
+          "display": "run command: workflow dev \"test workflow rules parsing in monitor\"",
+          "pastedContents": {}
+        },
+        {
+          "display": "seems like gemini log files are empty",
+          "pastedContents": {}
+        },
+        {
+          "display": "workflow continue",
+          "pastedContents": {}
+        },
+        {
+          "display": "update @todos/20250105-tmux-window-todo.md ",
+          "pastedContents": {}
+        },
+        {
+          "display": "run remind rules",
+          "pastedContents": {}
+        },
+        {
+          "display": "run command: workflow dev \"write a script that prints system info every 30 seconds for 10 minutes\"",
+          "pastedContents": {}
+        },
+        {
+          "display": "go on",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "no i mean guidance every 60s, reminders every 10 mins. check old code from git history again",
+          "pastedContents": {}
+        },
+        {
+          "display": "no it's supposed to send guidance every 60s according to the old setup. run updatetodo",
+          "pastedContents": {}
+        },
+        {
+          "display": "go ahead",
+          "pastedContents": {}
+        },
+        {
+          "display": "run command: workflow task \"write to test file every 5 seconds for 2 minutes\"",
+          "pastedContents": {}
+        },
+        {
+          "display": "seems like claude read it as text instruction instead of a command. add \"run command: \" before the instruction being sent to claude",
+          "pastedContents": {}
+        },
+        {
+          "display": "workflow task \"write hello to /tmp/monitor-test.log every 10 seconds for 5 minutes\"",
+          "pastedContents": {}
+        },
+        {
+          "display": "kill current test workflow and start a harmless one that simply writes some stuff to a file and runs for a long time so you can test properly. current test workflow can mess things up.",
+          "pastedContents": {}
+        },
+        {
+          "display": "go on",
+          "pastedContents": {}
+        },
+        {
+          "display": "remind rules",
+          "pastedContents": {}
+        },
+        {
+          "display": "workflow sub task next is supposed to remind rules in the output as well",
+          "pastedContents": {}
+        },
+        {
+          "display": "needs to include project name. check workflow help",
+          "pastedContents": {}
+        },
+        {
+          "display": "workflow dev \"test claude and monitor integration\"",
+          "pastedContents": {}
+        },
+        {
+          "display": "i dont want any legacy support",
+          "pastedContents": {}
+        },
+        {
+          "display": "i think it's because we got rid of workflow start command and removed it from @cursor-rules/CLAUDE.md . seems to lead to recursive spawning",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "workflow dev \"test full workflow with Claude Code and AI monitor\"",
+          "pastedContents": {}
+        },
+        {
+          "display": "add remind rules workflow command to @cursor-rules/CLAUDE.md ",
+          "pastedContents": {}
+        },
+        {
+          "display": "workflow dev \"test full workflow with Claude Code and AI monitor\"",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
+        {
+          "display": "the Enter needs to be a separate command. otherwise it just creates a new line. also, run remind rules wiht project name",
+          "pastedContents": {}
+        },
+        {
+          "display": "check git history as those files are removed",
+          "pastedContents": {}
+        },
+        {
+          "display": "make sure all old functionality is preserved in the new simplified workflow. i think it removed the gemini prompt and monitoring of terminal+rules. run updatetodo",
+          "pastedContents": {}
+        },
+        {
+          "display": "no, follow updatetodo quick command",
+          "pastedContents": {}
+        },
+        {
+          "display": "updatetodo",
+          "pastedContents": {}
+        },
+        {
+          "display": "no, the overall workflow used to be this: i spawn a new devmode task with spawn-cli, that creates a new tmux session and runs the yolo command which then runs\n  a workflow-cli command with the --spawned flag. that creates a state file as well as jsonl for claude to read. that gets passed to ai-monitor-cli for\n  monitoring which uses all of that to create a prompt for gemini and send the guidance in the response back to the tmux session running that workflow.\n  some paths are absolute (symlinked ~/PersonalAgents) for cli_tools and todos, other paths are relative. it was all quite complex and creates lots of\n  confusion and room for bugs. so we simplified it. see @todos/20250103-workflow-simplification-todo.md . that's when we created this new workflow. make sure it has all of the same functionality as the previous workflow in the new simplified version. the workflow was running inside a claude code session in a tmux window and was getting guidance from the ai monitor regularly. see git history if you need to check. updatetodo",
+          "pastedContents": {}
+        },
+        {
+          "display": "why can't i see claude code run in this new tmux window?",
+          "pastedContents": {}
+        },
+        {
+          "display": "fix this bash/zsh issue",
+          "pastedContents": {}
+        },
+        {
+          "display": "capture window content. says some issue about zsh/bash",
+          "pastedContents": {}
+        },
+        {
+          "display": "read the window contents",
+          "pastedContents": {}
+        },
+        {
+          "display": "the window should be named after the project. seems like new window closes right after opening. ",
+          "pastedContents": {}
+        },
+        {
+          "display": "huh? ai monitor wasn't tested because we couldn't get the window to work properly! ",
+          "pastedContents": {}
+        },
+        {
+          "display": "run remind rules",
+          "pastedContents": {}
+        },
+        {
+          "display": "put the verify step before the cleanup step",
+          "pastedContents": {}
+        },
+        {
+          "display": "step 4 could use it too",
+          "pastedContents": {}
+        },
+        {
+          "display": "actually leave workflow start for now. fix the spawn completely",
+          "pastedContents": {}
+        },
+        {
+          "display": "some steps have too many sub-steps. convert them to numbered bullets so the AI doesn't miss anything. everything in each step should be a numbered sub-step if there's more than one",
+          "pastedContents": {}
+        },
+        {
+          "display": "run remind rules",
+          "pastedContents": {}
+        },
+        {
+          "display": "modify @cli_tools/workflow/workflows/dev-mode.yaml . in any step where the AI is asked a question, make it verbally answer it before proceeding. Add it as an instruction in each step. \"Answer each of the questions above systematically before proceeding.\"",
+          "pastedContents": {}
+        },
+        {
+          "display": "no, all cli_tools should only use ~/PersonalAgents (symlink) to prevent issues running from different directories",
+          "pastedContents": {}
+        },
+        {
+          "display": "remove workflow start at the very end, not first thing",
+          "pastedContents": {}
+        },
+        {
+          "display": "all workflows should be spawned in a new tmux window in the current tmux session. get rid of workflow start command. make sure ai-monitor can send guidance to these spawned workflows. update claude.md as needed when done. test that it works from different directories since workflow is a global command. updatetodo",
+          "pastedContents": {}
+        },
+        {
+          "display": "no i mean, make spawn the only way to start a workflow",
+          "pastedContents": {}
+        },
+        {
+          "display": "actually let's simplify it. all workflows should be spawned in a new tmux window within current tmux session. updatetodo",
+          "pastedContents": {}
+        },
+        {
+          "display": "this is only when using spawn btw. updatetodo",
+          "pastedContents": {}
+        },
+        {
+          "display": "start devmode with task: \"make the workflow tmux session start as a new window in current tmux session (without taking focus).\"",
+          "pastedContents": {}
+        },
+        {
+          "display": "make the workflow tmux session start as a new window in current tmux session (without taking focus). start devmode with this task",
+          "pastedContents": {}
+        },
+        {
+          "display": "that seems to be blocking too. check if it started",
+          "pastedContents": {}
+        },
+        {
+          "display": "all workflow commands seem to be blocking. any command that doesn't need to be blocking should be changed to non-blocking. spawn a new dev mode workflow with this task",
+          "pastedContents": {}
+        },
+        {
+          "display": "seems to be a blocking command",
+          "pastedContents": {}
+        },
+        {
+          "display": "i used workflow to start a hell-world-site project and it didn't auto start the monitor. even when i told it to start the monitor it seems to have stopped it right away. figure out what's going on. start dev mode with this task.",
+          "pastedContents": {}
+        },
+        {
+          "display": "start monitor",
+          "pastedContents": {}
+        },
+        {
+          "display": "start workflow in dev mode with task to create a website that prints hello world and deploy it somewhere",
+          "pastedContents": {}
+        },
+        {
+          "display": "no that didn't do it either. use process of elimination to figure it out",
+          "pastedContents": {}
+        },
+        {
+          "display": "figure it out and fix it please. ",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "/clear ",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "no its fine on local. after deployment test to see remote",
+          "pastedContents": {}
+        },
+        {
+          "display": "still doesnt when i refresh in browser",
+          "pastedContents": {}
+        },
+        {
+          "display": "i dont see the start recording button at the top of the deployed site. we made changes to put it there recently",
+          "pastedContents": {}
+        },
+        {
+          "display": "deploy TheNeuron project  check todos",
+          "pastedContents": {}
+        },
         {
           "display": "should work with task mode too",
           "pastedContents": {}
@@ -110,346 +450,6 @@
         {
           "display": "make sure @scripts/setup-global-cli-tools.sh will work with this",
           "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "cli_tools should be served from the symlink ~/PersonalAgents",
-          "pastedContents": {}
-        },
-        {
-          "display": "double check both yaml files again and make sure nothing outdated is left",
-          "pastedContents": {}
-        },
-        {
-          "display": "maybe browser-cli is not a good name for this anymore. let's call it browser-cli and update all references",
-          "pastedContents": {}
-        },
-        {
-          "display": "keep only the essential files and then commit and push",
-          "pastedContents": {}
-        },
-        {
-          "display": "don't delete the selenium playwright selector worktree. that's in progress",
-          "pastedContents": {}
-        },
-        {
-          "display": "no, consolidate, i don't want any old tools that have been replaced now with workflow",
-          "pastedContents": {}
-        },
-        {
-          "display": "run --remind-rules",
-          "pastedContents": {}
-        },
-        {
-          "display": "run --next",
-          "pastedContents": {}
-        },
-        {
-          "display": "update any outdated docs/remove unnecessary tools/code",
-          "pastedContents": {}
-        },
-        {
-          "display": "run the --next command from workflow-cli since this workflow was started with that",
-          "pastedContents": {}
-        },
-        {
-          "display": "run remind-rules",
-          "pastedContents": {}
-        },
-        {
-          "display": "run --remind-rules",
-          "pastedContents": {}
-        },
-        {
-          "display": "that's not the full rules. see how workflow-cli had the --remind-rules command. also it seems like the yaml files need updating",
-          "pastedContents": {}
-        },
-        {
-          "display": "run --remind-rules",
-          "pastedContents": {}
-        },
-        {
-          "display": "no it's not that. something to do with firefox sessions",
-          "pastedContents": {}
-        },
-        {
-          "display": "keeps creating new browser sessions each time. we've already dealt with an issue like this before. see previous todo's",
-          "pastedContents": {}
-        },
-        {
-          "display": "git shows lots of log files that are empty",
-          "pastedContents": {}
-        },
-        {
-          "display": "what's the failing test?",
-          "pastedContents": {}
-        },
-        {
-          "display": "actually, let's use any libraries that will simplify it for us. make sure they're popular. updatetodo",
-          "pastedContents": {}
-        },
-        {
-          "display": "run the loop in the background",
-          "pastedContents": {}
-        },
-        {
-          "display": "go ahead. update the yaml files as needed and move them into the new location",
-          "pastedContents": {}
-        },
-        {
-          "display": "run --remind-rules",
-          "pastedContents": {}
-        },
-        {
-          "display": "does it still read from the same dev mode and task mode yaml files?",
-          "pastedContents": {}
-        },
-        {
-          "display": "update @cursor-rules/CLAUDE.md ",
-          "pastedContents": {}
-        },
-        {
-          "display": "run the stop all monitors command on loop with sleep 60",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "run --remind-rules",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "go ahead",
-          "pastedContents": {}
-        },
-        {
-          "display": "run workflow-cli --project selenium_playwright_selectors --mode dev --step 1 --task \"Implement Playwright-style selectors for browser-cli tool as specified in /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents/tasks/selenium_cli_playwright_selectors_task.md\" --spawned",
-          "pastedContents": {}
-        },
-        {
-          "display": "spawn a new devmode task for this. write these task details to a file and pass a reference as the task ",
-          "pastedContents": {}
-        },
-        {
-          "display": "yes please",
-          "pastedContents": {}
-        },
-        {
-          "display": "i want to be able to see the terminal output in action and intervene as necessary, that's why we started with tmux. can we do that a simpler way?",
-          "pastedContents": {}
-        },
-        {
-          "display": "can we add the simplicity of playwright selectors to selenium? how?",
-          "pastedContents": {}
-        },
-        {
-          "display": "what are the advantages of selenium?",
-          "pastedContents": {}
-        },
-        {
-          "display": "what about if we used aria selectors? is that playwright? explain",
-          "pastedContents": {}
-        },
-        {
-          "display": "go ahead",
-          "pastedContents": {}
-        },
-        {
-          "display": "run workflow-cli --project workflow-simplification --mode dev --step 1 --task \"Implement unified workflow system to simplify spawn-cli, workflow-cli, and ai-monitor-cli integration with single state management, consistent paths, and unified CLI\" --spawned",
-          "pastedContents": {}
-        },
-        {
-          "display": "go ahead. spawn a new devmode task for this",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "can we simplify even further?",
-          "pastedContents": {}
-        },
-        {
-          "display": "ai-monitor: run workflow-cli --remind-rules --project test-monitor-task --mode task",
-          "pastedContents": {}
-        },
-        {
-          "display": "so the overall workflow is this: i spawn a new devmode task with spawn-cli, that creates a new tmux session and runs the yolo command which then runs a workflow-cli command with the --spawned flag. that creates a state file as well as jsonl for claude to read. that gets passed to ai-monitor-cli for monitoring which uses all of that to create a prompt for gemini and send the guidance in the response back to the tmux session running that workflow. some paths are absolute (symlinked ~/PersonalAgents) for cli_tools and todos, other paths are relative. it's all quite complex and creates lots of confusion and room for bugs. investigate the current setup and suggest how best we can simplify this so it still does what it currently does.",
-          "pastedContents": {}
-        },
-        {
-          "display": "but the log file should still be created?",
-          "pastedContents": {}
-        },
-        {
-          "display": "ai-monitor: run workflow-cli --remind-rules --project test-monitor-task --mode task",
-          "pastedContents": {}
-        },
-        {
-          "display": "ok so run the --once command for this project now",
-          "pastedContents": {}
-        },
-        {
-          "display": "run it as a command! it's a global command",
-          "pastedContents": {}
-        },
-        {
-          "display": "run ai-monitor-cli monitor-all command and redirect output",
-          "pastedContents": {}
-        },
-        {
-          "display": "seems to be showing up in the ai-monitor monitor-all (blocking command) though as a project being monitored",
-          "pastedContents": {}
-        },
-        {
-          "display": "check most recent .jsonl files in that directory",
-          "pastedContents": {}
-        },
-        {
-          "display": "there's no jsonl file with \"test-monitor-task\" in the name? in .claude/projects?",
-          "pastedContents": {}
-        },
-        {
-          "display": "it is running in a worktree. what are you looking for that's missing?",
-          "pastedContents": {}
-        },
-        {
-          "display": "there's a new project: test-monitor-task that was just started in ai monitor",
-          "pastedContents": {}
-        },
-        {
-          "display": "run workflow-cli --project test-monitor-task --mode task --step 1 --task \"Create a todo list with 10 separate items, each saying to write 'hello world' to a file. Then execute each todo item one by one, writing to output.txt\" --spawned",
-          "pastedContents": {}
-        },
-        {
-          "display": "spawn taskmode with a task to write hello world to a file 100 times. make sure each todo list item is separate and says to write \"hello world\". i want the task to run a long time.",
-          "pastedContents": {}
-        },
-        {
-          "display": "no that's for another project. ",
-          "pastedContents": {}
-        },
-        {
-          "display": "check ai-monitor-cli for the path",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "run it once for the most recent ai-monitor project i wanna see",
-          "pastedContents": {}
-        },
-        {
-          "display": "no, i want 500 from end.. just mention line count before that",
-          "pastedContents": {}
-        },
-        {
-          "display": "no viewer. i want to be able to read the .log file. seems to look good. need a few changes to the prompt that gets sent to gemini: restrict tool result in terminal to the first 5 lines and show how many more lines are hidden). also restrict the number of lines that get sent to gemini to 500",
-          "pastedContents": {}
-        },
-        {
-          "display": "ai-monitor: cd /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents && workflow-cli --project test-complete-fix --set-step 2",
-          "pastedContents": {}
-        },
-        {
-          "display": "start ai monitor",
-          "pastedContents": {}
-        },
-        {
-          "display": "the gemini logs that @cli_tools/ai-monitor-cli/ai-monitor-cli creates are not easy to read. the prompt especially is full of escape characters and json. make it easy to read.",
-          "pastedContents": {}
-        },
-        {
-          "display": "/clear ",
-          "pastedContents": {}
-        },
-        {
-          "display": "ai-monitor: Your current directory is incorrect. cd /Volumes/ExtremeSSD/PersonalAgents/PersonalAgents, then run 'workflow-cli --project test-complete-fix --set-step 2' to correctly create the worktree.",
-          "pastedContents": {}
-        },
-        {
-          "display": "actually i wanna see ai-monitor can send guidance to it",
-          "pastedContents": {}
-        },
-        {
-          "display": "run workflow-cli --project test-complete-fix --mode dev --step 1 --task \"Test complete AI monitor auto-start fix\" --spawned",
-          "pastedContents": {}
-        },
-        {
-          "display": "i think spawn-cli needs to add the word \"run \" before the workflow-cli command that it sends to the tmux window. seems like otherwise it's not actually treating that as a command",
-          "pastedContents": {}
-        },
-        {
-          "display": "workflow-cli --project test-state-debug --mode dev --step 1 --task \"Debug state file creation\" --spawned",
-          "pastedContents": {}
-        },
-        {
-          "display": "no. figure out why state file was not created. it's not working until the ai-monitor detects it and can send guidance to a new spawned workflow automatically. updatetodo",
-          "pastedContents": {}
-        },
-        {
-          "display": "workflow-cli --project test-tmux-fix --mode dev --step 1 --task \"Test tmux detection fix\" --spawned",
-          "pastedContents": {}
-        },
-        {
-          "display": "seems that's a blocking command again",
-          "pastedContents": {}
-        },
-        {
-          "display": "workflow-cli --project test-tmux-fix --mode dev --step 1 --task \"Test tmux detection fix\" --spawned",
-          "pastedContents": {}
-        },
-        {
-          "display": "it auto-closed right after starting",
-          "pastedContents": {}
-        },
-        {
-          "display": "i killed it already",
-          "pastedContents": {}
-        },
-        {
-          "display": "/exit ",
-          "pastedContents": {}
-        },
-        {
-          "display": "monitor-all is a blocking command",
-          "pastedContents": {}
-        },
-        {
-          "display": "workflow-cli --project test-monitor-autostart --mode dev --step 1 --task \"Test AI monitor auto-start functionality\" --spawned",
-          "pastedContents": {}
-        },
-        {
-          "display": "add to @cursor-rules/CLAUDE.md ",
-          "pastedContents": {}
-        },
-        {
-          "display": "stop all of them. there are still some running. check workflow-cli and add a --stop-all command?",
-          "pastedContents": {}
-        },
-        {
-          "display": "stop all ai monitors",
-          "pastedContents": {}
-        },
-        {
-          "display": "ai-monitor: Your current directory is incorrect because the 'cd' command failed during setup. You must fix this before proceeding. Run `ls worktrees`, then `cd worktrees/ai-monitor-autostart-fix`, then complete the remaining setup steps from the workflow.",
-          "pastedContents": {}
-        },
-        {
-          "display": "workflow-cli --project ai-monitor-autostart-fix --mode dev --step 1 --task \"Fix AI monitor auto-start functionality so it automatically detects and monitors newly spawned dev/task mode sessions like dev-browser-cli-improvements\" --spawned",
-          "pastedContents": {}
         }
       ],
       "mcpContextUris": [],
@@ -469,16 +469,16 @@
       ],
       "exampleFilesGeneratedAt": 1751493253029,
       "lastTotalWebSearchRequests": 0,
-      "lastCost": 0.38004995,
-      "lastAPIDuration": 262254,
-      "lastDuration": 800125,
+      "lastCost": 0.38373009999999996,
+      "lastAPIDuration": 45818,
+      "lastDuration": 211687,
       "lastLinesAdded": 0,
       "lastLinesRemoved": 0,
-      "lastTotalInputTokens": 75844,
-      "lastTotalOutputTokens": 5219,
-      "lastTotalCacheCreationInputTokens": 15389,
-      "lastTotalCacheReadInputTokens": 662288,
-      "lastSessionId": "b0c94031-8ba8-4f41-95a8-808324647ed6"
+      "lastTotalInputTokens": 3509,
+      "lastTotalOutputTokens": 1093,
+      "lastTotalCacheCreationInputTokens": 8114,
+      "lastTotalCacheReadInputTokens": 104576,
+      "lastSessionId": "da4c847b-edfb-468b-ac8a-867549d74f32"
     },
     "/Volumes/ExtremeSSD/TheNeuron/TheNeuron": {
       "allowedTools": [],
@@ -547,6 +547,32 @@
       "lastTotalCacheReadInputTokens": 22709823,
       "lastTotalWebSearchRequests": 3,
       "lastSessionId": "74e835f7-9210-404d-a097-c5502d45135e"
+    },
+    "/Users/areeb2": {
+      "allowedTools": [],
+      "history": [
+        {
+          "display": "stop all monitors",
+          "pastedContents": {}
+        },
+        {
+          "display": "check workflow monitors",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit",
+          "pastedContents": {}
+        }
+      ],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": false,
+      "projectOnboardingSeenCount": 4,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "lastTotalWebSearchRequests": 0
     }
   }
 }

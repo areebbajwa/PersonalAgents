@@ -29,10 +29,12 @@ export class WorkflowEngine {
     // Detect current git info
     const gitInfo = await this.detectGitInfo();
     
-    // Create new state
+    // Create new state, but preserve tmuxWindow from options if provided
     state = await this.stateManager.createState(project, mode, task, {
+      ...gitInfo,
       ...options,
-      ...gitInfo
+      // Ensure tmuxWindow from spawn is preserved
+      tmuxWindow: options.tmuxWindow || gitInfo.tmuxWindow
     });
 
     // Execute first step
@@ -283,7 +285,9 @@ export class WorkflowEngine {
       if (process.env.TMUX) {
         try {
           tmuxSession = execSync('tmux display-message -p "#{session_name}"', { encoding: 'utf8' }).trim();
-          tmuxWindow = execSync('tmux display-message -p "#{window_name}"', { encoding: 'utf8' }).trim();
+          // Use spawned window name if available, otherwise detect current window
+          tmuxWindow = process.env.TMUX_WINDOW_NAME || 
+                       execSync('tmux display-message -p "#{window_name}"', { encoding: 'utf8' }).trim();
         } catch (error) {
           // Not in tmux, ignore
         }

@@ -6,7 +6,7 @@
   "completedSteps": [],
   "task": "",
   "createdAt": "2025-07-03T22:17:22.636Z",
-  "updatedAt": "2025-07-03T22:17:22.636Z",
+  "updatedAt": "2025-07-05T00:37:06.301Z",
   "workflow": {
     "branch": null,
     "worktree": null,
@@ -16,7 +16,7 @@
   "monitor": {
     "enabled": false,
     "pid": null,
-    "lastCheck": null,
+    "lastCheck": "2025-07-05T00:37:06.300Z",
     "remindInterval": 600000
   },
   "spawn": {

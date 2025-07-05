@@ -24,12 +24,12 @@ class MonitorWorker {
     this.lastRemindTime = Date.now();
     this.remindInterval = 600000; // 10 minutes default
     this.lastCheckTime = Date.now();
-    this.checkInterval = 60000; // 60 seconds for compliance checks
+    this.checkInterval = 30000; // 30 seconds for compliance checks
     this.geminiApiKey = this.loadGeminiApiKey();
     this.lastAnalyzedContent = '';
     
     // Paths for logs and rules
-    this.claudeLogsDir = path.join(os.homedir(), '.claude', 'projects', '-Volumes-ExtremeSSD-PersonalAgents-PersonalAgents');
+    this.claudeLogsDir = path.join(os.homedir(), '.claude', 'logs');
     this.rulesFile = path.join(os.homedir(), 'PersonalAgents', 'docs', 'workflow-rules.md');
     this.geminiLogsDir = path.join(os.homedir(), 'PersonalAgents', 'cli_tools', 'workflow', 'logs', 'gemini');
     
@@ -103,22 +103,9 @@ class MonitorWorker {
     try {
       // Find the latest Claude log file
       const files = await fs.readdir(this.claudeLogsDir);
-      
-      // Get file stats to sort by modification time
-      const fileStats = await Promise.all(
-        files
-          .filter(f => f.endsWith('.jsonl'))
-          .map(async (file) => {
-            const filePath = path.join(this.claudeLogsDir, file);
-            const stats = await fs.stat(filePath);
-            return { file, mtime: stats.mtime };
-          })
-      );
-      
-      // Sort by modification time (newest first)
-      const logFiles = fileStats
-        .sort((a, b) => b.mtime - a.mtime)
-        .map(f => f.file);
+      const logFiles = files
+        .filter(f => f.endsWith('.jsonl'))
+        .sort((a, b) => b.localeCompare(a)); // Sort by name (newest first)
       
       if (logFiles.length === 0) {
         return null;
@@ -126,27 +113,7 @@ class MonitorWorker {
       
       // Read the latest log file
       const latestLog = path.join(this.claudeLogsDir, logFiles[0]);
-      // For large files, only read the last 500KB
-      const stats = await fs.stat(latestLog);
-      const fileSize = stats.size;
-      let content;
-      
-      if (fileSize > 500000) { // 500KB
-        // Read only the last 500KB
-        const fd = await fs.open(latestLog, 'r');
-        const buffer = Buffer.alloc(500000);
-        await fd.read(buffer, 0, 500000, fileSize - 500000);
-        await fd.close();
-        content = buffer.toString('utf8');
-        
-        // Find the first complete line
-        const firstNewline = content.indexOf('\n');
-        if (firstNewline > 0) {
-          content = content.substring(firstNewline + 1);
-        }
-      } else {
-        content = await fs.readFile(latestLog, 'utf8');
-      }
+      const content = await fs.readFile(latestLog, 'utf8');
       
       // Parse JSONL entries
       const entries = content.trim().split('\n')
@@ -172,47 +139,14 @@ class MonitorWorker {
     const recentEntries = entries.slice(-50);
     
     const formatted = recentEntries.map(entry => {
-      // Handle Claude Code log format
-      if (entry.type === 'assistant' && entry.message) {
-        const role = entry.message.role || 'assistant';
-        const content = entry.message.content || [];
-        
-        // Extract text content from message
-        let textContent = '';
-        if (Array.isArray(content)) {
-          textContent = content.map(c => {
-            if (c.type === 'text') {
-              return c.text;
-            } else if (c.type === 'tool_use') {
-              return `[tool:${c.name}]`;
-            }
-            return '';
-          }).join(' ');
-        } else if (typeof content === 'string') {
-          textContent = content;
-        }
-        
-        return `[${role}]: ${textContent.substring(0, 500)}${textContent.length > 500 ? '...' : ''}`;
-      } else if (entry.type === 'user' && entry.message) {
-        const role = entry.message.role || 'user';
-        const content = entry.message.content || [];
-        
-        // Extract text content from message
-        let textContent = '';
-        if (Array.isArray(content)) {
-          textContent = content.map(c => {
-            if (c.type === 'text') {
-              return c.text;
-            } else if (c.type === 'tool_result') {
-              return `[tool_result]`;
-            }
-            return '';
-          }).join(' ');
-        } else if (typeof content === 'string') {
-          textContent = content;
-        }
-        
-        return `[${role}]: ${textContent.substring(0, 500)}${textContent.length > 500 ? '...' : ''}`;
+      if (entry.type === 'message') {
+        const role = entry.data?.role || 'unknown';
+        const content = entry.data?.content || '';
+        return `[${role}]: ${content.substring(0, 500)}${content.length > 500 ? '...' : ''}`;
+      } else if (entry.type === 'tool_use') {
+        const tool = entry.data?.tool || 'unknown';
+        const params = JSON.stringify(entry.data?.parameters || {});
+        return `[tool]: ${tool} ${params.substring(0, 200)}${params.length > 200 ? '...' : ''}`;
       }
       return null;
     }).filter(e => e !== null).join('\n');
@@ -222,61 +156,8 @@ class MonitorWorker {
 
   async readWorkflowRules() {
     try {
-      // Load workflow rules from YAML file based on current mode
-      const state = await this.loadState();
-      if (!state) return 'No workflow state found';
-      
-      const mode = state.mode || 'dev';
-      const workflowFile = path.join(
-        os.homedir(),
-        'PersonalAgents',
-        'cli_tools',
-        'workflow',
-        'workflows',
-        `${mode}-mode.yaml`
-      );
-      
-      const yamlContent = await fs.readFile(workflowFile, 'utf8');
-      const yaml = await import('js-yaml');
-      const workflowData = yaml.default.load(yamlContent);
-      
-      // Extract rules from YAML
-      let rules = [];
-      if (workflowData.principles) {
-        rules.push('### Core Principles');
-        rules.push(...workflowData.principles);
-        rules.push('');
-      }
-      
-      if (workflowData.global_rules) {
-        rules.push('### Global Rules');
-        workflowData.global_rules.forEach(rule => {
-          if (typeof rule === 'string') {
-            rules.push(rule);
-          } else if (rule.title && rule.content) {
-            rules.push(`**${rule.title}**`);
-            rules.push(rule.content);
-          }
-        });
-        rules.push('');
-      }
-      
-      if (workflowData.emergency_procedures) {
-        rules.push('### Emergency Procedures');
-        workflowData.emergency_procedures.forEach(procedure => {
-          if (typeof procedure === 'string') {
-            rules.push(procedure);
-          } else if (procedure.title && procedure.commands) {
-            rules.push(`**${procedure.title}**`);
-            if (Array.isArray(procedure.commands)) {
-              rules.push(procedure.commands.join('\n'));
-            }
-          }
-        });
-        rules.push('');
-      }
-      
-      return rules.join('\n');
+      const content = await fs.readFile(this.rulesFile, 'utf8');
+      return content;
     } catch (error) {
       console.warn(`Could not read workflow rules: ${error.message}`);
       return 'No workflow rules found';
@@ -396,6 +277,7 @@ class MonitorWorker {
       };
       
       await fs.writeFile(filepath, JSON.stringify(data, null, 2));
+      console.log(`💾 Saved Gemini interaction to: ${filename}`);
     } catch (error) {
       console.error(`Failed to save Gemini interaction: ${error.message}`);
     }
@@ -405,19 +287,11 @@ class MonitorWorker {
     if (!this.tmuxWindow || !guidance || guidance.trim() === '') return;
     
     try {
-      // Remove markdown code blocks if present
-      let cleanGuidance = guidance.replace(/```\w*\n?/g, '').trim();
-      
-      // Send guidance to tmux window line by line
-      const lines = cleanGuidance.split('\n');
-      for (const line of lines) {
-        if (line.trim()) {
-          // Escape special characters for tmux
-          const escapedLine = line.replace(/"/g, '\\"').replace(/\$/g, '\\$');
-          const message = `ai-monitor: ${escapedLine}`;
-          execSync(`tmux send-keys -t ${this.tmuxWindow} "${message}" Enter`);
-        }
-      }
+      // Send guidance to tmux window
+      const message = `ai-monitor: ${guidance}`;
+      const cmd = `tmux send-keys -t ${this.tmuxWindow} "${message}" Enter`;
+      execSync(cmd);
+      console.log(`📤 Sent guidance: ${message}`);
     } catch (error) {
       console.error(`Failed to send guidance: ${error.message}`);
     }
@@ -465,6 +339,7 @@ class MonitorWorker {
           
           // Generate prompt and call Gemini
           const prompt = this.generateCompliancePrompt(claudeLogs, todoContent, workflowRules);
+          console.log('🔍 Analyzing workflow compliance...');
           
           const response = await this.callGeminiAPI(prompt);
           await this.saveGeminiInteraction(prompt, response);
@@ -501,26 +376,6 @@ class MonitorWorker {
     // Main monitoring loop
     while (true) {
       try {
-        // Check for force-check file
-        const forceCheckFile = path.join(
-          os.homedir(),
-          'PersonalAgents',
-          'cli_tools',
-          'workflow',
-          'state',
-          `${this.project}-force-check`
-        );
-        
-        try {
-          await fs.access(forceCheckFile);
-          // Force check file exists, trigger immediate check
-          console.log('Force check detected, performing immediate compliance check...');
-          this.lastCheckTime = 0; // Reset to force immediate check
-          await fs.unlink(forceCheckFile); // Remove the trigger file
-        } catch (error) {
-          // No force check file, continue normally
-        }
-        
         await this.checkCompliance();
         
         // Check if we should still be running
