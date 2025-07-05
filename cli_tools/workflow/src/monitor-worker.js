@@ -250,13 +250,29 @@ class MonitorWorker {
       
       if (workflowData.global_rules) {
         rules.push('### Global Rules');
-        rules.push(...workflowData.global_rules);
+        workflowData.global_rules.forEach(rule => {
+          if (typeof rule === 'string') {
+            rules.push(rule);
+          } else if (rule.title && rule.content) {
+            rules.push(`**${rule.title}**`);
+            rules.push(rule.content);
+          }
+        });
         rules.push('');
       }
       
       if (workflowData.emergency_procedures) {
         rules.push('### Emergency Procedures');
-        rules.push(...workflowData.emergency_procedures);
+        workflowData.emergency_procedures.forEach(procedure => {
+          if (typeof procedure === 'string') {
+            rules.push(procedure);
+          } else if (procedure.title && procedure.commands) {
+            rules.push(`**${procedure.title}**`);
+            if (Array.isArray(procedure.commands)) {
+              rules.push(procedure.commands.join('\n'));
+            }
+          }
+        });
         rules.push('');
       }
       
